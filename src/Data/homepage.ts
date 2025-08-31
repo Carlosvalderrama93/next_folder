@@ -1,5 +1,20 @@
 // types/home.ts
 
+export type NavLink = {
+  name: string;
+  href: string;
+};
+
+export type NavCTA = {
+  text: string;
+  href: string;
+};
+
+export type Nav = {
+  logo: string;
+  links: NavLink[];
+  cta: NavCTA;
+};
 export type Hero = {
   title: string;
   subtitle?: string;
@@ -55,6 +70,7 @@ export type Footer = {
 };
 
 export type HomePageData = {
+  nav: Nav;
   hero: Hero;
   openPositions: Job[];
   about: About;
@@ -70,7 +86,22 @@ export const homePageData: HomePageData = {
     subtitle: "We connect top talent with leading companies.",
     ctaText: "Apply for a Job",
     ctaLink: "/apply",
-    backgroundImage: "/images/hero-bg.jpg",
+    backgroundImage:
+      "https://images.pexels.com/photos/9363205/pexels-photo-9363205.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  },
+  nav: {
+    logo: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
+    links: [
+      { name: "Home", href: "/" },
+      { name: "About", href: "/about" },
+      { name: "Jobs", href: "/jobs" },
+      { name: "Contact", href: "/contact" },
+      { name: "Blog", href: "/blog" },
+    ],
+    cta: {
+      text: "Apply Now",
+      href: "/apply",
+    },
   },
   openPositions: [
     {
