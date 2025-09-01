@@ -31,6 +31,7 @@ export type Job = {
   type: "Full-time" | "Part-time" | "Contract" | "Internship";
   postedAt: string;
   applyUrl: string;
+  image?: string;
 };
 
 export type About = {
@@ -45,6 +46,14 @@ export type Testimonial = {
   role: string;
   message: string;
   avatar?: string;
+};
+
+export type Author = {
+  id: string;
+  name: string;
+  profileUrl: string;
+  avatar?: string;
+  slug: string;
 };
 
 export type BlogPreview = {
@@ -76,6 +85,7 @@ export type HomePageData = {
   about: About;
   testimonials: Testimonial[];
   blogPreview: BlogPreview[];
+  authors: Author[];
   contactCTA: ContactCTA;
   footer: Footer;
 };
@@ -87,7 +97,7 @@ export const homePageData: HomePageData = {
     ctaText: "Apply for a Job",
     ctaLink: "/apply",
     backgroundImage:
-      "https://images.pexels.com/photos/9363205/pexels-photo-9363205.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://split.trexthemes.dev/content/images/2025/06/ChatGPT-Image-Jun-11--2025--07_14_05-PM.png",
   },
   nav: {
     logo: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
@@ -103,24 +113,40 @@ export const homePageData: HomePageData = {
       href: "/apply",
     },
   },
+  authors: [
+    {
+      id: "1",
+      name: "Carlos Valderrama",
+      profileUrl: "carlos-valderrama",
+      avatar:
+        "https://split.trexthemes.dev/content/images/2025/06/ChatGPT-Image-Jun-11--2025--06_38_14-PM.png",
+      slug: "carlos-valderrama",
+    },
+  ],
   openPositions: [
     {
       id: "1",
       title: "Frontend Developer",
-      description: "We are looking for a React developer...",
+      description:
+        "We are looking for a React developer...  Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nesciunt eius dolore quia, est debitis voluptas cum magnam et ipsa unde earum a tempora pariatur quo perspiciatis. Numquam, error voluptate.",
       location: "Remote",
       type: "Full-time",
       postedAt: "2025-08-25",
       applyUrl: "/apply/1",
+      image:
+        "https://zinduaschool.com/wp-content/uploads/sites/2/2023/10/WhatsApp-Image-2023-10-24-at-16.31.18.jpeg",
     },
     {
       id: "2",
       title: "Backend Engineer",
-      description: "Node.js and PostgreSQL experience required.",
+      description:
+        "Node.js and PostgreSQL experience required.  Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nesciunt eius dolore quia, est debitis voluptas cum magnam et ipsa unde earum a tempora pariatur quo perspiciatis. Numquam, error voluptate.",
       location: "Hybrid - Medellín",
       type: "Full-time",
       postedAt: "2025-08-28",
       applyUrl: "/apply/2",
+      image:
+        "https://zinduaschool.com/wp-content/uploads/sites/2/2023/10/WhatsApp-Image-2023-10-24-at-16.31.18.jpeg",
     },
   ],
   about: {
@@ -150,16 +176,40 @@ export const homePageData: HomePageData = {
       id: "101",
       title: "How to Ace a Remote Interview",
       slug: "remote-interview-tips",
-      excerpt: "Remote interviews are the new normal. Here are 5 tips...",
-      coverImage: "/images/blog/interview.jpg",
+      excerpt:
+        "Remote interviews are the new normal. Here are 5 tips... lorem15 ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      coverImage:
+        "https://images.unsplash.com/photo-1578321271369-d008a1ee4fd2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMTc3M3wwfDF8c2VhcmNofDI5M3x8YXJ0fGVufDB8fHx8MTc0OTY2MjE5NHww&ixlib=rb-4.1.0&q=80&w=2000",
       createdAt: "2025-08-20",
     },
     {
       id: "102",
       title: "Top 10 Skills for IT Professionals in 2025",
       slug: "top-skills-it-2025",
-      excerpt: "Stay ahead in your career with these trending skills...",
-      coverImage: "/images/blog/skills.jpg",
+      excerpt:
+        "Stay ahead in your career with these trending skills. lorem15 ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      coverImage:
+        "https://images.unsplash.com/photo-1575995864268-5dec34a5bb99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMTc3M3wwfDF8c2VhcmNofDMxOHx8YXJ0fGVufDB8fHx8MTc0OTY2MjIwNHww&ixlib=rb-4.1.0&q=80&w=2000",
+      createdAt: "2025-08-15",
+    },
+    {
+      id: "103",
+      title: "How to Ace a Remote Interview",
+      slug: "remote-interview-tips",
+      excerpt:
+        "Remote interviews are the new normal. Here are 5 tips.lorem15 ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      coverImage:
+        "https://images.unsplash.com/photo-1582562124811-c09040d0a901?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMTc3M3wwfDF8c2VhcmNofDMxNHx8YXJ0fGVufDB8fHx8MTc0OTY1MTY3NHww&ixlib=rb-4.1.0&q=80&w=2000",
+      createdAt: "2025-08-20",
+    },
+    {
+      id: "104",
+      title: "Top 10 Skills for IT Professionals in 2025",
+      slug: "top-skills-it-2025",
+      excerpt:
+        "Stay ahead in your career with these trending skills. lorem15 ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      coverImage:
+        "https://images.unsplash.com/photo-1577049091731-e6ed8b1e8b02?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMTc3M3wwfDF8c2VhcmNofDIxfHx2YW4tZ29naHxlbnwwfHx8fDE3NDk2NDg4OTR8MA&ixlib=rb-4.1.0&q=80&w=2000",
       createdAt: "2025-08-15",
     },
   ],
