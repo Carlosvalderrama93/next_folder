@@ -7,23 +7,32 @@ const hero: Hero = data.hero;
 
 function Hero() {
   return (
-    <section className="max-w-6xl max-h-[500px] flex flex-col items-center justify-center text-white py-20 bg-white place-self-stretch">
-      <h1 className="text-black font-bold text-4xl">{hero.title}</h1>
-      <p className="text-black text-xl font-medium">{hero.subtitle}</p>
-      <div className="flex items-center space-x-6 mt-6 w-full p-6 justify-around">
+    <section className="flex flex-col items-center justify-between text-center min-h-[500px] pb-10 shadow-md">
+      <div className="text-7xl font-extrabold text-gray-950 mt-10 mb-6 flex flex-col items-center gap-6">
         {hero.backgroundImage && (
           <img
-            className="h-60 w-45 mt-4 rounded-full object-cover"
+            className="object-cover size-37 rounded-full"
             src={hero.backgroundImage}
             alt="Hero Background"
           />
         )}
-        <a
-          className="px-6 py-3 bg-violet-600 text-white font-semibold rounded-full shadow hover:bg-gray-100"
-          href={hero.ctaLink}
-        >
-          {hero.ctaText}
-        </a>
+        <span>Carlos Valderrama</span>
+      </div>
+      <div className="text-center max-w-3xl px-4 space-y-6 ">
+        <p className="text-xl leading-[1.8]">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati
+          consequuntur dicta vitae ad perspiciatis quisquam id delectus, nam.
+        </p>
+        <div className="flex justify-center mt-4 gap-0">
+          <input
+            type="text"
+            placeholder="Enter your email"
+            className="px-5 py-4 w-70 bg-gray-100 rounded-l-full focus:outline-none focus:ring-2 focus:ring-gray-200 text-gray-700 font-semibold"
+          />
+          <button className="px-6 py-3 bg-black text-white rounded-r-full font-semibold hover:bg-gray-800">
+            {hero.ctaText}
+          </button>
+        </div>
       </div>
     </section>
   );
