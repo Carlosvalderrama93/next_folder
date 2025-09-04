@@ -84,56 +84,63 @@ export function Author(author: any) {
 
 function Job() {
   return (
-    <div className="flex pr-6 border-gray-500  max-w-3xl h-60 h-2xl mx-auto m-8 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-      <div className="w-2/9 box-border py-2 mt-6 mb-4 mr-6 flex flex-col">
-        <span className="w-min h-8 bg-blue-500 text-white px-6 py-2 rounded-r-2xl font-semibold shadow text-xs mb-2">
-          Open
-        </span>
-        <div className="flex flex-col mx-6 mt-3 gap-1 text-gray-600 text-xs">
-          <span className="font-medium flex items-center gap-2 mb-2">
-            📅 <span className="text-gray-700">Jan 19, 2024</span>
-          </span>
-          <span className="font-medium flex items-center gap-2 mb-2">
-            ⏰ <span className="text-gray-700">8-5 CST (M-F)</span>
-          </span>
-          <span className="font-medium flex items-center gap-2 mb-2">
-            🌍 <span className="text-gray-700">Only Latam</span>
-          </span>
-          <span className="font-medium flex items-center gap-2 mb-2">
-            🌐 <span className="text-gray-700">100% Remote</span>
-          </span>
-        </div>
+    <section className="my-20 px-4 max-w-6xl mx-auto shadow-sm pb-10">
+      <div className="flex justify-center mt-16 mb-8 gap-4 items-center">
+        <h2 className="text-4xl font-bold">Jobs</h2>
       </div>
-      <div className="w-7/9 p-6 flex flex-col justify-between">
-        <div>
-          <a href="">
-            <h2 className="text-xl font-extrabold text-gray-900 leading-snug mb-6 hover:underline ">
-              Exciting Job Opportunity: Frontend Developer Role
-            </h2>
-          </a>
 
-          <p className="text-sm text-gray-700 mt-3 leading-relaxed line-clamp-4">
-            Join our team as a Frontend Developer and work on cutting-edge
-            projects that make a real impact. Collaborate with talented
-            professionals and grow your career in a dynamic environment. Be part
-            of a company that values innovation, teamwork, and personal growth.
-          </p>
-        </div>
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2 mt-4 text-xs">
-            <div className="flex items-center mr-3">
-              <span className="w-2 h-2 rounded-full bg-blue-500 mr-2"></span>
-              <span className="font-bold">Javascript</span>
-            </div>
-            <div className="flex items-center mr-3">
-              <span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
-              <span className="font-bold">AWS S3</span>
-            </div>
+      <div className="flex pr-6 border-gray-500  max-w-3xl h-60 h-2xl mx-auto m-8 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div className="w-2/9 box-border py-2 mt-6 mb-4 mr-6 flex flex-col">
+          <span className="w-min h-8 bg-blue-500 text-white px-6 py-2 rounded-r-2xl font-semibold shadow text-xs mb-2">
+            Open
+          </span>
+          <div className="flex flex-col mx-6 mt-3 gap-1 text-gray-600 text-xs">
+            <span className="font-medium flex items-center gap-2 mb-2">
+              📅 <span className="text-gray-700">Jan 19, 2024</span>
+            </span>
+            <span className="font-medium flex items-center gap-2 mb-2">
+              ⏰ <span className="text-gray-700">8-5 CST (M-F)</span>
+            </span>
+            <span className="font-medium flex items-center gap-2 mb-2">
+              🌍 <span className="text-gray-700">Only Latam</span>
+            </span>
+            <span className="font-medium flex items-center gap-2 mb-2">
+              🌐 <span className="text-gray-700">100% Remote</span>
+            </span>
           </div>
-          <Author {...authors[0]} />
+        </div>
+        <div className="w-7/9 p-6 flex flex-col justify-between">
+          <div>
+            <a href="">
+              <h2 className="text-xl font-extrabold text-gray-900 leading-snug mb-6 hover:underline ">
+                Exciting Job Opportunity: Frontend Developer Role
+              </h2>
+            </a>
+
+            <p className="text-sm text-gray-700 mt-3 leading-relaxed line-clamp-4">
+              Join our team as a Frontend Developer and work on cutting-edge
+              projects that make a real impact. Collaborate with talented
+              professionals and grow your career in a dynamic environment. Be
+              part of a company that values innovation, teamwork, and personal
+              growth.
+            </p>
+          </div>
+          <div className="flex justify-between items-center">
+            <div className="flex gap-2 mt-4 text-xs">
+              <div className="flex items-center mr-3">
+                <span className="w-2 h-2 rounded-full bg-blue-500 mr-2"></span>
+                <span className="font-bold">Javascript</span>
+              </div>
+              <div className="flex items-center mr-3">
+                <span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+                <span className="font-bold">AWS S3</span>
+              </div>
+            </div>
+            <Author {...authors[0]} />
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
