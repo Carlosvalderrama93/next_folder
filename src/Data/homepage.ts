@@ -220,7 +220,7 @@ export const homePageData: HomePageData = {
     ctaLink: "/contact",
   },
   footer: {
-    copyright: "© 2025 Solvo Global",
+    copyright: "© 2025 Carlos Valderrama. All rights reserved.",
     links: [
       { label: "Privacy Policy", url: "/privacy" },
       { label: "Terms of Service", url: "/terms" },
