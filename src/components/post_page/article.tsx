@@ -82,7 +82,7 @@ import React from "react";
 
 function Article() {
   return (
-    <div className="max-w-7xl m-20">
+    <article className="max-w-7xl m-20">
       <div className="flex flex-wrap">
         <div className="w-1/2">
           <img
@@ -93,16 +93,21 @@ function Article() {
         </div>
         <div className="w-1/2 flex flex-col justify-center">
           <div className="flex gap-2 text-xs font-semibold gap-2 text-gray-700 mb-5">
-            {structure.tags.map((tag) => (
-              <span className="bg-gray-200 py-2 px-4 rounded-full">{tag}</span>
+            {structure.tags.map((tag, index) => (
+              <span key={index} className="bg-gray-200 py-2 px-4 rounded-full">
+                {tag}
+              </span>
             ))}
           </div>
           <h1 className="font-black text-4xl text-gray-700 ">
             {structure.title}
           </h1>
           <div className="mt-6">
-            {structure.authors.map((author) => (
-              <div className="text-sm text-gray-600 flex items-center gap-2 mt-4">
+            {structure.authors.map((author, index) => (
+              <div
+                key={index}
+                className="text-sm text-gray-600 flex items-center gap-2 mt-4"
+              >
                 <img
                   src={author.img}
                   alt="Avatar"
@@ -125,7 +130,7 @@ function Article() {
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
 
