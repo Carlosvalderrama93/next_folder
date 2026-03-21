@@ -26,3 +26,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Keyboard focus ring for all interactive elements.
+   Inputs/textareas override this with their own focus:ring-2 utilities. */
+:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.dark :focus-visible {
+  outline-color: #fff;
+}

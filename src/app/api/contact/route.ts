@@ -9,13 +9,26 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#x27;");
 }
 
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, subject, message } = body;
+    const name = body.name?.trim() ?? "";
+    const email = body.email?.trim() ?? "";
+    const subject = body.subject?.trim() ?? "";
+    const message = body.message?.trim() ?? "";
 
-    if (!name || !email || !message) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    const errors: Record<string, string> = {};
+    if (!name) errors.name = "Full name is required.";
+    if (!email) errors.email = "Email address is required.";
+    else if (!isValidEmail(email)) errors.email = "Enter a valid email address.";
+    if (!message) errors.message = "Message is required.";
+
+    if (Object.keys(errors).length > 0) {
+      return NextResponse.json({ errors }, { status: 400 });
     }
 
     const apiKey = process.env.RESEND_API_KEY;
@@ -39,7 +52,6 @@ export async function POST(req: NextRequest) {
         `,
       });
     } else {
-      // No email service configured — log for development
       console.log("Contact submission (set RESEND_API_KEY to enable emails):", {
         name, email, subject, message,
       });

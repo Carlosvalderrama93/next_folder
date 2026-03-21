@@ -9,6 +9,10 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#x27;");
 }
 
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 export async function POST(req: NextRequest) {
   try {
     const contentType = req.headers.get("content-type") ?? "";
@@ -30,10 +34,21 @@ export async function POST(req: NextRequest) {
       fields = await req.json();
     }
 
-    const { jobId, jobTitle, name, email, linkedin, message } = fields;
+    const name = fields.name?.trim() ?? "";
+    const email = fields.email?.trim() ?? "";
+    const message = fields.message?.trim() ?? "";
+    const linkedin = fields.linkedin?.trim() ?? "";
+    const jobId = fields.jobId ?? "";
+    const jobTitle = fields.jobTitle ?? "";
 
-    if (!name || !email || !message) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    const errors: Record<string, string> = {};
+    if (!name) errors.name = "Full name is required.";
+    if (!email) errors.email = "Email address is required.";
+    else if (!isValidEmail(email)) errors.email = "Enter a valid email address.";
+    if (!message) errors.message = "Cover letter is required.";
+
+    if (Object.keys(errors).length > 0) {
+      return NextResponse.json({ errors }, { status: 400 });
     }
 
     const apiKey = process.env.RESEND_API_KEY;
@@ -52,10 +67,10 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from,
         to,
-        subject: `New application for ${jobTitle ?? jobId}`,
+        subject: `New application for ${jobTitle || jobId}`,
         html: `
           <h2>New Job Application</h2>
-          <p><strong>Position:</strong> ${escapeHtml(jobTitle ?? jobId ?? "")}</p>
+          <p><strong>Position:</strong> ${escapeHtml(jobTitle || jobId)}</p>
           <p><strong>Name:</strong> ${escapeHtml(name)}</p>
           <p><strong>Email:</strong> ${escapeHtml(email)}</p>
           ${linkedin ? `<p><strong>LinkedIn:</strong> <a href="${encodeURI(linkedin)}">${escapeHtml(linkedin)}</a></p>` : ""}
