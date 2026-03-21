@@ -1,4 +1,4 @@
-import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { homePageData } from "../Data/homepage";
 
@@ -8,11 +8,16 @@ function Hero() {
   return (
     <section className="flex flex-col items-center justify-center text-center min-h-[540px] pb-16 pt-20 px-4">
       {hero.backgroundImage && (
-        <img
-          className="object-cover w-32 h-32 rounded-full mb-8 shadow-lg"
-          src={hero.backgroundImage}
-          alt="Carlos Valderrama"
-        />
+        <div className="relative w-32 h-32 mb-8">
+          <Image
+            src={hero.backgroundImage}
+            alt="Carlos Valderrama"
+            fill
+            className="rounded-full object-cover shadow-lg"
+            sizes="128px"
+            priority
+          />
+        </div>
       )}
       <h1 className="text-5xl md:text-6xl font-extrabold text-gray-950 dark:text-white mb-4 leading-tight">
         Carlos Valderrama

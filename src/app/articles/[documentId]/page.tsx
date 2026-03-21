@@ -2,10 +2,12 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { homePageData } from "@/Data/homepage";
+import { STRAPI_URL } from "@/lib/config";
+import type { Metadata } from "next";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import Image from "next/image";
 
-const STRAPI = "http://localhost:1337";
 const footerData = homePageData.footer;
 
 interface MediaFile {
@@ -28,6 +30,38 @@ interface ArticleItem {
   createdAt: string;
   publishedAt: string;
   blocks: Block[];
+}
+
+async function getArticle(documentId: string): Promise<ArticleItem | null> {
+  try {
+    const res = await fetch(
+      `${STRAPI_URL}/api/articles/${documentId}?populate[blocks][populate]=*`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data?.data ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ documentId: string }>;
+}): Promise<Metadata> {
+  const { documentId } = await params;
+  const article = await getArticle(documentId);
+  if (!article) return { title: "Article Not Found" };
+  return {
+    title: `${article.title} | Carlos Valderrama`,
+    description: article.description,
+  };
+}
+
+function resolveUrl(url: string) {
+  return url.startsWith("http") ? url : `${STRAPI_URL}${url}`;
 }
 
 function RichText({ body }: { body: string }) {
@@ -54,14 +88,17 @@ function Quote({ title, body }: { title: string; body: string }) {
 }
 
 function MediaBlock({ file }: { file: MediaFile }) {
-  const src = file.url.startsWith("http") ? file.url : `${STRAPI}${file.url}`;
   return (
     <figure className="my-8">
-      <img
-        src={src}
-        alt={file.alternativeText ?? ""}
-        className="w-full rounded-xl object-cover max-h-[500px]"
-      />
+      <div className="relative w-full aspect-video">
+        <Image
+          src={resolveUrl(file.url)}
+          alt={file.alternativeText ?? ""}
+          fill
+          className="object-cover rounded-xl"
+          sizes="(max-width: 768px) 100vw, 672px"
+        />
+      </div>
     </figure>
   );
 }
@@ -69,19 +106,17 @@ function MediaBlock({ file }: { file: MediaFile }) {
 function Slider({ files }: { files: MediaFile[] }) {
   return (
     <div className="flex gap-4 overflow-x-auto my-8 pb-2">
-      {files.map((file, i) => {
-        const src = file.url.startsWith("http")
-          ? file.url
-          : `${STRAPI}${file.url}`;
-        return (
-          <img
-            key={i}
-            src={src}
+      {files.map((file, i) => (
+        <div key={i} className="relative w-72 h-48 flex-shrink-0">
+          <Image
+            src={resolveUrl(file.url)}
             alt={file.alternativeText ?? ""}
-            className="w-72 h-48 object-cover rounded-xl flex-shrink-0"
+            fill
+            className="object-cover rounded-xl"
+            sizes="288px"
           />
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 }
@@ -107,24 +142,7 @@ export default async function ArticleDetail({
   params: Promise<{ documentId: string }>;
 }) {
   const { documentId } = await params;
-
-  let article: ArticleItem | null = null;
-  let error = false;
-
-  try {
-    const res = await fetch(
-      `${STRAPI}/api/articles/${documentId}?populate[blocks][populate]=*`,
-      { cache: "no-store" }
-    );
-    if (res.ok) {
-      const data = await res.json();
-      article = data?.data ?? null;
-    } else {
-      error = true;
-    }
-  } catch {
-    error = true;
-  }
+  const article = await getArticle(documentId);
 
   return (
     <>
@@ -137,13 +155,13 @@ export default async function ArticleDetail({
           ← Back to Articles
         </Link>
 
-        {error || !article ? (
+        {!article ? (
           <div className="mt-8 text-center">
             <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3">
               Article not found
             </h1>
             <p className="text-gray-500 dark:text-gray-400 text-sm">
-              Make sure Strapi is running at localhost:1337.
+              Make sure Strapi is running at {STRAPI_URL}.
             </p>
           </div>
         ) : (

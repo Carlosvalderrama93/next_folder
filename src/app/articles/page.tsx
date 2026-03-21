@@ -1,7 +1,15 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import Link from "next/link";
+import Image from "next/image";
 import { homePageData } from "@/Data/homepage";
+import { STRAPI_URL } from "@/lib/config";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Articles | Carlos Valderrama",
+  description: "Insights on tech recruitment, career growth, and the LATAM tech scene.",
+};
 
 interface ArticleItem {
   id: number;
@@ -15,9 +23,7 @@ interface ArticleItem {
 
 async function getArticles(): Promise<ArticleItem[]> {
   try {
-    const res = await fetch("http://localhost:1337/api/articles", {
-      cache: "no-store",
-    });
+    const res = await fetch(`${STRAPI_URL}/api/articles`, { cache: "no-store" });
     if (!res.ok) return [];
     const json = await res.json();
     return json?.data ?? [];
@@ -80,11 +86,15 @@ export default async function ArticlesPage() {
                   className="flex flex-col md:flex-row gap-5 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 hover:shadow-md transition-shadow"
                 >
                   {article.coverImage && (
-                    <img
-                      src={article.coverImage}
-                      alt={article.title}
-                      className="w-full md:w-48 h-40 object-cover flex-shrink-0"
-                    />
+                    <div className="relative w-full md:w-48 h-40 flex-shrink-0">
+                      <Image
+                        src={article.coverImage}
+                        alt={article.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 192px"
+                      />
+                    </div>
                   )}
                   <div className="p-5 flex flex-col justify-center">
                     <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">

@@ -1,4 +1,4 @@
-import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import type { BlogPreview, Author } from "../Data/homepage";
 import { homePageData } from "../Data/homepage";
@@ -10,10 +10,12 @@ function AuthorLine({ author }: { author: Author }) {
   return (
     <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2 mt-4">
       {author.avatar && (
-        <img
+        <Image
           src={author.avatar}
           alt={author.name}
-          className="w-7 h-7 rounded-full object-cover"
+          width={28}
+          height={28}
+          className="rounded-full object-cover"
         />
       )}
       <span>
@@ -30,11 +32,15 @@ function ArticleCard({ article }: { article: BlogPreview }) {
   return (
     <div className="flex flex-col justify-between w-72 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden">
       {article.coverImage && (
-        <img
-          src={article.coverImage}
-          alt={article.title}
-          className="object-cover w-full h-44"
-        />
+        <div className="relative w-full h-44">
+          <Image
+            src={article.coverImage}
+            alt={article.title}
+            fill
+            className="object-cover"
+            sizes="288px"
+          />
+        </div>
       )}
       <div className="p-5 flex flex-col flex-1">
         <span className="text-xs font-bold tracking-widest text-blue-500 mb-2 uppercase">
@@ -62,12 +68,20 @@ function FeaturedArticle({ article }: { article: BlogPreview }) {
   return (
     <div className="flex flex-col md:flex-row gap-8 mb-12 px-4">
       {article.coverImage && (
-        <Link href={`/articles/${article.slug}`} className="flex-shrink-0">
-          <img
-            src={article.coverImage}
-            alt={article.title}
-            className="w-full md:w-[480px] h-72 md:h-[380px] object-cover rounded-2xl"
-          />
+        <Link
+          href={`/articles/${article.slug}`}
+          className="flex-shrink-0 w-full md:w-[480px]"
+        >
+          <div className="relative w-full h-72 md:h-[380px]">
+            <Image
+              src={article.coverImage}
+              alt={article.title}
+              fill
+              className="object-cover rounded-2xl"
+              sizes="(max-width: 768px) 100vw, 480px"
+              priority
+            />
+          </div>
         </Link>
       )}
       <div className="flex flex-col justify-center max-w-lg">

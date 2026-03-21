@@ -9,27 +9,28 @@ interface Props {
 
 export default function ApplyForm({ jobTitle, jobId }: Props) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [cvName, setCvName] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("loading");
 
     const form = e.currentTarget;
-    const body = {
-      jobId,
-      jobTitle,
-      name: (form.elements.namedItem("name") as HTMLInputElement).value,
-      email: (form.elements.namedItem("email") as HTMLInputElement).value,
-      linkedin: (form.elements.namedItem("linkedin") as HTMLInputElement).value,
-      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
-    };
+    const formData = new FormData();
+    formData.append("jobId", jobId);
+    formData.append("jobTitle", jobTitle);
+    formData.append("name", (form.elements.namedItem("name") as HTMLInputElement).value);
+    formData.append("email", (form.elements.namedItem("email") as HTMLInputElement).value);
+    formData.append("linkedin", (form.elements.namedItem("linkedin") as HTMLInputElement).value);
+    formData.append("message", (form.elements.namedItem("message") as HTMLTextAreaElement).value);
+
+    const cvInput = form.elements.namedItem("cv") as HTMLInputElement;
+    if (cvInput.files?.[0]) {
+      formData.append("cv", cvInput.files[0]);
+    }
 
     try {
-      const res = await fetch("/api/apply", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      const res = await fetch("/api/apply", { method: "POST", body: formData });
       setStatus(res.ok ? "success" : "error");
     } catch {
       setStatus("error");
@@ -74,6 +75,30 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           LinkedIn Profile
         </label>
         <input id="linkedin" name="linkedin" type="url" placeholder="https://linkedin.com/in/yourname" className={inputClass} />
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="cv" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+          CV / Resume (PDF, DOC — max 5 MB)
+        </label>
+        <label className="flex items-center gap-3 px-4 py-3 border border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-gray-500 dark:hover:border-gray-400 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 flex-shrink-0">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            {cvName || "Click to upload your CV"}
+          </span>
+          <input
+            id="cv"
+            name="cv"
+            type="file"
+            accept=".pdf,.doc,.docx"
+            className="sr-only"
+            onChange={(e) => setCvName(e.target.files?.[0]?.name ?? "")}
+          />
+        </label>
       </div>
 
       <div className="flex flex-col gap-1.5">

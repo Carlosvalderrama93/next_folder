@@ -9,13 +9,36 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Log the submission — replace this block with your email service:
-    // e.g. Resend: await resend.emails.send({ from, to, subject, html })
-    // e.g. Nodemailer: await transporter.sendMail({ from, to, subject, text })
-    console.log("Contact form submission:", { name, email, subject, message });
+    const apiKey = process.env.RESEND_API_KEY;
+    const to = process.env.CONTACT_EMAIL;
+    const from = process.env.RESEND_FROM ?? "onboarding@resend.dev";
+
+    if (apiKey && to) {
+      const { Resend } = await import("resend");
+      const resend = new Resend(apiKey);
+      await resend.emails.send({
+        from,
+        to,
+        subject: subject ? `Contact: ${subject}` : `New contact from ${name}`,
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          ${subject ? `<p><strong>Subject:</strong> ${subject}</p>` : ""}
+          <p><strong>Message:</strong></p>
+          <p>${message.replace(/\n/g, "<br>")}</p>
+        `,
+      });
+    } else {
+      // No email service configured — log for development
+      console.log("Contact submission (set RESEND_API_KEY to enable emails):", {
+        name, email, subject, message,
+      });
+    }
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (err) {
+    console.error("Contact API error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

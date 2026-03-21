@@ -1,6 +1,13 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import Image from "next/image";
 import { homePageData } from "@/Data/homepage";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About | Carlos Valderrama",
+  description: "Learn about Carlos Valderrama and his mission to connect LATAM tech talent with global companies.",
+};
 
 const { about, footer } = homePageData;
 
@@ -13,11 +20,15 @@ export default function AboutPage() {
           {about.heading}
         </h1>
         {about.image && (
-          <img
-            src={about.image}
-            alt="About"
-            className="w-full h-64 object-cover rounded-2xl mb-8"
-          />
+          <div className="relative w-full h-64 mb-8">
+            <Image
+              src={about.image}
+              alt="About"
+              fill
+              className="object-cover rounded-2xl"
+              sizes="(max-width: 768px) 100vw, 672px"
+            />
+          </div>
         )}
         <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
           {about.description}
