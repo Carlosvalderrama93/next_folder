@@ -34,32 +34,23 @@ export default function AboutPage() {
           {about.description}
         </p>
 
-        <div className="mt-16 grid md:grid-cols-3 gap-8 text-center">
-          <div className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900">
-            <div className="text-3xl font-extrabold mb-2 text-gray-900 dark:text-white">
-              50+
-            </div>
-            <div className="text-gray-500 dark:text-gray-400 text-sm">
-              Companies Partnered
-            </div>
+        {about.stats && about.stats.length > 0 && (
+          <div className="mt-16 grid md:grid-cols-3 gap-8 text-center">
+            {about.stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900"
+              >
+                <div className="text-3xl font-extrabold mb-2 text-gray-900 dark:text-white">
+                  {stat.value}
+                </div>
+                <div className="text-gray-500 dark:text-gray-400 text-sm">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900">
-            <div className="text-3xl font-extrabold mb-2 text-gray-900 dark:text-white">
-              200+
-            </div>
-            <div className="text-gray-500 dark:text-gray-400 text-sm">
-              Placements Made
-            </div>
-          </div>
-          <div className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900">
-            <div className="text-3xl font-extrabold mb-2 text-gray-900 dark:text-white">
-              100%
-            </div>
-            <div className="text-gray-500 dark:text-gray-400 text-sm">
-              Remote Focus
-            </div>
-          </div>
-        </div>
+        )}
       </main>
       <Footer {...footer} />
     </>

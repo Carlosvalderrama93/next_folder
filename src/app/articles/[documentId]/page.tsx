@@ -3,6 +3,7 @@ import Footer from "@/components/footer";
 import Link from "next/link";
 import { homePageData } from "@/Data/homepage";
 import { STRAPI_URL } from "@/lib/config";
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -144,6 +145,8 @@ export default async function ArticleDetail({
   const { documentId } = await params;
   const article = await getArticle(documentId);
 
+  if (!article) notFound();
+
   return (
     <>
       <Navigation />
@@ -155,17 +158,7 @@ export default async function ArticleDetail({
           ← Back to Articles
         </Link>
 
-        {!article ? (
-          <div className="mt-8 text-center">
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3">
-              Article not found
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">
-              Make sure Strapi is running at {STRAPI_URL}.
-            </p>
-          </div>
-        ) : (
-          <article className="mt-4">
+        <article className="mt-4">
             <p className="text-xs text-gray-400 dark:text-gray-500 mb-3">
               {new Date(article.publishedAt).toLocaleDateString("en-US", {
                 year: "numeric",
@@ -187,7 +180,6 @@ export default async function ArticleDetail({
               </div>
             ))}
           </article>
-        )}
       </main>
       <Footer {...footerData} />
     </>

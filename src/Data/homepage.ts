@@ -34,10 +34,16 @@ export type Job = {
   image?: string;
 };
 
+export type AboutStat = {
+  value: string;
+  label: string;
+};
+
 export type About = {
   heading: string;
   description: string;
   image?: string;
+  stats?: AboutStat[];
 };
 
 export type Testimonial = {
@@ -154,6 +160,11 @@ export const homePageData: HomePageData = {
     description:
       "We specialize in connecting IT professionals with top opportunities worldwide. Our mission is to bridge talent and opportunity through innovative recruitment strategies.",
     image: "/images/about.jpg",
+    stats: [
+      { value: "50+", label: "Companies Partnered" },
+      { value: "200+", label: "Placements Made" },
+      { value: "100%", label: "Remote Focus" },
+    ],
   },
   testimonials: [
     {
