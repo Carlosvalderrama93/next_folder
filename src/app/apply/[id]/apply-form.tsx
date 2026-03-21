@@ -7,7 +7,7 @@ interface Props {
   jobId: string;
 }
 
-type FieldErrors = { name?: string; email?: string; message?: string };
+type FieldErrors = { name?: string; email?: string; message?: string; cv?: string };
 
 function validate(name: string, email: string, message: string): FieldErrors {
   const errors: FieldErrors = {};
@@ -23,16 +23,16 @@ function validate(name: string, email: string, message: string): FieldErrors {
 
 export default function ApplyForm({ jobTitle, jobId }: Props) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [message, setMessage] = useState("");
   const [cvName, setCvName] = useState("");
+  const [cvFile, setCvFile] = useState<File | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    const form = e.currentTarget;
-    const name = (form.elements.namedItem("name") as HTMLInputElement).value;
-    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-    const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value;
 
     const errors = validate(name, email, message);
     if (Object.keys(errors).length > 0) {
@@ -47,17 +47,21 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
     formData.append("jobTitle", jobTitle);
     formData.append("name", name);
     formData.append("email", email);
-    formData.append("linkedin", (form.elements.namedItem("linkedin") as HTMLInputElement).value);
+    formData.append("linkedin", linkedin);
     formData.append("message", message);
-
-    const cvInput = form.elements.namedItem("cv") as HTMLInputElement;
-    if (cvInput.files?.[0]) {
-      formData.append("cv", cvInput.files[0]);
-    }
+    if (cvFile) formData.append("cv", cvFile);
 
     try {
       const res = await fetch("/api/apply", { method: "POST", body: formData });
-      setStatus(res.ok ? "success" : "error");
+      if (res.ok) {
+        setStatus("success");
+      } else {
+        const body = await res.json().catch(() => ({}));
+        if (body?.errors) {
+          setFieldErrors(body.errors);
+        }
+        setStatus("error");
+      }
     } catch {
       setStatus("error");
     }
@@ -93,10 +97,11 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           name="name"
           type="text"
           placeholder="Jane Doe"
+          value={name}
+          onChange={(e) => { setName(e.target.value); setFieldErrors((fe) => ({ ...fe, name: undefined })); }}
           aria-invalid={!!fieldErrors.name}
           aria-describedby={fieldErrors.name ? "name-error" : undefined}
           className={`${inputClass} ${fieldErrors.name ? "border-red-400 dark:border-red-500" : ""}`}
-          onChange={() => setFieldErrors((e) => ({ ...e, name: undefined }))}
         />
         {fieldErrors.name && <p id="name-error" className={errorClass}>{fieldErrors.name}</p>}
       </div>
@@ -110,10 +115,11 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           name="email"
           type="email"
           placeholder="jane@example.com"
+          value={email}
+          onChange={(e) => { setEmail(e.target.value); setFieldErrors((fe) => ({ ...fe, email: undefined })); }}
           aria-invalid={!!fieldErrors.email}
           aria-describedby={fieldErrors.email ? "email-error" : undefined}
           className={`${inputClass} ${fieldErrors.email ? "border-red-400 dark:border-red-500" : ""}`}
-          onChange={() => setFieldErrors((e) => ({ ...e, email: undefined }))}
         />
         {fieldErrors.email && <p id="email-error" className={errorClass}>{fieldErrors.email}</p>}
       </div>
@@ -122,14 +128,22 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
         <label htmlFor="linkedin" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
           LinkedIn Profile
         </label>
-        <input id="linkedin" name="linkedin" type="url" placeholder="https://linkedin.com/in/yourname" className={inputClass} />
+        <input
+          id="linkedin"
+          name="linkedin"
+          type="url"
+          placeholder="https://linkedin.com/in/yourname"
+          value={linkedin}
+          onChange={(e) => setLinkedin(e.target.value)}
+          className={inputClass}
+        />
       </div>
 
       <div className="flex flex-col gap-1.5">
         <label htmlFor="cv" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
           CV / Resume (PDF, DOC — max 5 MB)
         </label>
-        <label className="flex items-center gap-3 px-4 py-3 border border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-gray-500 dark:hover:border-gray-400 transition-colors">
+        <label className={`flex items-center gap-3 px-4 py-3 border border-dashed rounded-xl cursor-pointer transition-colors ${fieldErrors.cv ? "border-red-400 dark:border-red-500" : "border-gray-300 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-400"}`}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 flex-shrink-0" aria-hidden="true">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
             <polyline points="17 8 12 3 7 8" />
@@ -144,9 +158,15 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             type="file"
             accept=".pdf,.doc,.docx"
             className="sr-only"
-            onChange={(e) => setCvName(e.target.files?.[0]?.name ?? "")}
+            onChange={(e) => {
+              const file = e.target.files?.[0] ?? null;
+              setCvFile(file);
+              setCvName(file?.name ?? "");
+              setFieldErrors((fe) => ({ ...fe, cv: undefined }));
+            }}
           />
         </label>
+        {fieldErrors.cv && <p id="cv-error" className={errorClass}>{fieldErrors.cv}</p>}
       </div>
 
       <div className="flex flex-col gap-1.5">
@@ -158,15 +178,16 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           name="message"
           rows={5}
           placeholder="Tell us why you're a great fit..."
+          value={message}
+          onChange={(e) => { setMessage(e.target.value); setFieldErrors((fe) => ({ ...fe, message: undefined })); }}
           aria-invalid={!!fieldErrors.message}
           aria-describedby={fieldErrors.message ? "message-error" : undefined}
           className={`${inputClass} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}
-          onChange={() => setFieldErrors((e) => ({ ...e, message: undefined }))}
         />
         {fieldErrors.message && <p id="message-error" className={errorClass}>{fieldErrors.message}</p>}
       </div>
 
-      {status === "error" && (
+      {status === "error" && !Object.keys(fieldErrors).length && (
         <p className="text-red-500 text-sm">Something went wrong. Please try again.</p>
       )}
 

@@ -30,9 +30,28 @@ export async function POST(req: NextRequest) {
     let cvBuffer: Buffer | null = null;
 
     if (contentType.includes("multipart/form-data")) {
+      const ALLOWED_MIME = new Set([
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ]);
+      const MAX_BYTES = 5 * 1024 * 1024;
+
       const formData = await req.formData();
       for (const [key, value] of formData.entries()) {
         if (value instanceof File) {
+          if (!ALLOWED_MIME.has(value.type)) {
+            return NextResponse.json(
+              { errors: { cv: "Only PDF, DOC, and DOCX files are allowed." } },
+              { status: 400 }
+            );
+          }
+          if (value.size > MAX_BYTES) {
+            return NextResponse.json(
+              { errors: { cv: "CV must be under 5 MB." } },
+              { status: 400 }
+            );
+          }
           cvFilename = value.name;
           cvBuffer = Buffer.from(await value.arrayBuffer());
         } else {
