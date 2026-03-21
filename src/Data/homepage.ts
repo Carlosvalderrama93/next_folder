@@ -30,7 +30,6 @@ export type Job = {
   location: string;
   type: "Full-time" | "Part-time" | "Contract" | "Internship";
   postedAt: string;
-  applyUrl: string;
   image?: string;
 };
 
@@ -138,7 +137,6 @@ export const homePageData: HomePageData = {
       location: "Remote",
       type: "Full-time",
       postedAt: "2025-08-25",
-      applyUrl: "/apply/1",
       image:
         "https://zinduaschool.com/wp-content/uploads/sites/2/2023/10/WhatsApp-Image-2023-10-24-at-16.31.18.jpeg",
     },
@@ -150,7 +148,6 @@ export const homePageData: HomePageData = {
       location: "Hybrid - Medellín",
       type: "Full-time",
       postedAt: "2025-08-28",
-      applyUrl: "/apply/2",
       image:
         "https://zinduaschool.com/wp-content/uploads/sites/2/2023/10/WhatsApp-Image-2023-10-24-at-16.31.18.jpeg",
     },

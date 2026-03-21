@@ -10,10 +10,39 @@ export const metadata: Metadata = {
   description: "Browse and apply for open tech positions. Remote jobs for LATAM talent.",
 };
 
+interface JobRow {
+  id: string;
+  title: string;
+  location: string;
+  type: string;
+  postedAt?: string;
+  isOpen: boolean;
+  applyHref: string;
+}
+
 export default async function ApplyPage() {
   const strapiJobs = await fetchStrapiJobs();
   const { openPositions, footer } = homePageData;
-  const usingStrapiJobs = strapiJobs.length > 0;
+
+  const jobs: JobRow[] =
+    strapiJobs.length > 0
+      ? strapiJobs.map((job) => ({
+          id: job.documentId,
+          title: job.title,
+          location: job.location,
+          type: job.jobType,
+          isOpen: job.isOpen,
+          applyHref: `/apply/${job.documentId}`,
+        }))
+      : openPositions.map((job) => ({
+          id: job.id,
+          title: job.title,
+          location: job.location,
+          type: job.type,
+          postedAt: job.postedAt,
+          isOpen: true,
+          applyHref: `/apply/${job.id}`,
+        }));
 
   return (
     <>
@@ -27,67 +56,33 @@ export default async function ApplyPage() {
         </p>
 
         <div className="flex flex-col gap-4">
-          {usingStrapiJobs
-            ? strapiJobs.map((job) => (
-                <div
-                  key={job.id}
-                  className="flex items-center justify-between border border-gray-200 dark:border-gray-700 rounded-xl p-6 bg-white dark:bg-gray-900 hover:shadow-md transition-shadow"
-                >
-                  <div>
-                    <div className="flex items-center gap-3 mb-1">
-                      {job.isOpen && (
-                        <span className="bg-blue-500 text-white px-3 py-0.5 rounded-full text-xs font-semibold">
-                          Open
-                        </span>
-                      )}
-                      <span className="text-xs text-gray-400 dark:text-gray-500">
-                        {job.jobType}
-                      </span>
-                    </div>
-                    <h2 className="text-lg font-bold text-gray-900 dark:text-white">
-                      {job.title}
-                    </h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                      {job.location}
-                    </p>
-                  </div>
-                  <Link
-                    href={`/apply/${job.documentId}`}
-                    className="px-5 py-2.5 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors flex-shrink-0 ml-4"
-                  >
-                    Apply
-                  </Link>
+          {jobs.map((job) => (
+            <div
+              key={job.id}
+              className="flex items-center justify-between border border-gray-200 dark:border-gray-700 rounded-xl p-6 bg-white dark:bg-gray-900 hover:shadow-md transition-shadow"
+            >
+              <div>
+                <div className="flex items-center gap-3 mb-1">
+                  {job.isOpen && (
+                    <span className="bg-blue-500 text-white px-3 py-0.5 rounded-full text-xs font-semibold">
+                      Open
+                    </span>
+                  )}
+                  <span className="text-xs text-gray-400 dark:text-gray-500">{job.type}</span>
                 </div>
-              ))
-            : openPositions.map((job) => (
-                <div
-                  key={job.id}
-                  className="flex items-center justify-between border border-gray-200 dark:border-gray-700 rounded-xl p-6 bg-white dark:bg-gray-900 hover:shadow-md transition-shadow"
-                >
-                  <div>
-                    <div className="flex items-center gap-3 mb-1">
-                      <span className="bg-blue-500 text-white px-3 py-0.5 rounded-full text-xs font-semibold">
-                        Open
-                      </span>
-                      <span className="text-xs text-gray-400 dark:text-gray-500">
-                        {job.type}
-                      </span>
-                    </div>
-                    <h2 className="text-lg font-bold text-gray-900 dark:text-white">
-                      {job.title}
-                    </h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                      {job.location} · {job.postedAt}
-                    </p>
-                  </div>
-                  <Link
-                    href={job.applyUrl}
-                    className="px-5 py-2.5 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors flex-shrink-0 ml-4"
-                  >
-                    Apply
-                  </Link>
-                </div>
-              ))}
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white">{job.title}</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                  {job.location}{job.postedAt ? ` · ${job.postedAt}` : ""}
+                </p>
+              </div>
+              <Link
+                href={job.applyHref}
+                className="px-5 py-2.5 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors flex-shrink-0 ml-4"
+              >
+                Apply
+              </Link>
+            </div>
+          ))}
         </div>
 
         <div className="mt-12 border border-gray-200 dark:border-gray-700 rounded-xl p-8 bg-gray-50 dark:bg-gray-900 text-center">

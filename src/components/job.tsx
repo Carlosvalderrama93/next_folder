@@ -27,7 +27,7 @@ export default async function Job() {
           type: job.type,
           postedAt: job.postedAt,
           isOpen: true,
-          applyHref: job.applyUrl,
+          applyHref: `/apply/${job.id}`,
           imageUrl: job.image ?? undefined,
         }));
 

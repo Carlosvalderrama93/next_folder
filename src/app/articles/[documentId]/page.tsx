@@ -3,6 +3,7 @@ import Footer from "@/components/footer";
 import Link from "next/link";
 import { homePageData } from "@/Data/homepage";
 import { STRAPI_URL } from "@/lib/config";
+import { getStrapiImageSrc } from "@/lib/strapi";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ReactMarkdown from "react-markdown";
@@ -61,9 +62,6 @@ export async function generateMetadata({
   };
 }
 
-function resolveUrl(url: string) {
-  return url.startsWith("http") ? url : `${STRAPI_URL}${url}`;
-}
 
 function RichText({ body }: { body: string }) {
   return (
@@ -93,7 +91,7 @@ function MediaBlock({ file }: { file: MediaFile }) {
     <figure className="my-8">
       <div className="relative w-full aspect-video">
         <Image
-          src={resolveUrl(file.url)}
+          src={getStrapiImageSrc(file.url)}
           alt={file.alternativeText ?? ""}
           fill
           className="object-cover rounded-xl"
@@ -110,7 +108,7 @@ function Slider({ files }: { files: MediaFile[] }) {
       {files.map((file, i) => (
         <div key={i} className="relative w-72 h-48 flex-shrink-0">
           <Image
-            src={resolveUrl(file.url)}
+            src={getStrapiImageSrc(file.url)}
             alt={file.alternativeText ?? ""}
             fill
             className="object-cover rounded-xl"
