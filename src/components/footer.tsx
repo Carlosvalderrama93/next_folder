@@ -1,52 +1,54 @@
 import React from "react";
-import { homePageData } from "@/Data/homepage";
 import type { Footer as FooterType } from "@/Data/homepage";
 
 function Footer(data: FooterType) {
   const { copyright, links, social } = data;
   return (
-    <div className="bg-gray-800 text-white py-8 flex flex-col gap-4 px-15">
-      <div className="flex flex-wrap ">
-        <div className="flex flex-col gap-2 w-1/4">
-          <div>
-            <span className="font-bold text-3xl">Carlos Valderrama</span>
-          </div>
-          <p className="text-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
-            nulla, neque accusantium dolorum magnam repellat dolore.
+    <footer className="bg-gray-900 dark:bg-gray-950 text-white py-10 px-6 md:px-16">
+      <div className="flex flex-wrap gap-10">
+        <div className="flex flex-col gap-3 w-full md:w-1/4">
+          <span className="font-bold text-2xl">Carlos Valderrama</span>
+          <p className="text-sm text-gray-400 leading-relaxed">
+            Connecting top LATAM tech talent with leading companies worldwide.
           </p>
         </div>
-        <div className="flex gap-8 flex-wrap w-3/4 justify-end">
+        <div className="flex gap-12 flex-wrap flex-1 justify-end">
           <div className="flex flex-col gap-2">
-            <span className="font-bold text-lg">Links</span>
+            <span className="font-bold text-sm uppercase tracking-wider text-gray-400 mb-1">
+              Links
+            </span>
             {links.map((link) => (
               <a
                 key={link.label}
                 href={link.url}
-                className="hover:underline text-sm"
+                className="text-sm text-gray-300 hover:text-white transition-colors"
               >
                 {link.label}
               </a>
             ))}
           </div>
-          <div className="flex flex-col gap-2">
-            <span className="font-bold text-lg">Social</span>
-            {social?.map((url) => (
-              <a
-                key={url.platform}
-                href={url.url}
-                className="hover:underline text-sm"
-              >
-                {url.platform}
-              </a>
-            ))}
-          </div>
+          {social && social.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <span className="font-bold text-sm uppercase tracking-wider text-gray-400 mb-1">
+                Social
+              </span>
+              {social.map((s) => (
+                <a
+                  key={s.platform}
+                  href={s.url}
+                  className="text-sm text-gray-300 hover:text-white transition-colors"
+                >
+                  {s.platform}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-      <div className="border-t border-gray-700 pt-4 text-sm text-right">
-        <span>{copyright}</span>
+      <div className="border-t border-gray-800 mt-8 pt-6 text-sm text-gray-500 text-right">
+        {copyright}
       </div>
-    </div>
+    </footer>
   );
 }
 

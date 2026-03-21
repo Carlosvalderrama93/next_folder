@@ -8,7 +8,7 @@ const authors = homePageData.authors;
 
 function AuthorLine({ author }: { author: Author }) {
   return (
-    <div className="text-sm text-gray-500 flex items-center gap-2 mt-4">
+    <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2 mt-4">
       {author.avatar && (
         <img
           src={author.avatar}
@@ -17,7 +17,10 @@ function AuthorLine({ author }: { author: Author }) {
         />
       )}
       <span>
-        By <span className="font-semibold text-gray-700">{author.name}</span>
+        By{" "}
+        <span className="font-semibold text-gray-700 dark:text-gray-300">
+          {author.name}
+        </span>
       </span>
     </div>
   );
@@ -25,7 +28,7 @@ function AuthorLine({ author }: { author: Author }) {
 
 function ArticleCard({ article }: { article: BlogPreview }) {
   return (
-    <div className="flex flex-col justify-between w-72 border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+    <div className="flex flex-col justify-between w-72 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden">
       {article.coverImage && (
         <img
           src={article.coverImage}
@@ -37,15 +40,15 @@ function ArticleCard({ article }: { article: BlogPreview }) {
         <span className="text-xs font-bold tracking-widest text-blue-500 mb-2 uppercase">
           Latest
         </span>
-        <h2 className="font-bold text-gray-900 text-base mb-2 line-clamp-2">
+        <h2 className="font-bold text-gray-900 dark:text-white text-base mb-2 line-clamp-2">
           {article.title}
         </h2>
-        <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 flex-1">
+        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3 flex-1">
           {article.excerpt}
         </p>
         <Link
           href={`/articles/${article.slug}`}
-          className="font-semibold text-black text-sm mt-4 inline-block hover:underline"
+          className="font-semibold text-black dark:text-white text-sm mt-4 inline-block hover:underline"
         >
           Read more →
         </Link>
@@ -72,11 +75,13 @@ function FeaturedArticle({ article }: { article: BlogPreview }) {
           Featured
         </span>
         <Link href={`/articles/${article.slug}`}>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4 hover:underline leading-tight">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 hover:underline leading-tight">
             {article.title}
           </h2>
         </Link>
-        <p className="text-gray-600 leading-relaxed mb-4">{article.excerpt}</p>
+        <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+          {article.excerpt}
+        </p>
         <AuthorLine author={authors[0]} />
       </div>
     </div>
@@ -88,10 +93,12 @@ function Articles() {
   return (
     <section className="py-16 max-w-7xl mx-auto px-4">
       <div className="flex justify-between items-center mb-10">
-        <h2 className="text-3xl font-bold">Articles</h2>
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Articles
+        </h2>
         <Link
           href="/articles"
-          className="text-sm font-semibold text-gray-500 hover:text-black transition-colors"
+          className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
         >
           View all →
         </Link>

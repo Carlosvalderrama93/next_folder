@@ -9,7 +9,7 @@ const authors = homePageData.authors;
 function JobCard({ job }: { job: Job }) {
   const author = authors[0];
   return (
-    <div className="flex flex-col md:flex-row border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden bg-white">
+    <div className="flex flex-col md:flex-row border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden bg-white dark:bg-gray-900">
       {job.image && (
         <img
           src={job.image}
@@ -22,37 +22,37 @@ function JobCard({ job }: { job: Job }) {
           <span className="w-fit bg-blue-500 text-white px-4 py-1 rounded-full font-semibold text-xs">
             Open
           </span>
-          <div className="flex flex-col gap-1 text-gray-600 text-xs mt-2">
+          <div className="flex flex-col gap-1 text-gray-600 dark:text-gray-400 text-xs mt-2">
             <span className="flex items-center gap-2">
-              📅 <span className="text-gray-700">{job.postedAt}</span>
+              📅 <span className="text-gray-700 dark:text-gray-300">{job.postedAt}</span>
             </span>
             <span className="flex items-center gap-2">
-              🌍 <span className="text-gray-700">{job.location}</span>
+              🌍 <span className="text-gray-700 dark:text-gray-300">{job.location}</span>
             </span>
             <span className="flex items-center gap-2">
-              💼 <span className="text-gray-700">{job.type}</span>
+              💼 <span className="text-gray-700 dark:text-gray-300">{job.type}</span>
             </span>
           </div>
         </div>
 
         <div className="flex flex-col justify-between flex-1">
           <div>
-            <h2 className="text-lg font-extrabold text-gray-900 mb-3 leading-snug">
+            <h2 className="text-lg font-extrabold text-gray-900 dark:text-white mb-3 leading-snug">
               {job.title}
             </h2>
-            <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3">
               {job.description}
             </p>
           </div>
           <div className="flex justify-between items-center mt-4">
             <Link
               href={job.applyUrl}
-              className="px-5 py-2 bg-black text-white rounded-full text-sm font-semibold hover:bg-gray-800 transition-colors"
+              className="px-5 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
             >
               Apply Now
             </Link>
             {author && (
-              <div className="text-xs text-gray-500 flex items-center gap-2">
+              <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
                 {author.avatar && (
                   <img
                     src={author.avatar}
@@ -60,7 +60,10 @@ function JobCard({ job }: { job: Job }) {
                     className="w-6 h-6 rounded-full object-cover"
                   />
                 )}
-                <span>Posted by <span className="font-semibold">{author.name}</span></span>
+                <span>
+                  Posted by{" "}
+                  <span className="font-semibold">{author.name}</span>
+                </span>
               </div>
             )}
           </div>
@@ -74,8 +77,13 @@ function Job() {
   return (
     <section className="py-16 px-4 max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-bold">Open Positions</h2>
-        <Link href="/jobs" className="text-sm font-semibold text-gray-500 hover:text-black transition-colors">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Open Positions
+        </h2>
+        <Link
+          href="/jobs"
+          className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+        >
           View all jobs →
         </Link>
       </div>

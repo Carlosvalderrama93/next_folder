@@ -47,34 +47,34 @@ export default async function ArticleDetail({
       <main className="max-w-3xl mx-auto px-4 py-16">
         <Link
           href="/articles"
-          className="text-sm font-semibold text-gray-500 hover:text-black transition-colors mb-8 inline-block"
+          className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors mb-8 inline-block"
         >
           ← Back to Articles
         </Link>
 
         {error || !article ? (
           <div className="mt-8 text-center">
-            <h1 className="text-2xl font-bold text-gray-800 mb-3">
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3">
               Article not found
             </h1>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
               Make sure Strapi is running at localhost:1337.
             </p>
           </div>
         ) : (
           <article className="mt-4">
-            <p className="text-xs text-gray-400 mb-3">
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-3">
               {new Date(article.publishedAt).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
               })}
             </p>
-            <h1 className="text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
               {article.title}
             </h1>
             {article.description && (
-              <p className="text-lg text-gray-600 leading-relaxed border-l-4 border-gray-200 pl-4">
+              <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed border-l-4 border-gray-200 dark:border-gray-700 pl-4">
                 {article.description}
               </p>
             )}

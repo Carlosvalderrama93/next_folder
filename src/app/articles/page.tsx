@@ -35,7 +35,9 @@ export default async function ArticlesPage() {
     <>
       <Navigation />
       <main className="max-w-4xl mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-10">Articles</h1>
+        <h1 className="text-4xl font-bold mb-10 text-gray-900 dark:text-white">
+          Articles
+        </h1>
 
         {strapiArticles.length > 0 ? (
           <div className="flex flex-col gap-6">
@@ -43,24 +45,24 @@ export default async function ArticlesPage() {
               <Link
                 key={article.id}
                 href={`/articles/${article.documentId}`}
-                className="block border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow bg-white"
+                className="block border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:shadow-md transition-shadow bg-white dark:bg-gray-900"
               >
-                <p className="text-xs text-gray-400 mb-1">
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">
                   {new Date(article.publishedAt).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
                   })}
                 </p>
-                <h2 className="text-xl font-bold text-gray-900 mb-2">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                   {article.title}
                 </h2>
                 {article.description && (
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
                     {article.description}
                   </p>
                 )}
-                <span className="text-sm font-semibold text-black mt-3 inline-block hover:underline">
+                <span className="text-sm font-semibold text-black dark:text-white mt-3 inline-block hover:underline">
                   Read more →
                 </span>
               </Link>
@@ -68,14 +70,14 @@ export default async function ArticlesPage() {
           </div>
         ) : (
           <div>
-            <p className="text-gray-500 mb-8 text-sm">
+            <p className="text-gray-500 dark:text-gray-400 mb-8 text-sm">
               Showing preview articles. Start Strapi to load live content.
             </p>
             <div className="flex flex-col gap-6">
               {staticArticles.map((article) => (
                 <div
                   key={article.id}
-                  className="flex flex-col md:flex-row gap-5 border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-md transition-shadow"
+                  className="flex flex-col md:flex-row gap-5 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 hover:shadow-md transition-shadow"
                 >
                   {article.coverImage && (
                     <img
@@ -85,17 +87,17 @@ export default async function ArticlesPage() {
                     />
                   )}
                   <div className="p-5 flex flex-col justify-center">
-                    <p className="text-xs text-gray-400 mb-1">
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">
                       {new Date(article.createdAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                       })}
                     </p>
-                    <h2 className="text-xl font-bold text-gray-900 mb-2">
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                       {article.title}
                     </h2>
-                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-2">
                       {article.excerpt}
                     </p>
                   </div>
