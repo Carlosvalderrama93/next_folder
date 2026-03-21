@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
 export async function POST(req: NextRequest) {
   try {
     const contentType = req.headers.get("content-type") ?? "";
@@ -46,13 +55,13 @@ export async function POST(req: NextRequest) {
         subject: `New application for ${jobTitle ?? jobId}`,
         html: `
           <h2>New Job Application</h2>
-          <p><strong>Position:</strong> ${jobTitle ?? jobId}</p>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          ${linkedin ? `<p><strong>LinkedIn:</strong> <a href="${linkedin}">${linkedin}</a></p>` : ""}
+          <p><strong>Position:</strong> ${escapeHtml(jobTitle ?? jobId ?? "")}</p>
+          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+          ${linkedin ? `<p><strong>LinkedIn:</strong> <a href="${encodeURI(linkedin)}">${escapeHtml(linkedin)}</a></p>` : ""}
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, "<br>")}</p>
-          ${cvFilename ? `<p><em>CV attached: ${cvFilename}</em></p>` : ""}
+          <p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>
+          ${cvFilename ? `<p><em>CV attached: ${escapeHtml(cvFilename)}</em></p>` : ""}
         `,
         attachments,
       });

@@ -23,7 +23,7 @@ interface ArticleItem {
 
 async function getArticles(): Promise<ArticleItem[]> {
   try {
-    const res = await fetch(`${STRAPI_URL}/api/articles`, { cache: "no-store" });
+    const res = await fetch(`${STRAPI_URL}/api/articles`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const json = await res.json();
     return json?.data ?? [];

@@ -2,7 +2,7 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { homePageData } from "@/Data/homepage";
-import { STRAPI_URL } from "@/lib/config";
+import { fetchStrapiJobs } from "@/lib/strapi";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,28 +10,8 @@ export const metadata: Metadata = {
   description: "Browse and apply for open tech positions. Remote jobs for LATAM talent.",
 };
 
-interface StrapiJob {
-  id: number;
-  documentId: string;
-  title: string;
-  location: string;
-  jobType: string;
-  isOpen: boolean;
-}
-
-async function getStrapiJobs(): Promise<StrapiJob[]> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/jobs`, { cache: "no-store" });
-    if (!res.ok) return [];
-    const json = await res.json();
-    return json?.data ?? [];
-  } catch {
-    return [];
-  }
-}
-
 export default async function ApplyPage() {
-  const strapiJobs = await getStrapiJobs();
+  const strapiJobs = await fetchStrapiJobs();
   const { openPositions, footer } = homePageData;
   const usingStrapiJobs = strapiJobs.length > 0;
 

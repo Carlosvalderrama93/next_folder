@@ -7,16 +7,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ApplyForm from "./apply-form";
 
-interface StrapiJob {
-  id: number;
-  documentId: string;
-  title: string;
-  description: string;
-  location: string;
-  jobType: string;
-  isOpen: boolean;
-}
-
 interface JobData {
   id: string;
   title: string;
@@ -28,7 +18,7 @@ interface JobData {
 async function getJob(id: string): Promise<JobData | null> {
   // Try Strapi first
   try {
-    const res = await fetch(`${STRAPI_URL}/api/jobs/${id}`, { cache: "no-store" });
+    const res = await fetch(`${STRAPI_URL}/api/jobs/${id}`, { next: { revalidate: 60 } });
     if (res.ok) {
       const data = await res.json();
       const j: StrapiJob = data?.data;

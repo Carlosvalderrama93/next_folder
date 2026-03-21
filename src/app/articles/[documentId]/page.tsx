@@ -36,7 +36,7 @@ async function getArticle(documentId: string): Promise<ArticleItem | null> {
   try {
     const res = await fetch(
       `${STRAPI_URL}/api/articles/${documentId}?populate[blocks][populate]=*`,
-      { cache: "no-store" }
+      { next: { revalidate: 60 } }
     );
     if (!res.ok) return null;
     const data = await res.json();
