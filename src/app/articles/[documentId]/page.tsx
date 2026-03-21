@@ -2,8 +2,13 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { homePageData } from "@/Data/homepage";
-import { STRAPI_URL } from "@/lib/config";
-import { getStrapiImageSrc } from "@/lib/strapi";
+import {
+  fetchStrapiArticleDetail,
+  getStrapiImageSrc,
+  type StrapiArticleDetail,
+  type StrapiBlock,
+  type StrapiMediaFile,
+} from "@/lib/strapi";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ReactMarkdown from "react-markdown";
@@ -12,49 +17,13 @@ import Image from "next/image";
 
 const footerData = homePageData.footer;
 
-interface MediaFile {
-  url: string;
-  alternativeText?: string;
-}
-
-type Block =
-  | { __component: "shared.rich-text"; body: string }
-  | { __component: "shared.quote"; title: string; body: string }
-  | { __component: "shared.media"; file: MediaFile }
-  | { __component: "shared.slider"; files: MediaFile[] };
-
-interface ArticleItem {
-  id: number;
-  documentId: string;
-  title: string;
-  description: string;
-  slug: string;
-  createdAt: string;
-  publishedAt: string;
-  blocks: Block[];
-}
-
-async function getArticle(documentId: string): Promise<ArticleItem | null> {
-  try {
-    const res = await fetch(
-      `${STRAPI_URL}/api/articles/${documentId}?populate[blocks][populate]=*`,
-      { next: { revalidate: 60 } }
-    );
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data?.data ?? null;
-  } catch {
-    return null;
-  }
-}
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ documentId: string }>;
 }): Promise<Metadata> {
   const { documentId } = await params;
-  const article = await getArticle(documentId);
+  const article = await fetchStrapiArticleDetail(documentId);
   if (!article) return { title: "Article Not Found" };
   return {
     title: `${article.title} | Carlos Valderrama`,
@@ -86,7 +55,7 @@ function Quote({ title, body }: { title: string; body: string }) {
   );
 }
 
-function MediaBlock({ file }: { file: MediaFile }) {
+function MediaBlock({ file }: { file: StrapiMediaFile }) {
   return (
     <figure className="my-8">
       <div className="relative w-full aspect-video">
@@ -102,7 +71,7 @@ function MediaBlock({ file }: { file: MediaFile }) {
   );
 }
 
-function Slider({ files }: { files: MediaFile[] }) {
+function Slider({ files }: { files: StrapiMediaFile[] }) {
   return (
     <div className="flex gap-4 overflow-x-auto my-8 pb-2">
       {files.map((file, i) => (
@@ -120,7 +89,7 @@ function Slider({ files }: { files: MediaFile[] }) {
   );
 }
 
-function BlockRenderer({ block }: { block: Block }) {
+function BlockRenderer({ block }: { block: StrapiBlock }) {
   switch (block.__component) {
     case "shared.rich-text":
       return <RichText body={block.body} />;
@@ -141,7 +110,7 @@ export default async function ArticleDetail({
   params: Promise<{ documentId: string }>;
 }) {
   const { documentId } = await params;
-  const article = await getArticle(documentId);
+  const article = await fetchStrapiArticleDetail(documentId);
 
   if (!article) notFound();
 

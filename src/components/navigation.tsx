@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Nav } from "../Data/homepage";
@@ -18,6 +18,14 @@ function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setMenuOpen(false);
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <nav className="flex items-center justify-between bg-white dark:bg-gray-950 w-full px-6 md:px-10 py-4 border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50">
       <div className="flex items-center gap-8">
@@ -34,6 +42,7 @@ function Navigation() {
               <Link
                 key={link.name}
                 href={link.href}
+                aria-current={isActive ? "page" : undefined}
                 className={`font-medium mx-4 transition-colors ${
                   isActive
                     ? "text-black dark:text-white"
@@ -84,6 +93,7 @@ function Navigation() {
               <Link
                 key={link.name}
                 href={link.href}
+                aria-current={isActive ? "page" : undefined}
                 className={`font-medium transition-colors ${
                   isActive
                     ? "text-black dark:text-white"

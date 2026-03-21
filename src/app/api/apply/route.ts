@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit, getIp } from "@/lib/rate-limit";
 
 function escapeHtml(str: string): string {
   return str
@@ -14,6 +15,14 @@ function isValidEmail(email: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
+  const { allowed, retryAfter } = rateLimit(getIp(req));
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait before trying again." },
+      { status: 429, headers: { "Retry-After": String(retryAfter) } }
+    );
+  }
+
   try {
     const contentType = req.headers.get("content-type") ?? "";
     let fields: Record<string, string> = {};
