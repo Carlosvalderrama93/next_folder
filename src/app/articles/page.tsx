@@ -1,9 +1,7 @@
-interface ArticlesResponse {
-  data: ArticleItem[];
-  meta: {
-    pagination: PaginationMeta;
-  };
-}
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
+import Link from "next/link";
+import { homePageData } from "@/Data/homepage";
 
 interface ArticleItem {
   id: number;
@@ -12,80 +10,102 @@ interface ArticleItem {
   description: string;
   slug: string;
   createdAt: string;
-  updatedAt: string;
   publishedAt: string;
 }
 
-interface PaginationMeta {
-  page: number;
-  pageSize: number;
-  pageCount: number;
-  total: number;
+async function getArticles(): Promise<ArticleItem[]> {
+  try {
+    const res = await fetch("http://localhost:1337/api/articles", {
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json?.data ?? [];
+  } catch {
+    return [];
+  }
 }
 
-export default async function JobsPage() {
-  const basicStructure = {
-    title: "A bug is becoming a meme on the internet",
-    slug: "a-bug-is-becoming-a-meme-on-the-internet",
-    category: {
-      id: 2,
-    },
-    author: {
-      id: 2,
-    },
-    description: "How a bug on MySQL is becoming a meme on the internet",
-    cover: null,
-    blocks: [
-      {
-        __component: "shared.rich-text",
-        body: "## Probant \n\nse Lorem markdownum negat. Argo *saxa* videnda cornuaque hunc qui tanta spes teneas! Obliquis est dicenti est salutat ille tamen iuvenum nostrae dolore. - Colores nocituraque comitata eripiunt - Addit quodcunque solum cui et dextram illis - Nulli meus nec extemplo ille ferebat pressit Se blandita fulvae vox gravem Pittheus cesserunt sanguine herbis tu comitum tenuit. Sui in ruunt; Doridaque maculosae fuissem! Et loqui. \n\n## Abit sua\n\nse Lorem markdownum negat. Argo *saxa* videnda cornuaque hunc qui tanta spes teneas! Obliquis est dicenti est salutat ille tamen iuvenum nostrae dolore. - Colores nocituraque comitata eripiunt - Addit quodcunque solum cui et dextram illis - Nulli meus nec extemplo ille ferebat pressit Se blandita fulvae vox gravem Pittheus cesserunt sanguine herbis tu comitum tenuit. Sui in ruunt; Doridaque maculosae fuissem! Et loqui. ",
-      },
-      {
-        __component: "shared.quote",
-        title: "Thelonius Monk",
-        body: "You've got to dig it to dig it, you dig?",
-      },
-      {
-        __component: "shared.media",
-        file: "coffee-art.jpg",
-      },
-      {
-        __component: "shared.rich-text",
-        body: "## Spatiantia astra \n\nFoeda, medio silva *errandum*: onus formam munere. Mutata bibulis est auxiliare arces etiamnunc verbis virgineo Priamidas illa Thescelus, nam fit locis lucis auras. Exitus hospes gratulor ut pondere [speslimite](http://www.curas.io/figuram); quid habent, Avernales faciente de. Pervenit Ino sonabile supplex cognoscenti vires, Bacchumque errat miserarum venandi dignabere dedisti. Discrimina iuncosaque virgaque tot sine superest [fissus](http://quos.org/sitet.aspx). Non color esset potest non sumit, sed vix arserat. Nisi immo silva tantum pectusque quos pennis quisquam artus!",
-      },
-      {
-        __component: "shared.slider",
-        files: ["coffee-art.jpg", "coffee-beans.jpg"],
-      },
-    ],
-  };
-
-  const res = await fetch("http://localhost:1337/api/articles", {
-    cache: "no-store",
-  });
-  const json: ArticlesResponse = await res.json();
-  //console.log(json);
-
-  //console.log(basicStructure);
-  if (!json || !json.data) {
-    return <p>No jobs found</p>;
-  }
+export default async function ArticlesPage() {
+  const strapiArticles = await getArticles();
+  const staticArticles = homePageData.blogPreview;
+  const footerData = homePageData.footer;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Jobs</h1>
-      <ul className="space-y-2">
-        {json.data.map((article: ArticleItem) => (
-          <li key={article.id}>
-            <a
-              href={`/articles/${article.documentId}`}
-              className="text-blue-600 hover:underline"
-            >
-              {article.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Navigation />
+      <main className="max-w-4xl mx-auto px-4 py-16">
+        <h1 className="text-4xl font-bold mb-10">Articles</h1>
+
+        {strapiArticles.length > 0 ? (
+          <div className="flex flex-col gap-6">
+            {strapiArticles.map((article) => (
+              <Link
+                key={article.id}
+                href={`/articles/${article.documentId}`}
+                className="block border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow bg-white"
+              >
+                <p className="text-xs text-gray-400 mb-1">
+                  {new Date(article.publishedAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </p>
+                <h2 className="text-xl font-bold text-gray-900 mb-2">
+                  {article.title}
+                </h2>
+                {article.description && (
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {article.description}
+                  </p>
+                )}
+                <span className="text-sm font-semibold text-black mt-3 inline-block hover:underline">
+                  Read more →
+                </span>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div>
+            <p className="text-gray-500 mb-8 text-sm">
+              Showing preview articles. Start Strapi to load live content.
+            </p>
+            <div className="flex flex-col gap-6">
+              {staticArticles.map((article) => (
+                <div
+                  key={article.id}
+                  className="flex flex-col md:flex-row gap-5 border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-md transition-shadow"
+                >
+                  {article.coverImage && (
+                    <img
+                      src={article.coverImage}
+                      alt={article.title}
+                      className="w-full md:w-48 h-40 object-cover flex-shrink-0"
+                    />
+                  )}
+                  <div className="p-5 flex flex-col justify-center">
+                    <p className="text-xs text-gray-400 mb-1">
+                      {new Date(article.createdAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </p>
+                    <h2 className="text-xl font-bold text-gray-900 mb-2">
+                      {article.title}
+                    </h2>
+                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                      {article.excerpt}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </main>
+      <Footer {...footerData} />
+    </>
   );
 }

@@ -1,38 +1,38 @@
 import React from "react";
+import Link from "next/link";
 import { homePageData } from "../Data/homepage";
-import type { Hero, HomePageData } from "../Data/homepage";
 
-const data: HomePageData = homePageData;
-const hero: Hero = data.hero;
+const hero = homePageData.hero;
 
 function Hero() {
   return (
-    <section className="flex flex-col items-center justify-between text-center min-h-[500px] pb-10 shadow-md">
-      <div className="text-7xl font-extrabold text-gray-950 mt-10 mb-6 flex flex-col items-center gap-6">
-        {hero.backgroundImage && (
-          <img
-            className="object-cover size-37 rounded-full"
-            src={hero.backgroundImage}
-            alt="Hero Background"
-          />
-        )}
-        <span>Carlos Valderrama</span>
-      </div>
-      <div className="text-center max-w-3xl px-4 space-y-6 ">
-        <p className="text-xl leading-[1.8]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati
-          consequuntur dicta vitae ad perspiciatis quisquam id delectus, nam.
-        </p>
-        <div className="flex justify-center mt-4 gap-0">
-          <input
-            type="text"
-            placeholder="Enter your email"
-            className="px-5 py-4 w-70 bg-gray-100 rounded-l-full focus:outline-none focus:ring-2 focus:ring-gray-200 text-gray-700 font-semibold"
-          />
-          <button className="px-6 py-3 bg-black text-white rounded-r-full font-semibold hover:bg-gray-800">
-            {hero.ctaText}
-          </button>
-        </div>
+    <section className="flex flex-col items-center justify-center text-center min-h-[540px] pb-16 pt-20 px-4">
+      {hero.backgroundImage && (
+        <img
+          className="object-cover w-32 h-32 rounded-full mb-8 shadow-lg"
+          src={hero.backgroundImage}
+          alt="Carlos Valderrama"
+        />
+      )}
+      <h1 className="text-5xl md:text-6xl font-extrabold text-gray-950 mb-4 leading-tight">
+        Carlos Valderrama
+      </h1>
+      <p className="text-xl text-gray-600 max-w-2xl leading-relaxed mb-10">
+        {hero.subtitle}
+      </p>
+      <div className="flex flex-col sm:flex-row justify-center gap-4">
+        <Link
+          href={hero.ctaLink}
+          className="px-8 py-3.5 bg-black text-white rounded-full font-semibold hover:bg-gray-800 transition-colors"
+        >
+          {hero.ctaText}
+        </Link>
+        <Link
+          href="/articles"
+          className="px-8 py-3.5 border border-gray-300 text-gray-700 rounded-full font-semibold hover:border-gray-500 hover:text-black transition-colors"
+        >
+          Read the Blog
+        </Link>
       </div>
     </section>
   );
