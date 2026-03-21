@@ -3,7 +3,7 @@ import Footer from "@/components/footer";
 import Link from "next/link";
 import Image from "next/image";
 import { homePageData } from "@/Data/homepage";
-import { STRAPI_URL } from "@/lib/config";
+import { fetchStrapiArticles } from "@/lib/strapi";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,29 +11,8 @@ export const metadata: Metadata = {
   description: "Insights on tech recruitment, career growth, and the LATAM tech scene.",
 };
 
-interface ArticleItem {
-  id: number;
-  documentId: string;
-  title: string;
-  description: string;
-  slug: string;
-  createdAt: string;
-  publishedAt: string;
-}
-
-async function getArticles(): Promise<ArticleItem[]> {
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/articles`, { next: { revalidate: 60 } });
-    if (!res.ok) return [];
-    const json = await res.json();
-    return json?.data ?? [];
-  } catch {
-    return [];
-  }
-}
-
 export default async function ArticlesPage() {
-  const strapiArticles = await getArticles();
+  const strapiArticles = await fetchStrapiArticles();
   const staticArticles = homePageData.blogPreview;
   const footerData = homePageData.footer;
 

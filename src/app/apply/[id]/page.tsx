@@ -3,6 +3,7 @@ import Footer from "@/components/footer";
 import Link from "next/link";
 import { homePageData } from "@/Data/homepage";
 import { STRAPI_URL } from "@/lib/config";
+import { type StrapiJob } from "@/lib/strapi";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ApplyForm from "./apply-form";
