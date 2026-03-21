@@ -28,6 +28,17 @@ export async function generateMetadata({
   return {
     title: `${article.title} | Carlos Valderrama`,
     description: article.description,
+    openGraph: {
+      type: "article",
+      title: article.title,
+      description: article.description,
+      publishedTime: article.publishedAt,
+    },
+    twitter: {
+      card: "summary",
+      title: article.title,
+      description: article.description,
+    },
   };
 }
 

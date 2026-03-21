@@ -21,6 +21,18 @@ export const metadata: Metadata = {
   description:
     "Connecting top LATAM tech talent with leading companies worldwide.",
   alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "Carlos Valderrama",
+    title: "Carlos Valderrama | Tech Recruiter",
+    description: "Connecting top LATAM tech talent with leading companies worldwide.",
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary",
+    title: "Carlos Valderrama | Tech Recruiter",
+    description: "Connecting top LATAM tech talent with leading companies worldwide.",
+  },
 };
 
 export default function RootLayout({

@@ -16,9 +16,10 @@ export default function AboutPage() {
     <>
       <Navigation />
       <main className="max-w-3xl mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-6 text-gray-900 dark:text-white">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           {about.heading}
         </h1>
+        <div className="mt-3 mb-6 w-10 h-1 bg-blue-500 rounded-full" />
         {about.image && (
           <div className="relative w-full h-64 mb-8">
             <Image
@@ -35,16 +36,16 @@ export default function AboutPage() {
         </p>
 
         {about.stats && about.stats.length > 0 && (
-          <div className="mt-16 grid md:grid-cols-3 gap-8 text-center">
+          <div className="mt-16 grid md:grid-cols-3 gap-6 text-center">
             {about.stats.map((stat) => (
               <div
                 key={stat.label}
-                className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900"
+                className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 border-t-4 border-t-blue-500"
               >
-                <div className="text-3xl font-extrabold mb-2 text-gray-900 dark:text-white">
+                <div className="text-4xl font-extrabold mb-1 text-gray-900 dark:text-white">
                   {stat.value}
                 </div>
-                <div className="text-gray-500 dark:text-gray-400 text-sm">
+                <div className="text-gray-500 dark:text-gray-400 text-sm font-medium">
                   {stat.label}
                 </div>
               </div>

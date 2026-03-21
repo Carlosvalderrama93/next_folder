@@ -15,6 +15,19 @@ export function getStrapiImageSrc(url: string): string {
   return url.startsWith("http") ? url : `${STRAPI_URL}${url}`;
 }
 
+export async function fetchStrapiJob(id: string): Promise<StrapiJob | null> {
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/jobs/${id}`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data?.data ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchStrapiJobs(): Promise<StrapiJob[]> {
   try {
     const res = await fetch(`${STRAPI_URL}/api/jobs?populate=image`, {

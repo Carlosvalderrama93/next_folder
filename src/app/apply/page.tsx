@@ -48,9 +48,10 @@ export default async function ApplyPage() {
     <>
       <Navigation />
       <main className="max-w-4xl mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-3 text-gray-900 dark:text-white">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Apply for a Job
         </h1>
+        <div className="mt-3 mb-3 w-10 h-1 bg-blue-500 rounded-full" />
         <p className="text-gray-500 dark:text-gray-400 mb-10">
           Choose a position below and send us your application.
         </p>

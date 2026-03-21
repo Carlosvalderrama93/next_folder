@@ -21,10 +21,15 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  transition: background-color 0.2s ease, color 0.15s ease;
 }
 
 /* Keyboard focus ring for all interactive elements.

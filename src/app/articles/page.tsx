@@ -20,17 +20,20 @@ export default async function ArticlesPage() {
     <>
       <Navigation />
       <main className="max-w-4xl mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-10 text-gray-900 dark:text-white">
-          Articles
-        </h1>
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            Articles
+          </h1>
+          <div className="mt-3 w-10 h-1 bg-blue-500 rounded-full" />
+        </div>
 
         {strapiArticles.length > 0 ? (
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             {strapiArticles.map((article) => (
               <Link
                 key={article.id}
                 href={`/articles/${article.documentId}`}
-                className="block border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:shadow-md transition-shadow bg-white dark:bg-gray-900"
+                className="group block border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-900/80 transition-all duration-200 bg-white dark:bg-gray-900"
               >
                 <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">
                   {new Date(article.publishedAt).toLocaleDateString("en-US", {
@@ -39,16 +42,17 @@ export default async function ArticlesPage() {
                     day: "numeric",
                   })}
                 </p>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {article.title}
                 </h2>
                 {article.description && (
-                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                  <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
                     {article.description}
                   </p>
                 )}
-                <span className="text-sm font-semibold text-black dark:text-white mt-3 inline-block hover:underline">
-                  Read more →
+                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 mt-3 inline-flex items-center gap-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  Read more
+                  <span className="inline-block translate-x-0 group-hover:translate-x-1 transition-transform">→</span>
                 </span>
               </Link>
             ))}

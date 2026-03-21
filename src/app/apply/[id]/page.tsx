@@ -2,8 +2,7 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { homePageData } from "@/Data/homepage";
-import { STRAPI_URL } from "@/lib/config";
-import { type StrapiJob } from "@/lib/strapi";
+import { fetchStrapiJob } from "@/lib/strapi";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ApplyForm from "./apply-form";
@@ -17,27 +16,17 @@ interface JobData {
 }
 
 async function getJob(id: string): Promise<JobData | null> {
-  // Try Strapi first
-  try {
-    const res = await fetch(`${STRAPI_URL}/api/jobs/${id}`, { next: { revalidate: 60 } });
-    if (res.ok) {
-      const data = await res.json();
-      const j: StrapiJob = data?.data;
-      if (j) {
-        return {
-          id: j.documentId,
-          title: j.title,
-          description: j.description,
-          location: j.location,
-          type: j.jobType,
-        };
-      }
-    }
-  } catch {
-    // fall through
+  const strapiJob = await fetchStrapiJob(id);
+  if (strapiJob) {
+    return {
+      id: strapiJob.documentId,
+      title: strapiJob.title,
+      description: strapiJob.description,
+      location: strapiJob.location,
+      type: strapiJob.jobType,
+    };
   }
 
-  // Fallback: static data
   const staticJob = homePageData.openPositions.find((j) => j.id === id);
   if (staticJob) {
     return {
@@ -63,6 +52,16 @@ export async function generateMetadata({
   return {
     title: `Apply — ${job.title} | Carlos Valderrama`,
     description: `Apply for ${job.title} · ${job.location}`,
+    openGraph: {
+      type: "website",
+      title: `Apply — ${job.title}`,
+      description: `Apply for ${job.title} · ${job.location}`,
+    },
+    twitter: {
+      card: "summary",
+      title: `Apply — ${job.title}`,
+      description: `Apply for ${job.title} · ${job.location}`,
+    },
   };
 }
 
