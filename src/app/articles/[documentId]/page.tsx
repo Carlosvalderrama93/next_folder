@@ -125,9 +125,22 @@ export default async function ArticleDetail({
 
   if (!article) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.description ?? "",
+    datePublished: article.publishedAt,
+    author: { "@type": "Person", name: "Carlos Valderrama" },
+  };
+
   return (
     <>
       <Navigation />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main className="max-w-3xl mx-auto px-4 py-16">
         <Link
           href="/articles"

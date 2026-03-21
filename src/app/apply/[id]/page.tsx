@@ -75,9 +75,23 @@ export default async function ApplyJobPage({
 
   if (!job) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: job.title,
+    description: job.description,
+    jobLocation: { "@type": "Place", address: job.location },
+    employmentType: job.type.toUpperCase().replace(/\s+/g, "_"),
+    hiringOrganization: { "@type": "Organization", name: "Carlos Valderrama" },
+  };
+
   return (
     <>
       <Navigation />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main className="max-w-3xl mx-auto px-4 py-16">
         <Link
           href="/apply"

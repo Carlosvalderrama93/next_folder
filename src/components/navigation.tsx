@@ -43,10 +43,10 @@ function Navigation() {
                 key={link.name}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`font-medium mx-4 transition-colors ${
+                className={`font-medium mx-4 transition-colors pb-0.5 ${
                   isActive
-                    ? "text-black dark:text-white"
-                    : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white"
+                    ? "text-black dark:text-white border-b-2 border-black dark:border-white"
+                    : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-b-2 border-transparent"
                 }`}
               >
                 {link.name}
@@ -94,10 +94,10 @@ function Navigation() {
                 key={link.name}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`font-medium transition-colors ${
+                className={`font-medium transition-colors pl-3 border-l-2 ${
                   isActive
-                    ? "text-black dark:text-white"
-                    : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white"
+                    ? "text-black dark:text-white border-black dark:border-white"
+                    : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-transparent"
                 }`}
                 onClick={() => setMenuOpen(false)}
               >

@@ -8,17 +8,20 @@ export default function NotFound() {
     <>
       <Navigation />
       <main className="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
-        <h1 className="text-8xl font-extrabold text-gray-900 dark:text-white mb-4">
+        <p className="text-[10rem] font-extrabold leading-none text-gray-100 dark:text-gray-800 select-none mb-2">
           404
+        </p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 -mt-4">
+          Page not found
         </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-          This page doesn&apos;t exist.
+        <p className="text-gray-500 dark:text-gray-400 mb-8">
+          We couldn&apos;t find what you were looking for.
         </p>
         <Link
           href="/"
-          className="px-8 py-3.5 bg-black dark:bg-white text-white dark:text-black rounded-full font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+          className="px-7 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
         >
-          Back to Home
+          Go Home
         </Link>
       </main>
       <Footer {...homePageData.footer} />
