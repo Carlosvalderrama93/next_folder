@@ -1,18 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rateLimit, getIp } from "@/lib/rate-limit";
-
-function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#x27;");
-}
-
-function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+import { escapeHtml, isValidEmail } from "@/lib/validation";
 
 export async function POST(req: NextRequest) {
   const { allowed, retryAfter } = rateLimit(getIp(req));

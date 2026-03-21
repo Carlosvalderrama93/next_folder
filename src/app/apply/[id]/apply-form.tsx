@@ -160,6 +160,19 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             className="sr-only"
             onChange={(e) => {
               const file = e.target.files?.[0] ?? null;
+              if (file) {
+                const allowed = new Set(["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]);
+                if (!allowed.has(file.type)) {
+                  setFieldErrors((fe) => ({ ...fe, cv: "Only PDF, DOC, and DOCX files are allowed." }));
+                  e.target.value = "";
+                  return;
+                }
+                if (file.size > 5 * 1024 * 1024) {
+                  setFieldErrors((fe) => ({ ...fe, cv: "CV must be under 5 MB." }));
+                  e.target.value = "";
+                  return;
+                }
+              }
               setCvFile(file);
               setCvName(file?.name ?? "");
               setFieldErrors((fe) => ({ ...fe, cv: undefined }));

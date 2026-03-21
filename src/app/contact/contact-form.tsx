@@ -21,15 +21,14 @@ function validate(name: string, email: string, message: string): FieldErrors {
 
 export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    const name = (form.elements.namedItem("name") as HTMLInputElement).value;
-    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-    const subject = (form.elements.namedItem("subject") as HTMLInputElement).value;
-    const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value;
 
     const errors = validate(name, email, message);
     if (Object.keys(errors).length > 0) {
@@ -81,10 +80,11 @@ export default function ContactForm() {
           name="name"
           type="text"
           placeholder="Jane Doe"
+          value={name}
+          onChange={(e) => { setName(e.target.value); setFieldErrors((fe) => ({ ...fe, name: undefined })); }}
           aria-invalid={!!fieldErrors.name}
           aria-describedby={fieldErrors.name ? "name-error" : undefined}
           className={`${inputClass} ${fieldErrors.name ? "border-red-400 dark:border-red-500" : ""}`}
-          onChange={() => setFieldErrors((e) => ({ ...e, name: undefined }))}
         />
         {fieldErrors.name && <p id="name-error" className={errorClass}>{fieldErrors.name}</p>}
       </div>
@@ -98,10 +98,11 @@ export default function ContactForm() {
           name="email"
           type="email"
           placeholder="jane@example.com"
+          value={email}
+          onChange={(e) => { setEmail(e.target.value); setFieldErrors((fe) => ({ ...fe, email: undefined })); }}
           aria-invalid={!!fieldErrors.email}
           aria-describedby={fieldErrors.email ? "email-error" : undefined}
           className={`${inputClass} ${fieldErrors.email ? "border-red-400 dark:border-red-500" : ""}`}
-          onChange={() => setFieldErrors((e) => ({ ...e, email: undefined }))}
         />
         {fieldErrors.email && <p id="email-error" className={errorClass}>{fieldErrors.email}</p>}
       </div>
@@ -110,7 +111,15 @@ export default function ContactForm() {
         <label htmlFor="subject" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
           Subject
         </label>
-        <input id="subject" name="subject" type="text" placeholder="Job inquiry, partnership, etc." className={inputClass} />
+        <input
+          id="subject"
+          name="subject"
+          type="text"
+          placeholder="Job inquiry, partnership, etc."
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          className={inputClass}
+        />
       </div>
 
       <div className="flex flex-col gap-1.5">
@@ -122,10 +131,11 @@ export default function ContactForm() {
           name="message"
           rows={5}
           placeholder="Tell us about yourself or your company..."
+          value={message}
+          onChange={(e) => { setMessage(e.target.value); setFieldErrors((fe) => ({ ...fe, message: undefined })); }}
           aria-invalid={!!fieldErrors.message}
           aria-describedby={fieldErrors.message ? "message-error" : undefined}
           className={`${inputClass} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}
-          onChange={() => setFieldErrors((e) => ({ ...e, message: undefined }))}
         />
         {fieldErrors.message && <p id="message-error" className={errorClass}>{fieldErrors.message}</p>}
       </div>
