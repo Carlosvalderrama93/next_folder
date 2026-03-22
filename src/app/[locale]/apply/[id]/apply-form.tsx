@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { ToastProvider, Toast } from "@/components/ui/toast";
 import { FormField } from "@/components/ui/form-field";
 
@@ -20,19 +21,8 @@ const ALLOWED_CV_TYPES = new Set([
 const INPUT_CLASS =
   "px-4 py-3 border border-gray-300 dark:border-border rounded-xl bg-white dark:bg-surface-raised text-gray-900 dark:text-foreground placeholder-gray-400 dark:placeholder-muted-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand text-sm w-full";
 
-function validate(name: string, email: string, message: string): FieldErrors {
-  const errors: FieldErrors = {};
-  if (!name.trim()) errors.name = "Full name is required.";
-  if (!email.trim()) {
-    errors.email = "Email address is required.";
-  } else if (!EMAIL_RE.test(email)) {
-    errors.email = "Enter a valid email address.";
-  }
-  if (!message.trim()) errors.message = "Cover letter is required.";
-  return errors;
-}
-
 export default function ApplyForm({ jobTitle, jobId }: Props) {
+  const t = useTranslations("applyForm");
   const [submitting, setSubmitting] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -43,6 +33,18 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [toastOpen, setToastOpen] = useState(false);
   const [toastVariant, setToastVariant] = useState<"success" | "error">("success");
+
+  function validate(): FieldErrors {
+    const errors: FieldErrors = {};
+    if (!name.trim()) errors.name = t("nameRequired");
+    if (!email.trim()) {
+      errors.email = t("emailRequired");
+    } else if (!EMAIL_RE.test(email)) {
+      errors.email = t("emailInvalid");
+    }
+    if (!message.trim()) errors.message = t("messageRequired");
+    return errors;
+  }
 
   function showToast(variant: "success" | "error") {
     setToastOpen(false);
@@ -55,7 +57,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const errors = validate(name, email, message);
+    const errors = validate();
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
       return;
@@ -97,7 +99,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   return (
     <ToastProvider>
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-        <FormField id="name" label="Full Name" required error={fieldErrors.name}>
+        <FormField id="name" label={t("fullName")} required error={fieldErrors.name}>
           <input
             id="name"
             name="name"
@@ -112,7 +114,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           />
         </FormField>
 
-        <FormField id="email" label="Email Address" required error={fieldErrors.email}>
+        <FormField id="email" label={t("email")} required error={fieldErrors.email}>
           <input
             id="email"
             name="email"
@@ -128,7 +130,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           />
         </FormField>
 
-        <FormField id="linkedin" label="LinkedIn Profile">
+        <FormField id="linkedin" label={t("linkedin")}>
           <input
             id="linkedin"
             name="linkedin"
@@ -141,7 +143,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           />
         </FormField>
 
-        <FormField id="cv" label="CV / Resume (PDF, DOC — max 5 MB)" error={fieldErrors.cv}>
+        <FormField id="cv" label={t("cv")} error={fieldErrors.cv}>
           <label className={`flex items-center gap-3 px-4 py-3 border border-dashed rounded-xl cursor-pointer transition-colors ${fieldErrors.cv ? "border-red-400 dark:border-red-500" : "border-gray-300 dark:border-border hover:border-gray-500 dark:hover:border-foreground"}`}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 flex-shrink-0" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -149,7 +151,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               <line x1="12" y1="3" x2="12" y2="15" />
             </svg>
             <span className="text-sm text-gray-500 dark:text-muted-fg">
-              {cvName || "Click to upload your CV"}
+              {cvName || t("cvUpload")}
             </span>
             <input
               id="cv"
@@ -160,13 +162,13 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               onChange={(e) => {
                 const file = e.target.files?.[0] ?? null;
                 if (file) {
-                    if (!ALLOWED_CV_TYPES.has(file.type)) {
-                    setFieldErrors((fe) => ({ ...fe, cv: "Only PDF, DOC, and DOCX files are allowed." }));
+                  if (!ALLOWED_CV_TYPES.has(file.type)) {
+                    setFieldErrors((fe) => ({ ...fe, cv: t("cvType") }));
                     e.target.value = "";
                     return;
                   }
                   if (file.size > 5 * 1024 * 1024) {
-                    setFieldErrors((fe) => ({ ...fe, cv: "CV must be under 5 MB." }));
+                    setFieldErrors((fe) => ({ ...fe, cv: t("cvSize") }));
                     e.target.value = "";
                     return;
                   }
@@ -179,12 +181,12 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           </label>
         </FormField>
 
-        <FormField id="message" label="Cover Letter / Message" required error={fieldErrors.message}>
+        <FormField id="message" label={t("coverLetter")} required error={fieldErrors.message}>
           <textarea
             id="message"
             name="message"
             rows={5}
-            placeholder="Tell us why you're a great fit…"
+            placeholder={t("coverLetterPlaceholder")}
             value={message}
             onChange={(e) => { setMessage(e.target.value); setFieldErrors((fe) => ({ ...fe, message: undefined })); }}
             aria-invalid={!!fieldErrors.message}
@@ -204,7 +206,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
           )}
-          {submitting ? "Sending…" : "Submit Application"}
+          {submitting ? t("sending") : t("submit")}
         </button>
       </form>
 
@@ -212,11 +214,11 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
         open={toastOpen}
         onOpenChange={setToastOpen}
         variant={toastVariant}
-        title={toastVariant === "success" ? "Application sent!" : "Something went wrong"}
+        title={toastVariant === "success" ? t("successTitle") : t("errorTitle")}
         description={
           toastVariant === "success"
-            ? `Thanks for applying to ${jobTitle}. We'll be in touch soon.`
-            : "Please check your details and try again."
+            ? t("successDesc", { jobTitle })
+            : t("errorDesc")
         }
       />
     </ToastProvider>

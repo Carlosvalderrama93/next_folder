@@ -51,8 +51,12 @@ export default async function JobsPage({
           description: job.description,
           location: job.location,
           type: job.type,
+          status: job.status,
+          skills: job.skills,
+          modality: job.modality,
+          paymentType: job.paymentType,
           postedAt: job.postedAt,
-          isOpen: true,
+          isOpen: job.status === "open",
           applyHref: `/apply/${job.id}`,
           imageUrl: job.image ?? undefined,
         }));
@@ -82,16 +86,7 @@ export default async function JobsPage({
 
       {/* ── Job list ──────────────────────────────────────────── */}
       <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20">
-        <JobFilters
-          jobs={jobs}
-          labels={{
-            filterOpen: t("filterOpen"),
-            filterAll: t("filterAll"),
-            noRoleHeading: t("noRoleHeading"),
-            noRoleDesc: t("noRoleDesc"),
-            getInTouch: t("getInTouch"),
-          }}
-        />
+        <JobFilters jobs={jobs} />
       </main>
 
       <Footer {...footerData} />
