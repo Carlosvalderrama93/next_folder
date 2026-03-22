@@ -3,6 +3,7 @@ import Navigation from "@/components/navigation";
 import Articles from "@/components/articles";
 import Job from "@/components/job";
 import Testimonials from "@/components/testimonials";
+import FAQ from "@/components/faq";
 import Footer from "@/components/footer";
 import { homePageData } from "@/Data/homepage";
 
@@ -15,6 +16,7 @@ function page() {
         <Hero />
         <Job />
         <Testimonials />
+        <FAQ />
         <Articles />
       </main>
       <Footer {...data} />

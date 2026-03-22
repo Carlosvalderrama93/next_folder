@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { type ReactNode } from "react";
+import { Avatar } from "./avatar";
 
 export interface CardArticle {
   id: string;
@@ -74,15 +75,7 @@ export function ArticleCard({ article }: { article: CardArticle }) {
         </span>
         {article.author && (
           <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2 mt-4">
-            {article.author.avatar && (
-              <Image
-                src={article.author.avatar}
-                alt={article.author.name}
-                width={28}
-                height={28}
-                className="rounded-full object-cover"
-              />
-            )}
+            <Avatar src={article.author.avatar} alt={article.author.name} size={28} />
             <span>
               By{" "}
               <span className="font-semibold text-gray-700 dark:text-gray-300">

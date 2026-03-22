@@ -4,6 +4,7 @@ import Link from "next/link";
 import { homePageData } from "@/Data/homepage";
 import { fetchStrapiJobs } from "@/lib/strapi";
 import type { Metadata } from "next";
+import { QuickContactDialog } from "./quick-contact-dialog";
 
 export const metadata: Metadata = {
   title: "Apply",
@@ -93,12 +94,7 @@ export default async function ApplyPage() {
           <p className="text-gray-500 dark:text-gray-400 text-sm mb-5">
             Send us a message and we&apos;ll keep you in mind for future openings.
           </p>
-          <Link
-            href="/contact"
-            className="px-7 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
-          >
-            Get in Touch
-          </Link>
+          <QuickContactDialog />
         </div>
       </main>
       <Footer {...footer} />

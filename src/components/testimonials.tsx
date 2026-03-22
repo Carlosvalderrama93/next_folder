@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { homePageData } from "@/Data/homepage";
+import { Avatar } from "@/components/ui/avatar";
 
 const { testimonials } = homePageData;
 
@@ -24,15 +24,7 @@ export default function Testimonials() {
                 </p>
               </blockquote>
               <figcaption className="flex items-center gap-3">
-                {t.avatar && (
-                  <Image
-                    src={t.avatar}
-                    alt={t.name}
-                    width={40}
-                    height={40}
-                    className="rounded-full object-cover flex-shrink-0"
-                  />
-                )}
+                <Avatar src={t.avatar} alt={t.name} size={40} />
                 <div>
                   <div className="font-semibold text-gray-900 dark:text-white text-sm">
                     {t.name}
