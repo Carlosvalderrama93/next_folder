@@ -129,4 +129,94 @@ export const aboutData = {
     "Recruitment automation and AI-assisted workflows",
     "SOLID principles in React and functional programming",
   ],
+
+  experience: [
+    {
+      company: "Solvo Global",
+      recognition: "4× Recruiter of the Month · 2025",
+      employmentType: "Full-time",
+      location: "Bogotá, Colombia · Hybrid",
+      positions: [
+        {
+          title: "IT Talent Acquisition Associate",
+          startDate: { month: 2, year: 2025 },
+          endDate: null as { month: number; year: number } | null,
+          current: true,
+          highlights: [
+            {
+              en: "Full-cycle recruitment management: profile definition, sourcing, interviews, hiring manager coordination, and offer close.",
+              es: "Gestión de procesos completos: definición de perfil, sourcing, entrevistas, coordinación con hiring managers y cierre.",
+            },
+            {
+              en: "Focus on software development profiles and technical roles across North America and Europe.",
+              es: "Foco en perfiles de desarrollo de software y roles técnicos.",
+            },
+            {
+              en: "Recognized 4 times as IT Recruiter of the Month in 2025.",
+              es: "Reconocido 4 veces como mejor reclutador IT del mes en 2025.",
+              isAward: true as const,
+            },
+          ],
+        },
+        {
+          title: "IT Talent Acquisition Sourcer",
+          startDate: { month: 4, year: 2024 },
+          endDate: { month: 2, year: 2025 } as { month: number; year: number } | null,
+          current: false,
+          highlights: [
+            {
+              en: "Active talent mapping across multiple countries and time zones in LATAM, Africa, and Asia.",
+              es: "Búsqueda activa y mapeo de talento en múltiples países y husos horarios.",
+            },
+            {
+              en: "Collaborated with recruiters and hiring managers to qualify candidate pipelines.",
+              es: "Colaboración con recruiters y hiring managers para calificar pipelines de candidatos.",
+            },
+            {
+              en: "Intensive use of LinkedIn and other platforms to identify key IT profiles.",
+              es: "Uso intensivo de LinkedIn y otras plataformas para identificar perfiles IT clave.",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      company: "THEATRON DE PELICULA",
+      employmentType: "Full-time",
+      location: "Bogotá, Colombia",
+      positions: [
+        {
+          title: "Logistic Assistant",
+          startDate: { month: 9, year: 2023 },
+          endDate: { month: 3, year: 2024 } as { month: number; year: number } | null,
+          current: false,
+          highlights: [] as { en: string; es: string }[],
+        },
+      ],
+    },
+    {
+      company: "Colegio Colombiano de Psicólogos (Colpsic)",
+      employmentType: "Full-time",
+      location: "Tolima, Colombia",
+      positions: [
+        {
+          title: "Research Assistant",
+          startDate: { month: 6, year: 2019 },
+          endDate: { month: 12, year: 2020 } as { month: number; year: number } | null,
+          current: false,
+          highlights: [
+            {
+              en: "Recognized for best academic research at the regional level by Colpsic.",
+              es: "Reconocido como mejor investigación académica a nivel regional por Colpsic.",
+              isAward: true as const,
+            },
+            {
+              en: "Drafted reports and supported the presentation of results in academic settings.",
+              es: "Redacción de informes y apoyo en la presentación de resultados en espacios académicos.",
+            },
+          ],
+        },
+      ],
+    },
+  ],
 };
