@@ -76,7 +76,7 @@ export const homePageData: HomePageData = {
     heading: "About Our Team",
     description:
       "We specialize in connecting IT professionals with top opportunities worldwide. Our mission is to bridge talent and opportunity through innovative recruitment strategies.",
-    image: "/images/about.jpg",
+    image: "/me.png",
     stats: [
       { value: "50+", label: "Companies Partnered" },
       { value: "200+", label: "Placements Made" },

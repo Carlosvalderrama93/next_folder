@@ -87,11 +87,22 @@
     "heading": "Articles"
   },
   "aboutPage": {
-    "heading": "About Our Team",
-    "description": "We specialize in connecting IT professionals with top opportunities worldwide. Our mission is to bridge talent and opportunity through innovative recruitment strategies.",
+    "badge": "Tech Recruiter · LATAM",
+    "heading": "Hi, I'm Carlos Valderrama",
+    "description": "I'm a tech recruiter focused on LATAM talent, helping engineers, designers, and product managers land remote roles at top global companies. I work directly with candidates — understanding their goals, preparing them for interviews, and advocating for them through the offer stage.",
     "companiesPartnered": "Companies Partnered",
     "placementsMade": "Placements Made",
-    "remoteFocus": "Remote Focus"
+    "remoteFocus": "Remote Focus",
+    "specializationHeading": "What I Specialize In",
+    "spec1Title": "Engineering Roles",
+    "spec1Desc": "Frontend, backend, full-stack, DevOps, and mobile — I focus exclusively on tech positions at remote-first and hybrid companies.",
+    "spec2Title": "End-to-End Support",
+    "spec2Desc": "From your first call to the signed offer, I guide you through every step: interviews, negotiations, and everything in between.",
+    "spec3Title": "Free for Candidates",
+    "spec3Desc": "My service is 100% free for candidates. Companies I work with cover the fee when a placement is made.",
+    "ctaHeading": "Ready to work together?",
+    "ctaPositions": "See Open Positions",
+    "ctaContact": "Get in Touch"
   },
   "contactPage": {
     "heading": "Ready to take the next step?",
