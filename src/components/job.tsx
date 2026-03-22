@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { homePageData } from "@/Data/homepage";
 import { fetchStrapiJobs, getStrapiImageSrc } from "@/lib/strapi";
-import JobCard, { type JobCardProps } from "@/components/job-card";
+import { type JobCardProps } from "@/components/job-card";
+import JobCarousel from "@/components/job-carousel";
 
 export default async function Job() {
   const strapiJobs = await fetchStrapiJobs();
 
   const jobs: JobCardProps[] =
     strapiJobs.length > 0
-      ? strapiJobs.slice(0, 3).map((job) => ({
+      ? strapiJobs.slice(0, 6).map((job) => ({
           id: job.documentId,
           title: job.title,
           description: job.description,
@@ -19,7 +20,7 @@ export default async function Job() {
           imageUrl: job.image ? getStrapiImageSrc(job.image.url) : undefined,
           imageAlt: job.image?.alternativeText,
         }))
-      : homePageData.openPositions.slice(0, 3).map((job) => ({
+      : homePageData.openPositions.slice(0, 6).map((job) => ({
           id: job.id,
           title: job.title,
           description: job.description,
@@ -44,11 +45,7 @@ export default async function Job() {
           View all →
         </Link>
       </div>
-      <div className="flex flex-col gap-4">
-        {jobs.map((job) => (
-          <JobCard key={job.id} {...job} />
-        ))}
-      </div>
+      <JobCarousel jobs={jobs} />
     </section>
   );
 }
