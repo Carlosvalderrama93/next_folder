@@ -21,7 +21,7 @@ function ChevronRight() {
 }
 
 export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
   const [prevDisabled, setPrevDisabled] = useState(true);
   const [nextDisabled, setNextDisabled] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -60,7 +60,7 @@ export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
           {jobs.map((job) => (
             <div
               key={job.id}
-              className="flex-[0_0_100%] min-w-0"
+              className="flex-[0_0_85%] min-w-0"
             >
               <JobCard {...job} />
             </div>

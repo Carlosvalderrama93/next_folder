@@ -33,7 +33,7 @@ export default async function Job() {
         }));
 
   return (
-    <section className="py-16 px-4 max-w-4xl mx-auto">
+    <section className="py-16 px-4 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
           Open Positions
