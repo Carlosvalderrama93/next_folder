@@ -26,7 +26,7 @@ export default function LanguageSwitcher() {
           aria-pressed={locale === l}
           className={`px-2.5 py-1 transition-colors ${
             locale === l
-              ? "bg-black dark:bg-brand text-white"
+              ? "bg-brand text-white"
               : "text-gray-500 dark:text-muted-fg hover:text-black dark:hover:text-foreground"
           }`}
         >

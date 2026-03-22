@@ -78,7 +78,7 @@ function Navigation() {
         <ThemeToggle />
         <Link
           href={ctaHref}
-          className="px-5 py-2.5 font-semibold bg-black dark:bg-white text-white dark:text-black rounded-full hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors text-sm"
+          className="px-5 py-2.5 font-semibold bg-brand text-white rounded-full hover:bg-brand-hover transition-colors text-sm"
         >
           {t("cta")}
         </Link>
@@ -128,7 +128,7 @@ function Navigation() {
           })}
           <Link
             href={ctaHref}
-            className="w-fit px-5 py-2.5 font-semibold bg-black dark:bg-white text-white dark:text-black rounded-full hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors text-sm"
+            className="w-fit px-5 py-2.5 font-semibold bg-brand text-white rounded-full hover:bg-brand-hover transition-colors text-sm"
             onClick={() => setMenuOpen(false)}
           >
             {t("cta")}

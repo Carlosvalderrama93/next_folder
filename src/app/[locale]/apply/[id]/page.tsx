@@ -105,7 +105,7 @@ export default async function ApplyJobPage({
           ]}
         />
 
-        <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-6 bg-white dark:bg-gray-900 mb-10">
+        <div className="border border-gray-200 dark:border-border rounded-xl p-6 bg-white dark:bg-surface mb-10">
           <div className="flex items-center gap-3 mb-2">
             <span className="bg-emerald-500 text-white px-3 py-0.5 rounded-full text-xs font-semibold">
               {t("open")}

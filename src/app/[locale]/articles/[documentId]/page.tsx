@@ -184,7 +184,7 @@ export default async function ArticleDetail({
             {article.title}
           </h1>
           {article.description && (
-            <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed border-l-4 border-gray-200 dark:border-gray-700 pl-4 mb-10">
+            <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed border-l-4 border-gray-200 dark:border-border pl-4 mb-10">
               {article.description}
             </p>
           )}
@@ -207,7 +207,7 @@ export default async function ArticleDetail({
                 <Link
                   key={a.documentId}
                   href={`/articles/${a.documentId}`}
-                  className="group flex flex-col gap-1 border border-gray-200 dark:border-gray-700 rounded-xl p-5 bg-white dark:bg-gray-900 hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800/60 transition-all"
+                  className="group flex flex-col gap-1 border border-gray-200 dark:border-border rounded-xl p-5 bg-white dark:bg-surface hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800/60 transition-all"
                 >
                   <time className="text-xs text-gray-400 dark:text-gray-500">
                     {new Date(a.publishedAt).toLocaleDateString(dateLocale, {

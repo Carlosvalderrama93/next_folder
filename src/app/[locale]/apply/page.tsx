@@ -77,7 +77,7 @@ export default async function ApplyPage({
           {jobs.map((job) => (
             <div
               key={job.id}
-              className="flex items-center justify-between border border-gray-200 dark:border-gray-700 rounded-xl p-6 bg-white dark:bg-gray-900 hover:shadow-md transition-shadow"
+              className="flex items-center justify-between border border-gray-200 dark:border-border rounded-xl p-6 bg-white dark:bg-surface hover:shadow-md transition-shadow"
             >
               <div>
                 <div className="flex items-center gap-3 mb-1">
@@ -95,7 +95,7 @@ export default async function ApplyPage({
               </div>
               <Link
                 href={job.applyHref as `/apply/${string}`}
-                className="px-5 py-2.5 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors flex-shrink-0 ml-4"
+                className="px-5 py-2.5 bg-brand text-white rounded-full text-sm font-semibold hover:bg-brand-hover transition-colors flex-shrink-0 ml-4"
               >
                 {t("apply")}
               </Link>
@@ -103,7 +103,7 @@ export default async function ApplyPage({
           ))}
         </div>
 
-        <div className="mt-12 border border-gray-200 dark:border-gray-700 rounded-xl p-8 bg-gray-50 dark:bg-gray-900 text-center">
+        <div className="mt-12 border border-gray-200 dark:border-border rounded-xl p-8 bg-gray-50 dark:bg-surface text-center">
           <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
             {t("noRoleHeading")}
           </h2>

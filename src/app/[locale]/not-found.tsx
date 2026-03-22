@@ -22,7 +22,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="px-7 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+          className="px-7 py-3 bg-brand text-white rounded-full text-sm font-semibold hover:bg-brand-hover transition-colors"
         >
           {t("goHome")}
         </Link>

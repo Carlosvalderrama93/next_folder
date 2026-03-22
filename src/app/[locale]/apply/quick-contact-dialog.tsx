@@ -77,7 +77,7 @@ export function QuickContactDialog() {
     <ToastProvider>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <button className="px-7 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors">
+          <button className="px-7 py-3 bg-brand text-white rounded-full text-sm font-semibold hover:bg-brand-hover transition-colors">
             Get in Touch
           </button>
         </DialogTrigger>

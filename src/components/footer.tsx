@@ -23,25 +23,25 @@ async function Footer(data: FooterType) {
       {/* Brand gradient stripe */}
       <div className="h-1 bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500" aria-hidden="true" />
 
-      <div className="bg-gray-900 dark:bg-gray-950 text-white py-12 px-6 md:px-16">
+      <div className="bg-gray-100 dark:bg-gray-950 text-foreground dark:text-white py-12 px-6 md:px-16">
         <div className="max-w-6xl mx-auto flex flex-wrap gap-10">
           <div className="flex flex-col gap-3 w-full md:w-1/4">
-            <span className="font-bold text-xl text-white">Carlos Valderrama</span>
-            <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
+            <span className="font-bold text-xl text-foreground dark:text-white">Carlos Valderrama</span>
+            <p className="text-sm text-muted-fg leading-relaxed max-w-xs">
               {t("tagline")}
             </p>
           </div>
 
           <div className="flex gap-12 flex-wrap flex-1 justify-end">
             <div className="flex flex-col gap-2">
-              <span className="font-semibold text-xs uppercase tracking-widest text-gray-500 mb-2">
+              <span className="font-semibold text-xs uppercase tracking-widest text-muted-fg mb-2">
                 {t("navigation")}
               </span>
               {links.map((link) => (
                 <a
                   key={link.label}
                   href={link.url}
-                  className="text-sm text-gray-400 hover:text-white transition-colors"
+                  className="text-sm text-muted-fg hover:text-foreground dark:hover:text-white transition-colors"
                 >
                   {link.label}
                 </a>
@@ -50,7 +50,7 @@ async function Footer(data: FooterType) {
 
             {social && social.length > 0 && (
               <div className="flex flex-col gap-2">
-                <span className="font-semibold text-xs uppercase tracking-widest text-gray-500 mb-2">
+                <span className="font-semibold text-xs uppercase tracking-widest text-muted-fg mb-2">
                   {t("follow")}
                 </span>
                 {social.map((s) => (
@@ -59,7 +59,7 @@ async function Footer(data: FooterType) {
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+                    className="flex items-center gap-2 text-sm text-muted-fg hover:text-foreground dark:hover:text-white transition-colors"
                   >
                     {socialIcons[s.platform] ?? null}
                     {s.platform}
@@ -70,9 +70,9 @@ async function Footer(data: FooterType) {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto border-t border-gray-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-600">
+        <div className="max-w-6xl mx-auto border-t border-border dark:border-gray-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-fg">
           <span>{copyright}</span>
-          <span className="text-gray-700">{t("builtWith")}</span>
+          <span>{t("builtWith")}</span>
         </div>
       </div>
     </footer>

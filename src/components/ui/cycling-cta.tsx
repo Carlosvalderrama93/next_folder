@@ -26,7 +26,7 @@ export default function CyclingCTA({ href }: { href: string }) {
   return (
     <Link
       href={href}
-      className="inline-flex items-center justify-center min-w-[220px] px-8 py-3.5 bg-black dark:bg-white text-white dark:text-black rounded-full font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors shadow-sm"
+      className="inline-flex items-center justify-center min-w-[220px] px-8 py-3.5 bg-brand text-white rounded-full font-semibold hover:bg-brand-hover transition-colors shadow-sm"
     >
       <span
         style={{

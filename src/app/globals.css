@@ -14,12 +14,12 @@
 
 /* ── Light mode ─────────────────────────────────────────── */
 :root {
-  --background:     #ffffff;
+  --background:     #f5f6ff;        /* faint indigo tint — cards lift off */
   --foreground:     #0f0f23;
   --surface:        #ffffff;        /* card / panel background      */
-  --surface-raised: #f4f5ff;        /* elevated: inputs, dropdowns  */
+  --surface-raised: #eef0ff;        /* elevated: inputs, dropdowns  */
   --border:         #e5e7eb;        /* default border               */
-  --muted-fg:       #6b7280;        /* secondary / caption text     */
+  --muted-fg:       #4b5563;        /* secondary / caption text     */
   --brand:          #4f46e5;
   --brand-hover:    #4338ca;
 }
@@ -72,6 +72,20 @@ html.dark::-webkit-scrollbar-thumb {
 }
 html.dark::-webkit-scrollbar-thumb:hover {
   background: rgba(129, 140, 248, 0.55);
+}
+
+/* ── Light-mode scrollbar ───────────────────────────────── */
+html:not(.dark) {
+  scrollbar-color: rgba(79, 70, 229, 0.2) var(--background);
+}
+html:not(.dark)::-webkit-scrollbar { width: 8px; }
+html:not(.dark)::-webkit-scrollbar-track { background: var(--background); }
+html:not(.dark)::-webkit-scrollbar-thumb {
+  background: rgba(79, 70, 229, 0.2);
+  border-radius: 4px;
+}
+html:not(.dark)::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 70, 229, 0.35);
 }
 
 /* ── Focus ring ─────────────────────────────────────────── */

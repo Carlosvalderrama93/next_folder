@@ -105,7 +105,7 @@ export default function JobCard({
           {isOpen ? (
             <Link
               href={applyHref as `/${string}`}
-              className="px-5 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors ml-auto"
+              className="px-5 py-2 bg-brand text-white rounded-full text-sm font-semibold hover:bg-brand-hover transition-colors ml-auto"
             >
               {t("applyNow")}
             </Link>

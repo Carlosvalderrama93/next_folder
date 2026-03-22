@@ -60,7 +60,7 @@ export default async function AboutPage({
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 border-t-4 border-t-brand"
+              className="p-6 border border-gray-200 dark:border-border rounded-xl bg-white dark:bg-surface border-t-4 border-t-brand"
             >
               <div className="text-4xl font-extrabold mb-1 text-gray-900 dark:text-white">
                 {stat.value}
