@@ -7,30 +7,37 @@ import JobCarousel from "@/components/job-carousel";
 export default async function Job() {
   const strapiJobs = await fetchStrapiJobs();
 
+  const MIN_SLIDES = 5;
+
+  const strapiMapped: JobCardProps[] = strapiJobs.map((job) => ({
+    id: job.documentId,
+    title: job.title,
+    description: job.description,
+    location: job.location,
+    type: job.jobType,
+    isOpen: job.isOpen,
+    applyHref: `/apply/${job.documentId}`,
+    imageUrl: job.image ? getStrapiImageSrc(job.image.url) : undefined,
+    imageAlt: job.image?.alternativeText,
+  }));
+
+  const staticMapped: JobCardProps[] = homePageData.openPositions.map((job) => ({
+    id: job.id,
+    title: job.title,
+    description: job.description,
+    location: job.location,
+    type: job.type,
+    postedAt: job.postedAt,
+    isOpen: true,
+    applyHref: `/apply/${job.id}`,
+    imageUrl: job.image ?? undefined,
+  }));
+
+  // Use Strapi jobs; pad with static ones to reach MIN_SLIDES
   const jobs: JobCardProps[] =
-    strapiJobs.length > 0
-      ? strapiJobs.map((job) => ({
-          id: job.documentId,
-          title: job.title,
-          description: job.description,
-          location: job.location,
-          type: job.jobType,
-          isOpen: job.isOpen,
-          applyHref: `/apply/${job.documentId}`,
-          imageUrl: job.image ? getStrapiImageSrc(job.image.url) : undefined,
-          imageAlt: job.image?.alternativeText,
-        }))
-      : homePageData.openPositions.map((job) => ({
-          id: job.id,
-          title: job.title,
-          description: job.description,
-          location: job.location,
-          type: job.type,
-          postedAt: job.postedAt,
-          isOpen: true,
-          applyHref: `/apply/${job.id}`,
-          imageUrl: job.image ?? undefined,
-        }));
+    strapiMapped.length >= MIN_SLIDES
+      ? strapiMapped
+      : [...strapiMapped, ...staticMapped].slice(0, Math.max(MIN_SLIDES, strapiMapped.length));
 
   return (
     <section className="py-16">

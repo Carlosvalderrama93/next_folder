@@ -58,10 +58,8 @@ export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-4">
           {jobs.map((job) => (
-            <div key={job.id} className="flex-[0_0_85%] min-w-0">
-              <div className="max-w-3xl mx-auto px-2">
-                <JobCard {...job} />
-              </div>
+            <div key={job.id} className="flex-none w-[85vw] md:w-[560px] min-w-0">
+              <JobCard {...job} />
             </div>
           ))}
         </div>
