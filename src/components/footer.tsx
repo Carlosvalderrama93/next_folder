@@ -1,6 +1,15 @@
 import React from "react";
 import type { Footer as FooterType } from "@/Data/homepage";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+
+const NAV_LINKS = [
+  { key: "home" as const, href: "/" as const },
+  { key: "about" as const, href: "/about" as const },
+  { key: "jobs" as const, href: "/jobs" as const },
+  { key: "contact" as const, href: "/contact" as const },
+  { key: "articles" as const, href: "/articles" as const },
+];
 
 const socialIcons: Record<string, React.ReactNode> = {
   LinkedIn: (
@@ -15,59 +24,88 @@ const socialIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-async function Footer(data: FooterType) {
-  const { copyright, links, social } = data;
+function EmailIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  );
+}
+
+async function Footer({ copyright, email, social }: FooterType) {
   const t = await getTranslations("footer");
+  const tNav = await getTranslations("nav");
+
   return (
     <footer>
+      {/* Mini-CTA strip */}
+      <div className="bg-indigo-600 py-10 px-6 text-center">
+        <p className="text-white font-semibold text-lg mb-4">{t("cta")}</p>
+        <Link
+          href="/apply"
+          className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-white text-indigo-600 font-semibold rounded-full hover:bg-indigo-50 transition-colors text-sm"
+        >
+          {t("ctaAction")} →
+        </Link>
+      </div>
+
       {/* Brand gradient stripe */}
       <div className="h-1 bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500" aria-hidden="true" />
 
-      <div className="bg-gray-100 dark:bg-gray-950 text-foreground dark:text-white py-12 px-6 md:px-16">
-        <div className="max-w-6xl mx-auto flex flex-wrap gap-10">
-          <div className="flex flex-col gap-3 w-full md:w-1/4">
+      <div className="bg-gray-100 dark:bg-gray-950 py-12 px-6 md:px-16">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+
+          {/* Brand column */}
+          <div className="flex flex-col gap-3">
             <span className="font-bold text-xl text-foreground dark:text-white">Carlos Valderrama</span>
-            <p className="text-sm text-muted-fg leading-relaxed max-w-xs">
-              {t("tagline")}
-            </p>
+            <p className="text-sm text-muted-fg leading-relaxed">{t("tagline")}</p>
           </div>
 
-          <div className="flex gap-12 flex-wrap flex-1 justify-end">
-            <div className="flex flex-col gap-2">
-              <span className="font-semibold text-xs uppercase tracking-widest text-muted-fg mb-2">
-                {t("navigation")}
-              </span>
-              {links.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.url}
-                  className="text-sm text-muted-fg hover:text-foreground dark:hover:text-white transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
+          {/* Navigation column */}
+          <div className="flex flex-col gap-2">
+            <span className="font-semibold text-xs uppercase tracking-widest text-muted-fg mb-2">
+              {t("navigation")}
+            </span>
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.key}
+                href={link.href}
+                className="text-sm text-muted-fg hover:text-foreground dark:hover:text-white transition-colors"
+              >
+                {tNav(link.key)}
+              </Link>
+            ))}
+          </div>
 
-            {social && social.length > 0 && (
-              <div className="flex flex-col gap-2">
-                <span className="font-semibold text-xs uppercase tracking-widest text-muted-fg mb-2">
-                  {t("follow")}
-                </span>
-                {social.map((s) => (
-                  <a
-                    key={s.platform}
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-muted-fg hover:text-foreground dark:hover:text-white transition-colors"
-                  >
-                    {socialIcons[s.platform] ?? null}
-                    {s.platform}
-                  </a>
-                ))}
-              </div>
+          {/* Contact column */}
+          <div className="flex flex-col gap-2">
+            <span className="font-semibold text-xs uppercase tracking-widest text-muted-fg mb-2">
+              {t("contact")}
+            </span>
+            {email && (
+              <a
+                href={`mailto:${email}`}
+                className="flex items-center gap-2 text-sm text-muted-fg hover:text-foreground dark:hover:text-white transition-colors"
+              >
+                <EmailIcon />
+                {email}
+              </a>
             )}
+            {social?.map((s) => (
+              <a
+                key={s.platform}
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-muted-fg hover:text-foreground dark:hover:text-white transition-colors"
+              >
+                {socialIcons[s.platform] ?? null}
+                {s.platform}
+              </a>
+            ))}
           </div>
+
         </div>
 
         <div className="max-w-6xl mx-auto border-t border-border dark:border-gray-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-fg">

@@ -79,7 +79,7 @@ export type ContactCTA = {
 
 export type Footer = {
   copyright: string;
-  links: { label: string; url: string }[];
+  email?: string;
   social?: { platform: string; url: string }[];
 };
 
