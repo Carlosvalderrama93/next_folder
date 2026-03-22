@@ -1,21 +1,25 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { Nav } from "../Data/homepage";
+import { Link, usePathname } from "@/i18n/navigation";
 import { homePageData } from "../Data/homepage";
 import { ThemeToggle } from "./theme-toggle";
 import { TooltipProvider } from "./ui/tooltip";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "./ui/language-switcher";
 
-const nav: Nav = {
-  ...homePageData.nav,
-  links: homePageData.nav.links.map((l) =>
-    l.href === "/blog" ? { ...l, href: "/articles" } : l
-  ),
-};
+const NAV_LINKS = [
+  { key: "home" as const, href: "/" },
+  { key: "about" as const, href: "/about" },
+  { key: "jobs" as const, href: "/jobs" },
+  { key: "contact" as const, href: "/contact" },
+  { key: "articles" as const, href: "/articles" },
+];
+
+const ctaHref = homePageData.nav.cta.href;
 
 function Navigation() {
+  const t = useTranslations("nav");
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -49,11 +53,11 @@ function Navigation() {
           Carlos Valderrama
         </Link>
         <div className="hidden md:flex">
-          {nav.links.map((link) => {
+          {NAV_LINKS.map((link) => {
             const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
             return (
               <Link
-                key={link.name}
+                key={link.key}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
                 className={`font-medium mx-4 transition-colors pb-0.5 border-b-2 ${
@@ -62,7 +66,7 @@ function Navigation() {
                     : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-transparent"
                 }`}
               >
-                {link.name}
+                {t(link.key)}
               </Link>
             );
           })}
@@ -70,16 +74,18 @@ function Navigation() {
       </div>
 
       <div className="hidden md:flex items-center gap-2">
+        <LanguageSwitcher />
         <ThemeToggle />
         <Link
-          href={nav.cta.href}
+          href={ctaHref}
           className="px-5 py-2.5 font-semibold bg-black dark:bg-white text-white dark:text-black rounded-full hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors text-sm"
         >
-          {nav.cta.text}
+          {t("cta")}
         </Link>
       </div>
 
       <div className="md:hidden flex items-center gap-2">
+        <LanguageSwitcher />
         <ThemeToggle />
         <button
           className="flex flex-col gap-1.5 p-2"
@@ -102,11 +108,11 @@ function Navigation() {
 
       {menuOpen && (
         <div id="mobile-menu" className="absolute top-full left-0 right-0 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800 flex flex-col px-6 py-4 gap-4 md:hidden shadow-md">
-          {nav.links.map((link) => {
+          {NAV_LINKS.map((link) => {
             const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
             return (
               <Link
-                key={link.name}
+                key={link.key}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
                 className={`font-medium transition-colors pl-3 border-l-2 ${
@@ -116,16 +122,16 @@ function Navigation() {
                 }`}
                 onClick={() => setMenuOpen(false)}
               >
-                {link.name}
+                {t(link.key)}
               </Link>
             );
           })}
           <Link
-            href={nav.cta.href}
+            href={ctaHref}
             className="w-fit px-5 py-2.5 font-semibold bg-black dark:bg-white text-white dark:text-black rounded-full hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors text-sm"
             onClick={() => setMenuOpen(false)}
           >
-            {nav.cta.text}
+            {t("cta")}
           </Link>
         </div>
       )}

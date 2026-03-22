@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "title": "Carlos Valderrama | Tech Recruiter",
+    "description": "Conectando el mejor talento tech de LATAM con empresas líderes en todo el mundo."
+  },
+  "layout": {
+    "skipToContent": "Ir al contenido"
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "jobs": "Empleos",
+    "contact": "Contacto",
+    "articles": "Artículos",
+    "cta": "Aplicar ahora"
+  },
+  "hero": {
+    "badge": "Tech Recruiter · LATAM",
+    "subtitle": "Conectamos el mejor talento con las mejores empresas.",
+    "phrases": [
+      "Encuéntrame empleos",
+      "Emparéjame con empleos",
+      "Aplica en mi nombre",
+      "Recibe ofertas de trabajo",
+      "Ofréceme roles",
+      "Busca mi próximo rol",
+      "Recomiéndame empleos"
+    ]
+  },
+  "jobs": {
+    "heading": "Posiciones Abiertas",
+    "browseAll": "Ver todas las posiciones",
+    "open": "Abierta",
+    "closed": "Cerrada",
+    "applyNow": "Aplicar ahora"
+  },
+  "testimonials": {
+    "heading": "Lo que dicen de nosotros"
+  },
+  "faq": {
+    "heading": "Preguntas Frecuentes",
+    "subheading": "Todo lo que necesitas saber sobre trabajar con nosotros.",
+    "items": [
+      {
+        "question": "¿Cómo funciona el proceso de reclutamiento?",
+        "answer": "Comenzamos con una breve llamada para conocer tu perfil, objetivos y preferencias. Luego te conectamos con oportunidades relevantes, te preparamos para las entrevistas y te acompañamos hasta la oferta."
+      },
+      {
+        "question": "¿El servicio es gratuito para candidatos?",
+        "answer": "Sí, nuestro servicio es completamente gratuito para candidatos. Somos compensados por las empresas con las que colaboramos cuando se realiza una colocación exitosa."
+      },
+      {
+        "question": "¿Qué tipo de roles suelen cubrir?",
+        "answer": "Nos especializamos en roles tecnológicos de ingeniería, producto y diseño — incluyendo frontend, backend, full-stack, DevOps y mobile en empresas remote-first e híbridas."
+      },
+      {
+        "question": "¿Trabajan con candidatos fuera de LATAM?",
+        "answer": "Nuestro enfoque principal es el talento tech de LATAM, aunque ocasionalmente trabajamos con candidatos de otras regiones cuando hay un perfil muy alineado. No dudes en escribirnos y te avisamos si podemos ayudarte."
+      },
+      {
+        "question": "¿Cuánto tiempo suele durar el proceso?",
+        "answer": "Los tiempos varían según el rol y la empresa, pero la mayoría de los candidatos pasan del primer contacto a la oferta en 3 a 6 semanas. Te mantendremos informado en cada paso."
+      }
+    ]
+  },
+  "articles": {
+    "heading": "Artículos",
+    "viewAll": "Ver todos →",
+    "readArticle": "Leer artículo →",
+    "moreArticles": "Más Artículos"
+  },
+  "footer": {
+    "tagline": "Conectando el mejor talento tech de LATAM con empresas líderes en todo el mundo.",
+    "navigation": "Navegación",
+    "follow": "Síguenos",
+    "builtWith": "Hecho con Next.js & Tailwind"
+  },
+  "jobsPage": {
+    "heading": "Posiciones Abiertas",
+    "available_one": "{count} posición disponible",
+    "available_other": "{count} posiciones disponibles"
+  },
+  "articlesPage": {
+    "heading": "Artículos"
+  },
+  "aboutPage": {
+    "heading": "Sobre nuestro equipo",
+    "description": "Nos especializamos en conectar profesionales de IT con las mejores oportunidades a nivel mundial. Nuestra misión es unir talento y oportunidad a través de estrategias de reclutamiento innovadoras.",
+    "companiesPartnered": "Empresas aliadas",
+    "placementsMade": "Colocaciones realizadas",
+    "remoteFocus": "Enfoque remoto"
+  },
+  "contactPage": {
+    "heading": "¿Listo para dar el siguiente paso?",
+    "description": "Contáctanos para conocer más sobre las oportunidades disponibles."
+  },
+  "applyPage": {
+    "heading": "Aplicar a un empleo",
+    "subheading": "Elige una posición y envíanos tu aplicación.",
+    "apply": "Aplicar",
+    "open": "Abierta",
+    "noRoleHeading": "¿No encuentras el rol adecuado?",
+    "noRoleDescription": "Escríbenos y te tendremos en mente para futuras oportunidades.",
+    "getInTouch": "Contáctanos"
+  },
+  "applyJobPage": {
+    "open": "Abierta",
+    "yourApplication": "Tu Aplicación",
+    "positionNotFound": "Posición no encontrada",
+    "breadcrumbHome": "Inicio",
+    "breadcrumbPositions": "Posiciones"
+  },
+  "applyForm": {
+    "fullName": "Nombre completo",
+    "email": "Correo electrónico",
+    "linkedin": "Perfil de LinkedIn",
+    "cv": "CV / Hoja de vida (PDF, DOC — máx. 5 MB)",
+    "cvUpload": "Haz clic para subir tu CV",
+    "coverLetter": "Carta de presentación / Mensaje",
+    "coverLetterPlaceholder": "Cuéntanos por qué eres el candidato ideal…",
+    "submit": "Enviar aplicación",
+    "sending": "Enviando…",
+    "successTitle": "¡Aplicación enviada!",
+    "successDesc": "Gracias por aplicar a {jobTitle}. Nos pondremos en contacto pronto.",
+    "errorTitle": "Algo salió mal",
+    "errorDesc": "Revisa tus datos e intenta de nuevo.",
+    "nameRequired": "El nombre completo es obligatorio.",
+    "emailRequired": "El correo electrónico es obligatorio.",
+    "emailInvalid": "Ingresa un correo electrónico válido.",
+    "messageRequired": "La carta de presentación es obligatoria.",
+    "cvType": "Solo se permiten archivos PDF, DOC y DOCX.",
+    "cvSize": "El CV debe pesar menos de 5 MB."
+  },
+  "contactForm": {
+    "fullName": "Nombre completo",
+    "email": "Correo electrónico",
+    "subject": "Asunto",
+    "subjectPlaceholder": "Consulta de empleo, alianza, etc.",
+    "message": "Mensaje",
+    "messagePlaceholder": "Cuéntanos sobre ti o tu empresa…",
+    "submit": "Enviar mensaje",
+    "sending": "Enviando…",
+    "successTitle": "¡Mensaje enviado!",
+    "successDesc": "Gracias por escribirnos. Te responderemos pronto.",
+    "errorTitle": "Algo salió mal",
+    "errorDesc": "Por favor inténtalo de nuevo en un momento.",
+    "nameRequired": "El nombre completo es obligatorio.",
+    "emailRequired": "El correo electrónico es obligatorio.",
+    "emailInvalid": "Ingresa un correo electrónico válido.",
+    "messageRequired": "El mensaje es obligatorio."
+  },
+  "quickContact": {
+    "triggerButton": "Contáctanos",
+    "dialogTitle": "Conectemos",
+    "dialogDescription": "Cuéntanos un poco sobre ti y te contactaremos cuando surja el rol indicado.",
+    "yourName": "Tu nombre",
+    "whatLooking": "¿Qué estás buscando?",
+    "send": "Enviar mensaje",
+    "sending": "Enviando…",
+    "successTitle": "¡Mensaje enviado!",
+    "successDesc": "Gracias por escribirnos. Te tendremos en mente para futuras oportunidades.",
+    "errorTitle": "Algo salió mal",
+    "errorDesc": "Por favor inténtalo de nuevo en un momento.",
+    "nameRequired": "El nombre es obligatorio.",
+    "emailRequired": "El correo es obligatorio.",
+    "emailInvalid": "Ingresa un correo electrónico válido.",
+    "messageRequired": "El mensaje es obligatorio."
+  },
+  "notFound": {
+    "heading": "Página no encontrada",
+    "description": "No encontramos lo que estabas buscando.",
+    "goHome": "Ir al inicio"
+  },
+  "articleDetail": {
+    "breadcrumbHome": "Inicio",
+    "breadcrumbArticles": "Artículos"
+  }
+}

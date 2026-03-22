@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 import { homePageData } from "../Data/homepage";
 import { ArticleCard, FeaturedArticleCard, type CardArticle } from "./ui/article-cards";
 
@@ -20,28 +21,29 @@ function toCardArticle(a: (typeof rawArticles)[number]): CardArticle {
 
 const [featured, ...rest] = rawArticles.map(toCardArticle);
 
-function Articles() {
+async function Articles() {
+  const t = await getTranslations("articles");
 
   return (
     <section className="py-16 max-w-7xl mx-auto px-4 border-t border-gray-100 dark:border-gray-800/50">
       <div className="flex justify-between items-center mb-10">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Articles
+          {t("heading")}
         </h2>
         <Link
           href="/articles"
           className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-brand transition-colors"
         >
-          View all →
+          {t("viewAll")}
         </Link>
       </div>
       {featured && (
         <FeaturedArticleCard article={featured} imageWidth={480}>
           <Link
-            href={featured.href}
+            href={featured.href as `/${string}`}
             className="mt-5 self-start inline-flex items-center gap-2 px-5 py-2.5 bg-brand hover:bg-brand-hover text-white text-sm font-semibold rounded-full transition-colors"
           >
-            Read article →
+            {t("readArticle")}
           </Link>
         </FeaturedArticleCard>
       )}

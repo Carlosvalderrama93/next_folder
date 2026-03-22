@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 export interface JobCardProps {
   id: string;
@@ -45,6 +46,7 @@ export default function JobCard({
   imageUrl,
   imageAlt,
 }: JobCardProps) {
+  const t = useTranslations("jobs");
   return (
     <div className={`group flex flex-col md:flex-row border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 transition-[box-shadow,border-color] duration-200${!isOpen ? " opacity-70" : ""}`}>
       {imageUrl && (
@@ -63,11 +65,11 @@ export default function JobCard({
           <div className="flex items-center gap-2 mb-3">
             {isOpen ? (
               <span className="bg-emerald-500 text-white px-2.5 py-0.5 rounded-full text-xs font-semibold">
-                Open
+                {t("open")}
               </span>
             ) : (
               <span className="bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2.5 py-0.5 rounded-full text-xs font-semibold">
-                Closed
+                {t("closed")}
               </span>
             )}
             {type && (
@@ -102,14 +104,14 @@ export default function JobCard({
           )}
           {isOpen ? (
             <Link
-              href={applyHref}
+              href={applyHref as `/${string}`}
               className="px-5 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors ml-auto"
             >
-              Apply Now
+              {t("applyNow")}
             </Link>
           ) : (
             <span className="px-5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 rounded-full text-sm font-semibold ml-auto cursor-not-allowed">
-              Closed
+              {t("closed")}
             </span>
           )}
         </div>

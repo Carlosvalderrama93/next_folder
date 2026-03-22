@@ -1,21 +1,14 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-
-const PHRASES = [
-  "Find jobs for me",
-  "Match jobs to me",
-  "Apply to be offered",
-  "Get job offers",
-  "Offer me roles",
-  "Source my next role",
-  "Recommend me jobs",
-];
 
 const INTERVAL_MS = 2500;
 
 export default function CyclingCTA({ href }: { href: string }) {
+  const t = useTranslations("hero");
+  const phrases: string[] = t.raw("phrases");
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -23,7 +16,7 @@ export default function CyclingCTA({ href }: { href: string }) {
     const timer = setInterval(() => {
       setVisible(false);
       setTimeout(() => {
-        setIndex((i) => (i + 1) % PHRASES.length);
+        setIndex((i) => (i + 1) % phrases.length);
         setVisible(true);
       }, 300);
     }, INTERVAL_MS);
@@ -43,7 +36,7 @@ export default function CyclingCTA({ href }: { href: string }) {
           display: "inline-block",
         }}
       >
-        {PHRASES[index]}
+        {phrases[index]}
       </span>
     </Link>
   );

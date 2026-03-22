@@ -1,5 +1,6 @@
 import React from "react";
 import type { Footer as FooterType } from "@/Data/homepage";
+import { getTranslations } from "next-intl/server";
 
 const socialIcons: Record<string, React.ReactNode> = {
   LinkedIn: (
@@ -14,8 +15,9 @@ const socialIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-function Footer(data: FooterType) {
+async function Footer(data: FooterType) {
   const { copyright, links, social } = data;
+  const t = await getTranslations("footer");
   return (
     <footer>
       {/* Brand gradient stripe */}
@@ -26,14 +28,14 @@ function Footer(data: FooterType) {
           <div className="flex flex-col gap-3 w-full md:w-1/4">
             <span className="font-bold text-xl text-white">Carlos Valderrama</span>
             <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
-              Connecting top LATAM tech talent with leading companies worldwide.
+              {t("tagline")}
             </p>
           </div>
 
           <div className="flex gap-12 flex-wrap flex-1 justify-end">
             <div className="flex flex-col gap-2">
               <span className="font-semibold text-xs uppercase tracking-widest text-gray-500 mb-2">
-                Navigation
+                {t("navigation")}
               </span>
               {links.map((link) => (
                 <a
@@ -49,7 +51,7 @@ function Footer(data: FooterType) {
             {social && social.length > 0 && (
               <div className="flex flex-col gap-2">
                 <span className="font-semibold text-xs uppercase tracking-widest text-gray-500 mb-2">
-                  Follow
+                  {t("follow")}
                 </span>
                 {social.map((s) => (
                   <a
@@ -70,7 +72,7 @@ function Footer(data: FooterType) {
 
         <div className="max-w-6xl mx-auto border-t border-gray-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-600">
           <span>{copyright}</span>
-          <span className="text-gray-700">Built with Next.js &amp; Tailwind</span>
+          <span className="text-gray-700">{t("builtWith")}</span>
         </div>
       </div>
     </footer>

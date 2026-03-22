@@ -1,10 +1,13 @@
 import Image from "next/image";
 import { homePageData } from "../Data/homepage";
 import CyclingCTA from "@/components/ui/cycling-cta";
+import { getTranslations } from "next-intl/server";
 
 const hero = homePageData.hero;
 
-function Hero() {
+async function Hero() {
+  const t = await getTranslations("hero");
+
   return (
     <section className="relative flex flex-col items-center justify-center text-center min-h-[580px] pb-20 pt-20 px-4 overflow-hidden bg-gradient-to-b from-indigo-50/60 via-white to-white dark:from-indigo-950/20 dark:via-gray-950 dark:to-gray-950">
       {/* Decorative background blobs */}
@@ -30,14 +33,14 @@ function Hero() {
 
         <span className="inline-flex items-center gap-2 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase mb-5 border border-indigo-200/60 dark:border-indigo-700/50">
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-indigo-400" />
-          Tech Recruiter · LATAM
+          {t("badge")}
         </span>
 
         <h1 className="text-5xl md:text-6xl font-extrabold text-gray-950 dark:text-white mb-4 leading-tight">
           Carlos Valderrama
         </h1>
         <p className="text-xl text-gray-500 dark:text-gray-400 max-w-xl leading-relaxed mb-10">
-          {hero.subtitle}
+          {t("subtitle")}
         </p>
 
         <CyclingCTA href={hero.ctaLink} />

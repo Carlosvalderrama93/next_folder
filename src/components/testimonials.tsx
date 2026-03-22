@@ -1,16 +1,18 @@
 import { homePageData } from "@/Data/homepage";
 import { Avatar } from "@/components/ui/avatar";
+import { getTranslations } from "next-intl/server";
 
 const { testimonials } = homePageData;
 
-export default function Testimonials() {
+export default async function Testimonials() {
   if (!testimonials?.length) return null;
+  const t = await getTranslations("testimonials");
 
   return (
     <section className="py-16 px-4 border-t border-gray-100 dark:border-gray-800/50">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-10 text-center">
-          What People Say
+          {t("heading")}
         </h2>
         <div className="grid md:grid-cols-2 gap-6">
           {testimonials.map((t) => (
