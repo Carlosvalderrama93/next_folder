@@ -34,22 +34,22 @@ export function Toast({
       open={open}
       onOpenChange={onOpenChange}
       className={[
-        "rounded-xl border p-4 shadow-lg flex items-start gap-3",
+        "rounded-xl border-y border-r p-4 shadow-xl flex items-start gap-3",
         "transition-all duration-300",
         "data-[state=open]:opacity-100 data-[state=open]:translate-x-0",
         "data-[state=closed]:opacity-0 data-[state=closed]:translate-x-full",
         "data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)]",
         "data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)]",
         isSuccess
-          ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800"
-          : "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800",
+          ? "bg-white dark:bg-gray-900 border-green-200 dark:border-green-800 border-l-4 border-l-green-500"
+          : "bg-white dark:bg-gray-900 border-red-200 dark:border-red-800 border-l-4 border-l-red-500",
       ].join(" ")}
     >
       <span
-        className={`mt-0.5 text-sm font-bold leading-none ${
+        className={`mt-0.5 text-base font-bold leading-none ${
           isSuccess
-            ? "text-green-600 dark:text-green-400"
-            : "text-red-600 dark:text-red-400"
+            ? "text-green-500"
+            : "text-red-500"
         }`}
       >
         {isSuccess ? "✓" : "✕"}

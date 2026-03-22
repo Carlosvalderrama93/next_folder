@@ -30,7 +30,10 @@ function AuthorLine({ author }: { author: Author }) {
 
 function ArticleCard({ article }: { article: BlogPreview }) {
   return (
-    <div className="flex flex-col justify-between w-72 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+    <Link
+      href={`/articles/${article.slug}`}
+      className="group flex flex-col justify-between w-72 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg hover:border-indigo-200 dark:hover:border-indigo-800/60 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+    >
       {article.coverImage && (
         <div className="relative w-full h-44">
           <Image
@@ -43,24 +46,22 @@ function ArticleCard({ article }: { article: BlogPreview }) {
         </div>
       )}
       <div className="p-5 flex flex-col flex-1">
-        <span className="text-xs font-bold tracking-widest text-blue-500 mb-2 uppercase">
+        <span className="text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400 mb-2 uppercase">
           Latest
         </span>
-        <h2 className="font-bold text-gray-900 dark:text-white text-base mb-2 line-clamp-2">
+        <h2 className="font-bold text-gray-900 dark:text-white text-base mb-2 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
           {article.title}
         </h2>
         <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3 flex-1">
           {article.excerpt}
         </p>
-        <Link
-          href={`/articles/${article.slug}`}
-          className="font-semibold text-black dark:text-white text-sm mt-4 inline-block hover:underline"
-        >
-          Read more →
-        </Link>
+        <span className="font-semibold text-black dark:text-white text-sm mt-4 inline-flex items-center gap-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+          Read more
+          <span className="inline-block translate-x-0 group-hover:translate-x-1 transition-transform">→</span>
+        </span>
         <AuthorLine author={authors[0]} />
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -85,11 +86,11 @@ function FeaturedArticle({ article }: { article: BlogPreview }) {
         </Link>
       )}
       <div className="flex flex-col justify-center max-w-lg">
-        <span className="text-xs font-bold tracking-widest text-blue-500 mb-3 uppercase">
+        <span className="text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400 mb-3 uppercase">
           Featured
         </span>
         <Link href={`/articles/${article.slug}`}>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 hover:underline leading-tight">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors leading-tight">
             {article.title}
           </h2>
         </Link>
@@ -105,14 +106,14 @@ function FeaturedArticle({ article }: { article: BlogPreview }) {
 function Articles() {
   const [featured, ...rest] = articles;
   return (
-    <section className="py-16 max-w-7xl mx-auto px-4">
+    <section className="py-16 max-w-7xl mx-auto px-4 border-t border-gray-100 dark:border-gray-800/50">
       <div className="flex justify-between items-center mb-10">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
           Articles
         </h2>
         <Link
           href="/articles"
-          className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+          className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
         >
           View all →
         </Link>

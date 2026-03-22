@@ -102,7 +102,7 @@ export default async function ApplyJobPage({
 
         <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-6 bg-white dark:bg-gray-900 mb-10">
           <div className="flex items-center gap-3 mb-2">
-            <span className="bg-blue-500 text-white px-3 py-0.5 rounded-full text-xs font-semibold">
+            <span className="bg-indigo-600 text-white px-3 py-0.5 rounded-full text-xs font-semibold">
               Open
             </span>
             <span className="text-xs text-gray-400 dark:text-gray-500">{job.type}</span>

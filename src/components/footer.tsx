@@ -17,52 +17,61 @@ const socialIcons: Record<string, React.ReactNode> = {
 function Footer(data: FooterType) {
   const { copyright, links, social } = data;
   return (
-    <footer className="bg-gray-900 dark:bg-gray-950 text-white py-10 px-6 md:px-16">
-      <div className="flex flex-wrap gap-10">
-        <div className="flex flex-col gap-3 w-full md:w-1/4">
-          <span className="font-bold text-2xl">Carlos Valderrama</span>
-          <p className="text-sm text-gray-400 leading-relaxed">
-            Connecting top LATAM tech talent with leading companies worldwide.
-          </p>
-        </div>
-        <div className="flex gap-12 flex-wrap flex-1 justify-end">
-          <div className="flex flex-col gap-2">
-            <span className="font-bold text-sm uppercase tracking-wider text-gray-400 mb-1">
-              Links
-            </span>
-            {links.map((link) => (
-              <a
-                key={link.label}
-                href={link.url}
-                className="text-sm text-gray-300 hover:text-white transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+    <footer>
+      {/* Brand gradient stripe */}
+      <div className="h-1 bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500" aria-hidden="true" />
+
+      <div className="bg-gray-900 dark:bg-gray-950 text-white py-12 px-6 md:px-16">
+        <div className="max-w-6xl mx-auto flex flex-wrap gap-10">
+          <div className="flex flex-col gap-3 w-full md:w-1/4">
+            <span className="font-bold text-xl text-white">Carlos Valderrama</span>
+            <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
+              Connecting top LATAM tech talent with leading companies worldwide.
+            </p>
           </div>
-          {social && social.length > 0 && (
+
+          <div className="flex gap-12 flex-wrap flex-1 justify-end">
             <div className="flex flex-col gap-2">
-              <span className="font-bold text-sm uppercase tracking-wider text-gray-400 mb-1">
-                Social
+              <span className="font-semibold text-xs uppercase tracking-widest text-gray-500 mb-2">
+                Navigation
               </span>
-              {social.map((s) => (
+              {links.map((link) => (
                 <a
-                  key={s.platform}
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors"
+                  key={link.label}
+                  href={link.url}
+                  className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
-                  {socialIcons[s.platform] ?? null}
-                  {s.platform}
+                  {link.label}
                 </a>
               ))}
             </div>
-          )}
+
+            {social && social.length > 0 && (
+              <div className="flex flex-col gap-2">
+                <span className="font-semibold text-xs uppercase tracking-widest text-gray-500 mb-2">
+                  Follow
+                </span>
+                {social.map((s) => (
+                  <a
+                    key={s.platform}
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+                  >
+                    {socialIcons[s.platform] ?? null}
+                    {s.platform}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="border-t border-gray-800 mt-8 pt-6 text-sm text-gray-500 text-right">
-        {copyright}
+
+        <div className="max-w-6xl mx-auto border-t border-gray-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-600">
+          <span>{copyright}</span>
+          <span className="text-gray-700">Built with Next.js &amp; Tailwind</span>
+        </div>
       </div>
     </footer>
   );

@@ -29,7 +29,7 @@ function Navigation() {
 
   return (
     <TooltipProvider>
-    <nav className="flex items-center justify-between bg-white dark:bg-gray-950 w-full px-6 md:px-10 py-4 border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50">
+    <nav className="flex items-center justify-between bg-white/90 dark:bg-gray-950/90 backdrop-blur-md w-full px-6 md:px-10 py-4 border-b border-gray-100/80 dark:border-gray-800/80 sticky top-0 z-50">
       <div className="flex items-center gap-8">
         <Link
           className="font-bold text-xl text-black dark:text-white hover:opacity-80"
@@ -45,10 +45,10 @@ function Navigation() {
                 key={link.name}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`font-medium mx-4 transition-colors pb-0.5 ${
+                className={`font-medium mx-4 transition-colors pb-0.5 border-b-2 ${
                   isActive
-                    ? "text-black dark:text-white border-b-2 border-black dark:border-white"
-                    : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-b-2 border-transparent"
+                    ? "text-black dark:text-white border-indigo-600 dark:border-indigo-400"
+                    : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-transparent"
                 }`}
               >
                 {link.name}
@@ -98,7 +98,7 @@ function Navigation() {
                 aria-current={isActive ? "page" : undefined}
                 className={`font-medium transition-colors pl-3 border-l-2 ${
                   isActive
-                    ? "text-black dark:text-white border-black dark:border-white"
+                    ? "text-black dark:text-white border-indigo-600 dark:border-indigo-400"
                     : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-transparent"
                 }`}
                 onClick={() => setMenuOpen(false)}
