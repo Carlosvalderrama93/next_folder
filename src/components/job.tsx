@@ -41,16 +41,14 @@ export default async function Job() {
 
   return (
     <section className="py-16 border-t border-gray-100 dark:border-gray-800/50">
-      <div className="max-w-6xl mx-auto px-4 flex justify-between items-start mb-8">
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-pretty">
-            Open Positions
-          </h2>
-          <div className="mt-3 mb-0 w-10 h-1 bg-brand rounded-full" />
-        </div>
+      <div className="flex flex-col items-center text-center mb-10">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-pretty">
+          Open Positions
+        </h2>
+        <div className="mt-3 w-10 h-1 bg-brand rounded-full" />
         <Link
           href="/jobs"
-          className="group flex-shrink-0 mt-1 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-brand transition-colors inline-flex items-center gap-1"
+          className="group mt-4 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-brand transition-colors inline-flex items-center gap-1"
         >
           Browse all positions
           <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
