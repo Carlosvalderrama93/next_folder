@@ -41,7 +41,7 @@ export default async function ArticlesPage() {
   return (
     <>
       <Navigation />
-      <main className="max-w-5xl mx-auto px-4 py-16">
+      <main id="main-content" className="max-w-5xl mx-auto px-4 py-16">
         <div className="mb-10">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
             Articles

@@ -1,6 +1,7 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import Link from "next/link";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { homePageData } from "@/Data/homepage";
 import { fetchStrapiJob } from "@/lib/strapi";
 import { notFound } from "next/navigation";
@@ -93,13 +94,14 @@ export default async function ApplyJobPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="max-w-3xl mx-auto px-4 py-16">
-        <Link
-          href="/apply"
-          className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors mb-8 inline-block"
-        >
-          ← Back to Positions
-        </Link>
+      <main id="main-content" className="max-w-3xl mx-auto px-4 py-16">
+        <Breadcrumb
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Positions", href: "/apply" },
+            { label: job.title },
+          ]}
+        />
 
         <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-6 bg-white dark:bg-gray-900 mb-10">
           <div className="flex items-center gap-3 mb-2">

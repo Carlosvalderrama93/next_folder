@@ -1,9 +1,13 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import Link from "next/link";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { ReadingProgress } from "@/components/ui/reading-progress";
+import { ShareButtons } from "@/components/ui/share-buttons";
 import { homePageData } from "@/Data/homepage";
 import {
   fetchStrapiArticleDetail,
+  fetchStrapiArticles,
   getStrapiImageSrc,
   type StrapiArticleDetail,
   type StrapiBlock,
@@ -15,6 +19,8 @@ import { cache } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://carlosvalderrama.com";
 
 const footerData = homePageData.footer;
 
@@ -124,9 +130,18 @@ export default async function ArticleDetail({
   params: Promise<{ documentId: string }>;
 }) {
   const { documentId } = await params;
-  const article = await getArticle(documentId);
+  const [article, allArticles] = await Promise.all([
+    getArticle(documentId),
+    fetchStrapiArticles(),
+  ]);
 
   if (!article) notFound();
+
+  const related = allArticles
+    .filter((a) => a.documentId !== documentId)
+    .slice(0, 3);
+
+  const articleUrl = `${SITE_URL}/articles/${documentId}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -139,18 +154,20 @@ export default async function ArticleDetail({
 
   return (
     <>
+      <ReadingProgress />
       <Navigation />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="max-w-3xl mx-auto px-4 py-16">
-        <Link
-          href="/articles"
-          className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors mb-8 inline-block"
-        >
-          ← Back to Articles
-        </Link>
+      <main id="main-content" className="max-w-3xl mx-auto px-4 py-16">
+        <Breadcrumb
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Articles", href: "/articles" },
+            { label: article.title },
+          ]}
+        />
 
         <article className="mt-4">
             <p className="text-xs text-gray-400 dark:text-gray-500 mb-3">
@@ -174,6 +191,41 @@ export default async function ArticleDetail({
               </div>
             ))}
           </article>
+
+          <ShareButtons title={article.title} url={articleUrl} />
+
+          {related.length > 0 && (
+            <section className="mt-16">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                More Articles
+              </h2>
+              <div className="flex flex-col gap-4">
+                {related.map((a) => (
+                  <Link
+                    key={a.documentId}
+                    href={`/articles/${a.documentId}`}
+                    className="group flex flex-col gap-1 border border-gray-200 dark:border-gray-700 rounded-xl p-5 bg-white dark:bg-gray-900 hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800/60 transition-all"
+                  >
+                    <time className="text-xs text-gray-400 dark:text-gray-500">
+                      {new Date(a.publishedAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </time>
+                    <p className="font-semibold text-gray-900 dark:text-white group-hover:text-brand transition-colors">
+                      {a.title}
+                    </p>
+                    {a.description && (
+                      <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                        {a.description}
+                      </p>
+                    )}
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
       </main>
       <Footer {...footerData} />
     </>

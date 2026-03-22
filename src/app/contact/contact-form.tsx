@@ -3,6 +3,7 @@
 import { homePageData } from "@/Data/homepage";
 import { useState } from "react";
 import { ToastProvider, Toast } from "@/components/ui/toast";
+import { FormField } from "@/components/ui/form-field";
 
 const { contactCTA } = homePageData;
 
@@ -11,7 +12,6 @@ type FieldErrors = { name?: string; email?: string; message?: string };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const INPUT_CLASS =
   "px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand text-sm";
-const ERROR_CLASS = "text-red-500 text-xs mt-1";
 
 function validate(name: string, email: string, message: string): FieldErrors {
   const errors: FieldErrors = {};
@@ -80,10 +80,7 @@ export default function ContactForm() {
   return (
     <ToastProvider>
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="name" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Full Name *
-          </label>
+        <FormField id="name" label="Full Name" required error={fieldErrors.name}>
           <input
             id="name"
             name="name"
@@ -96,13 +93,9 @@ export default function ContactForm() {
             aria-describedby={fieldErrors.name ? "name-error" : undefined}
             className={`${INPUT_CLASS} ${fieldErrors.name ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.name && <p id="name-error" className={ERROR_CLASS}>{fieldErrors.name}</p>}
-        </div>
+        </FormField>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="email" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Email Address *
-          </label>
+        <FormField id="email" label="Email Address" required error={fieldErrors.email}>
           <input
             id="email"
             name="email"
@@ -116,13 +109,9 @@ export default function ContactForm() {
             aria-describedby={fieldErrors.email ? "email-error" : undefined}
             className={`${INPUT_CLASS} ${fieldErrors.email ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.email && <p id="email-error" className={ERROR_CLASS}>{fieldErrors.email}</p>}
-        </div>
+        </FormField>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="subject" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Subject
-          </label>
+        <FormField id="subject" label="Subject">
           <input
             id="subject"
             name="subject"
@@ -133,12 +122,9 @@ export default function ContactForm() {
             onChange={(e) => setSubject(e.target.value)}
             className={INPUT_CLASS}
           />
-        </div>
+        </FormField>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="message" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Message *
-          </label>
+        <FormField id="message" label="Message" required error={fieldErrors.message}>
           <textarea
             id="message"
             name="message"
@@ -150,8 +136,7 @@ export default function ContactForm() {
             aria-describedby={fieldErrors.message ? "message-error" : undefined}
             className={`${INPUT_CLASS} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.message && <p id="message-error" className={ERROR_CLASS}>{fieldErrors.message}</p>}
-        </div>
+        </FormField>
 
         <button
           type="submit"

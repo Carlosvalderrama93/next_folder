@@ -15,7 +15,7 @@ export default function AboutPage() {
   return (
     <>
       <Navigation />
-      <main className="max-w-3xl mx-auto px-4 py-16">
+      <main id="main-content" className="max-w-3xl mx-auto px-4 py-16">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           {about.heading}
         </h1>

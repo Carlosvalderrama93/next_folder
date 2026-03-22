@@ -46,7 +46,7 @@ export default function JobCard({
   imageAlt,
 }: JobCardProps) {
   return (
-    <div className="group flex flex-col md:flex-row border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 transition-[box-shadow,border-color] duration-200">
+    <div className={`group flex flex-col md:flex-row border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 transition-[box-shadow,border-color] duration-200${!isOpen ? " opacity-70" : ""}`}>
       {imageUrl && (
         <div className="relative w-full md:w-48 h-44 flex-shrink-0">
           <Image
@@ -61,9 +61,13 @@ export default function JobCard({
       <div className="p-6 flex flex-col justify-between flex-1">
         <div>
           <div className="flex items-center gap-2 mb-3">
-            {isOpen && (
+            {isOpen ? (
               <span className="bg-emerald-500 text-white px-2.5 py-0.5 rounded-full text-xs font-semibold">
                 Open
+              </span>
+            ) : (
+              <span className="bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                Closed
               </span>
             )}
             {type && (
@@ -96,12 +100,18 @@ export default function JobCard({
               )}
             </div>
           )}
-          <Link
-            href={applyHref}
-            className="px-5 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors ml-auto"
-          >
-            Apply Now
-          </Link>
+          {isOpen ? (
+            <Link
+              href={applyHref}
+              className="px-5 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors ml-auto"
+            >
+              Apply Now
+            </Link>
+          ) : (
+            <span className="px-5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 rounded-full text-sm font-semibold ml-auto cursor-not-allowed">
+              Closed
+            </span>
+          )}
         </div>
       </div>
     </div>

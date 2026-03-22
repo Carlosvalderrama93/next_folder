@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ToastProvider, Toast } from "@/components/ui/toast";
+import { FormField } from "@/components/ui/form-field";
 
 interface Props {
   jobTitle: string;
@@ -18,7 +19,6 @@ const ALLOWED_CV_TYPES = new Set([
 ]);
 const INPUT_CLASS =
   "px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand text-sm w-full";
-const ERROR_CLASS = "text-red-500 text-xs mt-1";
 
 function validate(name: string, email: string, message: string): FieldErrors {
   const errors: FieldErrors = {};
@@ -97,10 +97,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   return (
     <ToastProvider>
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="name" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Full Name *
-          </label>
+        <FormField id="name" label="Full Name" required error={fieldErrors.name}>
           <input
             id="name"
             name="name"
@@ -113,13 +110,9 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             aria-describedby={fieldErrors.name ? "name-error" : undefined}
             className={`${INPUT_CLASS} ${fieldErrors.name ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.name && <p id="name-error" className={ERROR_CLASS}>{fieldErrors.name}</p>}
-        </div>
+        </FormField>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="email" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Email Address *
-          </label>
+        <FormField id="email" label="Email Address" required error={fieldErrors.email}>
           <input
             id="email"
             name="email"
@@ -133,13 +126,9 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             aria-describedby={fieldErrors.email ? "email-error" : undefined}
             className={`${INPUT_CLASS} ${fieldErrors.email ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.email && <p id="email-error" className={ERROR_CLASS}>{fieldErrors.email}</p>}
-        </div>
+        </FormField>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="linkedin" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            LinkedIn Profile
-          </label>
+        <FormField id="linkedin" label="LinkedIn Profile">
           <input
             id="linkedin"
             name="linkedin"
@@ -150,12 +139,9 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             onChange={(e) => setLinkedin(e.target.value)}
             className={INPUT_CLASS}
           />
-        </div>
+        </FormField>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="cv" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            CV / Resume (PDF, DOC — max 5 MB)
-          </label>
+        <FormField id="cv" label="CV / Resume (PDF, DOC — max 5 MB)" error={fieldErrors.cv}>
           <label className={`flex items-center gap-3 px-4 py-3 border border-dashed rounded-xl cursor-pointer transition-colors ${fieldErrors.cv ? "border-red-400 dark:border-red-500" : "border-gray-300 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-400"}`}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 flex-shrink-0" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -191,13 +177,9 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               }}
             />
           </label>
-          {fieldErrors.cv && <p id="cv-error" className={ERROR_CLASS}>{fieldErrors.cv}</p>}
-        </div>
+        </FormField>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="message" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Cover Letter / Message *
-          </label>
+        <FormField id="message" label="Cover Letter / Message" required error={fieldErrors.message}>
           <textarea
             id="message"
             name="message"
@@ -209,8 +191,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             aria-describedby={fieldErrors.message ? "message-error" : undefined}
             className={`${INPUT_CLASS} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.message && <p id="message-error" className={ERROR_CLASS}>{fieldErrors.message}</p>}
-        </div>
+        </FormField>
 
         <button
           type="submit"

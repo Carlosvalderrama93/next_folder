@@ -20,6 +20,10 @@ function Navigation() {
   const pathname = usePathname();
 
   useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") setMenuOpen(false);
     }
@@ -29,6 +33,13 @@ function Navigation() {
 
   return (
     <TooltipProvider>
+      {menuOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/20 md:hidden"
+          onClick={() => setMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
     <nav className="flex items-center justify-between bg-white/90 dark:bg-gray-950/90 backdrop-blur-md w-full px-6 md:px-10 py-4 border-b border-gray-100/80 dark:border-gray-800/80 sticky top-0 z-50">
       <div className="flex items-center gap-8">
         <Link
@@ -74,6 +85,8 @@ function Navigation() {
           className="flex flex-col gap-1.5 p-2"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
         >
           <span
             className={`block w-6 h-0.5 bg-black dark:bg-white transition ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
@@ -88,7 +101,7 @@ function Navigation() {
       </div>
 
       {menuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800 flex flex-col px-6 py-4 gap-4 md:hidden shadow-md">
+        <div id="mobile-menu" className="absolute top-full left-0 right-0 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800 flex flex-col px-6 py-4 gap-4 md:hidden shadow-md">
           {nav.links.map((link) => {
             const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
             return (
