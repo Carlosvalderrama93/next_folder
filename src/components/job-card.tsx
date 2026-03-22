@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export interface JobCardProps {
   id: string;
@@ -17,16 +17,15 @@ export interface JobCardProps {
 
 function MapPinIcon() {
   return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-      <circle cx="12" cy="10" r="3" />
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
     </svg>
   );
 }
 
 function CalendarIcon() {
   return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
       <line x1="16" y1="2" x2="16" y2="6" />
       <line x1="8" y1="2" x2="8" y2="6" />
@@ -47,22 +46,26 @@ export default function JobCard({
   imageAlt,
 }: JobCardProps) {
   const t = useTranslations("jobs");
+  const locale = useLocale();
+
+  const formattedDate = postedAt
+    ? new Intl.DateTimeFormat(locale, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        timeZone: "UTC",
+      }).format(new Date(postedAt))
+    : null;
+
   return (
-    <div className={`group flex flex-col md:flex-row border border-gray-200 dark:border-border rounded-xl overflow-hidden bg-white dark:bg-surface shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-border transition-[box-shadow,border-color] duration-200${!isOpen ? " opacity-70" : ""}`}>
-      {imageUrl && (
-        <div className="relative w-full md:w-48 h-44 flex-shrink-0">
-          <Image
-            src={imageUrl}
-            alt={imageAlt ?? title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 192px"
-          />
-        </div>
-      )}
-      <div className="p-6 flex flex-col justify-between flex-1">
-        <div>
-          <div className="flex items-center gap-2 mb-3">
+    <article
+      className={`group relative flex flex-col rounded-2xl border border-gray-200 dark:border-border bg-white dark:bg-surface shadow-sm hover:shadow-md hover:border-brand/30 dark:hover:border-brand/30 transition-all duration-200${!isOpen ? " opacity-60" : ""}`}
+    >
+      {/* Body */}
+      <div className="p-5 flex-1">
+        {/* Top row: badges + optional thumbnail */}
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <div className="flex flex-wrap items-center gap-2">
             {isOpen ? (
               <span className="bg-emerald-500 text-white px-2.5 py-0.5 rounded-full text-xs font-semibold">
                 {t("open")}
@@ -73,49 +76,68 @@ export default function JobCard({
               </span>
             )}
             {type && (
-              <span className="text-xs text-gray-400 dark:text-muted-fg bg-gray-100 dark:bg-surface-raised px-2.5 py-0.5 rounded-full">
+              <span className="text-xs text-muted-fg bg-gray-100 dark:bg-surface-raised px-2.5 py-0.5 rounded-full">
                 {type}
               </span>
             )}
           </div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-foreground mb-2 group-hover:text-brand transition-colors">
-            {title}
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-muted-fg leading-relaxed line-clamp-3">
-            {description}
-          </p>
-        </div>
-        <div className="flex items-center justify-between mt-5">
-          {(location || postedAt) && (
-            <div className="flex gap-4 text-xs text-gray-400 dark:text-muted-fg">
-              {location && (
-                <span className="flex items-center gap-1">
-                  <MapPinIcon />
-                  {location}
-                </span>
-              )}
-              {postedAt && (
-                <span className="flex items-center gap-1">
-                  <CalendarIcon />
-                  {postedAt}
-                </span>
-              )}
+          {imageUrl && (
+            <div className="relative w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 border border-gray-100 dark:border-border">
+              <Image
+                src={imageUrl}
+                alt={imageAlt ?? title}
+                fill
+                className="object-cover"
+                sizes="48px"
+              />
             </div>
           )}
-          {isOpen ? (
-            <Link
-              href={applyHref as `/${string}`}
-              className="px-5 py-2 bg-brand text-white rounded-full text-sm font-semibold hover:bg-brand-hover transition-colors ml-auto"
-            >
-              {t("applyNow")}
-            </Link>
-          ) : (
-            <span className="px-5 py-2 bg-gray-100 dark:bg-surface-raised text-gray-400 dark:text-muted-fg rounded-full text-sm font-semibold ml-auto cursor-not-allowed">
-              {t("closed")}
+        </div>
+
+        {/* Title — ::before pseudo-element makes the whole card clickable */}
+        <h2 className="text-lg font-bold text-gray-900 dark:text-foreground mb-2 group-hover:text-brand transition-colors">
+          <Link
+            href={applyHref as `/${string}`}
+            className="before:content-[''] before:absolute before:inset-0 focus:outline-none focus-visible:outline-2 focus-visible:outline-brand focus-visible:rounded-2xl"
+          >
+            {title}
+          </Link>
+        </h2>
+
+        <p className="text-sm text-muted-fg leading-relaxed line-clamp-2">
+          {description}
+        </p>
+      </div>
+
+      {/* Footer */}
+      <div className="px-5 pb-5 flex items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-3 text-xs text-muted-fg">
+          {location && (
+            <span className="flex items-center gap-1">
+              <MapPinIcon />
+              {location}
+            </span>
+          )}
+          {formattedDate && (
+            <span className="flex items-center gap-1">
+              <CalendarIcon />
+              {formattedDate}
             </span>
           )}
         </div>
+        {isOpen ? (
+          <Link
+            href={applyHref as `/${string}`}
+            className="relative z-10 shrink-0 px-4 py-2 bg-brand text-white rounded-full text-xs font-semibold hover:bg-brand-hover transition-colors"
+          >
+            {t("applyNow")}
+          </Link>
+        ) : (
+          <span className="shrink-0 px-4 py-2 bg-gray-100 dark:bg-surface-raised text-muted-fg rounded-full text-xs font-semibold cursor-not-allowed">
+            {t("closed")}
+          </span>
+        )}
       </div>
-    </div>
+    </article>
   );
 }

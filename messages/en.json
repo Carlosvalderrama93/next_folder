@@ -81,7 +81,12 @@
   "jobsPage": {
     "heading": "Open Positions",
     "available_one": "{count} position available",
-    "available_other": "{count} positions available"
+    "available_other": "{count} positions available",
+    "filterOpen": "Open",
+    "filterAll": "All",
+    "noRoleHeading": "No open positions right now",
+    "noRoleDesc": "New roles are added regularly. Get in touch to be considered for future openings.",
+    "getInTouch": "Get in Touch"
   },
   "articlesPage": {
     "heading": "Articles"

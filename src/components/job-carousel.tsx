@@ -93,8 +93,8 @@ export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
             aria-label={`Go to slide ${i + 1}`}
             className={`rounded-full transition-all duration-300 ${
               i === selectedIndex
-                ? "w-6 h-2 bg-gray-900 dark:bg-foreground"
-                : "w-2 h-2 bg-gray-300 dark:bg-surface-raised hover:bg-gray-400 dark:hover:bg-muted-fg"
+                ? "w-6 h-2 bg-brand"
+                : "w-2 h-2 bg-gray-300 dark:bg-surface-raised hover:bg-brand/40"
             }`}
           />
         ))}

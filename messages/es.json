@@ -81,7 +81,12 @@
   "jobsPage": {
     "heading": "Posiciones Abiertas",
     "available_one": "{count} posición disponible",
-    "available_other": "{count} posiciones disponibles"
+    "available_other": "{count} posiciones disponibles",
+    "filterOpen": "Abiertas",
+    "filterAll": "Todas",
+    "noRoleHeading": "No hay posiciones abiertas ahora",
+    "noRoleDesc": "Se agregan roles regularmente. Contáctanos para ser considerado en futuras oportunidades.",
+    "getInTouch": "Contáctanos"
   },
   "articlesPage": {
     "heading": "Artículos"
