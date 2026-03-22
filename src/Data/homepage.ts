@@ -153,10 +153,7 @@ export const homePageData: HomePageData = {
   },
   footer: {
     copyright: "© 2025 Carlos Valderrama. All rights reserved.",
-    links: [
-      { label: "Privacy Policy", url: "/privacy" },
-      { label: "Terms of Service", url: "/terms" },
-    ],
+    email: "carlos@carlosvalderrama.com",
     social: [
       { platform: "LinkedIn", url: "https://linkedin.com/company/solvo" },
       { platform: "GitHub", url: "https://github.com/solvo" },

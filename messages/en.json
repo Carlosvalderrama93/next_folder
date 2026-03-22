@@ -72,8 +72,11 @@
   "footer": {
     "tagline": "Connecting top LATAM tech talent with leading companies worldwide.",
     "navigation": "Navigation",
+    "contact": "Get in Touch",
     "follow": "Follow",
-    "builtWith": "Built with Next.js & Tailwind"
+    "builtWith": "Built with Next.js & Tailwind",
+    "cta": "Ready for your next opportunity?",
+    "ctaAction": "Apply Now"
   },
   "jobsPage": {
     "heading": "Open Positions",
