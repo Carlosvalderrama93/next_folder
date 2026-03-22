@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import { homePageData } from "../Data/homepage";
+import CyclingCTA from "@/components/ui/cycling-cta";
 
 const hero = homePageData.hero;
 
@@ -40,20 +40,7 @@ function Hero() {
           {hero.subtitle}
         </p>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-3">
-          <Link
-            href={hero.ctaLink}
-            className="px-8 py-3.5 bg-black dark:bg-white text-white dark:text-black rounded-full font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors shadow-sm"
-          >
-            {hero.ctaText}
-          </Link>
-          <Link
-            href="/articles"
-            className="px-8 py-3.5 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 rounded-full font-semibold hover:border-gray-400 dark:hover:border-gray-500 hover:text-black dark:hover:text-white transition-colors"
-          >
-            Read the Blog
-          </Link>
-        </div>
+        <CyclingCTA href={hero.ctaLink} />
       </div>
     </section>
   );

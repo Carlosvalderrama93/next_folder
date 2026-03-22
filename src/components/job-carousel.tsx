@@ -65,7 +65,7 @@ export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
         {/* Extra vertical padding so card shadows aren't clipped */}
         <div className="py-2">
           <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex gap-5">
+            <div className="flex gap-5 px-5">
               {jobs.map((job) => (
                 <div key={job.id} className="flex-none w-[85vw] md:w-[560px]">
                   <JobCard {...job} />
