@@ -69,7 +69,7 @@ export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
       </div>
 
       {/* Controls row: dots left, prev/next right */}
-      <div className="flex items-center justify-between mt-5">
+      <div className="flex items-center justify-between mt-5 px-4">
         {/* Dot indicators */}
         <div className="flex items-center gap-1.5" role="tablist" aria-label="Slide indicators">
           {scrollSnaps.map((_, i) => (
