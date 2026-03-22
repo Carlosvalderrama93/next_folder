@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import type { Nav } from "../Data/homepage";
 import { homePageData } from "../Data/homepage";
 import { ThemeToggle } from "./theme-toggle";
+import { TooltipProvider } from "./ui/tooltip";
 
 const nav: Nav = {
   ...homePageData.nav,
@@ -27,6 +28,7 @@ function Navigation() {
   }, []);
 
   return (
+    <TooltipProvider>
     <nav className="flex items-center justify-between bg-white dark:bg-gray-950 w-full px-6 md:px-10 py-4 border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50">
       <div className="flex items-center gap-8">
         <Link
@@ -115,6 +117,7 @@ function Navigation() {
         </div>
       )}
     </nav>
+    </TooltipProvider>
   );
 }
 
