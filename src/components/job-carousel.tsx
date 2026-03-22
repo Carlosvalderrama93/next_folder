@@ -60,8 +60,7 @@ export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
           {jobs.map((job) => (
             <div
               key={job.id}
-              // Full-width on mobile, two-up on md+
-              className="flex-[0_0_100%] md:flex-[0_0_calc(50%-8px)] min-w-0"
+              className="flex-[0_0_100%] min-w-0"
             >
               <JobCard {...job} />
             </div>
