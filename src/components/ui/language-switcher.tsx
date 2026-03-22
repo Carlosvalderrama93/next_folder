@@ -17,7 +17,7 @@ export default function LanguageSwitcher() {
   }
 
   return (
-    <div className="flex items-center rounded-full border border-gray-200 dark:border-gray-700 overflow-hidden text-xs font-semibold">
+    <div className="flex items-center rounded-full border border-gray-200 dark:border-border overflow-hidden text-xs font-semibold">
       {(["en", "es"] as const).map((l) => (
         <button
           key={l}
@@ -26,8 +26,8 @@ export default function LanguageSwitcher() {
           aria-pressed={locale === l}
           className={`px-2.5 py-1 transition-colors ${
             locale === l
-              ? "bg-black dark:bg-white text-white dark:text-black"
-              : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white"
+              ? "bg-black dark:bg-brand text-white"
+              : "text-gray-500 dark:text-muted-fg hover:text-black dark:hover:text-foreground"
           }`}
         >
           {l.toUpperCase()}

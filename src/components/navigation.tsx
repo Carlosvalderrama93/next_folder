@@ -44,7 +44,7 @@ function Navigation() {
           aria-hidden="true"
         />
       )}
-    <nav className="flex items-center justify-between bg-white/90 dark:bg-gray-950/90 backdrop-blur-md w-full px-6 md:px-10 py-4 border-b border-gray-100/80 dark:border-gray-800/80 sticky top-0 z-50">
+    <nav className="flex items-center justify-between bg-white/90 dark:bg-background/90 backdrop-blur-md w-full px-6 md:px-10 py-4 border-b border-gray-100/80 dark:border-border sticky top-0 z-50">
       <div className="flex items-center gap-8">
         <Link
           className="font-bold text-xl text-black dark:text-white hover:opacity-80"
@@ -62,8 +62,8 @@ function Navigation() {
                 aria-current={isActive ? "page" : undefined}
                 className={`font-medium mx-4 transition-colors pb-0.5 border-b-2 ${
                   isActive
-                    ? "text-black dark:text-white border-brand"
-                    : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-transparent"
+                    ? "text-black dark:text-foreground border-brand"
+                    : "text-gray-500 dark:text-muted-fg hover:text-black dark:hover:text-foreground border-transparent"
                 }`}
               >
                 {t(link.key)}
@@ -107,7 +107,7 @@ function Navigation() {
       </div>
 
       {menuOpen && (
-        <div id="mobile-menu" className="absolute top-full left-0 right-0 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800 flex flex-col px-6 py-4 gap-4 md:hidden shadow-md">
+        <div id="mobile-menu" className="absolute top-full left-0 right-0 bg-white dark:bg-background border-b border-gray-100 dark:border-border flex flex-col px-6 py-4 gap-4 md:hidden shadow-md">
           {NAV_LINKS.map((link) => {
             const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
             return (
@@ -117,8 +117,8 @@ function Navigation() {
                 aria-current={isActive ? "page" : undefined}
                 className={`font-medium transition-colors pl-3 border-l-2 ${
                   isActive
-                    ? "text-black dark:text-white border-brand"
-                    : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-transparent"
+                    ? "text-black dark:text-foreground border-brand"
+                    : "text-gray-500 dark:text-muted-fg hover:text-black dark:hover:text-foreground border-transparent"
                 }`}
                 onClick={() => setMenuOpen(false)}
               >

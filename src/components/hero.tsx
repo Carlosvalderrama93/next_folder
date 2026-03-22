@@ -9,7 +9,7 @@ async function Hero() {
   const t = await getTranslations("hero");
 
   return (
-    <section className="relative flex flex-col items-center justify-center text-center min-h-[580px] pb-20 pt-20 px-4 overflow-hidden bg-gradient-to-b from-indigo-50/60 via-white to-white dark:from-indigo-950/20 dark:via-gray-950 dark:to-gray-950">
+    <section className="relative flex flex-col items-center justify-center text-center min-h-[580px] pb-20 pt-20 px-4 overflow-hidden bg-gradient-to-b from-indigo-50/60 via-white to-white dark:from-indigo-950/30 dark:via-background dark:to-background">
       {/* Decorative background blobs */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-32 -right-24 w-[28rem] h-[28rem] rounded-full bg-indigo-200/40 dark:bg-indigo-900/20 blur-3xl" />
@@ -19,7 +19,7 @@ async function Hero() {
 
       <div className="relative z-10 flex flex-col items-center">
         {hero.backgroundImage && (
-          <div className="relative w-32 h-32 mb-6 rounded-full ring-4 ring-white dark:ring-gray-900 shadow-2xl shadow-indigo-200/50 dark:shadow-indigo-900/50">
+          <div className="relative w-32 h-32 mb-6 rounded-full ring-4 ring-white dark:ring-background shadow-2xl shadow-indigo-200/50 dark:shadow-indigo-900/50">
             <Image
               src={hero.backgroundImage}
               alt="Carlos Valderrama"
@@ -36,10 +36,10 @@ async function Hero() {
           {t("badge")}
         </span>
 
-        <h1 className="text-5xl md:text-6xl font-extrabold text-gray-950 dark:text-white mb-4 leading-tight">
+        <h1 className="text-5xl md:text-6xl font-extrabold text-gray-950 dark:text-foreground mb-4 leading-tight">
           Carlos Valderrama
         </h1>
-        <p className="text-xl text-gray-500 dark:text-gray-400 max-w-xl leading-relaxed mb-10">
+        <p className="text-xl text-gray-500 dark:text-muted-fg max-w-xl leading-relaxed mb-10">
           {t("subtitle")}
         </p>
 

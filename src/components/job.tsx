@@ -42,9 +42,9 @@ export default async function Job() {
       : [...strapiMapped, ...staticMapped].slice(0, Math.max(MIN_SLIDES, strapiMapped.length));
 
   return (
-    <section className="py-16 border-t border-gray-100 dark:border-gray-800/50">
+    <section className="py-16 border-t border-gray-100 dark:border-border">
       <div className="flex flex-col items-center text-center mb-10">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-pretty">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground text-pretty">
           {t("heading")}
         </h2>
         <div className="mt-3 w-10 h-1 bg-brand rounded-full" />

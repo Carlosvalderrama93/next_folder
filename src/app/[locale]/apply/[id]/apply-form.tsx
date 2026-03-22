@@ -18,7 +18,7 @@ const ALLOWED_CV_TYPES = new Set([
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ]);
 const INPUT_CLASS =
-  "px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand text-sm w-full";
+  "px-4 py-3 border border-gray-300 dark:border-border rounded-xl bg-white dark:bg-surface-raised text-gray-900 dark:text-foreground placeholder-gray-400 dark:placeholder-muted-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand text-sm w-full";
 
 function validate(name: string, email: string, message: string): FieldErrors {
   const errors: FieldErrors = {};
@@ -142,13 +142,13 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
         </FormField>
 
         <FormField id="cv" label="CV / Resume (PDF, DOC — max 5 MB)" error={fieldErrors.cv}>
-          <label className={`flex items-center gap-3 px-4 py-3 border border-dashed rounded-xl cursor-pointer transition-colors ${fieldErrors.cv ? "border-red-400 dark:border-red-500" : "border-gray-300 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-400"}`}>
+          <label className={`flex items-center gap-3 px-4 py-3 border border-dashed rounded-xl cursor-pointer transition-colors ${fieldErrors.cv ? "border-red-400 dark:border-red-500" : "border-gray-300 dark:border-border hover:border-gray-500 dark:hover:border-foreground"}`}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 flex-shrink-0" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="17 8 12 3 7 8" />
               <line x1="12" y1="3" x2="12" y2="15" />
             </svg>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
+            <span className="text-sm text-gray-500 dark:text-muted-fg">
               {cvName || "Click to upload your CV"}
             </span>
             <input

@@ -22,9 +22,9 @@ function ChevronRight() {
 
 const ARROW_CLASS =
   "absolute top-1/2 -translate-y-1/2 z-10 flex h-11 w-11 items-center justify-center rounded-full " +
-  "bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm " +
-  "border border-gray-200 dark:border-gray-700 shadow-md " +
-  "text-gray-700 dark:text-gray-300 " +
+  "bg-white/90 dark:bg-surface/90 backdrop-blur-sm " +
+  "border border-gray-200 dark:border-border shadow-md " +
+  "text-gray-700 dark:text-foreground " +
   "hover:shadow-lg hover:scale-105 transition-all duration-200";
 
 export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
@@ -93,8 +93,8 @@ export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
             aria-label={`Go to slide ${i + 1}`}
             className={`rounded-full transition-all duration-300 ${
               i === selectedIndex
-                ? "w-6 h-2 bg-gray-900 dark:bg-white"
-                : "w-2 h-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
+                ? "w-6 h-2 bg-gray-900 dark:bg-foreground"
+                : "w-2 h-2 bg-gray-300 dark:bg-surface-raised hover:bg-gray-400 dark:hover:bg-muted-fg"
             }`}
           />
         ))}

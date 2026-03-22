@@ -25,14 +25,14 @@ async function Articles() {
   const t = await getTranslations("articles");
 
   return (
-    <section className="py-16 max-w-7xl mx-auto px-4 border-t border-gray-100 dark:border-gray-800/50">
+    <section className="py-16 max-w-7xl mx-auto px-4 border-t border-gray-100 dark:border-border">
       <div className="flex justify-between items-center mb-10">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground">
           {t("heading")}
         </h2>
         <Link
           href="/articles"
-          className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-brand transition-colors"
+          className="text-sm font-semibold text-gray-500 dark:text-muted-fg hover:text-brand transition-colors"
         >
           {t("viewAll")}
         </Link>
@@ -48,7 +48,7 @@ async function Articles() {
         </FeaturedArticleCard>
       )}
       {rest.length > 0 && (
-        <hr className="border-gray-100 dark:border-gray-800 mb-8" />
+        <hr className="border-gray-100 dark:border-border mb-8" />
       )}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {rest.map((article) => (

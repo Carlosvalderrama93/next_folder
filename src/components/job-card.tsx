@@ -48,7 +48,7 @@ export default function JobCard({
 }: JobCardProps) {
   const t = useTranslations("jobs");
   return (
-    <div className={`group flex flex-col md:flex-row border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 transition-[box-shadow,border-color] duration-200${!isOpen ? " opacity-70" : ""}`}>
+    <div className={`group flex flex-col md:flex-row border border-gray-200 dark:border-border rounded-xl overflow-hidden bg-white dark:bg-surface shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-border transition-[box-shadow,border-color] duration-200${!isOpen ? " opacity-70" : ""}`}>
       {imageUrl && (
         <div className="relative w-full md:w-48 h-44 flex-shrink-0">
           <Image
@@ -68,26 +68,26 @@ export default function JobCard({
                 {t("open")}
               </span>
             ) : (
-              <span className="bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+              <span className="bg-gray-200 dark:bg-surface-raised text-gray-500 dark:text-muted-fg px-2.5 py-0.5 rounded-full text-xs font-semibold">
                 {t("closed")}
               </span>
             )}
             {type && (
-              <span className="text-xs text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 rounded-full">
+              <span className="text-xs text-gray-400 dark:text-muted-fg bg-gray-100 dark:bg-surface-raised px-2.5 py-0.5 rounded-full">
                 {type}
               </span>
             )}
           </div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-brand transition-colors">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-foreground mb-2 group-hover:text-brand transition-colors">
             {title}
           </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-3">
+          <p className="text-sm text-gray-500 dark:text-muted-fg leading-relaxed line-clamp-3">
             {description}
           </p>
         </div>
         <div className="flex items-center justify-between mt-5">
           {(location || postedAt) && (
-            <div className="flex gap-4 text-xs text-gray-400 dark:text-gray-500">
+            <div className="flex gap-4 text-xs text-gray-400 dark:text-muted-fg">
               {location && (
                 <span className="flex items-center gap-1">
                   <MapPinIcon />
@@ -110,7 +110,7 @@ export default function JobCard({
               {t("applyNow")}
             </Link>
           ) : (
-            <span className="px-5 py-2 bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 rounded-full text-sm font-semibold ml-auto cursor-not-allowed">
+            <span className="px-5 py-2 bg-gray-100 dark:bg-surface-raised text-gray-400 dark:text-muted-fg rounded-full text-sm font-semibold ml-auto cursor-not-allowed">
               {t("closed")}
             </span>
           )}

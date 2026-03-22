@@ -9,11 +9,11 @@ export function Accordion({
   items: { question: string; answer: ReactNode }[];
 }) {
   return (
-    <AccordionPrimitive.Root type="single" collapsible className="flex flex-col divide-y divide-gray-100 dark:divide-gray-800">
+    <AccordionPrimitive.Root type="single" collapsible className="flex flex-col divide-y divide-gray-100 dark:divide-border">
       {items.map((item, i) => (
         <AccordionPrimitive.Item key={i} value={String(i)}>
           <AccordionPrimitive.Header>
-            <AccordionPrimitive.Trigger className="group flex w-full items-center justify-between py-4 text-left text-sm font-semibold text-gray-900 dark:text-white hover:text-brand transition-colors gap-4">
+            <AccordionPrimitive.Trigger className="group flex w-full items-center justify-between py-4 text-left text-sm font-semibold text-gray-900 dark:text-foreground hover:text-brand transition-colors gap-4">
               <span>{item.question}</span>
               <svg
                 width="16"
@@ -32,7 +32,7 @@ export function Accordion({
             </AccordionPrimitive.Trigger>
           </AccordionPrimitive.Header>
           <AccordionPrimitive.Content className="overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up data-[state=open]:slide-down">
-            <p className="pb-4 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+            <p className="pb-4 text-sm text-gray-600 dark:text-muted-fg leading-relaxed">
               {item.answer}
             </p>
           </AccordionPrimitive.Content>

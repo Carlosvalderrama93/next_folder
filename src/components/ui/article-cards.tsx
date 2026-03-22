@@ -33,7 +33,7 @@ export function ArticleCard({ article }: { article: CardArticle }) {
   return (
     <Link
       href={article.href}
-      className="group flex flex-col justify-between border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg hover:border-indigo-200 dark:hover:border-indigo-800/60 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+      className="group flex flex-col justify-between border border-gray-200 dark:border-border rounded-xl bg-white dark:bg-surface shadow-sm hover:shadow-lg hover:border-indigo-200 dark:hover:border-brand/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
     >
       {article.coverImage && (
         <div className="relative w-full h-44 overflow-hidden">
@@ -52,33 +52,33 @@ export function ArticleCard({ article }: { article: CardArticle }) {
           <span className="text-xs font-bold tracking-widest text-brand uppercase">
             {article.category}
           </span>
-          <span className="text-xs text-gray-400 dark:text-gray-500" aria-hidden="true">·</span>
-          <time dateTime={article.date} className="text-xs text-gray-400 dark:text-gray-500">
+          <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
+          <time dateTime={article.date} className="text-xs text-gray-400 dark:text-muted-fg">
             {formatDate(article.date)}
           </time>
-          <span className="text-xs text-gray-400 dark:text-gray-500" aria-hidden="true">·</span>
-          <span className="text-xs text-gray-400 dark:text-gray-500">
+          <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
+          <span className="text-xs text-gray-400 dark:text-muted-fg">
             {readingTime(article.excerpt)}
           </span>
         </div>
-        <h2 className="font-bold text-gray-900 dark:text-white text-base mb-2 line-clamp-2 group-hover:text-brand transition-colors">
+        <h2 className="font-bold text-gray-900 dark:text-foreground text-base mb-2 line-clamp-2 group-hover:text-brand transition-colors">
           {article.title}
         </h2>
-        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3 flex-1">
+        <p className="text-sm text-gray-600 dark:text-muted-fg leading-relaxed line-clamp-3 flex-1">
           {article.excerpt}
         </p>
-        <span className="font-semibold text-black dark:text-white text-sm mt-4 inline-flex items-center gap-1 group-hover:text-brand transition-colors">
+        <span className="font-semibold text-black dark:text-foreground text-sm mt-4 inline-flex items-center gap-1 group-hover:text-brand transition-colors">
           Read more
           <span className="inline-block translate-x-0 group-hover:translate-x-1 transition-transform">
             →
           </span>
         </span>
         {article.author && (
-          <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2 mt-4">
+          <div className="text-sm text-gray-500 dark:text-muted-fg flex items-center gap-2 mt-4">
             <Avatar src={article.author.avatar} alt={article.author.name} size={28} />
             <span>
               By{" "}
-              <span className="font-semibold text-gray-700 dark:text-gray-300">
+              <span className="font-semibold text-gray-700 dark:text-foreground">
                 {article.author.name}
               </span>
             </span>
@@ -126,25 +126,25 @@ export function FeaturedArticleCard({
           <span className="text-xs font-bold tracking-widest text-brand uppercase">
             {article.category}
           </span>
-          <span className="text-xs text-gray-400 dark:text-gray-500" aria-hidden="true">·</span>
-          <time dateTime={article.date} className="text-xs text-gray-400 dark:text-gray-500">
+          <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
+          <time dateTime={article.date} className="text-xs text-gray-400 dark:text-muted-fg">
             {formatDate(article.date)}
           </time>
-          <span className="text-xs text-gray-400 dark:text-gray-500" aria-hidden="true">·</span>
-          <span className="text-xs text-gray-400 dark:text-gray-500">
+          <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
+          <span className="text-xs text-gray-400 dark:text-muted-fg">
             {readingTime(article.excerpt)}
           </span>
         </div>
         <Link href={article.href}>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 hover:text-brand transition-colors leading-tight">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground mb-4 hover:text-brand transition-colors leading-tight">
             {article.title}
           </h2>
         </Link>
-        <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+        <p className="text-gray-600 dark:text-muted-fg leading-relaxed mb-4">
           {article.excerpt}
         </p>
         {article.author && (
-          <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
+          <div className="text-sm text-gray-500 dark:text-muted-fg flex items-center gap-2">
             {article.author.avatar && (
               <Image
                 src={article.author.avatar}
@@ -156,7 +156,7 @@ export function FeaturedArticleCard({
             )}
             <span>
               By{" "}
-              <span className="font-semibold text-gray-700 dark:text-gray-300">
+              <span className="font-semibold text-gray-700 dark:text-foreground">
                 {article.author.name}
               </span>
             </span>
