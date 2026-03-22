@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { type ReactNode } from "react";
 
 export interface CardArticle {
   id: string;
@@ -96,11 +97,11 @@ export function ArticleCard({ article }: { article: CardArticle }) {
 export function FeaturedArticleCard({
   article,
   imageWidth = 460,
-  showButton = false,
+  children,
 }: {
   article: CardArticle;
   imageWidth?: number;
-  showButton?: boolean;
+  children?: ReactNode;
 }) {
   return (
     <div className="flex flex-col md:flex-row gap-8 mb-8">
@@ -164,14 +165,7 @@ export function FeaturedArticleCard({
             </span>
           </div>
         )}
-        {showButton && (
-          <Link
-            href={article.href}
-            className="mt-5 self-start inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-full transition-colors"
-          >
-            Read article →
-          </Link>
-        )}
+        {children}
       </div>
     </div>
   );
