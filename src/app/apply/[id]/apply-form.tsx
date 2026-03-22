@@ -17,7 +17,7 @@ const ALLOWED_CV_TYPES = new Set([
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ]);
 const INPUT_CLASS =
-  "px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-sm w-full";
+  "px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:focus-visible:ring-indigo-400 text-sm w-full";
 const ERROR_CLASS = "text-red-500 text-xs mt-1";
 
 function validate(name: string, email: string, message: string): FieldErrors {
@@ -105,6 +105,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             id="name"
             name="name"
             type="text"
+            autoComplete="name"
             placeholder="Jane Doe"
             value={name}
             onChange={(e) => { setName(e.target.value); setFieldErrors((fe) => ({ ...fe, name: undefined })); }}
@@ -123,6 +124,8 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             id="email"
             name="email"
             type="email"
+            autoComplete="email"
+            spellCheck={false}
             placeholder="jane@example.com"
             value={email}
             onChange={(e) => { setEmail(e.target.value); setFieldErrors((fe) => ({ ...fe, email: undefined })); }}
@@ -141,6 +144,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             id="linkedin"
             name="linkedin"
             type="url"
+            autoComplete="url"
             placeholder="https://linkedin.com/in/yourname"
             value={linkedin}
             onChange={(e) => setLinkedin(e.target.value)}
@@ -198,7 +202,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             id="message"
             name="message"
             rows={5}
-            placeholder="Tell us why you're a great fit..."
+            placeholder="Tell us why you're a great fit…"
             value={message}
             onChange={(e) => { setMessage(e.target.value); setFieldErrors((fe) => ({ ...fe, message: undefined })); }}
             aria-invalid={!!fieldErrors.message}

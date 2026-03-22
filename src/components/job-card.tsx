@@ -46,7 +46,7 @@ export default function JobCard({
   imageAlt,
 }: JobCardProps) {
   return (
-    <div className="group flex flex-col md:flex-row border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200">
+    <div className="group flex flex-col md:flex-row border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 transition-[box-shadow,border-color] duration-200">
       {imageUrl && (
         <div className="relative w-full md:w-48 h-44 flex-shrink-0">
           <Image

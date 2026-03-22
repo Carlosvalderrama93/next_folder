@@ -76,13 +76,13 @@ function Navigation() {
           aria-label="Toggle menu"
         >
           <span
-            className={`block w-6 h-0.5 bg-black dark:bg-white transition-all ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
+            className={`block w-6 h-0.5 bg-black dark:bg-white transition ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
           />
           <span
-            className={`block w-6 h-0.5 bg-black dark:bg-white transition-all ${menuOpen ? "opacity-0" : ""}`}
+            className={`block w-6 h-0.5 bg-black dark:bg-white transition ${menuOpen ? "opacity-0" : ""}`}
           />
           <span
-            className={`block w-6 h-0.5 bg-black dark:bg-white transition-all ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
+            className={`block w-6 h-0.5 bg-black dark:bg-white transition ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
           />
         </button>
       </div>
