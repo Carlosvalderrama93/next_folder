@@ -46,15 +46,17 @@ export default async function Job() {
           Open Positions
         </h2>
         <div className="mt-3 w-10 h-1 bg-brand rounded-full" />
+      </div>
+      <JobCarousel jobs={jobs} />
+      <div className="flex justify-center mt-8">
         <Link
           href="/jobs"
-          className="group mt-4 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-brand transition-colors inline-flex items-center gap-1"
+          className="group text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-brand transition-colors inline-flex items-center gap-1"
         >
           Browse all positions
           <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
         </Link>
       </div>
-      <JobCarousel jobs={jobs} />
     </section>
   );
 }
