@@ -20,10 +20,15 @@ function ChevronRight() {
   );
 }
 
+const ARROW_CLASS =
+  "absolute top-1/2 -translate-y-1/2 z-10 flex h-11 w-11 items-center justify-center rounded-full " +
+  "bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm " +
+  "border border-gray-200 dark:border-gray-700 shadow-md " +
+  "text-gray-700 dark:text-gray-300 " +
+  "hover:shadow-lg hover:scale-105 transition-all duration-200";
+
 export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
-  const [prevDisabled, setPrevDisabled] = useState(true);
-  const [nextDisabled, setNextDisabled] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
@@ -33,8 +38,6 @@ export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
-    setPrevDisabled(!emblaApi.canScrollPrev());
-    setNextDisabled(!emblaApi.canScrollNext());
     setSelectedIndex(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
@@ -47,63 +50,54 @@ export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
 
   if (jobs.length === 0) return null;
 
-  // For a single job, skip carousel chrome
   if (jobs.length === 1) {
-    return <JobCard {...jobs[0]} />;
+    return (
+      <div className="max-w-[560px] mx-auto px-4">
+        <JobCard {...jobs[0]} />
+      </div>
+    );
   }
 
   return (
     <div>
-      {/* Viewport — overflow hidden clips the slides */}
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-4">
-          {jobs.map((job) => (
-            <div key={job.id} className="flex-none w-[85vw] md:w-[560px] min-w-0">
-              <JobCard {...job} />
+      {/* Viewport + side arrows in a relative container */}
+      <div className="relative">
+        {/* Extra vertical padding so card shadows aren't clipped */}
+        <div className="py-2">
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex gap-5">
+              {jobs.map((job) => (
+                <div key={job.id} className="flex-none w-[85vw] md:w-[560px]">
+                  <JobCard {...job} />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
+
+        {/* Side arrows — overlaid on the viewport */}
+        <button onClick={onPrev} aria-label="Previous" className={`${ARROW_CLASS} left-4`}>
+          <ChevronLeft />
+        </button>
+        <button onClick={onNext} aria-label="Next" className={`${ARROW_CLASS} right-4`}>
+          <ChevronRight />
+        </button>
       </div>
 
-      {/* Controls row: dots left, prev/next right */}
-      <div className="flex items-center justify-between mt-5 px-4">
-        {/* Dot indicators */}
-        <div className="flex items-center gap-1.5" role="tablist" aria-label="Slide indicators">
-          {scrollSnaps.map((_, i) => (
-            <button
-              key={i}
-              role="tab"
-              aria-selected={i === selectedIndex}
-              aria-label={`Go to slide ${i + 1}`}
-              onClick={() => onDot(i)}
-              className={`h-2 rounded-full transition-all duration-200 ${
-                i === selectedIndex
-                  ? "w-5 bg-gray-900 dark:bg-white"
-                  : "w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Prev / Next buttons */}
-        <div className="flex gap-2">
+      {/* Dots — centered below the viewport */}
+      <div className="mt-5 flex items-center justify-center gap-2">
+        {scrollSnaps.map((_, i) => (
           <button
-            onClick={onPrev}
-            disabled={prevDisabled}
-            aria-label="Previous"
-            className="p-2.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-          >
-            <ChevronLeft />
-          </button>
-          <button
-            onClick={onNext}
-            disabled={nextDisabled}
-            aria-label="Next"
-            className="p-2.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-          >
-            <ChevronRight />
-          </button>
-        </div>
+            key={i}
+            onClick={() => onDot(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            className={`rounded-full transition-all duration-300 ${
+              i === selectedIndex
+                ? "w-6 h-2 bg-gray-900 dark:bg-white"
+                : "w-2 h-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
+            }`}
+          />
+        ))}
       </div>
     </div>
   );
