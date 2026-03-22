@@ -21,8 +21,10 @@ export function formatDate(dateStr: string) {
   });
 }
 
+const WORD_RE = /\s+/;
+
 export function readingTime(text: string) {
-  const words = text.trim().split(/\s+/).length;
+  const words = text.trim().split(WORD_RE).length;
   return `${Math.max(1, Math.ceil(words / 200))} min read`;
 }
 
@@ -49,11 +51,11 @@ export function ArticleCard({ article }: { article: CardArticle }) {
           <span className="text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase">
             {article.category}
           </span>
-          <span className="text-xs text-gray-400 dark:text-gray-500">·</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500" aria-hidden="true">·</span>
           <time dateTime={article.date} className="text-xs text-gray-400 dark:text-gray-500">
             {formatDate(article.date)}
           </time>
-          <span className="text-xs text-gray-400 dark:text-gray-500">·</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500" aria-hidden="true">·</span>
           <span className="text-xs text-gray-400 dark:text-gray-500">
             {readingTime(article.excerpt)}
           </span>
@@ -108,6 +110,8 @@ export function FeaturedArticleCard({
       {article.coverImage && (
         <Link
           href={article.href}
+          aria-hidden="true"
+          tabIndex={-1}
           className="group flex-shrink-0 w-full overflow-hidden rounded-2xl"
           style={{ maxWidth: imageWidth }}
         >
@@ -129,11 +133,11 @@ export function FeaturedArticleCard({
           <span className="text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase">
             {article.category}
           </span>
-          <span className="text-xs text-gray-400 dark:text-gray-500">·</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500" aria-hidden="true">·</span>
           <time dateTime={article.date} className="text-xs text-gray-400 dark:text-gray-500">
             {formatDate(article.date)}
           </time>
-          <span className="text-xs text-gray-400 dark:text-gray-500">·</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500" aria-hidden="true">·</span>
           <span className="text-xs text-gray-400 dark:text-gray-500">
             {readingTime(article.excerpt)}
           </span>

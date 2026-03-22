@@ -46,6 +46,7 @@ export function Toast({
       ].join(" ")}
     >
       <span
+        aria-hidden="true"
         className={`mt-0.5 text-base font-bold leading-none ${
           isSuccess
             ? "text-green-500"
