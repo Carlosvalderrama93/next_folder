@@ -22,8 +22,7 @@ export const homePageData: HomePageData = {
     subtitle: "We connect top talent with leading companies.",
     ctaText: "Apply for a Job",
     ctaLink: "/apply",
-    backgroundImage:
-      "https://split.trexthemes.dev/content/images/2025/06/ChatGPT-Image-Jun-11--2025--07_14_05-PM.png",
+    backgroundImage: "/me.png",
   },
   nav: {
     logo: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
