@@ -9,7 +9,7 @@ export default async function Job() {
 
   const jobs: JobCardProps[] =
     strapiJobs.length > 0
-      ? strapiJobs.slice(0, 6).map((job) => ({
+      ? strapiJobs.map((job) => ({
           id: job.documentId,
           title: job.title,
           description: job.description,
@@ -20,7 +20,7 @@ export default async function Job() {
           imageUrl: job.image ? getStrapiImageSrc(job.image.url) : undefined,
           imageAlt: job.image?.alternativeText,
         }))
-      : homePageData.openPositions.slice(0, 6).map((job) => ({
+      : homePageData.openPositions.map((job) => ({
           id: job.id,
           title: job.title,
           description: job.description,
