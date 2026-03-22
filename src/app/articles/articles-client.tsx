@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ArticleCard, FeaturedArticleCard } from "@/components/ui/article-cards";
 import type { CardArticle } from "@/components/ui/article-cards";
 
@@ -9,10 +9,10 @@ export type { CardArticle as ArticleItem };
 export default function ArticlesClient({ articles }: { articles: CardArticle[] }) {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const categories = [
-    "All",
-    ...Array.from(new Set(articles.map((a) => a.category).filter(Boolean))),
-  ];
+  const categories = useMemo(
+    () => ["All", ...Array.from(new Set(articles.map((a) => a.category).filter(Boolean)))],
+    [articles]
+  );
 
   const filtered =
     activeCategory === "All"
@@ -58,11 +58,11 @@ export default function ArticlesClient({ articles }: { articles: CardArticle[] }
           ))}
         </div>
       ) : (
-        !featured && (
+        !featured ? (
           <p className="text-gray-400 dark:text-gray-500 text-sm">
             No articles in this category yet.
           </p>
-        )
+        ) : null
       )}
     </>
   );

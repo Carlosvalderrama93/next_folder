@@ -8,12 +8,17 @@ const { contactCTA } = homePageData;
 
 type FieldErrors = { name?: string; email?: string; message?: string };
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const INPUT_CLASS =
+  "px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-sm";
+const ERROR_CLASS = "text-red-500 text-xs mt-1";
+
 function validate(name: string, email: string, message: string): FieldErrors {
   const errors: FieldErrors = {};
   if (!name.trim()) errors.name = "Full name is required.";
   if (!email.trim()) {
     errors.email = "Email address is required.";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  } else if (!EMAIL_RE.test(email)) {
     errors.email = "Enter a valid email address.";
   }
   if (!message.trim()) errors.message = "Message is required.";
@@ -72,11 +77,6 @@ export default function ContactForm() {
     }
   }
 
-  const inputClass =
-    "px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-sm";
-
-  const errorClass = "text-red-500 text-xs mt-1";
-
   return (
     <ToastProvider>
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
@@ -93,9 +93,9 @@ export default function ContactForm() {
             onChange={(e) => { setName(e.target.value); setFieldErrors((fe) => ({ ...fe, name: undefined })); }}
             aria-invalid={!!fieldErrors.name}
             aria-describedby={fieldErrors.name ? "name-error" : undefined}
-            className={`${inputClass} ${fieldErrors.name ? "border-red-400 dark:border-red-500" : ""}`}
+            className={`${INPUT_CLASS} ${fieldErrors.name ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.name && <p id="name-error" className={errorClass}>{fieldErrors.name}</p>}
+          {fieldErrors.name && <p id="name-error" className={ERROR_CLASS}>{fieldErrors.name}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -111,9 +111,9 @@ export default function ContactForm() {
             onChange={(e) => { setEmail(e.target.value); setFieldErrors((fe) => ({ ...fe, email: undefined })); }}
             aria-invalid={!!fieldErrors.email}
             aria-describedby={fieldErrors.email ? "email-error" : undefined}
-            className={`${inputClass} ${fieldErrors.email ? "border-red-400 dark:border-red-500" : ""}`}
+            className={`${INPUT_CLASS} ${fieldErrors.email ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.email && <p id="email-error" className={errorClass}>{fieldErrors.email}</p>}
+          {fieldErrors.email && <p id="email-error" className={ERROR_CLASS}>{fieldErrors.email}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -127,7 +127,7 @@ export default function ContactForm() {
             placeholder="Job inquiry, partnership, etc."
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            className={inputClass}
+            className={INPUT_CLASS}
           />
         </div>
 
@@ -144,9 +144,9 @@ export default function ContactForm() {
             onChange={(e) => { setMessage(e.target.value); setFieldErrors((fe) => ({ ...fe, message: undefined })); }}
             aria-invalid={!!fieldErrors.message}
             aria-describedby={fieldErrors.message ? "message-error" : undefined}
-            className={`${inputClass} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}
+            className={`${INPUT_CLASS} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.message && <p id="message-error" className={errorClass}>{fieldErrors.message}</p>}
+          {fieldErrors.message && <p id="message-error" className={ERROR_CLASS}>{fieldErrors.message}</p>}
         </div>
 
         <button

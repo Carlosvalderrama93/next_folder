@@ -18,8 +18,9 @@ function toCardArticle(a: (typeof rawArticles)[number]): CardArticle {
   };
 }
 
+const [featured, ...rest] = rawArticles.map(toCardArticle);
+
 function Articles() {
-  const [featured, ...rest] = rawArticles.map(toCardArticle);
 
   return (
     <section className="py-16 max-w-7xl mx-auto px-4 border-t border-gray-100 dark:border-gray-800/50">

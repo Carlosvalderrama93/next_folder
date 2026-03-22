@@ -10,12 +10,22 @@ interface Props {
 
 type FieldErrors = { name?: string; email?: string; message?: string; cv?: string };
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ALLOWED_CV_TYPES = new Set([
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]);
+const INPUT_CLASS =
+  "px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-sm w-full";
+const ERROR_CLASS = "text-red-500 text-xs mt-1";
+
 function validate(name: string, email: string, message: string): FieldErrors {
   const errors: FieldErrors = {};
   if (!name.trim()) errors.name = "Full name is required.";
   if (!email.trim()) {
     errors.email = "Email address is required.";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  } else if (!EMAIL_RE.test(email)) {
     errors.email = "Enter a valid email address.";
   }
   if (!message.trim()) errors.message = "Cover letter is required.";
@@ -84,11 +94,6 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
     }
   }
 
-  const inputClass =
-    "px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-sm w-full";
-
-  const errorClass = "text-red-500 text-xs mt-1";
-
   return (
     <ToastProvider>
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
@@ -105,9 +110,9 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             onChange={(e) => { setName(e.target.value); setFieldErrors((fe) => ({ ...fe, name: undefined })); }}
             aria-invalid={!!fieldErrors.name}
             aria-describedby={fieldErrors.name ? "name-error" : undefined}
-            className={`${inputClass} ${fieldErrors.name ? "border-red-400 dark:border-red-500" : ""}`}
+            className={`${INPUT_CLASS} ${fieldErrors.name ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.name && <p id="name-error" className={errorClass}>{fieldErrors.name}</p>}
+          {fieldErrors.name && <p id="name-error" className={ERROR_CLASS}>{fieldErrors.name}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -123,9 +128,9 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             onChange={(e) => { setEmail(e.target.value); setFieldErrors((fe) => ({ ...fe, email: undefined })); }}
             aria-invalid={!!fieldErrors.email}
             aria-describedby={fieldErrors.email ? "email-error" : undefined}
-            className={`${inputClass} ${fieldErrors.email ? "border-red-400 dark:border-red-500" : ""}`}
+            className={`${INPUT_CLASS} ${fieldErrors.email ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.email && <p id="email-error" className={errorClass}>{fieldErrors.email}</p>}
+          {fieldErrors.email && <p id="email-error" className={ERROR_CLASS}>{fieldErrors.email}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -139,7 +144,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             placeholder="https://linkedin.com/in/yourname"
             value={linkedin}
             onChange={(e) => setLinkedin(e.target.value)}
-            className={inputClass}
+            className={INPUT_CLASS}
           />
         </div>
 
@@ -165,8 +170,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               onChange={(e) => {
                 const file = e.target.files?.[0] ?? null;
                 if (file) {
-                  const allowed = new Set(["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]);
-                  if (!allowed.has(file.type)) {
+                    if (!ALLOWED_CV_TYPES.has(file.type)) {
                     setFieldErrors((fe) => ({ ...fe, cv: "Only PDF, DOC, and DOCX files are allowed." }));
                     e.target.value = "";
                     return;
@@ -183,7 +187,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               }}
             />
           </label>
-          {fieldErrors.cv && <p id="cv-error" className={errorClass}>{fieldErrors.cv}</p>}
+          {fieldErrors.cv && <p id="cv-error" className={ERROR_CLASS}>{fieldErrors.cv}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -199,9 +203,9 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             onChange={(e) => { setMessage(e.target.value); setFieldErrors((fe) => ({ ...fe, message: undefined })); }}
             aria-invalid={!!fieldErrors.message}
             aria-describedby={fieldErrors.message ? "message-error" : undefined}
-            className={`${inputClass} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}
+            className={`${INPUT_CLASS} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}
           />
-          {fieldErrors.message && <p id="message-error" className={errorClass}>{fieldErrors.message}</p>}
+          {fieldErrors.message && <p id="message-error" className={ERROR_CLASS}>{fieldErrors.message}</p>}
         </div>
 
         <button
