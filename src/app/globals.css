@@ -1,26 +1,97 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Class-based dark mode for Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Light mode ─────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background:     #f5f6ff;        /* faint indigo tint — cards lift off */
+  --foreground:     #0f0f23;
+  --surface:        #ffffff;        /* card / panel background      */
+  --surface-raised: #eef0ff;        /* elevated: inputs, dropdowns  */
+  --border:         #e5e7eb;        /* default border               */
+  --muted-fg:       #4b5563;        /* secondary / caption text     */
+  --brand:          #4f46e5;
+  --brand-hover:    #4338ca;
+}
+
+/* ── Dark mode ──────────────────────────────────────────── */
+.dark {
+  --background:     #0d0f1a;        /* deep indigo-tinted base      */
+  --foreground:     #e8eaf6;        /* indigo-tinted white          */
+  --surface:        #0f1224;        /* card / panel background      */
+  --surface-raised: #161c38;        /* elevated: inputs, dropdowns  */
+  --border:         rgba(148, 163, 184, 0.12);  /* barely-there    */
+  --muted-fg:       #8892b0;        /* slate-indigo muted text      */
+  --brand:          #818cf8;
+  --brand-hover:    #a5b4fc;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background:     var(--background);
+  --color-foreground:     var(--foreground);
+  --color-surface:        var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border:         var(--border);
+  --color-muted-fg:       var(--muted-fg);
+  --color-brand:          var(--brand);
+  --color-brand-hover:    var(--brand-hover);
+  --font-sans:            var(--font-geist-sans);
+  --font-mono:            var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  transition: background-color 0.25s ease, color 0.2s ease;
+}
+
+/* ── Dark-mode scrollbar ────────────────────────────────── */
+html.dark {
+  scrollbar-color: rgba(99, 102, 241, 0.35) var(--background);
+}
+html.dark::-webkit-scrollbar { width: 8px; }
+html.dark::-webkit-scrollbar-track { background: var(--background); }
+html.dark::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.35);
+  border-radius: 4px;
+}
+html.dark::-webkit-scrollbar-thumb:hover {
+  background: rgba(129, 140, 248, 0.55);
+}
+
+/* ── Light-mode scrollbar ───────────────────────────────── */
+html:not(.dark) {
+  scrollbar-color: rgba(79, 70, 229, 0.2) var(--background);
+}
+html:not(.dark)::-webkit-scrollbar { width: 8px; }
+html:not(.dark)::-webkit-scrollbar-track { background: var(--background); }
+html:not(.dark)::-webkit-scrollbar-thumb {
+  background: rgba(79, 70, 229, 0.2);
+  border-radius: 4px;
+}
+html:not(.dark)::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 70, 229, 0.35);
+}
+
+/* ── Focus ring ─────────────────────────────────────────── */
+/* Inputs/textareas use their own focus:ring-2 utilities.   */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
