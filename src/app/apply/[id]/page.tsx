@@ -5,6 +5,7 @@ import { homePageData } from "@/Data/homepage";
 import { fetchStrapiJob } from "@/lib/strapi";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { cache } from "react";
 import ApplyForm from "./apply-form";
 
 interface JobData {
@@ -15,7 +16,7 @@ interface JobData {
   type: string;
 }
 
-async function getJob(id: string): Promise<JobData | null> {
+const getJob = cache(async function getJob(id: string): Promise<JobData | null> {
   const strapiJob = await fetchStrapiJob(id);
   if (strapiJob) {
     return {
@@ -39,7 +40,7 @@ async function getJob(id: string): Promise<JobData | null> {
   }
 
   return null;
-}
+});
 
 export async function generateMetadata({
   params,
@@ -50,7 +51,7 @@ export async function generateMetadata({
   const job = await getJob(id);
   if (!job) return { title: "Position Not Found" };
   return {
-    title: `Apply — ${job.title} | Carlos Valderrama`,
+    title: `Apply — ${job.title}`,
     description: `Apply for ${job.title} · ${job.location}`,
     openGraph: {
       type: "website",

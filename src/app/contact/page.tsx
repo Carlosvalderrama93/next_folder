@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import ContactForm from "./contact-form";
 
 export const metadata: Metadata = {
-  title: "Contact | Carlos Valderrama",
+  title: "Contact",
   description: "Get in touch about open roles, partnerships, or general inquiries.",
 };
 

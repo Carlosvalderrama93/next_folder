@@ -6,7 +6,7 @@ import { fetchStrapiJobs } from "@/lib/strapi";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Apply | Carlos Valderrama",
+  title: "Apply",
   description: "Browse and apply for open tech positions. Remote jobs for LATAM talent.",
 };
 

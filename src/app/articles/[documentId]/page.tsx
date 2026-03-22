@@ -11,11 +11,14 @@ import {
 } from "@/lib/strapi";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { cache } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
 
 const footerData = homePageData.footer;
+
+const getArticle = cache(fetchStrapiArticleDetail);
 
 export async function generateMetadata({
   params,
@@ -23,10 +26,10 @@ export async function generateMetadata({
   params: Promise<{ documentId: string }>;
 }): Promise<Metadata> {
   const { documentId } = await params;
-  const article = await fetchStrapiArticleDetail(documentId);
+  const article = await getArticle(documentId);
   if (!article) return { title: "Article Not Found" };
   return {
-    title: `${article.title} | Carlos Valderrama`,
+    title: article.title,
     description: article.description,
     openGraph: {
       type: "article",
@@ -121,7 +124,7 @@ export default async function ArticleDetail({
   params: Promise<{ documentId: string }>;
 }) {
   const { documentId } = await params;
-  const article = await fetchStrapiArticleDetail(documentId);
+  const article = await getArticle(documentId);
 
   if (!article) notFound();
 

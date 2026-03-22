@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import ArticlesClient, { type ArticleItem } from "./articles-client";
 
 export const metadata: Metadata = {
-  title: "Articles | Carlos Valderrama",
+  title: "Articles",
   description: "Insights on tech recruitment, career growth, and the LATAM tech scene.",
 };
 

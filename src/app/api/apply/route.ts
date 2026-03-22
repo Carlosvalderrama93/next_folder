@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { rateLimit, getIp } from "@/lib/rate-limit";
 import { escapeHtml, isValidEmail } from "@/lib/validation";
 
+const ALLOWED_MIME = new Set([
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]);
+const MAX_BYTES = 5 * 1024 * 1024;
+
 export async function POST(req: NextRequest) {
   const { allowed, retryAfter } = rateLimit(getIp(req));
   if (!allowed) {
@@ -18,13 +25,6 @@ export async function POST(req: NextRequest) {
     let cvBuffer: Buffer | null = null;
 
     if (contentType.includes("multipart/form-data")) {
-      const ALLOWED_MIME = new Set([
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      ]);
-      const MAX_BYTES = 5 * 1024 * 1024;
-
       const formData = await req.formData();
       for (const [key, value] of formData.entries()) {
         if (value instanceof File) {

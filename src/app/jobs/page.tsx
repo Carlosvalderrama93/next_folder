@@ -6,7 +6,7 @@ import JobCard, { type JobCardProps } from "@/components/job-card";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Open Positions | Carlos Valderrama",
+  title: "Open Positions",
   description: "Browse remote and hybrid tech jobs in LATAM. Apply today.",
 };
 

@@ -5,7 +5,7 @@ import { homePageData } from "@/Data/homepage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About | Carlos Valderrama",
+  title: "About",
   description: "Learn about Carlos Valderrama and his mission to connect LATAM tech talent with global companies.",
 };
 

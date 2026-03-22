@@ -17,7 +17,10 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://carlosvalderrama.c
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Carlos Valderrama | Tech Recruiter",
+  title: {
+    default: "Carlos Valderrama | Tech Recruiter",
+    template: "%s | Carlos Valderrama",
+  },
   description:
     "Connecting top LATAM tech talent with leading companies worldwide.",
   alternates: { canonical: "/" },
