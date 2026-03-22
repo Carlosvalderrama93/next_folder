@@ -67,6 +67,7 @@ export type BlogPreview = {
   excerpt: string;
   coverImage?: string;
   createdAt: string;
+  category?: string;
 };
 
 export type ContactCTA = {
