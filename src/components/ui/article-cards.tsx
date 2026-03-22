@@ -48,7 +48,7 @@ export function ArticleCard({ article }: { article: CardArticle }) {
       )}
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase">
+          <span className="text-xs font-bold tracking-widest text-brand uppercase">
             {article.category}
           </span>
           <span className="text-xs text-gray-400 dark:text-gray-500" aria-hidden="true">·</span>
@@ -60,13 +60,13 @@ export function ArticleCard({ article }: { article: CardArticle }) {
             {readingTime(article.excerpt)}
           </span>
         </div>
-        <h2 className="font-bold text-gray-900 dark:text-white text-base mb-2 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+        <h2 className="font-bold text-gray-900 dark:text-white text-base mb-2 line-clamp-2 group-hover:text-brand transition-colors">
           {article.title}
         </h2>
         <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3 flex-1">
           {article.excerpt}
         </p>
-        <span className="font-semibold text-black dark:text-white text-sm mt-4 inline-flex items-center gap-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+        <span className="font-semibold text-black dark:text-white text-sm mt-4 inline-flex items-center gap-1 group-hover:text-brand transition-colors">
           Read more
           <span className="inline-block translate-x-0 group-hover:translate-x-1 transition-transform">
             →
@@ -130,7 +130,7 @@ export function FeaturedArticleCard({
       )}
       <div className="flex flex-col justify-center max-w-lg">
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase">
+          <span className="text-xs font-bold tracking-widest text-brand uppercase">
             {article.category}
           </span>
           <span className="text-xs text-gray-400 dark:text-gray-500" aria-hidden="true">·</span>
@@ -143,7 +143,7 @@ export function FeaturedArticleCard({
           </span>
         </div>
         <Link href={article.href}>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors leading-tight">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 hover:text-brand transition-colors leading-tight">
             {article.title}
           </h2>
         </Link>

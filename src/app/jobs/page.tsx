@@ -48,7 +48,7 @@ export default async function JobsPage() {
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
             Open Positions
           </h1>
-          <div className="mt-3 mb-3 w-10 h-1 bg-indigo-600 rounded-full" />
+          <div className="mt-3 mb-6 w-10 h-1 bg-brand rounded-full" />
           <p className="text-gray-500 dark:text-gray-400">
             {jobs.length} position{jobs.length !== 1 ? "s" : ""} available
           </p>

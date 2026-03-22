@@ -51,7 +51,7 @@ export default async function ApplyPage() {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           Apply for a Job
         </h1>
-        <div className="mt-3 mb-3 w-10 h-1 bg-indigo-600 rounded-full" />
+        <div className="mt-3 mb-6 w-10 h-1 bg-brand rounded-full" />
         <p className="text-gray-500 dark:text-gray-400 mb-10">
           Choose a position below and send us your application.
         </p>
@@ -65,7 +65,7 @@ export default async function ApplyPage() {
               <div>
                 <div className="flex items-center gap-3 mb-1">
                   {job.isOpen && (
-                    <span className="bg-indigo-600 text-white px-3 py-0.5 rounded-full text-xs font-semibold">
+                    <span className="bg-emerald-500 text-white px-3 py-0.5 rounded-full text-xs font-semibold">
                       Open
                     </span>
                   )}

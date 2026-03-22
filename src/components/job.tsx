@@ -41,7 +41,7 @@ export default async function Job() {
           href="/jobs"
           className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
         >
-          View all jobs →
+          View all →
         </Link>
       </div>
       <div className="flex flex-col gap-4">

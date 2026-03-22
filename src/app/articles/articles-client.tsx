@@ -48,7 +48,7 @@ export default function ArticlesClient({ articles }: { articles: CardArticle[] }
         <FeaturedArticleCard article={featured}>
           <Link
             href={featured.href}
-            className="mt-5 self-start inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-full transition-colors"
+            className="mt-5 self-start inline-flex items-center gap-2 px-5 py-2.5 bg-brand hover:bg-brand-hover text-white text-sm font-semibold rounded-full transition-colors"
           >
             Read article →
           </Link>

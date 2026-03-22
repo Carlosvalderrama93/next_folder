@@ -46,7 +46,7 @@ export default async function ArticlesPage() {
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
             Articles
           </h1>
-          <div className="mt-3 w-10 h-1 bg-indigo-600 rounded-full" />
+          <div className="mt-3 mb-6 w-10 h-1 bg-brand rounded-full" />
         </div>
         <ArticlesClient articles={articles} />
       </main>

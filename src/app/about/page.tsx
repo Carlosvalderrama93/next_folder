@@ -19,7 +19,7 @@ export default function AboutPage() {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
           {about.heading}
         </h1>
-        <div className="mt-3 mb-6 w-10 h-1 bg-indigo-600 rounded-full" />
+        <div className="mt-3 mb-6 w-10 h-1 bg-brand rounded-full" />
         {about.image && (
           <div className="relative w-full h-64 mb-8">
             <Image
@@ -40,7 +40,7 @@ export default function AboutPage() {
             {about.stats.map((stat) => (
               <div
                 key={stat.label}
-                className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 border-t-4 border-t-indigo-600"
+                className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 border-t-4 border-t-brand"
               >
                 <div className="text-4xl font-extrabold mb-1 text-gray-900 dark:text-white">
                   {stat.value}

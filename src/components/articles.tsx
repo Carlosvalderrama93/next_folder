@@ -30,7 +30,7 @@ function Articles() {
         </h2>
         <Link
           href="/articles"
-          className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+          className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-brand transition-colors"
         >
           View all →
         </Link>
@@ -39,7 +39,7 @@ function Articles() {
         <FeaturedArticleCard article={featured} imageWidth={480}>
           <Link
             href={featured.href}
-            className="mt-5 self-start inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-full transition-colors"
+            className="mt-5 self-start inline-flex items-center gap-2 px-5 py-2.5 bg-brand hover:bg-brand-hover text-white text-sm font-semibold rounded-full transition-colors"
           >
             Read article →
           </Link>

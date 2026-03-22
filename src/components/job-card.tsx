@@ -72,7 +72,7 @@ export default function JobCard({
               </span>
             )}
           </div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-brand transition-colors">
             {title}
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-3">

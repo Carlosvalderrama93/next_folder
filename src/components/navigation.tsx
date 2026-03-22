@@ -47,7 +47,7 @@ function Navigation() {
                 aria-current={isActive ? "page" : undefined}
                 className={`font-medium mx-4 transition-colors pb-0.5 border-b-2 ${
                   isActive
-                    ? "text-black dark:text-white border-indigo-600 dark:border-indigo-400"
+                    ? "text-black dark:text-white border-brand"
                     : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-transparent"
                 }`}
               >
@@ -98,7 +98,7 @@ function Navigation() {
                 aria-current={isActive ? "page" : undefined}
                 className={`font-medium transition-colors pl-3 border-l-2 ${
                   isActive
-                    ? "text-black dark:text-white border-indigo-600 dark:border-indigo-400"
+                    ? "text-black dark:text-white border-brand"
                     : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-transparent"
                 }`}
                 onClick={() => setMenuOpen(false)}
