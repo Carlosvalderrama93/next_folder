@@ -165,7 +165,19 @@
     "yourApplication": "Your Application",
     "positionNotFound": "Position Not Found",
     "breadcrumbHome": "Home",
-    "breadcrumbPositions": "Positions"
+    "breadcrumbPositions": "Positions",
+    "statusOpen": "Open",
+    "statusOnHold": "On Hold",
+    "statusFinalSteps": "Final Steps",
+    "statusFilled": "Filled",
+    "statusCancelled": "Cancelled",
+    "statusOverstaffed": "Overstaffed",
+    "modalityRemote": "Remote",
+    "modalityHybrid": "Hybrid",
+    "modalityOnSite": "On-site",
+    "positionClosed": "This position is no longer accepting applications",
+    "positionClosedDesc": "Browse our other open roles — we'd love to hear from you.",
+    "viewOpenRoles": "View Open Positions"
   },
   "applyForm": {
     "fullName": "Full Name",
@@ -186,7 +198,9 @@
     "emailInvalid": "Enter a valid email address.",
     "messageRequired": "Cover letter is required.",
     "cvType": "Only PDF, DOC, and DOCX files are allowed.",
-    "cvSize": "CV must be under 5 MB."
+    "cvSize": "CV must be under 5 MB.",
+    "optional": "optional",
+    "dragOrClick": "Drag & drop or click to upload"
   },
   "contactForm": {
     "fullName": "Full Name",

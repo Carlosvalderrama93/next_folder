@@ -165,7 +165,19 @@
     "yourApplication": "Tu Aplicación",
     "positionNotFound": "Posición no encontrada",
     "breadcrumbHome": "Inicio",
-    "breadcrumbPositions": "Posiciones"
+    "breadcrumbPositions": "Posiciones",
+    "statusOpen": "Abierta",
+    "statusOnHold": "En pausa",
+    "statusFinalSteps": "Etapa final",
+    "statusFilled": "Cubierta",
+    "statusCancelled": "Cancelada",
+    "statusOverstaffed": "Sobredotada",
+    "modalityRemote": "Remoto",
+    "modalityHybrid": "Híbrido",
+    "modalityOnSite": "Presencial",
+    "positionClosed": "Esta posición ya no está aceptando aplicaciones",
+    "positionClosedDesc": "Explora nuestras otras posiciones abiertas — nos encantaría conocerte.",
+    "viewOpenRoles": "Ver Posiciones Abiertas"
   },
   "applyForm": {
     "fullName": "Nombre completo",
@@ -186,7 +198,9 @@
     "emailInvalid": "Ingresa un correo electrónico válido.",
     "messageRequired": "La carta de presentación es obligatoria.",
     "cvType": "Solo se permiten archivos PDF, DOC y DOCX.",
-    "cvSize": "El CV debe pesar menos de 5 MB."
+    "cvSize": "El CV debe pesar menos de 5 MB.",
+    "optional": "opcional",
+    "dragOrClick": "Arrastra o haz clic para subir"
   },
   "contactForm": {
     "fullName": "Nombre completo",

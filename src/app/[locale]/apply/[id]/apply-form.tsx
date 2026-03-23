@@ -18,11 +18,13 @@ const ALLOWED_CV_TYPES = new Set([
   "application/msword",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ]);
+const MAX_COVER_LETTER = 2000;
 const INPUT_CLASS =
   "px-4 py-3 border border-gray-300 dark:border-border rounded-xl bg-white dark:bg-surface-raised text-gray-900 dark:text-foreground placeholder-gray-400 dark:placeholder-muted-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand text-sm w-full";
 
 export default function ApplyForm({ jobTitle, jobId }: Props) {
   const t = useTranslations("applyForm");
+
   const [submitting, setSubmitting] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,6 +35,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [toastOpen, setToastOpen] = useState(false);
   const [toastVariant, setToastVariant] = useState<"success" | "error">("success");
+  const [isDragOver, setIsDragOver] = useState(false);
 
   function validate(): FieldErrors {
     const errors: FieldErrors = {};
@@ -44,6 +47,22 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
     }
     if (!message.trim()) errors.message = t("messageRequired");
     return errors;
+  }
+
+  function processFile(file: File, clearInput?: () => void) {
+    if (!ALLOWED_CV_TYPES.has(file.type)) {
+      setFieldErrors((fe) => ({ ...fe, cv: t("cvType") }));
+      clearInput?.();
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setFieldErrors((fe) => ({ ...fe, cv: t("cvSize") }));
+      clearInput?.();
+      return;
+    }
+    setCvFile(file);
+    setCvName(file.name);
+    setFieldErrors((fe) => ({ ...fe, cv: undefined }));
   }
 
   function showToast(variant: "success" | "error") {
@@ -96,6 +115,13 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
     }
   }
 
+  const charCountColor =
+    message.length >= MAX_COVER_LETTER * 0.9
+      ? message.length >= MAX_COVER_LETTER
+        ? "text-red-500"
+        : "text-amber-500"
+      : "text-muted-fg";
+
   return (
     <ToastProvider>
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
@@ -130,7 +156,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           />
         </FormField>
 
-        <FormField id="linkedin" label={t("linkedin")}>
+        <FormField id="linkedin" label={`${t("linkedin")} (${t("optional")})`}>
           <input
             id="linkedin"
             name="linkedin"
@@ -143,15 +169,31 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           />
         </FormField>
 
-        <FormField id="cv" label={t("cv")} error={fieldErrors.cv}>
-          <label className={`flex items-center gap-3 px-4 py-3 border border-dashed rounded-xl cursor-pointer transition-colors ${fieldErrors.cv ? "border-red-400 dark:border-red-500" : "border-gray-300 dark:border-border hover:border-gray-500 dark:hover:border-foreground"}`}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 flex-shrink-0" aria-hidden="true">
+        <FormField id="cv" label={`${t("cv")} (${t("optional")})`} error={fieldErrors.cv}>
+          <label
+            className={`flex items-center gap-3 px-4 py-4 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${
+              isDragOver
+                ? "border-brand bg-brand/5"
+                : fieldErrors.cv
+                ? "border-red-400 dark:border-red-500"
+                : "border-gray-200 dark:border-border hover:border-brand dark:hover:border-brand"
+            }`}
+            onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+            onDragLeave={() => setIsDragOver(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setIsDragOver(false);
+              const file = e.dataTransfer.files?.[0];
+              if (file) processFile(file);
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`flex-shrink-0 transition-colors ${isDragOver ? "text-brand" : "text-gray-400"}`} aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="17 8 12 3 7 8" />
               <line x1="12" y1="3" x2="12" y2="15" />
             </svg>
-            <span className="text-sm text-gray-500 dark:text-muted-fg">
-              {cvName || t("cvUpload")}
+            <span className={`text-sm transition-colors ${isDragOver ? "text-brand" : "text-gray-500 dark:text-muted-fg"}`}>
+              {cvName || t("dragOrClick")}
             </span>
             <input
               id="cv"
@@ -160,22 +202,9 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               accept=".pdf,.doc,.docx"
               className="sr-only"
               onChange={(e) => {
-                const file = e.target.files?.[0] ?? null;
-                if (file) {
-                  if (!ALLOWED_CV_TYPES.has(file.type)) {
-                    setFieldErrors((fe) => ({ ...fe, cv: t("cvType") }));
-                    e.target.value = "";
-                    return;
-                  }
-                  if (file.size > 5 * 1024 * 1024) {
-                    setFieldErrors((fe) => ({ ...fe, cv: t("cvSize") }));
-                    e.target.value = "";
-                    return;
-                  }
-                }
-                setCvFile(file);
-                setCvName(file?.name ?? "");
-                setFieldErrors((fe) => ({ ...fe, cv: undefined }));
+                const file = e.target.files?.[0];
+                if (file) processFile(file, () => { e.target.value = ""; });
+                else { setCvFile(null); setCvName(""); }
               }}
             />
           </label>
@@ -186,6 +215,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             id="message"
             name="message"
             rows={5}
+            maxLength={MAX_COVER_LETTER}
             placeholder={t("coverLetterPlaceholder")}
             value={message}
             onChange={(e) => { setMessage(e.target.value); setFieldErrors((fe) => ({ ...fe, message: undefined })); }}
@@ -193,6 +223,11 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             aria-describedby={fieldErrors.message ? "message-error" : undefined}
             className={`${INPUT_CLASS} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}
           />
+          <div className="flex justify-end">
+            <span className={`text-xs tabular-nums ${charCountColor}`}>
+              {message.length} / {MAX_COVER_LETTER}
+            </span>
+          </div>
         </FormField>
 
         <button
