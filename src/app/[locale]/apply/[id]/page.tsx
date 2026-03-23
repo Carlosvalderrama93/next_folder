@@ -3,12 +3,13 @@ import Footer from "@/components/footer";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { homePageData } from "@/Data/homepage";
-import { fetchStrapiJob } from "@/lib/strapi";
+import { fetchStrapiJob, getStrapiImageSrc } from "@/lib/strapi";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { cache } from "react";
 import { getTranslations } from "next-intl/server";
-import type { JobStatus, JobModality } from "@/types/homepage";
+import type { JobStatus, JobModality, JobPaymentType } from "@/types/homepage";
+import Image from "next/image";
 import ApplyForm from "./apply-form";
 
 interface JobData {
@@ -20,6 +21,10 @@ interface JobData {
   status: JobStatus;
   skills?: string[];
   modality?: JobModality;
+  paymentType?: JobPaymentType;
+  postedAt?: string;
+  imageUrl?: string;
+  imageAlt?: string;
 }
 
 const STATUS_BADGE: Record<JobStatus, string> = {
@@ -46,6 +51,13 @@ const MODALITY_KEYS: Record<JobModality, string> = {
   "on-site": "modalityOnSite",
 };
 
+const PAYMENT_KEYS: Record<JobPaymentType, string> = {
+  salary: "paymentSalary",
+  hourly: "paymentHourly",
+  equity: "paymentEquity",
+  mixed: "paymentMixed",
+};
+
 const getJob = cache(async function getJob(id: string): Promise<JobData | null> {
   const strapiJob = await fetchStrapiJob(id);
   if (strapiJob) {
@@ -56,6 +68,8 @@ const getJob = cache(async function getJob(id: string): Promise<JobData | null> 
       location: strapiJob.location,
       type: strapiJob.jobType,
       status: strapiJob.isOpen ? "open" : "filled",
+      imageUrl: strapiJob.image ? getStrapiImageSrc(strapiJob.image.url) : undefined,
+      imageAlt: strapiJob.image?.alternativeText,
     };
   }
 
@@ -70,6 +84,9 @@ const getJob = cache(async function getJob(id: string): Promise<JobData | null> 
       status: staticJob.status,
       skills: staticJob.skills,
       modality: staticJob.modality,
+      paymentType: staticJob.paymentType,
+      postedAt: staticJob.postedAt,
+      imageUrl: staticJob.image ?? undefined,
     };
   }
 
@@ -103,9 +120,20 @@ export async function generateMetadata({
 
 function MapPinIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0" aria-hidden="true">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0" aria-hidden="true">
       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
       <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
+function CalendarIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
     </svg>
   );
 }
@@ -131,6 +159,15 @@ export default async function ApplyJobPage({
   if (!job) notFound();
 
   const isOpen = job.status === "open";
+
+  const formattedDate = job.postedAt
+    ? new Intl.DateTimeFormat(locale, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        timeZone: "UTC",
+      }).format(new Date(job.postedAt))
+    : null;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -162,33 +199,66 @@ export default async function ApplyJobPage({
         <div className="border border-gray-200 dark:border-border rounded-2xl overflow-hidden bg-white dark:bg-surface mb-10">
           <div className="h-1.5 bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500" />
           <div className="p-6">
-            {/* Status + type + modality */}
-            <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className={`px-3 py-0.5 rounded-full text-xs font-semibold ${STATUS_BADGE[job.status]}`}>
-                {t(STATUS_KEYS[job.status])}
-              </span>
-              <span className="text-xs text-gray-400 dark:text-gray-500">{job.type}</span>
-              {job.modality && (
-                <span className="text-xs bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-2.5 py-0.5 rounded-full font-medium">
-                  {t(MODALITY_KEYS[job.modality])}
-                </span>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1 min-w-0">
+                {/* Badges row */}
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  <span className={`px-3 py-0.5 rounded-full text-xs font-semibold ${STATUS_BADGE[job.status]}`}>
+                    {t(STATUS_KEYS[job.status])}
+                  </span>
+                  <span className="text-xs text-gray-400 dark:text-gray-500">{job.type}</span>
+                  {job.modality && (
+                    <span className="text-xs bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-2.5 py-0.5 rounded-full font-medium">
+                      {t(MODALITY_KEYS[job.modality])}
+                    </span>
+                  )}
+                  {job.paymentType && (
+                    <span className="text-xs bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 px-2.5 py-0.5 rounded-full font-medium">
+                      {t(PAYMENT_KEYS[job.paymentType])}
+                    </span>
+                  )}
+                </div>
+
+                <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">
+                  {job.title}
+                </h1>
+
+                {/* Location + posted date */}
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  <span className="flex items-center gap-1.5">
+                    <MapPinIcon />
+                    {job.location}
+                  </span>
+                  {formattedDate && (
+                    <span className="flex items-center gap-1.5">
+                      <CalendarIcon />
+                      {t("postedOn", { date: formattedDate })}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Company image */}
+              {job.imageUrl && (
+                <div className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-gray-100 dark:border-border">
+                  <Image
+                    src={job.imageUrl}
+                    alt={job.imageAlt ?? job.title}
+                    fill
+                    className="object-cover"
+                    sizes="64px"
+                  />
+                </div>
               )}
             </div>
 
-            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-1">
-              {job.title}
-            </h1>
-            <p className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 mb-4">
-              <MapPinIcon />
-              {job.location}
-            </p>
             <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
               {job.description}
             </p>
 
             {/* Skills chips */}
             {job.skills && job.skills.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 pt-2 border-t border-gray-100 dark:border-border">
+              <div className="flex flex-wrap gap-1.5 pt-4 border-t border-gray-100 dark:border-border">
                 {job.skills.map((skill) => (
                   <span
                     key={skill}

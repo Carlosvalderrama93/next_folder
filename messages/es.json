@@ -177,7 +177,12 @@
     "modalityOnSite": "Presencial",
     "positionClosed": "Esta posición ya no está aceptando aplicaciones",
     "positionClosedDesc": "Explora nuestras otras posiciones abiertas — nos encantaría conocerte.",
-    "viewOpenRoles": "Ver Posiciones Abiertas"
+    "viewOpenRoles": "Ver Posiciones Abiertas",
+    "paymentSalary": "Salario",
+    "paymentHourly": "Por hora",
+    "paymentEquity": "Equity",
+    "paymentMixed": "Mixto",
+    "postedOn": "Publicado el {date}"
   },
   "applyForm": {
     "fullName": "Nombre completo",
@@ -200,7 +205,10 @@
     "cvType": "Solo se permiten archivos PDF, DOC y DOCX.",
     "cvSize": "El CV debe pesar menos de 5 MB.",
     "optional": "opcional",
-    "dragOrClick": "Arrastra o haz clic para subir"
+    "dragOrClick": "Arrastra o haz clic para subir",
+    "phone": "Número de teléfono",
+    "linkedinInvalid": "Ingresa una URL válida de LinkedIn (linkedin.com).",
+    "viewMoreRoles": "Ver más posiciones"
   },
   "contactForm": {
     "fullName": "Nombre completo",
