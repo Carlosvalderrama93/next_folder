@@ -12,7 +12,7 @@
     "jobs": "Empleos",
     "contact": "Contacto",
     "articles": "Artículos",
-    "cta": "Aplicar ahora"
+    "cta": "Contáctame"
   },
   "hero": {
     "badge": "Tech Recruiter · LATAM",
@@ -182,7 +182,9 @@
     "paymentHourly": "Por hora",
     "paymentEquity": "Equity",
     "paymentMixed": "Mixto",
-    "postedOn": "Publicado el {date}"
+    "postedOn": "Publicado el {date}",
+    "applyForRole": "Aplicar a esta posición",
+    "backToJob": "Ver detalles del empleo"
   },
   "applyForm": {
     "fullName": "Nombre completo",
@@ -208,7 +210,10 @@
     "dragOrClick": "Arrastra o haz clic para subir",
     "phone": "Número de teléfono",
     "linkedinInvalid": "Ingresa una URL válida de LinkedIn (linkedin.com).",
-    "viewMoreRoles": "Ver más posiciones"
+    "viewMoreRoles": "Ver más posiciones",
+    "sectionPersonal": "Información personal",
+    "sectionDocuments": "Documentos",
+    "sectionMessage": "Tu mensaje"
   },
   "contactForm": {
     "fullName": "Nombre completo",

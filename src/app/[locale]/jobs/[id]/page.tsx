@@ -2,6 +2,8 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { homePageData } from "@/Data/homepage";
 import { fetchStrapiJob, getStrapiImageSrc } from "@/lib/strapi";
 import { notFound } from "next/navigation";
@@ -10,7 +12,7 @@ import { cache } from "react";
 import { getTranslations } from "next-intl/server";
 import type { JobStatus, JobModality, JobPaymentType } from "@/types/homepage";
 import Image from "next/image";
-import ApplyForm from "./apply-form";
+import { ApplyToggle } from "./apply-toggle";
 
 interface JobData {
   id: string;
@@ -67,7 +69,11 @@ const getJob = cache(async function getJob(id: string): Promise<JobData | null> 
       description: strapiJob.description,
       location: strapiJob.location,
       type: strapiJob.jobType,
-      status: strapiJob.isOpen ? "open" : "filled",
+      status: (strapiJob.status as JobStatus | undefined) ?? (strapiJob.isOpen ? "open" : "filled"),
+      skills: strapiJob.skills,
+      modality: strapiJob.modality as JobModality | undefined,
+      paymentType: strapiJob.paymentType as JobPaymentType | undefined,
+      postedAt: strapiJob.postedAt,
       imageUrl: strapiJob.image ? getStrapiImageSrc(strapiJob.image.url) : undefined,
       imageAlt: strapiJob.image?.alternativeText,
     };
@@ -186,119 +192,115 @@ export default async function ApplyJobPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main id="main-content" className="max-w-3xl mx-auto px-4 py-16">
+      <main id="main-content" className="max-w-3xl mx-auto px-4 py-10 pb-20">
         <Breadcrumb
           items={[
             { label: t("breadcrumbHome"), href: "/" },
-            { label: t("breadcrumbPositions"), href: "/apply" },
+            { label: t("breadcrumbPositions"), href: "/jobs" },
             { label: job.title },
           ]}
         />
 
-        {/* Job summary card */}
-        <div className="border border-gray-200 dark:border-border rounded-2xl overflow-hidden bg-white dark:bg-surface mb-10">
-          <div className="h-1.5 bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500" />
-          <div className="p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1 min-w-0">
-                {/* Badges row */}
-                <div className="flex flex-wrap items-center gap-2 mb-2">
-                  <span className={`px-3 py-0.5 rounded-full text-xs font-semibold ${STATUS_BADGE[job.status]}`}>
-                    {t(STATUS_KEYS[job.status])}
+        {/* Open header — no card border */}
+        <div className="mt-8">
+          <div className="flex items-start justify-between gap-6">
+            <div className="flex-1 min-w-0">
+              {/* Badges row */}
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${STATUS_BADGE[job.status]}`}>
+                  {t(STATUS_KEYS[job.status])}
+                </span>
+                <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">{job.type}</span>
+                {job.modality && (
+                  <span className="text-xs bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded-full font-medium">
+                    {t(MODALITY_KEYS[job.modality])}
                   </span>
-                  <span className="text-xs text-gray-400 dark:text-gray-500">{job.type}</span>
-                  {job.modality && (
-                    <span className="text-xs bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-2.5 py-0.5 rounded-full font-medium">
-                      {t(MODALITY_KEYS[job.modality])}
-                    </span>
-                  )}
-                  {job.paymentType && (
-                    <span className="text-xs bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 px-2.5 py-0.5 rounded-full font-medium">
-                      {t(PAYMENT_KEYS[job.paymentType])}
-                    </span>
-                  )}
-                </div>
-
-                <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">
-                  {job.title}
-                </h1>
-
-                {/* Location + posted date */}
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-gray-400 mb-4">
-                  <span className="flex items-center gap-1.5">
-                    <MapPinIcon />
-                    {job.location}
+                )}
+                {job.paymentType && (
+                  <span className="text-xs bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 px-2.5 py-1 rounded-full font-medium">
+                    {t(PAYMENT_KEYS[job.paymentType])}
                   </span>
-                  {formattedDate && (
-                    <span className="flex items-center gap-1.5">
-                      <CalendarIcon />
-                      {t("postedOn", { date: formattedDate })}
-                    </span>
-                  )}
-                </div>
+                )}
               </div>
 
-              {/* Company image */}
-              {job.imageUrl && (
-                <div className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-gray-100 dark:border-border">
-                  <Image
-                    src={job.imageUrl}
-                    alt={job.imageAlt ?? job.title}
-                    fill
-                    className="object-cover"
-                    sizes="64px"
-                  />
-                </div>
-              )}
+              <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white leading-tight mb-4">
+                {job.title}
+              </h1>
+
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-gray-500 dark:text-gray-400">
+                <span className="flex items-center gap-1.5">
+                  <MapPinIcon />
+                  {job.location}
+                </span>
+                {formattedDate && (
+                  <span className="flex items-center gap-1.5">
+                    <CalendarIcon />
+                    {t("postedOn", { date: formattedDate })}
+                  </span>
+                )}
+              </div>
             </div>
 
-            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
-              {job.description}
-            </p>
-
-            {/* Skills chips */}
-            {job.skills && job.skills.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 pt-4 border-t border-gray-100 dark:border-border">
-                {job.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="text-xs bg-gray-100 dark:bg-surface-raised text-gray-600 dark:text-muted-fg px-2.5 py-0.5 rounded-full"
-                  >
-                    {skill}
-                  </span>
-                ))}
+            {/* Company image */}
+            {job.imageUrl && (
+              <div className="relative w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 border border-gray-100 dark:border-border shadow-sm">
+                <Image
+                  src={job.imageUrl}
+                  alt={job.imageAlt ?? job.title}
+                  fill
+                  className="object-cover"
+                  sizes="80px"
+                />
               </div>
             )}
           </div>
+
+          {/* Skills chips */}
+          {job.skills && job.skills.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-5">
+              {job.skills.map((skill) => (
+                <span
+                  key={skill}
+                  className="text-xs bg-gray-100 dark:bg-surface-raised text-gray-700 dark:text-muted-fg px-3 py-1 rounded-full font-medium"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Form or closed state */}
-        {isOpen ? (
-          <>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              {t("yourApplication")}
-            </h2>
-            <ApplyForm jobTitle={job.title} jobId={job.id} />
-          </>
-        ) : (
-          <div className="flex flex-col items-center text-center py-14 px-8 rounded-2xl border border-dashed border-gray-200 dark:border-border">
-            <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-surface-raised flex items-center justify-center mb-4 text-muted-fg">
-              <LockIcon />
-            </div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {t("positionClosed")}
-            </h2>
-            <p className="text-sm text-gray-500 dark:text-muted-fg mb-6 max-w-xs leading-relaxed">
-              {t("positionClosedDesc")}
-            </p>
-            <Link
-              href="/apply"
-              className="px-5 py-2.5 bg-brand text-white rounded-full text-sm font-semibold hover:bg-brand-hover transition-colors"
-            >
-              {t("viewOpenRoles")}
-            </Link>
+        {/* Job description — open prose */}
+        <div className="mt-10 pt-10 border-t border-gray-200 dark:border-border">
+          <div className="prose prose-gray dark:prose-invert max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{job.description}</ReactMarkdown>
           </div>
-        )}
+        </div>
+
+        {/* Apply section */}
+        <div className="mt-12 pt-10 border-t border-gray-200 dark:border-border">
+          {isOpen ? (
+            <ApplyToggle jobTitle={job.title} jobId={job.id} />
+          ) : (
+            <div className="flex flex-col items-center text-center py-14 px-8 rounded-2xl border border-dashed border-gray-200 dark:border-border">
+              <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-surface-raised flex items-center justify-center mb-4 text-muted-fg">
+                <LockIcon />
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                {t("positionClosed")}
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-muted-fg mb-6 max-w-xs leading-relaxed">
+                {t("positionClosedDesc")}
+              </p>
+              <Link
+                href="/jobs"
+                className="px-5 py-2.5 bg-brand text-white rounded-full text-sm font-semibold hover:bg-brand-hover transition-colors"
+              >
+                {t("viewOpenRoles")}
+              </Link>
+            </div>
+          )}
+        </div>
       </main>
       <Footer {...homePageData.footer} />
     </>

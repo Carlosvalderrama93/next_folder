@@ -8,6 +8,11 @@ export interface StrapiJob {
   location: string;
   jobType: string;
   isOpen: boolean;
+  status?: string;
+  skills?: string[];
+  modality?: string;
+  paymentType?: string;
+  postedAt?: string;
   image?: { url: string; alternativeText?: string };
 }
 

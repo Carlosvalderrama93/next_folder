@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ToastProvider, Toast } from "@/components/ui/toast";
@@ -42,6 +42,11 @@ function CheckCircleIcon() {
 
 export default function ApplyForm({ jobTitle, jobId }: Props) {
   const t = useTranslations("applyForm");
+
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const linkedinRef = useRef<HTMLInputElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
 
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -93,6 +98,12 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
     const errors = validate();
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
+      requestAnimationFrame(() => {
+        if (errors.name) nameRef.current?.focus();
+        else if (errors.email) emailRef.current?.focus();
+        else if (errors.linkedin) linkedinRef.current?.focus();
+        else if (errors.message) messageRef.current?.focus();
+      });
       return;
     }
     setFieldErrors({});
@@ -145,7 +156,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           {t("successDesc", { jobTitle })}
         </p>
         <Link
-          href="/apply"
+          href="/jobs"
           className="px-5 py-2.5 bg-brand text-white rounded-full text-sm font-semibold hover:bg-brand-hover transition-colors"
         >
           {t("viewMoreRoles")}
@@ -157,13 +168,18 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   // ── Form ───────────────────────────────────────────────────────────────────
   return (
     <ToastProvider>
+      <div className="rounded-2xl border border-gray-200 dark:border-border bg-white dark:bg-surface p-6 md:p-8">
       <form onSubmit={handleSubmit} noValidate>
         <fieldset
           disabled={submitting}
-          className={`flex flex-col gap-5 border-0 p-0 m-0 min-w-0 transition-opacity ${submitting ? "opacity-60 pointer-events-none" : ""}`}
+          className={`border-0 p-0 m-0 min-w-0 transition-opacity ${submitting ? "opacity-60 pointer-events-none" : ""}`}
         >
+          {/* ── Personal Info ─────────────────────────────────────────────────── */}
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-muted-fg mb-4">{t("sectionPersonal")}</p>
+          <div className="flex flex-col gap-4">
           <FormField id="name" label={t("fullName")} required error={fieldErrors.name}>
             <input
+              ref={nameRef}
               id="name"
               name="name"
               type="text"
@@ -179,6 +195,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
 
           <FormField id="email" label={t("email")} required error={fieldErrors.email}>
             <input
+              ref={emailRef}
               id="email"
               name="email"
               type="email"
@@ -208,6 +225,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
 
           <FormField id="linkedin" label={`${t("linkedin")} (${t("optional")})`} error={fieldErrors.linkedin}>
             <input
+              ref={linkedinRef}
               id="linkedin"
               name="linkedin"
               type="url"
@@ -221,9 +239,15 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             />
           </FormField>
 
+          </div>
+
+          <div className="border-t border-gray-100 dark:border-border my-6" />
+
+          {/* ── Documents ─────────────────────────────────────────────────────── */}
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-muted-fg mb-4">{t("sectionDocuments")}</p>
           <FormField id="cv" label={`${t("cv")} (${t("optional")})`} error={fieldErrors.cv}>
             <label
-              className={`flex items-center gap-3 px-4 py-4 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${
+              className={`flex flex-col items-center justify-center gap-2 px-6 py-8 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${
                 isDragOver
                   ? "border-brand bg-brand/5"
                   : fieldErrors.cv
@@ -239,12 +263,12 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
                 if (file) processFile(file);
               }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`flex-shrink-0 transition-colors ${isDragOver ? "text-brand" : "text-gray-400"}`} aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={`transition-colors ${isDragOver ? "text-brand" : cvName ? "text-emerald-500" : "text-gray-300 dark:text-gray-600"}`} aria-hidden="true">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="17 8 12 3 7 8" />
                 <line x1="12" y1="3" x2="12" y2="15" />
               </svg>
-              <span className={`text-sm transition-colors ${isDragOver ? "text-brand" : "text-gray-500 dark:text-muted-fg"}`}>
+              <span className={`text-sm font-medium text-center transition-colors ${isDragOver ? "text-brand" : "text-gray-600 dark:text-muted-fg"}`}>
                 {cvName || t("dragOrClick")}
               </span>
               <input
@@ -262,8 +286,13 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
             </label>
           </FormField>
 
+          <div className="border-t border-gray-100 dark:border-border my-6" />
+
+          {/* ── Message ───────────────────────────────────────────────────────── */}
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-muted-fg mb-4">{t("sectionMessage")}</p>
           <FormField id="message" label={t("coverLetter")} required error={fieldErrors.message}>
             <textarea
+              ref={messageRef}
               id="message"
               name="message"
               rows={5}
@@ -272,21 +301,22 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               value={message}
               onChange={(e) => { setMessage(e.target.value); setFieldErrors((fe) => ({ ...fe, message: undefined })); }}
               aria-invalid={!!fieldErrors.message}
-              aria-describedby={fieldErrors.message ? "message-error" : undefined}
+              aria-describedby={[fieldErrors.message ? "message-error" : null, "message-count"].filter(Boolean).join(" ")}
               className={`${INPUT_CLASS} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}
             />
             <div className="flex justify-end">
-              <span className={`text-xs tabular-nums ${charCountColor}`}>
+              <span id="message-count" className={`text-xs tabular-nums ${charCountColor}`}>
                 {message.length} / {MAX_COVER_LETTER}
               </span>
             </div>
           </FormField>
         </fieldset>
 
+        <div className="mt-6 pt-6 border-t border-gray-100 dark:border-border">
         <button
           type="submit"
           disabled={submitting}
-          className="mt-5 inline-flex items-center gap-2 px-8 py-3.5 bg-brand hover:bg-brand-hover text-white rounded-full font-semibold transition-colors self-start disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-8 py-3.5 bg-brand hover:bg-brand-hover text-white rounded-full font-semibold transition-colors self-start disabled:opacity-50"
         >
           {submitting && (
             <svg className="animate-spin h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -296,7 +326,9 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
           )}
           {submitting ? t("sending") : t("submit")}
         </button>
+        </div>
       </form>
+      </div>
 
       <Toast
         open={toastOpen}

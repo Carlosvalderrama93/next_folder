@@ -21,7 +21,7 @@ export const homePageData: HomePageData = {
     title: "Join Our Global Talent Network",
     subtitle: "We connect top talent with leading companies.",
     ctaText: "Apply for a Job",
-    ctaLink: "/apply",
+    ctaLink: "/jobs",
     backgroundImage: "/me.png",
   },
   nav: {
@@ -35,7 +35,7 @@ export const homePageData: HomePageData = {
     ],
     cta: {
       text: "Apply Now",
-      href: "/apply",
+      href: "/contact",
     },
   },
   authors: [
@@ -49,109 +49,50 @@ export const homePageData: HomePageData = {
     },
   ],
   openPositions: [
+    /* ── Static jobs (always merged with Strapi results) ── */
     {
-      id: "1",
-      title: "Frontend Developer",
-      description:
-        "We are looking for a React developer with strong TypeScript skills to join a fully remote product team. You will own the UI layer of a SaaS platform serving thousands of users across LATAM.",
-      location: "Remote · LATAM",
-      type: "Full-time",
-      status: "open",
-      skills: ["JavaScript", "React", "TypeScript", "CSS"],
-      modality: "remote",
-      paymentType: "salary",
-      postedAt: "2025-08-25",
-    },
-    {
-      id: "2",
-      title: "Backend Engineer",
-      description:
-        "Node.js and PostgreSQL experience required. You will design and maintain RESTful APIs consumed by mobile and web clients, working in a hybrid setup from Medellín.",
+      id: "9",
+      title: "React Dev",
+      description: `We're looking for a Frontend React Developer to build modern, high-quality user interfaces that deliver an exceptional user experience. If you enjoy crafting clean components, working with the latest React features, and collaborating with a strong engineering team, this role is for you.
+
+## What you'll do
+
+- Develop responsive and modern UIs using React, Hooks, and TypeScript
+- Build reusable, maintainable components and front-end libraries
+- Ensure excellent performance, accessibility, and visual quality
+- Collaborate closely with UX/UI, backend, QA, and product teams
+- Participate in code reviews and help shape front-end best practices
+- Write clean, testable code and maintain documentation for new features
+
+## What you bring
+
+- 3+ years of experience working with React in production environments
+- Strong proficiency in TypeScript, HTML5, CSS3, and responsive design
+- Solid understanding of hooks, state management, and component architecture
+- Experience integrating REST APIs and handling asynchronous logic
+- Familiarity with Git, CI/CD pipelines, and front-end build tools
+- Bonus: Experience with design systems, accessibility, or UX principles
+
+## Why join us
+
+- Work with the latest React technologies
+- High ownership and impact within a growing engineering team
+- Collaborative culture with a strong focus on quality and innovation
+- Opportunity to shape the UI/UX of next-generation industrial software
+
+## Conditions
+
+- **Type:** Hybrid (4 days in the office, 1 day from home)
+- **Contract:** Permanent contract directly with the company
+- **Location:** Medellín
+- **Hours:** Monday to Friday, 44 hours per week`,
       location: "Medellín, Colombia",
       type: "Full-time",
-      status: "on-hold",
-      skills: ["Node.js", "PostgreSQL", "REST APIs", "Docker"],
+      status: "open",
+      skills: ["React", "TypeScript", "HTML5", "CSS3", "REST APIs", "Git"],
       modality: "hybrid",
       paymentType: "salary",
-      postedAt: "2025-08-28",
-    },
-    {
-      id: "3",
-      title: "Full-Stack Developer",
-      description:
-        "Contract role for a fintech startup. You will build features across the React frontend and Node.js backend, shipping end-to-end from design handoff to production.",
-      location: "Remote · LATAM",
-      type: "Contract",
-      status: "final-steps",
-      skills: ["JavaScript", "React", "Node.js", "MongoDB"],
-      modality: "remote",
-      paymentType: "hourly",
-      postedAt: "2025-09-01",
-    },
-    {
-      id: "4",
-      title: "DevOps Engineer",
-      description:
-        "Own our CI/CD pipelines and cloud infrastructure on AWS. Kubernetes experience is a plus. You will work closely with our engineering team to improve reliability and deployment velocity.",
-      location: "Remote · LATAM",
-      type: "Full-time",
-      status: "open",
-      skills: ["AWS", "Docker", "Kubernetes", "CI/CD", "Terraform"],
-      modality: "remote",
-      paymentType: "salary",
-      postedAt: "2025-09-05",
-    },
-    {
-      id: "5",
-      title: "React Native Developer",
-      description:
-        "Mobile-first role building cross-platform apps for iOS and Android. You will collaborate directly with product and design to ship polished native experiences.",
-      location: "Bogotá, Colombia",
-      type: "Full-time",
-      status: "filled",
-      skills: ["React Native", "JavaScript", "iOS", "Android"],
-      modality: "hybrid",
-      paymentType: "salary",
-      postedAt: "2025-07-15",
-    },
-    {
-      id: "6",
-      title: ".NET Developer",
-      description:
-        "Join a Bogotá-based enterprise team building internal tooling on C# and .NET 8. Familiarity with Azure services and SQL Server is required.",
-      location: "Bogotá, Colombia",
-      type: "Full-time",
-      status: "open",
-      skills: ["C#", ".NET", "SQL Server", "Azure"],
-      modality: "on-site",
-      paymentType: "salary",
-      postedAt: "2025-09-10",
-    },
-    {
-      id: "7",
-      title: "Data Engineer",
-      description:
-        "Build and maintain data pipelines that power analytics and ML models. Experience with Python, Spark, and NoSQL databases (MongoDB, Cassandra) is essential.",
-      location: "Remote · LATAM",
-      type: "Contract",
-      status: "open",
-      skills: ["Python", "MongoDB", "NoSQL", "Spark", "Airflow"],
-      modality: "remote",
-      paymentType: "mixed",
-      postedAt: "2025-09-12",
-    },
-    {
-      id: "8",
-      title: "QA Automation Engineer",
-      description:
-        "Part-time QA role automating regression suites with Selenium and Cypress. The position was cancelled due to a budget freeze; check back for future openings.",
-      location: "Lima, Perú",
-      type: "Part-time",
-      status: "cancelled",
-      skills: ["Selenium", "Cypress", "JavaScript", "Testing"],
-      modality: "hybrid",
-      paymentType: "hourly",
-      postedAt: "2025-08-01",
+      postedAt: "2025-10-01",
     },
   ],
   about: {

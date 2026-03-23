@@ -12,7 +12,7 @@
     "jobs": "Jobs",
     "contact": "Contact",
     "articles": "Articles",
-    "cta": "Apply Now"
+    "cta": "Get in Touch"
   },
   "hero": {
     "badge": "Tech Recruiter · LATAM",
@@ -182,7 +182,9 @@
     "paymentHourly": "Hourly",
     "paymentEquity": "Equity",
     "paymentMixed": "Mixed",
-    "postedOn": "Posted {date}"
+    "postedOn": "Posted {date}",
+    "applyForRole": "Apply for this Position",
+    "backToJob": "Back to job details"
   },
   "applyForm": {
     "fullName": "Full Name",
@@ -208,7 +210,10 @@
     "dragOrClick": "Drag & drop or click to upload",
     "phone": "Phone Number",
     "linkedinInvalid": "Enter a valid LinkedIn URL (linkedin.com).",
-    "viewMoreRoles": "View more positions"
+    "viewMoreRoles": "View more positions",
+    "sectionPersonal": "Personal Info",
+    "sectionDocuments": "Documents",
+    "sectionMessage": "Your Message"
   },
   "contactForm": {
     "fullName": "Full Name",

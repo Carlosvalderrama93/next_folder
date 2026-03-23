@@ -32,34 +32,44 @@ export default async function JobsPage({
   const staticPositions = homePageData.openPositions;
   const footerData = homePageData.footer;
 
-  const jobs: JobCardProps[] =
-    strapiJobs.length > 0
-      ? strapiJobs.map((job) => ({
-          id: job.documentId,
-          title: job.title,
-          description: job.description,
-          location: job.location,
-          type: job.jobType,
-          isOpen: job.isOpen,
-          applyHref: `/apply/${job.documentId}`,
-          imageUrl: job.image ? getStrapiImageSrc(job.image.url) : undefined,
-          imageAlt: job.image?.alternativeText,
-        }))
-      : staticPositions.map((job) => ({
-          id: job.id,
-          title: job.title,
-          description: job.description,
-          location: job.location,
-          type: job.type,
-          status: job.status,
-          skills: job.skills,
-          modality: job.modality,
-          paymentType: job.paymentType,
-          postedAt: job.postedAt,
-          isOpen: job.status === "open",
-          applyHref: `/apply/${job.id}`,
-          imageUrl: job.image ?? undefined,
-        }));
+  const strapiMapped: JobCardProps[] = strapiJobs.map((job) => ({
+    id: job.documentId,
+    title: job.title,
+    description: job.description,
+    location: job.location,
+    type: job.jobType,
+    status: (job.status as JobCardProps["status"]) ?? (job.isOpen ? "open" : "filled"),
+    isOpen: job.isOpen,
+    skills: job.skills,
+    modality: job.modality as JobCardProps["modality"],
+    paymentType: job.paymentType as JobCardProps["paymentType"],
+    postedAt: job.postedAt,
+    applyHref: `/jobs/${job.documentId}`,
+    imageUrl: job.image ? getStrapiImageSrc(job.image.url) : undefined,
+    imageAlt: job.image?.alternativeText,
+  }));
+
+  const staticMapped: JobCardProps[] = staticPositions.map((job) => ({
+    id: job.id,
+    title: job.title,
+    description: job.description,
+    location: job.location,
+    type: job.type,
+    status: job.status,
+    skills: job.skills,
+    modality: job.modality,
+    paymentType: job.paymentType,
+    postedAt: job.postedAt,
+    isOpen: job.status === "open",
+    applyHref: `/jobs/${job.id}`,
+    imageUrl: job.image ?? undefined,
+  }));
+
+  // Strapi is the primary source; static jobs are always appended so manually
+  // created entries appear alongside CMS content without needing a Strapi entry.
+  const jobs: JobCardProps[] = strapiJobs.length > 0
+    ? [...strapiMapped, ...staticMapped]
+    : staticMapped;
 
   const countKey = jobs.length === 1 ? "available_one" : "available_other";
 
