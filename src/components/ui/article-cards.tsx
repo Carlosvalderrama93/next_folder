@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { type ReactNode } from "react";
 import { Avatar } from "./avatar";
+import { useTranslations, useLocale } from "next-intl";
 
 export interface CardArticle {
   id: string;
@@ -14,8 +15,8 @@ export interface CardArticle {
   author?: { name: string; avatar?: string };
 }
 
-export function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-US", {
+export function formatDate(dateStr: string, locale = "en-US") {
+  return new Date(dateStr).toLocaleDateString(locale, {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -24,12 +25,20 @@ export function formatDate(dateStr: string) {
 
 const WORD_RE = /\s+/;
 
-export function readingTime(text: string) {
+export function readingTime(
+  text: string,
+  formatter?: (count: number) => string
+) {
   const words = text.trim().split(WORD_RE).length;
-  return `${Math.max(1, Math.ceil(words / 200))} min read`;
+  const count = Math.max(1, Math.ceil(words / 200));
+  return formatter ? formatter(count) : `${count} min read`;
 }
 
 export function ArticleCard({ article }: { article: CardArticle }) {
+  const t = useTranslations("articles");
+  const locale = useLocale();
+  const dateLocale = locale === "es" ? "es-ES" : "en-US";
+
   return (
     <Link
       href={article.href}
@@ -54,11 +63,11 @@ export function ArticleCard({ article }: { article: CardArticle }) {
           </span>
           <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
           <time dateTime={article.date} className="text-xs text-gray-400 dark:text-muted-fg">
-            {formatDate(article.date)}
+            {formatDate(article.date, dateLocale)}
           </time>
           <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
           <span className="text-xs text-gray-400 dark:text-muted-fg">
-            {readingTime(article.excerpt)}
+            {readingTime(article.excerpt, (count) => t("minRead", { count }))}
           </span>
         </div>
         <h2 className="font-bold text-gray-900 dark:text-foreground text-base mb-2 line-clamp-2 group-hover:text-brand transition-colors">
@@ -68,7 +77,7 @@ export function ArticleCard({ article }: { article: CardArticle }) {
           {article.excerpt}
         </p>
         <span className="font-semibold text-black dark:text-foreground text-sm mt-4 inline-flex items-center gap-1 group-hover:text-brand transition-colors">
-          Read more
+          {t("readMore")}
           <span className="inline-block translate-x-0 group-hover:translate-x-1 transition-transform">
             →
           </span>
@@ -77,7 +86,7 @@ export function ArticleCard({ article }: { article: CardArticle }) {
           <div className="text-sm text-gray-500 dark:text-muted-fg flex items-center gap-2 mt-4">
             <Avatar src={article.author.avatar} alt={article.author.name} size={28} />
             <span>
-              By{" "}
+              {t("by")}{" "}
               <span className="font-semibold text-gray-700 dark:text-foreground">
                 {article.author.name}
               </span>
@@ -98,6 +107,10 @@ export function FeaturedArticleCard({
   imageWidth?: number;
   children?: ReactNode;
 }) {
+  const t = useTranslations("articles");
+  const locale = useLocale();
+  const dateLocale = locale === "es" ? "es-ES" : "en-US";
+
   return (
     <div className="flex flex-col md:flex-row gap-8 mb-8">
       {article.coverImage && (
@@ -128,11 +141,11 @@ export function FeaturedArticleCard({
           </span>
           <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
           <time dateTime={article.date} className="text-xs text-gray-400 dark:text-muted-fg">
-            {formatDate(article.date)}
+            {formatDate(article.date, dateLocale)}
           </time>
           <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
           <span className="text-xs text-gray-400 dark:text-muted-fg">
-            {readingTime(article.excerpt)}
+            {readingTime(article.excerpt, (count) => t("minRead", { count }))}
           </span>
         </div>
         <Link href={article.href}>
@@ -155,7 +168,7 @@ export function FeaturedArticleCard({
               />
             )}
             <span>
-              By{" "}
+              {t("by")}{" "}
               <span className="font-semibold text-gray-700 dark:text-foreground">
                 {article.author.name}
               </span>

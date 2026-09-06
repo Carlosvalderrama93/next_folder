@@ -73,16 +73,22 @@
     "heading": "Artículos",
     "viewAll": "Ver todos →",
     "readArticle": "Leer artículo →",
-    "moreArticles": "Más Artículos"
+    "moreArticles": "Más Artículos",
+    "allCategories": "Todos",
+    "noArticles": "No hay artículos en esta categoría aún.",
+    "readMore": "Leer más",
+    "minRead": "{count} min de lectura",
+    "by": "Por"
   },
   "footer": {
     "tagline": "Conectando el mejor talento tech de LATAM con empresas líderes en todo el mundo.",
     "navigation": "Navegación",
-    "contact": "Contáctame",
-    "follow": "Síguenos",
-    "builtWith": "Hecho con Next.js & Tailwind",
+    "contact": "Contacto",
+    "follow": "Seguir",
+    "builtWith": "Construido con Next.js & Tailwind",
     "cta": "¿Listo para tu próxima oportunidad?",
-    "ctaAction": "Aplicar ahora"
+    "ctaAction": "Aplicar Ahora",
+    "newTab": "abre en una nueva pestaña"
   },
   "jobsPage": {
     "heading": "Posiciones Abiertas",

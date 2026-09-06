@@ -73,7 +73,12 @@
     "heading": "Articles",
     "viewAll": "View all →",
     "readArticle": "Read article →",
-    "moreArticles": "More Articles"
+    "moreArticles": "More Articles",
+    "allCategories": "All",
+    "noArticles": "No articles in this category yet.",
+    "readMore": "Read more",
+    "minRead": "{count} min read",
+    "by": "By"
   },
   "footer": {
     "tagline": "Connecting top LATAM tech talent with leading companies worldwide.",
@@ -82,7 +87,8 @@
     "follow": "Follow",
     "builtWith": "Built with Next.js & Tailwind",
     "cta": "Ready for your next opportunity?",
-    "ctaAction": "Apply Now"
+    "ctaAction": "Apply Now",
+    "newTab": "opens in a new tab"
   },
   "jobsPage": {
     "heading": "Open Positions",

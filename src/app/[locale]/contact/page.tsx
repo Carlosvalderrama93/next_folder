@@ -13,7 +13,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "contactPage" });
   return {
-    title: "Contact",
+    title: t("heading"),
     description: t("description"),
   };
 }

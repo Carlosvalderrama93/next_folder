@@ -98,6 +98,7 @@ async function Footer({ copyright, email, social }: FooterType) {
                 href={s.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`${s.platform} (${t("newTab")})`}
                 className="flex items-center gap-2 text-sm text-muted-fg hover:text-foreground dark:hover:text-white transition-colors"
               >
                 {socialIcons[s.platform] ?? null}

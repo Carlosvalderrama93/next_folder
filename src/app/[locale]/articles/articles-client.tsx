@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArticleCard, FeaturedArticleCard } from "@/components/ui/article-cards";
 import type { CardArticle } from "@/components/ui/article-cards";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -9,6 +10,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 export type { CardArticle as ArticleItem };
 
 export default function ArticlesClient({ articles }: { articles: CardArticle[] }) {
+  const t = useTranslations("articles");
   const [activeCategory, setActiveCategory] = useState("All");
 
   const categories = useMemo(
@@ -30,7 +32,7 @@ export default function ArticlesClient({ articles }: { articles: CardArticle[] }
         <TabsList>
           {categories.map((cat) => (
             <TabsTrigger key={cat} value={cat}>
-              {cat}
+              {cat === "All" ? t("allCategories") : cat}
             </TabsTrigger>
           ))}
         </TabsList>
@@ -44,7 +46,7 @@ export default function ArticlesClient({ articles }: { articles: CardArticle[] }
               href={featured.href}
               className="mt-5 self-start inline-flex items-center gap-2 px-5 py-2.5 bg-brand hover:bg-brand-hover text-white text-sm font-semibold rounded-full transition-colors"
             >
-              Read article →
+              {t("readArticle")}
             </Link>
           </FeaturedArticleCard>
         )}
@@ -64,7 +66,7 @@ export default function ArticlesClient({ articles }: { articles: CardArticle[] }
         ) : (
           !featured && (
             <p className="text-gray-400 dark:text-gray-500 text-sm">
-              No articles in this category yet.
+              {t("noArticles")}
             </p>
           )
         )}
