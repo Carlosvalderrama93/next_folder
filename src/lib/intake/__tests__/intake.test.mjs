@@ -8,12 +8,29 @@ import assert from "node:assert/strict";
 // ── Inline validation (mirrors validation.ts) ─────────────────────────────────
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const ALLOWED_CV_MIME = new Set([
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]);
+const MAX_CV_BYTES = 5 * 1024 * 1024;
+
 function validateApplication(input) {
   const errors = {};
   if (!input.name?.trim()) errors.name = "Full name is required.";
   if (!input.email?.trim()) errors.email = "Email address is required.";
   else if (!EMAIL_RE.test(input.email)) errors.email = "Enter a valid email address.";
   if (!input.message?.trim()) errors.message = "Cover letter is required.";
+  if (input.cv) {
+    if (input.cv.mimeType && !ALLOWED_CV_MIME.has(input.cv.mimeType)) {
+      errors.cv = "Only PDF, DOC, and DOCX files are allowed.";
+    } else {
+      const size = input.cv.sizeBytes ?? input.cv.buffer?.length ?? 0;
+      if (size > MAX_CV_BYTES) {
+        errors.cv = "CV must be under 5 MB.";
+      }
+    }
+  }
   return { ok: Object.keys(errors).length === 0, errors };
 }
 
@@ -91,6 +108,33 @@ describe("validateApplication", () => {
     assert.ok("name" in res.errors);
     assert.ok("email" in res.errors);
     assert.ok("message" in res.errors);
+  });
+
+  it("accepts valid CV attachment (PDF under 5MB)", () => {
+    const res = validateApplication({
+      ...validApp,
+      cv: { filename: "cv.pdf", mimeType: "application/pdf", sizeBytes: 1024 * 1024 },
+    });
+    assert.equal(res.ok, true);
+    assert.equal(res.errors.cv, undefined);
+  });
+
+  it("rejects CV with unsupported MIME type", () => {
+    const res = validateApplication({
+      ...validApp,
+      cv: { filename: "script.exe", mimeType: "application/x-msdownload", sizeBytes: 500 },
+    });
+    assert.equal(res.ok, false);
+    assert.equal(res.errors.cv, "Only PDF, DOC, and DOCX files are allowed.");
+  });
+
+  it("rejects CV exceeding 5MB size limit", () => {
+    const res = validateApplication({
+      ...validApp,
+      cv: { filename: "huge.pdf", mimeType: "application/pdf", sizeBytes: 6 * 1024 * 1024 },
+    });
+    assert.equal(res.ok, false);
+    assert.equal(res.errors.cv, "CV must be under 5 MB.");
   });
 });
 

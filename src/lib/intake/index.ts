@@ -6,7 +6,7 @@
  * hidden behind the seam.
  */
 
-import { rateLimit, getIp } from "@/lib/rate-limit";
+import { rateLimit, getIp } from "./rate-limit";
 import { validateApplication, validateInquiry } from "./validation";
 import { applicationHtml, applicationSubject, inquiryHtml, inquirySubject } from "./templates";
 import { sendNotification } from "./notification-adapter";

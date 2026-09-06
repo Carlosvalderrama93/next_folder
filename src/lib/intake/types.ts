@@ -8,7 +8,12 @@ export interface ApplicationInput {
   message: string;
   jobId: string;
   jobTitle: string;
-  cv?: { filename: string; buffer: Buffer };
+  cv?: {
+    filename: string;
+    buffer: Buffer;
+    mimeType?: string;
+    sizeBytes?: number;
+  };
 }
 
 export interface InquiryInput {

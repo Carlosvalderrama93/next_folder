@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { submitApplication, ALLOWED_CV_MIME, MAX_CV_BYTES } from "@/lib/intake";
+import { submitApplication } from "@/lib/intake";
 
 export async function POST(req: NextRequest) {
   // ── Parse multipart / JSON ─────────────────────────────────────────────────
   const contentType = req.headers.get("content-type") ?? "";
   let fields: Record<string, string> = {};
-  let cv: { filename: string; buffer: Buffer } | undefined;
+  let cv: { filename: string; buffer: Buffer; mimeType?: string; sizeBytes?: number } | undefined;
 
   if (contentType.includes("multipart/form-data")) {
     let formData: FormData;
@@ -19,19 +19,12 @@ export async function POST(req: NextRequest) {
     }
     for (const [key, value] of formData.entries()) {
       if (value instanceof File) {
-        if (!ALLOWED_CV_MIME.has(value.type)) {
-          return NextResponse.json(
-            { errors: { cv: "Only PDF, DOC, and DOCX files are allowed." } },
-            { status: 400 }
-          );
-        }
-        if (value.size > MAX_CV_BYTES) {
-          return NextResponse.json(
-            { errors: { cv: "CV must be under 5 MB." } },
-            { status: 400 }
-          );
-        }
-        cv = { filename: value.name, buffer: Buffer.from(await value.arrayBuffer()) };
+        cv = {
+          filename: value.name,
+          buffer: Buffer.from(await value.arrayBuffer()),
+          mimeType: value.type,
+          sizeBytes: value.size,
+        };
       } else {
         fields[key] = value;
       }

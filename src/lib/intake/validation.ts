@@ -22,6 +22,17 @@ export function validateApplication(input: ApplicationInput): ValidationResult {
 
   if (!input.message.trim()) errors.message = "Cover letter is required.";
 
+  if (input.cv) {
+    if (input.cv.mimeType && !ALLOWED_CV_MIME.has(input.cv.mimeType)) {
+      errors.cv = "Only PDF, DOC, and DOCX files are allowed.";
+    } else {
+      const size = input.cv.sizeBytes ?? input.cv.buffer?.length ?? 0;
+      if (size > MAX_CV_BYTES) {
+        errors.cv = "CV must be under 5 MB.";
+      }
+    }
+  }
+
   return { ok: Object.keys(errors).length === 0, errors };
 }
 

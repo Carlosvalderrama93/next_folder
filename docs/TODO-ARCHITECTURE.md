@@ -9,7 +9,7 @@ Este documento registra el seguimiento detallado de las 4 opciones de mejora arq
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción 1** | Job Query & Filtering Seam ([`src/lib/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/jobs/)) | ✅ Completada | **Alta (Sprint Actual)** |
-| **Opción 2** | Intake File Validation & Purge Ghosts ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ⚪ Pendiente | Media-Alta |
+| **Opción 2** | Intake File Validation & Purge Ghosts ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ✅ Completada | Media-Alta |
 | **Opción 3** | Article Entity Alignment & Move Cards ([`src/lib/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/articles/)) | ⚪ Pendiente | Media |
 | **Opción 4** | About Profile Repository & Collapse Page ([`src/app/[locale]/about/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/about/)) | ⚪ Pendiente | Media |
 
@@ -33,16 +33,17 @@ Este documento registra el seguimiento detallado de las 4 opciones de mejora arq
 
 ---
 
-## 📦 Opción 2: Encapsulate Intake File Validation & Purge Ghosts (Pendiente)
+## 📦 Opción 2: Encapsulate Intake File Validation & Purge Ghosts (✅ Completada)
+**Rama:** `feat/intake-encapsulation-sprint`
 
 ### Objetivos
-- [ ] **2.1 Validación de CV en Intake:** Mover la verificación de tipos MIME (`ALLOWED_CV_MIME`) y límite de 5 MB de [`api/apply/route.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/api/apply/route.ts) dentro de [`src/lib/intake/validation.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/validation.ts).
-- [ ] **2.2 Adelgazar transport handler:** Convertir `api/apply/route.ts` en un adaptador delgado que solo extrae `FormData` y delega a `submitApplication`.
-- [ ] **2.3 Purgar archivos huérfanos:**
-  - Eliminar [`src/lib/validation.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/validation.ts) (código muerto).
-  - Eliminar [`src/lib/strapi.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/strapi.ts) (barrel export sin uso).
-- [ ] **2.4 Internalizar rate limiting:** Mover `rate-limit.ts` dentro de `src/lib/intake/` como adaptador interno.
-- [ ] **2.5 Pruebas:** Agregar pruebas unitarias en `intake.test.mjs` para rechazo de CV mayor a 5MB y tipos de archivo inválidos.
+- [x] **2.1 Validación de CV en Intake:** Mover la verificación de tipos MIME (`ALLOWED_CV_MIME`) y límite de 5 MB de [`api/apply/route.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/api/apply/route.ts) dentro de [`src/lib/intake/validation.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/validation.ts).
+- [x] **2.2 Adelgazar transport handler:** Convertir `api/apply/route.ts` en un adaptador delgado que solo extrae `FormData` y delega a `submitApplication`.
+- [x] **2.3 Purgar archivos huérfanos:**
+  - Eliminado [`src/lib/validation.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/validation.ts) (código muerto).
+  - Eliminado [`src/lib/strapi.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/strapi.ts) (barrel export sin uso).
+- [x] **2.4 Internalizar rate limiting:** Movido `rate-limit.ts` dentro de `src/lib/intake/rate-limit.ts` como adaptador interno.
+- [x] **2.5 Pruebas:** Agregadas pruebas unitarias en `intake.test.mjs` para rechazo de CV mayor a 5MB y tipos de archivo inválidos (66/66 pruebas pasando).
 
 ---
 
