@@ -15,8 +15,7 @@ import { getTranslations } from "next-intl/server";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://carlosvalderrama.com";
+import { SITE_URL, siteConfig } from "@/lib/site-config";
 
 export async function generateMetadata({
   params,
@@ -148,7 +147,7 @@ export default async function ArticleDetail({
     headline: article.title,
     description: article.description ?? "",
     datePublished: article.publishedAt,
-    author: { "@type": "Person", name: "Carlos Valderrama" },
+    author: { "@type": "Person", name: siteConfig.name },
   };
 
   const dateLocale = locale === "es" ? "es-ES" : "en-US";

@@ -1,5 +1,10 @@
-import type { Job, JobFilterCriteria } from "./types";
-import type { JobStatus, JobModality, JobPaymentType } from "@/types/homepage";
+import type {
+  Job,
+  JobFilterCriteria,
+  JobStatus,
+  JobModality,
+  JobPaymentType,
+} from "./types";
 
 function normalizeText(str: string): string {
   return str

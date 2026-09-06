@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
 import { listArticles } from "@/lib/articles";
 import { listJobs } from "@/lib/jobs";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://carlosvalderrama.com";
+import { SITE_URL } from "@/lib/site-config";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [articles, jobs] = await Promise.all([listArticles(), listJobs()]);

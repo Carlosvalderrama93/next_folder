@@ -1,16 +1,11 @@
 import React from "react";
-import type { Footer as FooterType } from "@/Data/homepage";
-import { homePageData } from "@/Data/homepage";
+import {
+  NAV_LINKS,
+  siteConfig,
+  type FooterConfig,
+} from "@/lib/site-config";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-
-const NAV_LINKS = [
-  { key: "home" as const, href: "/" as const },
-  { key: "about" as const, href: "/about" as const },
-  { key: "jobs" as const, href: "/jobs" as const },
-  { key: "contact" as const, href: "/contact" as const },
-  { key: "articles" as const, href: "/articles" as const },
-];
 
 const socialIcons: Record<string, React.ReactNode> = {
   LinkedIn: (
@@ -34,12 +29,12 @@ function EmailIcon() {
   );
 }
 
-type FooterProps = Partial<FooterType>;
+type FooterProps = Partial<FooterConfig>;
 
 async function Footer(props?: FooterProps) {
-  const copyright = props?.copyright ?? homePageData.footer.copyright;
-  const email = props?.email ?? homePageData.footer.email;
-  const social = props?.social ?? homePageData.footer.social;
+  const copyright = props?.copyright ?? siteConfig.footer.copyright;
+  const email = props?.email ?? siteConfig.footer.email;
+  const social = props?.social ?? siteConfig.footer.social;
   const t = await getTranslations("footer");
   const tNav = await getTranslations("nav");
 

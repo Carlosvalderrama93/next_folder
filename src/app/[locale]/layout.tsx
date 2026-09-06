@@ -19,6 +19,7 @@ async function SkipLink({ locale }: { locale: string }) {
 }
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import { SITE_URL, siteConfig } from "@/lib/site-config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,8 +30,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://carlosvalderrama.com";
 
 export async function generateMetadata({
   params,
@@ -43,13 +42,13 @@ export async function generateMetadata({
     metadataBase: new URL(SITE_URL),
     title: {
       default: t("title"),
-      template: `%s | Carlos Valderrama`,
+      template: `%s | ${siteConfig.name}`,
     },
     description: t("description"),
     alternates: { canonical: "/" },
     openGraph: {
       type: "website",
-      siteName: "Carlos Valderrama",
+      siteName: siteConfig.name,
       title: t("title"),
       description: t("description"),
       url: SITE_URL,

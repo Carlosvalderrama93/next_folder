@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { homePageData } from "../Data/homepage";
+import { siteConfig } from "@/lib/site-config";
 import HeroCTA from "./hero-cta";
 import { getTranslations } from "next-intl/server";
 
-const heroData = homePageData.hero;
+const heroData = siteConfig.hero;
 
 async function Hero() {
   const heroTranslations = await getTranslations("hero");
@@ -40,7 +40,7 @@ async function Hero() {
         </span>
 
         <h1 className="text-5xl md:text-6xl font-extrabold text-gray-950 dark:text-foreground mb-4 leading-tight">
-          Carlos Valderrama
+          {siteConfig.name}
         </h1>
         <p className="text-xl text-gray-500 dark:text-muted-fg max-w-xl leading-relaxed mb-10">
           {heroTranslations("subtitle")}

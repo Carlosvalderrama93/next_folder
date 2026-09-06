@@ -2,11 +2,15 @@ import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { getJob } from "@/lib/jobs";
+import {
+  getJob,
+  type JobStatus,
+  type JobModality,
+  type JobPaymentType,
+} from "@/lib/jobs";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import type { JobStatus, JobModality, JobPaymentType } from "@/types/homepage";
 import Image from "next/image";
 import { ApplyToggle } from "./apply-toggle";
 

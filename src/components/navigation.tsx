@@ -2,21 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { homePageData } from "../Data/homepage";
+import { NAV_LINKS, siteConfig, isRouteActive } from "@/lib/site-config";
 import { ThemeToggle } from "./theme-toggle";
 import { TooltipProvider } from "./ui/tooltip";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "./ui/language-switcher";
 
-const NAV_LINKS = [
-  { key: "home" as const, href: "/" },
-  { key: "about" as const, href: "/about" },
-  { key: "jobs" as const, href: "/jobs" },
-  { key: "contact" as const, href: "/contact" },
-  { key: "articles" as const, href: "/articles" },
-];
-
-const ctaHref = homePageData.nav.cta.href;
+const ctaHref = siteConfig.navCta.href;
 
 function Navigation() {
   const translate = useTranslations("nav");
@@ -48,9 +40,7 @@ function Navigation() {
           </Link>
           <div className="hidden md:flex">
             {NAV_LINKS.map((link) => {
-              const isActive =
-                pathname === link.href ||
-                (link.href !== "/" && pathname.startsWith(link.href));
+              const isActive = isRouteActive(pathname, link.href);
               return (
                 <Link
                   key={link.key}
@@ -108,9 +98,7 @@ function Navigation() {
             className="absolute top-full left-0 right-0 bg-white dark:bg-background border-b border-gray-100 dark:border-border flex flex-col px-6 py-4 gap-4 md:hidden shadow-md"
           >
             {NAV_LINKS.map((link) => {
-              const isActive =
-                pathname === link.href ||
-                (link.href !== "/" && pathname.startsWith(link.href));
+              const isActive = isRouteActive(pathname, link.href);
               return (
                 <Link
                   key={link.key}

@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import type { JobStatus } from "@/types/homepage";
-import type { Job } from "@/lib/jobs";
+import type { Job, JobStatus } from "@/lib/jobs";
 
 export type JobCardProps = Job;
 

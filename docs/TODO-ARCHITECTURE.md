@@ -25,8 +25,8 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 ### Ciclo 3: Shell Persistente en App Router y Centralización de Presentación (🚀 En Curso)
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
-| **Opción 1** | Shell Persistente en Root Layout ([`src/app/[locale]/layout.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/layout.tsx)) | ✅ **Completada** | `feat/persistent-shell-layout-sprint` |
-| **Opción 2** | Costura de Configuración del Sitio ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ⚪ Pendiente | Alta |
+| **Opción 1** | Shell Persistente en Root Layout ([`src/app/[locale]/layout.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/layout.tsx)) | ✅ **Completada** | `feat/persistent-shell-layout-sprint` (`81e91d3`) |
+| **Opción 2** | Costura de Configuración del Sitio ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/site-config-seam-sprint` |
 | **Opción 3** | Componente Canónico `JobStatusBadge` & Presentación ([`src/components/job-status-badge.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job-status-badge.tsx)) | ⚪ Pendiente | Media |
 | **Opción 4** | Descomposición de Bloques de Artículos ([`src/components/article-blocks.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/article-blocks.tsx)) | ⚪ Pendiente | Media |
 
@@ -45,13 +45,15 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ---
 
-## ⚙️ Opción 2: Costura de Configuración del Sitio & Retiro de `homepage.ts` (⚪ Pendiente)
+## ⚙️ Opción 2: Costura de Configuración del Sitio & Retiro de `homepage.ts` (✅ Completada)
 **Rama:** `feat/site-config-seam-sprint`
 
 ### Objetivos
-- [ ] **2.1 Crear costura `src/lib/site-config/`:** Definir `types.ts`, `fixtures.ts` e `index.ts` con la configuración canónica (marca, autor, redes sociales, contacto, `NAV_LINKS` canónicos).
-- [ ] **2.2 Unificar `NAV_LINKS`:** Consumir los enlaces de navegación canónicos tanto en `Navigation` como en `Footer`.
-- [ ] **2.3 Retirar `src/Data/homepage.ts` y `src/types/homepage.ts`:** Eliminar los datos huérfanos residuales (`nav.logo`, enlace roto a `/blog`, placeholders viejos).
+- [x] **2.1 Crear costura `src/lib/site-config/`:** Definido `types.ts`, `config.ts`, `utils.ts` (`isRouteActive`, `isValidSocialUrl`), `index.ts` y suite de pruebas unitarias (`site-config.test.mjs`).
+- [x] **2.2 Unificar `NAV_LINKS` y `SITE_URL`:** Consumir los enlaces canónicos y URL canónica en `Navigation`, `Footer`, `Hero`, `LocaleLayout`, `robots.ts`, `sitemap.ts` y detalle de artículos.
+- [x] **2.3 Reubicar tipos de Dominio de Empleos:** Exportar `JobStatus`, `JobModality`, `JobPaymentType`, `RawStaticJob` desde `@/lib/jobs` y actualizar imports en `job-card`, `job-filters`, `jobs/[id]/page.tsx`, `jobs/query.ts`.
+- [x] **2.4 Retirar `src/Data/homepage.ts` y `src/types/homepage.ts`:** Eliminados definitivamente sin dejar código huérfano ni directorio vacío `src/types`.
+- [x] **2.5 Verificación completa:** 95 pruebas unitarias (`npm test`), 0 errores de tipos, 0 linter warnings, build de producción y 18/18 tests E2E pasados.
 
 ---
 

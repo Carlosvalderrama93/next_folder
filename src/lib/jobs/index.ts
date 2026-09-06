@@ -4,7 +4,15 @@ import { fetchJobsFromStrapi, fetchJobFromStrapi } from "./strapi-adapter";
 import { fetchJobsFromStatic, fetchJobFromStatic } from "./static-adapter";
 import { filterJobs } from "./query";
 
-export type { Job, ListJobsOptions, JobFilterCriteria } from "./types";
+export type {
+  Job,
+  JobStatus,
+  JobModality,
+  JobPaymentType,
+  RawStaticJob,
+  ListJobsOptions,
+  JobFilterCriteria,
+} from "./types";
 export { getStrapiImageSrc } from "./normalizer";
 export { filterJobs } from "./query";
 

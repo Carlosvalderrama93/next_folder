@@ -4,8 +4,13 @@ import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import JobCard from "./job-card";
-import type { JobStatus, JobModality, JobPaymentType } from "@/types/homepage";
-import { filterJobs, type Job } from "@/lib/jobs";
+import {
+  filterJobs,
+  type Job,
+  type JobStatus,
+  type JobModality,
+  type JobPaymentType,
+} from "@/lib/jobs";
 
 const ALL_STATUSES: JobStatus[] = [
   "open",
