@@ -12,7 +12,7 @@
     "jobs": "Empleos",
     "contact": "Contacto",
     "articles": "Artículos",
-    "cta": "Aplicar ahora"
+    "cta": "Contáctame"
   },
   "hero": {
     "badge": "Tech Recruiter · LATAM",
@@ -32,6 +32,11 @@
     "browseAll": "Ver todas las posiciones",
     "open": "Abierta",
     "closed": "Cerrada",
+    "onHold": "En pausa",
+    "finalSteps": "Etapa final",
+    "filled": "Cubierta",
+    "cancelled": "Cancelada",
+    "overstaffed": "Sobredotada",
     "applyNow": "Aplicar ahora"
   },
   "testimonials": {
@@ -86,7 +91,31 @@
     "filterAll": "Todas",
     "noRoleHeading": "No hay posiciones abiertas ahora",
     "noRoleDesc": "Se agregan roles regularmente. Contáctanos para ser considerado en futuras oportunidades.",
-    "getInTouch": "Contáctanos"
+    "getInTouch": "Contáctanos",
+    "searchPlaceholder": "Buscar empleos…",
+    "filters": "Filtros",
+    "clearAll": "Limpiar todo",
+    "skillsLabel": "Habilidades",
+    "modalityLabel": "Modalidad",
+    "paymentLabel": "Pago",
+    "statusOpen": "Abierta",
+    "statusOnHold": "En pausa",
+    "statusFinalSteps": "Etapa final",
+    "statusFilled": "Cubierta",
+    "statusCancelled": "Cancelada",
+    "statusOverstaffed": "Sobredotada",
+    "modalityRemote": "Remoto",
+    "modalityHybrid": "Híbrido",
+    "modalityOnSite": "Presencial",
+    "paymentSalary": "Salario",
+    "paymentHourly": "Por hora",
+    "paymentEquity": "Equity",
+    "paymentMixed": "Mixto",
+    "results_one": "{count} resultado",
+    "results_other": "{count} resultados",
+    "noResults": "Ningún empleo coincide con tus filtros",
+    "noResultsDesc": "Intenta ajustar tu búsqueda o borrar algunos filtros.",
+    "clearFilters": "Limpiar filtros"
   },
   "articlesPage": {
     "heading": "Artículos"
@@ -136,7 +165,26 @@
     "yourApplication": "Tu Aplicación",
     "positionNotFound": "Posición no encontrada",
     "breadcrumbHome": "Inicio",
-    "breadcrumbPositions": "Posiciones"
+    "breadcrumbPositions": "Posiciones",
+    "statusOpen": "Abierta",
+    "statusOnHold": "En pausa",
+    "statusFinalSteps": "Etapa final",
+    "statusFilled": "Cubierta",
+    "statusCancelled": "Cancelada",
+    "statusOverstaffed": "Sobredotada",
+    "modalityRemote": "Remoto",
+    "modalityHybrid": "Híbrido",
+    "modalityOnSite": "Presencial",
+    "positionClosed": "Esta posición ya no está aceptando aplicaciones",
+    "positionClosedDesc": "Explora nuestras otras posiciones abiertas — nos encantaría conocerte.",
+    "viewOpenRoles": "Ver Posiciones Abiertas",
+    "paymentSalary": "Salario",
+    "paymentHourly": "Por hora",
+    "paymentEquity": "Equity",
+    "paymentMixed": "Mixto",
+    "postedOn": "Publicado el {date}",
+    "applyForRole": "Aplicar a esta posición",
+    "backToJob": "Ver detalles del empleo"
   },
   "applyForm": {
     "fullName": "Nombre completo",
@@ -157,7 +205,15 @@
     "emailInvalid": "Ingresa un correo electrónico válido.",
     "messageRequired": "La carta de presentación es obligatoria.",
     "cvType": "Solo se permiten archivos PDF, DOC y DOCX.",
-    "cvSize": "El CV debe pesar menos de 5 MB."
+    "cvSize": "El CV debe pesar menos de 5 MB.",
+    "optional": "opcional",
+    "dragOrClick": "Arrastra o haz clic para subir",
+    "phone": "Número de teléfono",
+    "linkedinInvalid": "Ingresa una URL válida de LinkedIn (linkedin.com).",
+    "viewMoreRoles": "Ver más posiciones",
+    "sectionPersonal": "Información personal",
+    "sectionDocuments": "Documentos",
+    "sectionMessage": "Tu mensaje"
   },
   "contactForm": {
     "fullName": "Nombre completo",

@@ -1,9 +1,8 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { homePageData } from "@/Data/homepage";
-import { fetchStrapiJobs, getStrapiImageSrc } from "@/lib/strapi";
+import { listJobs } from "@/lib/jobs";
 import JobFilters from "@/components/job-filters";
-import type { JobCardProps } from "@/components/job-card";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
@@ -28,34 +27,8 @@ export default async function JobsPage({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "jobsPage" });
 
-  const strapiJobs = await fetchStrapiJobs();
-  const staticPositions = homePageData.openPositions;
+  const jobs = await listJobs();
   const footerData = homePageData.footer;
-
-  const jobs: JobCardProps[] =
-    strapiJobs.length > 0
-      ? strapiJobs.map((job) => ({
-          id: job.documentId,
-          title: job.title,
-          description: job.description,
-          location: job.location,
-          type: job.jobType,
-          isOpen: job.isOpen,
-          applyHref: `/apply/${job.documentId}`,
-          imageUrl: job.image ? getStrapiImageSrc(job.image.url) : undefined,
-          imageAlt: job.image?.alternativeText,
-        }))
-      : staticPositions.map((job) => ({
-          id: job.id,
-          title: job.title,
-          description: job.description,
-          location: job.location,
-          type: job.type,
-          postedAt: job.postedAt,
-          isOpen: true,
-          applyHref: `/apply/${job.id}`,
-          imageUrl: job.image ?? undefined,
-        }));
 
   const countKey = jobs.length === 1 ? "available_one" : "available_other";
 
@@ -82,16 +55,7 @@ export default async function JobsPage({
 
       {/* ── Job list ──────────────────────────────────────────── */}
       <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20">
-        <JobFilters
-          jobs={jobs}
-          labels={{
-            filterOpen: t("filterOpen"),
-            filterAll: t("filterAll"),
-            noRoleHeading: t("noRoleHeading"),
-            noRoleDesc: t("noRoleDesc"),
-            getInTouch: t("getInTouch"),
-          }}
-        />
+        <JobFilters jobs={jobs} />
       </main>
 
       <Footer {...footerData} />

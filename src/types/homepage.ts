@@ -22,13 +22,28 @@ export type Hero = {
   backgroundImage?: string;
 };
 
+export type JobStatus =
+  | "open"
+  | "on-hold"
+  | "final-steps"
+  | "filled"
+  | "cancelled"
+  | "overstaffed";
+
+export type JobModality = "remote" | "hybrid" | "on-site";
+export type JobPaymentType = "salary" | "hourly" | "equity" | "mixed";
+
 export type Job = {
   id: string;
   title: string;
   description: string;
   location: string;
   type: "Full-time" | "Part-time" | "Contract" | "Internship";
-  postedAt: string;
+  status: JobStatus;
+  skills: string[];
+  modality: JobModality;
+  paymentType: JobPaymentType;
+  postedAt?: string;
   image?: string;
 };
 
