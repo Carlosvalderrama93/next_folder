@@ -36,22 +36,48 @@ const STATUS_BADGE: Record<JobStatus, string> = {
   "final-steps": "bg-indigo-500 text-white",
   filled: "bg-gray-200 dark:bg-surface-raised text-gray-500 dark:text-muted-fg",
   cancelled: "bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-400",
-  overstaffed: "bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400",
+  overstaffed:
+    "bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400",
 };
 
-const DIMMED_STATUSES = new Set<JobStatus>(["filled", "cancelled", "overstaffed"]);
+const DIMMED_STATUSES = new Set<JobStatus>([
+  "filled",
+  "cancelled",
+  "overstaffed",
+]);
 
 function MapPinIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+      <circle cx="12" cy="10" r="3" />
     </svg>
   );
 }
 
 function CalendarIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
       <line x1="16" y1="2" x2="16" y2="6" />
       <line x1="8" y1="2" x2="8" y2="6" />
@@ -59,6 +85,8 @@ function CalendarIcon() {
     </svg>
   );
 }
+
+import Card from "@/components/ui/card";
 
 export default function JobCard({
   title,
@@ -73,7 +101,7 @@ export default function JobCard({
   imageUrl,
   imageAlt,
 }: JobCardProps) {
-  const t = useTranslations("jobs");
+  const jobsTranslations = useTranslations("jobs");
   const locale = useLocale();
 
   const formattedDate = postedAt
@@ -89,16 +117,18 @@ export default function JobCard({
   const isDimmed = status ? DIMMED_STATUSES.has(status) : !isEffectivelyOpen;
 
   const badgeEl = status ? (
-    <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${STATUS_BADGE[status]}`}>
-      {t(STATUS_KEYS[status])}
+    <span
+      className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${STATUS_BADGE[status]}`}
+    >
+      {jobsTranslations(STATUS_KEYS[status])}
     </span>
   ) : isEffectivelyOpen ? (
     <span className="bg-emerald-500 text-white px-2.5 py-0.5 rounded-full text-xs font-semibold">
-      {t("open")}
+      {jobsTranslations("open")}
     </span>
   ) : (
     <span className="bg-gray-200 dark:bg-surface-raised text-gray-500 dark:text-muted-fg px-2.5 py-0.5 rounded-full text-xs font-semibold">
-      {t("closed")}
+      {jobsTranslations("closed")}
     </span>
   );
 
@@ -106,8 +136,9 @@ export default function JobCard({
   const extraSkills = (skills?.length ?? 0) - visibleSkills.length;
 
   return (
-    <article
-      className={`group relative flex flex-col rounded-2xl border border-gray-200 dark:border-border bg-white dark:bg-surface shadow-sm hover:shadow-md hover:border-brand/30 dark:hover:border-brand/30 transition-all duration-200${isDimmed ? " opacity-60" : ""}`}
+    <Card
+      variant="job"
+      className={`group relative flex flex-col transition-all duration-200 hover:border-brand/30 dark:hover:border-brand/30 hover:shadow-md${isDimmed ? " opacity-60" : ""}`}
     >
       {/* Body */}
       <div className="p-5 flex-1">
@@ -160,7 +191,9 @@ export default function JobCard({
               </span>
             ))}
             {extraSkills > 0 && (
-              <span className="text-xs text-muted-fg self-center">+{extraSkills}</span>
+              <span className="text-xs text-muted-fg self-center">
+                +{extraSkills}
+              </span>
             )}
           </div>
         )}
@@ -187,14 +220,16 @@ export default function JobCard({
             href={applyHref as `/${string}`}
             className="relative z-10 shrink-0 px-4 py-2 bg-brand text-white rounded-full text-xs font-semibold hover:bg-brand-hover transition-colors"
           >
-            {t("applyNow")}
+            {jobsTranslations("applyNow")}
           </Link>
         ) : (
           <span className="shrink-0 px-4 py-2 bg-gray-100 dark:bg-surface-raised text-muted-fg rounded-full text-xs font-semibold cursor-not-allowed">
-            {status ? t(STATUS_KEYS[status]) : t("closed")}
+            {status
+              ? jobsTranslations(STATUS_KEYS[status])
+              : jobsTranslations("closed")}
           </span>
         )}
       </div>
-    </article>
+    </Card>
   );
 }

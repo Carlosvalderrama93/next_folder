@@ -5,29 +5,13 @@ import { Breadcrumb } from "@/components/ui/breadcrumb";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { homePageData } from "@/Data/homepage";
-import { fetchStrapiJob, getStrapiImageSrc } from "@/lib/strapi";
+import { getJob } from "@/lib/jobs";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { cache } from "react";
 import { getTranslations } from "next-intl/server";
 import type { JobStatus, JobModality, JobPaymentType } from "@/types/homepage";
 import Image from "next/image";
 import { ApplyToggle } from "./apply-toggle";
-
-interface JobData {
-  id: string;
-  title: string;
-  description: string;
-  location: string;
-  type: string;
-  status: JobStatus;
-  skills?: string[];
-  modality?: JobModality;
-  paymentType?: JobPaymentType;
-  postedAt?: string;
-  imageUrl?: string;
-  imageAlt?: string;
-}
 
 const STATUS_BADGE: Record<JobStatus, string> = {
   open: "bg-emerald-500 text-white",
@@ -59,45 +43,6 @@ const PAYMENT_KEYS: Record<JobPaymentType, string> = {
   equity: "paymentEquity",
   mixed: "paymentMixed",
 };
-
-const getJob = cache(async function getJob(id: string): Promise<JobData | null> {
-  const strapiJob = await fetchStrapiJob(id);
-  if (strapiJob) {
-    return {
-      id: strapiJob.documentId,
-      title: strapiJob.title,
-      description: strapiJob.description,
-      location: strapiJob.location,
-      type: strapiJob.jobType,
-      status: (strapiJob.status as JobStatus | undefined) ?? (strapiJob.isOpen ? "open" : "filled"),
-      skills: strapiJob.skills,
-      modality: strapiJob.modality as JobModality | undefined,
-      paymentType: strapiJob.paymentType as JobPaymentType | undefined,
-      postedAt: strapiJob.postedAt,
-      imageUrl: strapiJob.image ? getStrapiImageSrc(strapiJob.image.url) : undefined,
-      imageAlt: strapiJob.image?.alternativeText,
-    };
-  }
-
-  const staticJob = homePageData.openPositions.find((j) => j.id === id);
-  if (staticJob) {
-    return {
-      id: staticJob.id,
-      title: staticJob.title,
-      description: staticJob.description,
-      location: staticJob.location,
-      type: staticJob.type,
-      status: staticJob.status,
-      skills: staticJob.skills,
-      modality: staticJob.modality,
-      paymentType: staticJob.paymentType,
-      postedAt: staticJob.postedAt,
-      imageUrl: staticJob.image ?? undefined,
-    };
-  }
-
-  return null;
-});
 
 export async function generateMetadata({
   params,

@@ -9,7 +9,6 @@ import {
   fetchStrapiArticleDetail,
   fetchStrapiArticles,
   getStrapiImageSrc,
-  type StrapiArticleDetail,
   type StrapiBlock,
   type StrapiMediaFile,
 } from "@/lib/strapi";

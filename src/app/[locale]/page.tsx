@@ -16,9 +16,9 @@ export default function page() {
       <main id="main-content">
         <Hero />
         <Job />
+        <Articles />
         <Testimonials />
         <FAQ />
-        <Articles />
       </main>
       <Footer {...data} />
     </>
