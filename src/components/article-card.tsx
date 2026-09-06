@@ -1,18 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { type ReactNode } from "react";
-import { Avatar } from "./avatar";
+import { Avatar } from "@/components/ui/avatar";
+import type { Article } from "@/lib/articles";
 
-export interface CardArticle {
-  id: string;
-  title: string;
-  href: string;
-  excerpt: string;
-  coverImage?: string;
-  category: string;
-  date: string;
-  author?: { name: string; avatar?: string };
-}
+export type CardArticle = Article;
 
 export function formatDate(dateStr: string, locale = "en") {
   const dateLocale = locale === "es" ? "es-ES" : "en-US";
@@ -37,7 +29,7 @@ export function ArticleCard({
   readMoreText,
   byText,
 }: {
-  article: CardArticle;
+  article: Article;
   locale?: string;
   readMoreText?: string;
   byText?: string;
@@ -111,7 +103,7 @@ export function FeaturedArticleCard({
   imageWidth = 460,
   children,
 }: {
-  article: CardArticle;
+  article: Article;
   locale?: string;
   byText?: string;
   imageWidth?: number;

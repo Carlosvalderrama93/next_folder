@@ -75,15 +75,9 @@ export type Author = {
   slug: string;
 };
 
-export type BlogPreview = {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  coverImage?: string;
-  createdAt: string;
-  category?: string;
-};
+import type { RawStaticArticle } from "@/lib/articles/types";
+
+export type BlogPreview = RawStaticArticle;
 
 export type ContactCTA = {
   heading: string;

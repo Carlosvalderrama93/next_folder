@@ -10,7 +10,7 @@ Este documento registra el seguimiento detallado de las 4 opciones de mejora arq
 |---|---|---|---|
 | **Opción 1** | Job Query & Filtering Seam ([`src/lib/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/jobs/)) | ✅ Completada | **Alta (Sprint Actual)** |
 | **Opción 2** | Intake File Validation & Purge Ghosts ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ✅ Completada | Media-Alta |
-| **Opción 3** | Article Entity Alignment & Move Cards ([`src/lib/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/articles/)) | ⚪ Pendiente | Media |
+| **Opción 3** | Article Entity Alignment & Move Cards ([`src/lib/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/articles/)) | ✅ Completada | Media |
 | **Opción 4** | About Profile Repository & Collapse Page ([`src/app/[locale]/about/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/about/)) | ⚪ Pendiente | Media |
 
 ---
@@ -47,13 +47,14 @@ Este documento registra el seguimiento detallado de las 4 opciones de mejora arq
 
 ---
 
-## 📰 Opción 3: Eliminate Article Entity Drift & Relocate Cards (Pendiente)
+## 📰 Opción 3: Eliminate Article Entity Drift & Relocate Cards (✅ Completada)
+**Rama:** `feat/articles-entity-alignment-sprint`
 
 ### Objetivos
-- [ ] **3.1 Reubicar presentación:** Mover [`src/components/ui/article-cards.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/article-cards.tsx) fuera de `components/ui/` hacia `src/components/article-card.tsx` o `src/components/articles/`.
-- [ ] **3.2 Eliminar `CardArticle`:** Reemplazar la interfaz clonada por la entidad canónica `Article` de [`src/lib/articles/types.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/articles/types.ts).
-- [ ] **3.3 Purgar `BlogPreview`:** Eliminar el tipo obsoleto `BlogPreview` en [`src/types/homepage.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/types/homepage.ts) y limpiar datos no usados en `homepage.ts`.
-- [ ] **3.4 Actualizar call sites:** Ajustar imports en `articles.tsx` y `articles-client.tsx`.
+- [x] **3.1 Reubicar presentación:** Movido [`src/components/ui/article-cards.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/article-cards.tsx) fuera de `components/ui/` hacia [`src/components/article-card.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/article-card.tsx).
+- [x] **3.2 Eliminar `CardArticle`:** Reemplazada la interfaz clonada por la entidad canónica `Article` de [`src/lib/articles/types.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/articles/types.ts).
+- [x] **3.3 Purgar `BlogPreview`:** Reemplazado por `RawStaticArticle` canónico en `src/lib/articles/types.ts` y actualizado `src/types/homepage.ts`.
+- [x] **3.4 Actualizar call sites:** Actualizados imports en `articles.tsx` y `articles-client.tsx`.
 
 ---
 

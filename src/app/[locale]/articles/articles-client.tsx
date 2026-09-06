@@ -3,13 +3,13 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { ArticleCard, FeaturedArticleCard } from "@/components/ui/article-cards";
-import type { CardArticle } from "@/components/ui/article-cards";
+import { ArticleCard, FeaturedArticleCard } from "@/components/article-card";
+import type { Article } from "@/lib/articles";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
-export type { CardArticle as ArticleItem };
+export type { Article as ArticleItem };
 
-export default function ArticlesClient({ articles }: { articles: CardArticle[] }) {
+export default function ArticlesClient({ articles }: { articles: Article[] }) {
   const t = useTranslations("articles");
   const [activeCategory, setActiveCategory] = useState("All");
 

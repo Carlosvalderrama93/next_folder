@@ -1,5 +1,4 @@
 import { STRAPI_URL } from "@/lib/config";
-import type { BlogPreview } from "@/types/homepage";
 import type {
   Article,
   ArticleDetail,
@@ -8,6 +7,7 @@ import type {
   RawStrapiArticle,
   RawStrapiArticleDetail,
   RawStrapiBlock,
+  RawStaticArticle,
 } from "./types";
 
 export function getStrapiImageSrc(url: string): string {
@@ -100,7 +100,7 @@ export function normalizeStrapiArticleDetail(
 }
 
 export function normalizeStaticArticle(
-  raw: BlogPreview,
+  raw: RawStaticArticle,
   defaultAuthor?: ArticleAuthor,
   contentBlocks?: ArticleBlock[]
 ): ArticleDetail {
