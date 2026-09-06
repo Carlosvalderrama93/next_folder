@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "node --test src/lib/jobs/__tests__/normalizer.test.mjs src/lib/intake/__tests__/intake.test.mjs src/lib/articles/__tests__/articles.test.mjs"
+    "test": "node --test src/lib/jobs/__tests__/normalizer.test.mjs src/lib/intake/__tests__/intake.test.mjs src/lib/articles/__tests__/articles.test.mjs",
+    "test:e2e": "node scripts/verify-e2e.mjs"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",

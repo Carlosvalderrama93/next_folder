@@ -2,7 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { submitInquiry } from "@/lib/intake";
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
+  let body: Record<string, string> = {};
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json(
+      { errors: { name: "Name is required.", email: "Valid email is required." } },
+      { status: 400 }
+    );
+  }
 
   const result = await submitInquiry(req, {
     name: body.name?.trim() ?? "",

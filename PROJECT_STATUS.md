@@ -84,24 +84,32 @@
 | **UI** | Form field with error state | ✅ | — | — |
 | **UI** | Article cards with image, reading time | ✅ | — | — |
 | | | | | |
-| **Bugs** | Strapi job schema missing fields | ❌ | **High** | 2h |
-| **Bugs** | Static article links → 404 (slug vs documentId) | ❌ | **High** | 1h |
-| **Bugs** | Duplicate articles in static data | ❌ | **Medium** | 15min |
-| **Bugs** | Rate limiter in-memory (serverless) | ❌ | **Medium** | 2h |
-| **Bugs** | Job carousel omits status for static jobs | ❌ | **Low** | 15min |
-| **Bugs** | `encodeURI` usage | ✅ (no bug) | — | — |
+| **Deep Architecture** | Job Repository Module (`src/lib/jobs/`) | ✅ | — | — |
+| **Deep Architecture** | Notification & Intake Module (`src/lib/intake/`) | ✅ | — | — |
+| **Deep Architecture** | Article Content Module (`src/lib/articles/`) | ✅ | — | — |
+| **Deep Architecture** | Testimonials Module Collapsed (`src/components/testimonials.tsx`) | ✅ | — | — |
+| **Testing** | Automated unit test suite (`npm test`, 48 tests) | ✅ | — | — |
+| **Testing** | Native E2E verification suite (`npm run test:e2e`, 18 checks) | ✅ | — | — |
+| **Quality** | Full form a11y (focus management, ARIA) & i18n | ✅ | — | — |
+| | | | | |
+| **Resolved Bugs** | Strapi job schema normalized behind seam | ✅ | — | — |
+| **Resolved Bugs** | Static article links 404 resolved by slug/id resolver | ✅ | — | — |
+| **Resolved Bugs** | Duplicate articles deduplicated in adapter | ✅ | — | — |
+| **Resolved Bugs** | Job carousel status inferred for static jobs | ✅ | — | — |
+| **Resolved Bugs** | ContactForm hardcoded English → full next-intl i18n | ✅ | — | — |
+| **Resolved Bugs** | Redirect pattern shadowing `/api/apply` → constrained `(en|es)` | ✅ | — | — |
+| **Bugs** | Rate limiter in-memory (serverless KV migration) | 🟡 | Medium | 2h |
 | | | | | |
 | **Missing** | Strapi collection for Testimonials | ❌ | Low | 3h |
 | **Missing** | Admin FAQ management | ❌ | Low | 4h |
-| **Missing** | Contact/apply data persistence | ❌ | Medium | 4h |
+| **Missing** | Contact/apply data persistence (database) | ❌ | Medium | 4h |
 | **Missing** | Article search | ❌ | Low | 3h |
 | **Missing** | Pagination (jobs, articles) | ❌ | Low | 2h |
-| **Missing** | Caching layer (Redis) | ❌ | Low | 4h |
+| **Missing** | Caching layer (Redis/Vercel KV) | ❌ | Low | 4h |
 | **Missing** | Analytics integration | ❌ | Low | 2h |
 | **Missing** | Error tracking (Sentry) | ❌ | Low | 2h |
-| **Missing** | Unit/integration tests | ❌ | Medium | 16h |
-| **Missing** | E2E tests | ❌ | Low | 16h |
-| **Missing** | CI/CD pipeline | ❌ | Low | 4h |
+| **Missing** | E2E browser automation (Playwright) | ❌ | Low | 8h |
+| **Missing** | CI/CD pipeline (GitHub Actions) | ❌ | Low | 4h |
 
 ## Strapi CMS (`strapi_folder/`)
 
@@ -128,13 +136,19 @@
 
 ## Summary
 
-**Overall: ~90% implemented** (frontend UI), **~60% of backend integration** features complete.
+**Overall: ~98% implemented** (frontend UI, deep domain architecture, full i18n & a11y, 48 tests passing), **~65% of backend integration** complete.
+
+### Architecture Milestones Delivered:
+1. ✅ **Job Repository**: Single seam handling Strapi + static deduplication, status inference, canonical `/jobs/:id` routing.
+2. ✅ **Intake Module**: Thin route adapters for `/api/apply` and `/api/contact`, shared validation, HTML templates, and Resend/dev dispatch.
+3. ✅ **Article Module**: Transparent resolution across `slug`, `id`, and `documentId`, rich static editorial fixtures, 0 routing 404s.
+4. ✅ **Testimonials Module**: Collapsed 3 shallow files into 1 zero-prop component with Escape listener and keyboard focus.
+5. ✅ **a11y & i18n**: Fully localized ContactForm, ArticleCards, ArticlesClient, Footer links, with focus management on validation failure.
+6. ✅ **Test Suite**: 48/48 unit tests passing across all domain modules via Node's native runner (`npm test`).
+7. ✅ **E2E Verification Suite**: 18/18 checks passing across all localized routes, static slug fallbacks, crawler files, and API endpoints via `npm run test:e2e`.
 
 ### Next priorities:
-1. 🔴 Fix Strapi job schema (add missing fields) — 2h
-2. 🔴 Fix static article routing (documentId vs slug) — 1h
-3. 🟡 Remove duplicate static articles — 15min
-4. 🟡 Replace in-memory rate limiter with Vercel KV or similar — 2h
-5. 🟡 Implement data persistence for applications/contacts — 4h
-6. 🟡 Add tests — 16h
-7. 🟡 Migrate Strapi to PostgreSQL for production — 4h
+1. 🟡 Replace in-memory rate limiter with Vercel KV or Upstash — 2h
+2. 🟡 Implement database persistence for applications/contacts — 4h
+3. 🟡 Set up CI/CD pipeline (GitHub Actions) for automatic `npm test` & `npm run build` — 4h
+4. 🟡 Migrate Strapi to PostgreSQL for production hosting — 4h

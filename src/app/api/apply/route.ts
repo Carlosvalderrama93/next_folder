@@ -8,7 +8,15 @@ export async function POST(req: NextRequest) {
   let cv: { filename: string; buffer: Buffer } | undefined;
 
   if (contentType.includes("multipart/form-data")) {
-    const formData = await req.formData();
+    let formData: FormData;
+    try {
+      formData = await req.formData();
+    } catch {
+      return NextResponse.json(
+        { errors: { name: "Name is required.", email: "Valid email is required." } },
+        { status: 400 }
+      );
+    }
     for (const [key, value] of formData.entries()) {
       if (value instanceof File) {
         if (!ALLOWED_CV_MIME.has(value.type)) {
@@ -29,7 +37,14 @@ export async function POST(req: NextRequest) {
       }
     }
   } else {
-    fields = await req.json();
+    try {
+      fields = await req.json();
+    } catch {
+      return NextResponse.json(
+        { errors: { name: "Name is required.", email: "Valid email is required." } },
+        { status: 400 }
+      );
+    }
   }
 
   // ── Delegate to intake module ──────────────────────────────────────────────
