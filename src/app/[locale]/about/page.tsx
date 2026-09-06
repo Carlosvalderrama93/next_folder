@@ -1,6 +1,3 @@
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
-import { homePageData } from "@/Data/homepage";
 import { getAboutProfile } from "@/lib/about";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
@@ -38,7 +35,6 @@ export default async function AboutPage({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "aboutPage" });
   const profile = await getAboutProfile(locale);
-  const { footer } = homePageData;
 
   const stats = [
     { value: "50+", label: t("companiesPartnered") },
@@ -57,7 +53,6 @@ export default async function AboutPage({
 
   return (
     <>
-      <Navigation />
       <AboutToc sections={tocSections} />
       <main id="main-content">
         <AboutHero
@@ -144,7 +139,6 @@ export default async function AboutPage({
           }}
         />
       </main>
-      <Footer {...footer} />
     </>
   );
 }

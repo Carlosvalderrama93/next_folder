@@ -1,10 +1,7 @@
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { ReadingProgress } from "@/components/ui/reading-progress";
 import { ShareButtons } from "@/components/ui/share-buttons";
-import { homePageData } from "@/Data/homepage";
 import {
   getArticle,
   listArticles,
@@ -20,7 +17,6 @@ import remarkGfm from "remark-gfm";
 import Image from "next/image";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://carlosvalderrama.com";
-const footerData = homePageData.footer;
 
 export async function generateMetadata({
   params,
@@ -160,7 +156,6 @@ export default async function ArticleDetail({
   return (
     <>
       <ReadingProgress />
-      <Navigation />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -232,7 +227,6 @@ export default async function ArticleDetail({
           </section>
         )}
       </main>
-      <Footer {...footerData} />
     </>
   );
 }

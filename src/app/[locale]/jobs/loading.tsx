@@ -1,12 +1,6 @@
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
-import { homePageData } from "@/Data/homepage";
-
 export default function Loading() {
   return (
     <>
-      <Navigation />
-
       {/* Hero skeleton */}
       <section className="bg-gradient-to-b from-indigo-50/60 via-white to-white dark:from-indigo-950/30 dark:via-background dark:to-background pt-16 pb-12">
         <div className="max-w-4xl mx-auto px-4 animate-pulse">
@@ -17,7 +11,7 @@ export default function Loading() {
       </section>
 
       {/* Filter tabs skeleton */}
-      <main className="max-w-4xl mx-auto px-4 py-10 pb-20 animate-pulse">
+      <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20 animate-pulse">
         <div className="flex gap-2 mb-8">
           <div className="h-9 w-28 bg-gray-200 dark:bg-surface-raised rounded-full" />
           <div className="h-9 w-20 bg-gray-100 dark:bg-surface rounded-full" />
@@ -50,8 +44,6 @@ export default function Loading() {
           ))}
         </div>
       </main>
-
-      <Footer {...homePageData.footer} />
     </>
   );
 }

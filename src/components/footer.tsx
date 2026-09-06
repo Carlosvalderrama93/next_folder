@@ -1,5 +1,6 @@
 import React from "react";
 import type { Footer as FooterType } from "@/Data/homepage";
+import { homePageData } from "@/Data/homepage";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
@@ -33,7 +34,12 @@ function EmailIcon() {
   );
 }
 
-async function Footer({ copyright, email, social }: FooterType) {
+type FooterProps = Partial<FooterType>;
+
+async function Footer(props?: FooterProps) {
+  const copyright = props?.copyright ?? homePageData.footer.copyright;
+  const email = props?.email ?? homePageData.footer.email;
+  const social = props?.social ?? homePageData.footer.social;
   const t = await getTranslations("footer");
   const tNav = await getTranslations("nav");
 

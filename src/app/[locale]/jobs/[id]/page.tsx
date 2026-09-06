@@ -1,10 +1,7 @@
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { homePageData } from "@/Data/homepage";
 import { getJob } from "@/lib/jobs";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -132,7 +129,6 @@ export default async function ApplyJobPage({
 
   return (
     <>
-      <Navigation />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -247,7 +243,6 @@ export default async function ApplyJobPage({
           )}
         </div>
       </main>
-      <Footer {...homePageData.footer} />
     </>
   );
 }

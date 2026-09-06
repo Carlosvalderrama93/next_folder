@@ -1,6 +1,3 @@
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
-import { homePageData } from "@/Data/homepage";
 import { listJobs } from "@/lib/jobs";
 import JobFilters from "@/components/job-filters";
 import type { Metadata } from "next";
@@ -28,14 +25,10 @@ export default async function JobsPage({
   const t = await getTranslations({ locale, namespace: "jobsPage" });
 
   const jobs = await listJobs();
-  const footerData = homePageData.footer;
-
   const countKey = jobs.length === 1 ? "available_one" : "available_other";
 
   return (
     <>
-      <Navigation />
-
       {/* ── Gradient hero header ─────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-b from-indigo-50/60 via-white to-white dark:from-indigo-950/30 dark:via-background dark:to-background pt-16 pb-12">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -57,8 +50,6 @@ export default async function JobsPage({
       <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20">
         <JobFilters jobs={jobs} />
       </main>
-
-      <Footer {...footerData} />
     </>
   );
 }

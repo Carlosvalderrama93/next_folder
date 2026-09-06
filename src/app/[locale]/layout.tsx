@@ -62,6 +62,9 @@ export async function generateMetadata({
   };
 }
 
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -90,11 +93,15 @@ export default async function LocaleLayout({
           }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
         <NextIntlClientProvider messages={messages}>
           <SkipLink locale={locale} />
           <ThemeProvider>
-            {children}
+            <Navigation />
+            <div className="flex-1">
+              {children}
+            </div>
+            <Footer />
             <BackToTop />
           </ThemeProvider>
         </NextIntlClientProvider>
