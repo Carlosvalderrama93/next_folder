@@ -7,7 +7,7 @@
  */
 
 import { rateLimit, getIp } from "@/lib/rate-limit";
-import { validateApplication, validateInquiry, ALLOWED_CV_MIME, MAX_CV_BYTES } from "./validation";
+import { validateApplication, validateInquiry } from "./validation";
 import { applicationHtml, applicationSubject, inquiryHtml, inquirySubject } from "./templates";
 import { sendNotification } from "./notification-adapter";
 import type { ApplicationInput, InquiryInput, IntakeResult } from "./types";
