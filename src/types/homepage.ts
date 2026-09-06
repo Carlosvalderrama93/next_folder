@@ -6,6 +6,7 @@ import type {
   RawStaticJob,
 } from "@/lib/jobs/types";
 import type { RawStaticArticle } from "@/lib/articles/types";
+import type { Testimonial } from "@/lib/testimonials/types";
 
 // Re-export canonical domain types to preserve compatibility
 export type {
@@ -14,6 +15,7 @@ export type {
   JobModality,
   JobPaymentType,
   RawStaticJob,
+  Testimonial,
 };
 export type BlogPreview = RawStaticArticle;
 
@@ -41,14 +43,6 @@ export type Hero = {
   backgroundImage?: string;
 };
 
-export type Testimonial = {
-  id: string;
-  name: string;
-  role: string;
-  message: string;
-  avatar?: string;
-};
-
 export type Author = {
   id: string;
   name: string;
@@ -66,6 +60,6 @@ export type Footer = {
 export type HomePageData = {
   nav: Nav;
   hero: Hero;
-  testimonials: Testimonial[];
+  testimonials?: Testimonial[];
   footer: Footer;
 };

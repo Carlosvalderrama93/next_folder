@@ -19,8 +19,8 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 |---|---|---|---|
 | **Opción A** | Desacoplar `homepage.ts` & Fixtures de Dominio ([`src/Data/homepage.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/Data/homepage.ts)) | ✅ Completada | Alta (`5f38074`) |
 | **Opción B** | Reglas de Validación en Costura de Intake ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ✅ Completada | Media-Alta (`da36328`) |
-| **Opción C** | Purgar `ui/dialog.tsx` y Reubicar `ui/heroCTA.tsx` ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ✅ Completada | **Media (Sprint Actual)** |
-| **Opción D** | Módulo Seam para Testimonios ([`src/components/testimonials.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/testimonials.tsx)) | ⚪ Pendiente | Especulativa |
+| **Opción C** | Purgar `ui/dialog.tsx` y Reubicar `ui/heroCTA.tsx` ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ✅ Completada | Media (`f9be236`) |
+| **Opción D** | Módulo Seam para Testimonios ([`src/lib/testimonials/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/testimonials/)) | ✅ Completada | **Especulativa (Sprint Actual)** |
 
 ---
 
@@ -55,17 +55,20 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 ### Objetivos
 - [x] **C.1 Reubicar `heroCTA.tsx`:** Movido de `src/components/ui/heroCTA.tsx` a [`src/components/hero-cta.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/hero-cta.tsx) adoptando convención kebab-case y colocándolo junto a su consumidor único [`src/components/hero.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/hero.tsx).
 - [x] **C.2 Deletion Test & Purga en `ui/dialog.tsx`:** Confirmado 0 importaciones en el proyecto, eliminado `src/components/ui/dialog.tsx` y desinstalada la dependencia huérfana `@radix-ui/react-dialog` (reduciendo 11 paquetes del árbol de dependencias).
-- [x] **C.3 Limpieza de `src/components/ui/`:** Garantizado que el directorio `src/components/ui/` solo aloja primitivas de diseño reutilizables y agnósticas de dominio, sin barrels que afecten el tree-shaking.
+- [x] **C.3 Limpieza de `src/components/ui/`:** Garantizado que el directorio `src/components/ui/` solo aloje primitivas de diseño reutilizables y agnósticas de dominio, sin barrels que afecten el tree-shaking.
 - [x] **C.4 Verificación completa:** `npm test` (81/81 pasan), `npm run typecheck` (0 errores), `npm run lint` (0 errores), `npm run build` (compilación limpia en 6.6s) y `npm run test:e2e` (18/18 checks pasan).
 
 ---
 
-## 👤 Opción D: Módulo Seam para Testimonios (⚪ Especulativa)
+## 👤 Opción D: Módulo Seam para Testimonios (✅ Completada)
 **Rama:** `feat/testimonials-module-sprint`
 
 ### Objetivos
-- [ ] **D.1 Crear `src/lib/testimonials/`:** Definir interfaz `listTestimonials()` con adaptador estático.
-- [ ] **D.2 Desacoplar `Testimonials` componente:** Consumir los testimonios a través de la costura en lugar del JSON estático en duro.
+- [x] **D.1 Crear `src/lib/testimonials/`:** Establecida la costura de dominio completa con [`types.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/testimonials/types.ts), [`fixtures.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/testimonials/fixtures.ts), [`static-adapter.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/testimonials/static-adapter.ts) y fachada asíncrona `listTestimonials()` en [`index.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/testimonials/index.ts).
+- [x] **D.2 Desacoplar componente `Testimonials` (Server/Client split):** [`src/components/testimonials.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/testimonials.tsx) convertido a un Server Component asíncrono que obtiene datos a través de `listTestimonials()`, y delega el estado interactivo de carrusel y modal a [`src/components/testimonials-carousel.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/testimonials-carousel.tsx).
+- [x] **D.3 Re-exportar tipos canónicos & purgar duplicación en `homepage.ts`:** [`src/types/homepage.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/types/homepage.ts) re-exporta `Testimonial` desde la costura de dominio, y [`src/Data/homepage.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/Data/homepage.ts) consume los fixtures locales de testimonios.
+- [x] **D.4 Pruebas unitarias de dominio:** Agregada suite completa con 7 tests en [`src/lib/testimonials/__tests__/testimonials.test.mjs`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/testimonials/__tests__/testimonials.test.mjs) (total del proyecto sube a 88 tests 100% verdes).
+- [x] **D.5 Verificación completa:** `npm test` (88/88 pasan), `npm run typecheck` (0 errores), `npm run lint` (0 errores), `npm run build` (bundle de homepage reducido de 14.6 kB a 14.5 kB) y `npm run test:e2e` (18/18 checks pasan).
 
 ---
 
