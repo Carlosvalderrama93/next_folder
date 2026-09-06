@@ -1,62 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import { rateLimit, getIp } from "@/lib/rate-limit";
-import { escapeHtml, isValidEmail } from "@/lib/validation";
+import { submitInquiry } from "@/lib/intake";
 
 export async function POST(req: NextRequest) {
-  const { allowed, retryAfter } = rateLimit(getIp(req));
-  if (!allowed) {
-    return NextResponse.json(
-      { error: "Too many requests. Please wait before trying again." },
-      { status: 429, headers: { "Retry-After": String(retryAfter) } }
-    );
+  const body = await req.json();
+
+  const result = await submitInquiry(req, {
+    name: body.name?.trim() ?? "",
+    email: body.email?.trim() ?? "",
+    subject: body.subject?.trim(),
+    message: body.message?.trim() ?? "",
+  });
+
+  if (!result.ok) {
+    if (result.errors) return NextResponse.json({ errors: result.errors }, { status: 400 });
+    if (result.message?.startsWith("Too many"))
+      return NextResponse.json({ error: result.message }, { status: 429 });
+    return NextResponse.json({ error: result.message ?? "Server error" }, { status: 500 });
   }
 
-  try {
-    const body = await req.json();
-    const name = body.name?.trim() ?? "";
-    const email = body.email?.trim() ?? "";
-    const subject = body.subject?.trim() ?? "";
-    const message = body.message?.trim() ?? "";
-
-    const errors: Record<string, string> = {};
-    if (!name) errors.name = "Full name is required.";
-    if (!email) errors.email = "Email address is required.";
-    else if (!isValidEmail(email)) errors.email = "Enter a valid email address.";
-    if (!message) errors.message = "Message is required.";
-
-    if (Object.keys(errors).length > 0) {
-      return NextResponse.json({ errors }, { status: 400 });
-    }
-
-    const apiKey = process.env.RESEND_API_KEY;
-    const to = process.env.CONTACT_EMAIL;
-    const from = process.env.RESEND_FROM ?? "onboarding@resend.dev";
-
-    if (apiKey && to) {
-      const { Resend } = await import("resend");
-      const resend = new Resend(apiKey);
-      await resend.emails.send({
-        from,
-        to,
-        subject: subject ? `Contact: ${subject}` : `New contact from ${name}`,
-        html: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-          ${subject ? `<p><strong>Subject:</strong> ${escapeHtml(subject)}</p>` : ""}
-          <p><strong>Message:</strong></p>
-          <p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>
-        `,
-      });
-    } else {
-      console.log("Contact submission (set RESEND_API_KEY to enable emails):", {
-        name, email, subject, message,
-      });
-    }
-
-    return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error("Contact API error:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
-  }
+  return NextResponse.json({ success: true });
 }
