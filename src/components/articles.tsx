@@ -1,28 +1,12 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import { homePageData } from "../Data/homepage";
-import { ArticleCard, FeaturedArticleCard, type CardArticle } from "./ui/article-cards";
-
-const rawArticles = homePageData.blogPreview;
-const author = homePageData.authors[0];
-
-function toCardArticle(a: (typeof rawArticles)[number]): CardArticle {
-  return {
-    id: a.id,
-    title: a.title,
-    href: `/articles/${a.slug}`,
-    excerpt: a.excerpt,
-    coverImage: a.coverImage,
-    category: a.category ?? "Latest",
-    date: a.createdAt,
-    author: { name: author.name, avatar: author.avatar },
-  };
-}
-
-const [featured, ...rest] = rawArticles.map(toCardArticle);
+import { ArticleCard, FeaturedArticleCard } from "./ui/article-cards";
+import { listArticles } from "@/lib/articles";
 
 async function Articles() {
   const t = await getTranslations("articles");
+  const articles = await listArticles({ limit: 4 });
+  const [featured, ...rest] = articles;
 
   return (
     <section className="py-16 max-w-7xl mx-auto px-4 border-t border-gray-100 dark:border-border">

@@ -6,15 +6,14 @@ import { ReadingProgress } from "@/components/ui/reading-progress";
 import { ShareButtons } from "@/components/ui/share-buttons";
 import { homePageData } from "@/Data/homepage";
 import {
-  fetchStrapiArticleDetail,
-  fetchStrapiArticles,
+  getArticle,
+  listArticles,
   getStrapiImageSrc,
-  type StrapiBlock,
-  type StrapiMediaFile,
-} from "@/lib/strapi";
+  type ArticleBlock,
+  type MediaFile,
+} from "@/lib/articles";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { cache } from "react";
 import { getTranslations } from "next-intl/server";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -22,7 +21,6 @@ import Image from "next/image";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://carlosvalderrama.com";
 const footerData = homePageData.footer;
-const getArticle = cache(fetchStrapiArticleDetail);
 
 export async function generateMetadata({
   params,
@@ -72,7 +70,7 @@ function Quote({ title, body }: { title: string; body: string }) {
   );
 }
 
-function MediaBlock({ file }: { file: StrapiMediaFile }) {
+function MediaBlock({ file }: { file: MediaFile }) {
   return (
     <figure className="my-8">
       <div className="relative w-full aspect-video">
@@ -88,7 +86,7 @@ function MediaBlock({ file }: { file: StrapiMediaFile }) {
   );
 }
 
-function Slider({ files }: { files: StrapiMediaFile[] }) {
+function Slider({ files }: { files: MediaFile[] }) {
   return (
     <div className="flex gap-4 overflow-x-auto my-8 pb-2">
       {files.map((file, i) => (
@@ -106,15 +104,15 @@ function Slider({ files }: { files: StrapiMediaFile[] }) {
   );
 }
 
-function BlockRenderer({ block }: { block: StrapiBlock }) {
-  switch (block.__component) {
-    case "shared.rich-text":
+function BlockRenderer({ block }: { block: ArticleBlock }) {
+  switch (block.type) {
+    case "rich-text":
       return <RichText body={block.body} />;
-    case "shared.quote":
-      return <Quote title={block.title} body={block.body} />;
-    case "shared.media":
+    case "quote":
+      return <Quote title={block.title ?? ""} body={block.body} />;
+    case "media":
       return block.file ? <MediaBlock file={block.file} /> : null;
-    case "shared.slider":
+    case "slider":
       return block.files?.length ? <Slider files={block.files} /> : null;
     default:
       return null;
@@ -132,16 +130,21 @@ export default async function ArticleDetail({
 
   const [article, allArticles] = await Promise.all([
     getArticle(documentId),
-    fetchStrapiArticles(),
+    listArticles(),
   ]);
 
   if (!article) notFound();
 
   const related = allArticles
-    .filter((a) => a.documentId !== documentId)
+    .filter(
+      (a) =>
+        a.documentId !== documentId &&
+        a.slug !== documentId &&
+        a.id !== documentId
+    )
     .slice(0, 3);
 
-  const articleUrl = `${SITE_URL}/articles/${documentId}`;
+  const articleUrl = `${SITE_URL}${article.href}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -204,8 +207,8 @@ export default async function ArticleDetail({
             <div className="flex flex-col gap-4">
               {related.map((a) => (
                 <Link
-                  key={a.documentId}
-                  href={`/articles/${a.documentId}`}
+                  key={a.id || a.documentId}
+                  href={a.href as `/${string}`}
                   className="group flex flex-col gap-1 border border-gray-200 dark:border-border rounded-xl p-5 bg-white dark:bg-surface hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800/60 transition-all"
                 >
                   <time className="text-xs text-gray-400 dark:text-gray-500">

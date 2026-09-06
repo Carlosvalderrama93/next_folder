@@ -1,10 +1,10 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { homePageData } from "@/Data/homepage";
-import { fetchStrapiArticles } from "@/lib/strapi";
+import { listArticles } from "@/lib/articles";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import ArticlesClient, { type ArticleItem } from "./articles-client";
+import ArticlesClient from "./articles-client";
 
 export async function generateMetadata({
   params,
@@ -27,32 +27,8 @@ export default async function ArticlesPage({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "articlesPage" });
 
-  const strapiArticles = await fetchStrapiArticles();
-  const staticArticles = homePageData.blogPreview;
+  const articles = await listArticles();
   const footerData = homePageData.footer;
-  const defaultAuthor = homePageData.authors[0];
-
-  const articles: ArticleItem[] =
-    strapiArticles.length > 0
-      ? strapiArticles.map((a) => ({
-          id: String(a.id),
-          title: a.title,
-          href: `/articles/${a.documentId}`,
-          excerpt: a.description ?? "",
-          category: "Articles",
-          date: a.publishedAt,
-          author: { name: defaultAuthor.name, avatar: defaultAuthor.avatar },
-        }))
-      : staticArticles.map((a) => ({
-          id: a.id,
-          title: a.title,
-          href: `/articles/${a.slug}`,
-          excerpt: a.excerpt,
-          coverImage: a.coverImage,
-          category: a.category ?? "Articles",
-          date: a.createdAt,
-          author: { name: defaultAuthor.name, avatar: defaultAuthor.avatar },
-        }));
 
   return (
     <>
