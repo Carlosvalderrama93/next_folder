@@ -4,10 +4,10 @@ import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { ToastProvider, Toast } from "@/components/ui/toast";
 import { FormField } from "@/components/ui/form-field";
+import { isValidEmail } from "@/lib/intake/validation";
 
 type FieldErrors = { name?: string; email?: string; message?: string };
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const INPUT_CLASS =
   "px-4 py-3 border border-gray-300 dark:border-border rounded-xl bg-white dark:bg-surface-raised text-gray-900 dark:text-foreground placeholder-gray-400 dark:placeholder-muted-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand text-sm w-full disabled:opacity-50 disabled:cursor-not-allowed";
 
@@ -32,7 +32,7 @@ export default function ContactForm() {
     if (!name.trim()) errors.name = t("nameRequired");
     if (!email.trim()) {
       errors.email = t("emailRequired");
-    } else if (!EMAIL_RE.test(email)) {
+    } else if (!isValidEmail(email)) {
       errors.email = t("emailInvalid");
     }
     if (!message.trim()) errors.message = t("messageRequired");

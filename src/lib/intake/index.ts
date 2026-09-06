@@ -1,7 +1,7 @@
 /**
  * Intake module — single interface for submitting Applications and Inquiries.
  *
- * Callers import only { submitApplication, submitInquiry } and their input types.
+ * Callers import only { submitApplication, submitInquiry } and validation constants/helpers.
  * Rate limiting, validation, HTML rendering, and notification dispatching are
  * hidden behind the seam.
  */
@@ -13,7 +13,19 @@ import { sendNotification } from "./notification-adapter";
 import type { ApplicationInput, InquiryInput, IntakeResult } from "./types";
 
 export type { ApplicationInput, InquiryInput, IntakeResult } from "./types";
-export { ALLOWED_CV_MIME, MAX_CV_BYTES } from "./validation";
+export {
+  ALLOWED_CV_MIME,
+  ALLOWED_CV_EXTENSIONS,
+  MAX_CV_BYTES,
+  EMAIL_RE,
+  LINKEDIN_RE,
+  isValidEmail,
+  isValidLinkedInUrl,
+  isAllowedCvMime,
+  isAllowedCvSize,
+  validateApplication,
+  validateInquiry,
+} from "./validation";
 
 // ── Rate-limit helper ────────────────────────────────────────────────────────
 

@@ -5,6 +5,13 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ToastProvider, Toast } from "@/components/ui/toast";
 import { FormField } from "@/components/ui/form-field";
+import {
+  ALLOWED_CV_EXTENSIONS,
+  isAllowedCvMime,
+  isAllowedCvSize,
+  isValidEmail,
+  isValidLinkedInUrl,
+} from "@/lib/intake/validation";
 
 interface Props {
   jobTitle: string;
@@ -20,13 +27,6 @@ type FieldErrors = {
   cv?: string;
 };
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const LINKEDIN_RE = /linkedin\.com/i;
-const ALLOWED_CV_TYPES = new Set([
-  "application/pdf",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-]);
 const MAX_COVER_LETTER = 2000;
 const INPUT_CLASS =
   "px-4 py-3 border border-gray-300 dark:border-border rounded-xl bg-white dark:bg-surface-raised text-gray-900 dark:text-foreground placeholder-gray-400 dark:placeholder-muted-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand text-sm w-full disabled:opacity-50 disabled:cursor-not-allowed";
@@ -66,10 +66,10 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
     if (!name.trim()) errors.name = t("nameRequired");
     if (!email.trim()) {
       errors.email = t("emailRequired");
-    } else if (!EMAIL_RE.test(email)) {
+    } else if (!isValidEmail(email)) {
       errors.email = t("emailInvalid");
     }
-    if (linkedin.trim() && !LINKEDIN_RE.test(linkedin)) {
+    if (linkedin.trim() && !isValidLinkedInUrl(linkedin)) {
       errors.linkedin = t("linkedinInvalid");
     }
     if (!message.trim()) errors.message = t("messageRequired");
@@ -77,12 +77,12 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   }
 
   function processFile(file: File, clearInput?: () => void) {
-    if (!ALLOWED_CV_TYPES.has(file.type)) {
+    if (!isAllowedCvMime(file.type)) {
       setFieldErrors((fe) => ({ ...fe, cv: t("cvType") }));
       clearInput?.();
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
+    if (!isAllowedCvSize(file.size)) {
       setFieldErrors((fe) => ({ ...fe, cv: t("cvSize") }));
       clearInput?.();
       return;
@@ -275,7 +275,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
                 id="cv"
                 name="cv"
                 type="file"
-                accept=".pdf,.doc,.docx"
+                accept={ALLOWED_CV_EXTENSIONS}
                 className="sr-only"
                 onChange={(e) => {
                   const file = e.target.files?.[0];

@@ -17,8 +17,8 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 ### Ciclo 2: Desacoplamiento de Datos, Higiene UI y Fugas de Validación
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
-| **Opción A** | Desacoplar `homepage.ts` & Fixtures de Dominio ([`src/Data/homepage.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/Data/homepage.ts)) | ✅ Completada | **Alta (Sprint Actual)** |
-| **Opción B** | Reglas de Validación en Costura de Intake ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ⚪ Pendiente | Media-Alta |
+| **Opción A** | Desacoplar `homepage.ts` & Fixtures de Dominio ([`src/Data/homepage.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/Data/homepage.ts)) | ✅ Completada | Alta (`5f38074`) |
+| **Opción B** | Reglas de Validación en Costura de Intake ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ✅ Completada | **Media-Alta (Sprint Actual)** |
 | **Opción C** | Purgar `ui/dialog.tsx` y Reubicar `ui/heroCTA.tsx` ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ⚪ Pendiente | Media |
 | **Opción D** | Módulo Seam para Testimonios ([`src/components/testimonials.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/testimonials.tsx)) | ⚪ Pendiente | Especulativa |
 
@@ -37,14 +37,15 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ---
 
-## 📦 Opción B: Compartir Reglas de la Costura de Intake con Formularios Cliente (⚪ Pendiente)
+## 📦 Opción B: Compartir Reglas de la Costura de Intake con Formularios Cliente (✅ Completada)
 **Rama:** `feat/intake-client-validation-sprint`
 
 ### Objetivos
-- [ ] **B.1 Exponer constantes de validación:** Exportar `ALLOWED_CV_MIME`, `MAX_CV_BYTES` y helper de validación de email desde `src/lib/intake/index.ts`.
-- [ ] **B.2 Conectar `apply-form.tsx`:** Eliminar `ALLOWED_CV_TYPES` hardcodeado y el límite `5 * 1024 * 1024` del formulario cliente de postulación, importando las constantes canónicas de la costura.
-- [ ] **B.3 Conectar `contact-form.tsx`:** Unificar la regex de validación de email con la regla de dominio de Intake.
-- [ ] **B.4 Pruebas de integración de validación:** Validar que los errores de tipo y tamaño se reflejen idénticamente en cliente y servidor.
+- [x] **B.1 Exponer constantes y helpers de validación:** Exportados `ALLOWED_CV_MIME`, `ALLOWED_CV_EXTENSIONS`, `MAX_CV_BYTES`, `isValidEmail`, `isValidLinkedInUrl`, `isAllowedCvMime` e `isAllowedCvSize` en [`src/lib/intake/validation.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/validation.ts) y re-exportados en [`src/lib/intake/index.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/index.ts).
+- [x] **B.2 Conectar `apply-form.tsx`:** Eliminadas las definiciones locales duplicadas (`EMAIL_RE`, `LINKEDIN_RE`, `ALLOWED_CV_TYPES`, `5 * 1024 * 1024`), reemplazándolas por importación directa de helpers desde [`@/lib/intake/validation`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/validation.ts) (siguiendo directriz Vercel `bundle-barrel-imports` para evitar dependencias de servidor en el bundle de cliente).
+- [x] **B.3 Conectar `contact-form.tsx`:** Unificada la validación de email importando `isValidEmail` desde [`@/lib/intake/validation`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/validation.ts) y eliminando la regex local.
+- [x] **B.4 Pruebas unitarias de validación:** Agregadas pruebas en [`src/lib/intake/__tests__/intake.test.mjs`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/__tests__/intake.test.mjs) (total sube a 81 tests 100% verdes).
+- [x] **B.5 Verificación completa:** `npm test` (81/81 pasan), `npm run typecheck` (0 errores), `npm run lint` (0 errores), `npm run build` (limpio, sin advertencias de Resend en el cliente) y `npm run test:e2e` (18/18 checks pasan).
 
 ---
 
