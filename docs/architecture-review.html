@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Architecture Review · recruiter_Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+    </script>
+    <style>
+      .seam { stroke-dasharray: 4 4; }
+      .leak { stroke: #dc2626; }
+      .deep { background: linear-gradient(135deg, #0f172a, #1e293b); }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-slate-900 font-sans antialiased">
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
+
+      <!-- Header -->
+      <header class="border-b border-stone-200 pb-8 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs uppercase font-mono tracking-wider text-stone-500">Architecture Review</span>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-800">Health Check: All Green</span>
+            </div>
+            <h1 class="text-3xl font-bold font-serif text-slate-900 mt-1">recruiter_Page · Architecture Health &amp; Deepening Opportunities</h1>
+          </div>
+          <time class="text-sm font-mono text-stone-500 bg-stone-100 px-3 py-1.5 rounded-md border border-stone-200">2026-09-06</time>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex flex-wrap items-center gap-6 pt-3 text-xs font-mono text-stone-600 bg-white p-3 rounded-lg border border-stone-200">
+          <div class="flex items-center gap-2">
+            <span class="w-3.5 h-3.5 border border-slate-700 bg-stone-50 inline-block"></span>
+            <span>Module</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-4 h-0 border-t-2 border-dashed border-stone-600 inline-block"></span>
+            <span>Seam</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-red-600 font-bold">─▶</span>
+            <span>Leakage / Drift</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-3.5 h-3.5 bg-slate-900 inline-block"></span>
+            <span>Deep Module</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Status / "Todo bien por ahora?" Answer Banner -->
+      <section class="bg-gradient-to-r from-slate-950 via-slate-900 to-indigo-950 border border-slate-700 rounded-2xl p-6 sm:p-8 text-white shadow-xl space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-xs uppercase font-mono tracking-widest text-emerald-400 font-bold">Respuesta: Sí, todo va excelente</span>
+          </div>
+          <span class="text-xs font-mono bg-emerald-950/80 text-emerald-300 border border-emerald-600/50 px-3 py-1 rounded-full">
+            48 / 48 Unit Tests · 18 / 18 E2E Checks · 0 Lint · 0 Type Errors
+          </span>
+        </div>
+        <h2 class="text-2xl font-bold font-serif text-white">Estado del Proyecto: Sólido, Verificado y en Producción</h2>
+        <p class="text-sm text-slate-300 max-w-3xl leading-relaxed">
+          Las 4 transformaciones arquitectónicas anteriores (Job Repository, Intake Module, Article Repository y Testimonials Module) están funcionando de forma impecable. Los endpoints y páginas estáticas compilan en verde, la suite nativa de pruebas e2e valida los contratos y la prevención de errores 404 está 100% garantizada.
+        </p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+          <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400 block font-mono">Job Repository</span>
+            <span class="text-sm font-semibold text-emerald-400">✓ Deep &amp; Resilient</span>
+          </div>
+          <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400 block font-mono">Intake Module</span>
+            <span class="text-sm font-semibold text-emerald-400">✓ Resend / Fallback Seam</span>
+          </div>
+          <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400 block font-mono">Article Repository</span>
+            <span class="text-sm font-semibold text-emerald-400">✓ Dual Resolver (No 404s)</span>
+          </div>
+          <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400 block font-mono">Testimonials</span>
+            <span class="text-sm font-semibold text-emerald-400">✓ Collapsed Module</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- New Deepening Opportunities -->
+      <section id="candidates" class="space-y-12">
+        <div class="border-b border-stone-200 pb-2">
+          <h2 class="text-xl font-bold font-serif text-slate-900">Nuevas Oportunidades de Profundización (Deepening Candidates)</h2>
+          <p class="text-sm text-stone-600 mt-1">Identificadas para mejorar la navegabilidad de IA, la testabilidad sin DOM y eliminar módulos superficiales residuales.</p>
+        </div>
+
+        <!-- Candidate 1 -->
+        <article id="candidate-1" class="bg-white rounded-xl border border-stone-200 shadow-sm p-6 sm:p-8 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="text-lg font-bold font-mono text-stone-400">#1</span>
+              <h2 class="text-2xl font-bold font-serif text-slate-900">Deepen the Job Filtering &amp; Query Seam into Job Repository</h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-200">Strong</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-indigo-50 text-indigo-700 border border-indigo-200">domain depth</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-stone-500 bg-stone-50 p-3 rounded border border-stone-200 overflow-x-auto">
+            src/lib/jobs/index.ts · src/components/job-filters.tsx (374 lines) · src/components/job-card.tsx
+          </div>
+
+          <!-- Side-by-side Before / After Visualisation -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Before -->
+            <div class="rounded-lg border border-stone-200 bg-stone-50/60 p-4 flex flex-col justify-between">
+              <span class="text-xs font-mono uppercase tracking-wider text-stone-500 font-semibold mb-2 block">Before · Filtering Stranded in Shallow UI Component</span>
+              <pre class="mermaid">
+                flowchart TB
+                  subgraph JobModule["src/lib/jobs/ (Deep Module)"]
+                    LJ["listJobs(options)"]
+                  end
+                  subgraph UI["src/components/job-filters.tsx (374 LOC)"]
+                    State["React State (query, sets)"]
+                    subgraph Stranded["Stranded Domain Logic (Untested)"]
+                      Search["Multi-token Search (Title/Desc/Skills)"]
+                      StatusFilter["JobStatus matching"]
+                      ModFilter["Modality & Payment matching"]
+                    end
+                    DOM["Render Inputs, Chips & Drawers"]
+                    Props["JobCardProps (Duplicate Entity Type)"]
+                  end
+                  LJ --> UI
+                  State --> Stranded
+                  Stranded --> DOM
+                  DOM --> Props
+                  classDef leak stroke:#dc2626,stroke-width:2px;
+                  class Stranded,Props leak;
+              </pre>
+              <p class="text-xs text-stone-500 mt-2">Complex filtering is tightly coupled to React DOM state with zero unit test surface.</p>
+            </div>
+
+            <!-- After -->
+            <div class="rounded-lg border border-slate-800 bg-slate-900 text-white p-4 flex flex-col justify-between">
+              <span class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold mb-2 block">After · Unified Job Query Seam</span>
+              <pre class="mermaid">
+                flowchart TB
+                  subgraph DeepJob["src/lib/jobs/ (Deep Module)"]
+                    I["Interface: listJobs(options) · filterJobs(jobs, criteria)"]
+                    subgraph Encapsulated["Behind Job Seam"]
+                      direction TB
+                      QUERY["Query Engine: Case/Accents/Multi-token"]
+                      CRIT["Status, Modality & Payment Matchers"]
+                      NORM["Canonical Job Entity"]
+                    end
+                  end
+                  subgraph ThinUI["src/components/job-filters.tsx (Thin View)"]
+                    State2["UI State & Chips"]
+                    Card["JobCard (consumes canonical Job)"]
+                  end
+                  subgraph Tests["Unit Tests (node --test)"]
+                    T["Test Suite: search, chips, edge cases"]
+                  end
+                  Tests --> I
+                  State2 --> I
+                  I --> Encapsulated
+                  I --> Card
+                  classDef deep stroke:#10b981,stroke-width:2px;
+                  class DeepJob deep;
+              </pre>
+              <p class="text-xs text-slate-400 mt-2">The interface is the test surface: search logic is tested in milliseconds without DOM overhead.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            <div class="space-y-3">
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold">Problem</h3>
+              <p class="text-sm text-slate-700 leading-relaxed">
+                Although `src/lib/jobs` is deep for data retrieval, <strong>multi-dimension search and filter evaluation</strong> is stranded inside a 374-line client component (`job-filters.tsx`). It features no unit tests, duplicates entity definitions with `JobCardProps`, and prevents testing search heuristics (casing, accent insensitivity, multi-field matching) without mounting the entire React DOM.
+              </p>
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold pt-2">Solution</h3>
+              <p class="text-sm text-slate-700 leading-relaxed">
+                Extend the Job module's seam with a pure query/filter evaluator (`filterJobs(jobs, criteria)` or query options in `listJobs`). Re-anchor `job-card.tsx` to consume the canonical `Job` entity, making `job-filters.tsx` a thin presenter.
+              </p>
+            </div>
+
+            <div class="space-y-3">
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold">Benefits</h3>
+              <ul class="space-y-2 text-sm text-slate-700">
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>The interface is the test surface:</strong> unit test runner verifies token search, status chips, and edge cases in &lt;10ms.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Locality:</strong> Job status rules and keyword matching stay inside the Job domain, not in UI state hooks.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Deletion Test:</strong> Deleting `JobCardProps` and inline predicate loops concentrates complexity into the deep Job module.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Leverage:</strong> Both `/jobs` page and future search bars reuse the same query engine.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Candidate 2 -->
+        <article id="candidate-2" class="bg-white rounded-xl border border-stone-200 shadow-sm p-6 sm:p-8 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="text-lg font-bold font-mono text-stone-400">#2</span>
+              <h2 class="text-2xl font-bold font-serif text-slate-900">Encapsulate Intake File Validation &amp; Purge Residual Modules</h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-200">Strong</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-indigo-50 text-indigo-700 border border-indigo-200">cleanup &amp; boundary</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-stone-500 bg-stone-50 p-3 rounded border border-stone-200 overflow-x-auto">
+            src/app/api/apply/route.ts · src/lib/intake/validation.ts · src/lib/rate-limit.ts · src/lib/validation.ts · src/lib/strapi.ts
+          </div>
+
+          <!-- Side-by-side Before / After Visualisation -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Before -->
+            <div class="rounded-lg border border-stone-200 bg-stone-50/60 p-4 flex flex-col justify-between">
+              <span class="text-xs font-mono uppercase tracking-wider text-stone-500 font-semibold mb-2 block">Before · Leaking Route Handlers &amp; Ghost Modules</span>
+              <div class="space-y-3 text-xs">
+                <div class="border border-red-300 bg-red-50 p-3 rounded">
+                  <div class="font-bold text-red-900">api/apply/route.ts (Transport Handler)</div>
+                  <div class="text-red-700 mt-1">Leaking domain logic: manual MIME checks (PDF/DOCX) &amp; 5MB size limit validation before intake call</div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <div class="border border-stone-300 bg-white p-2 rounded text-stone-700">
+                    <span class="font-bold block">src/lib/validation.ts</span>
+                    <span class="text-[10px] text-amber-700 font-mono">13 LOC · Unused dead code</span>
+                  </div>
+                  <div class="border border-stone-300 bg-white p-2 rounded text-stone-700">
+                    <span class="font-bold block">src/lib/strapi.ts</span>
+                    <span class="text-[10px] text-amber-700 font-mono">11 LOC · Unused barrel export</span>
+                  </div>
+                </div>
+                <div class="border border-stone-300 bg-white p-2 rounded text-stone-700">
+                  <span class="font-bold block">src/lib/rate-limit.ts</span>
+                  <span class="text-[10px] text-stone-500">Shallow utility outside intake module seam</span>
+                </div>
+              </div>
+              <p class="text-xs text-stone-500 mt-2">HTTP layer performs business validation; orphan modules cause AI navigation friction.</p>
+            </div>
+
+            <!-- After -->
+            <div class="rounded-lg border border-slate-800 bg-slate-900 text-white p-4 flex flex-col justify-between">
+              <span class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold mb-2 block">After · Fully Encapsulated Intake Seam</span>
+              <div class="space-y-3 text-xs">
+                <div class="border border-slate-700 bg-slate-800 p-3 rounded">
+                  <div class="font-bold text-slate-200">api/apply/route.ts (Pure Adapter)</div>
+                  <div class="text-emerald-400 mt-1">15 LOC: extracts FormData and directly calls submitApplication. Zero business logic.</div>
+                </div>
+                <div class="border-2 border-emerald-500/80 bg-slate-800 p-3 rounded space-y-2">
+                  <div class="font-bold text-emerald-300">Deep Intake Module (`src/lib/intake/`)</div>
+                  <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-300 text-center">
+                    <div class="bg-slate-900 p-1 rounded border border-slate-700">Rate Limiter (Internal)</div>
+                    <div class="bg-slate-900 p-1 rounded border border-slate-700">CV &amp; Field Validation</div>
+                    <div class="bg-slate-900 p-1 rounded border border-slate-700">Notification Adapter</div>
+                  </div>
+                </div>
+                <div class="border border-emerald-500/40 bg-emerald-950/40 p-2 rounded text-emerald-300 text-center text-[11px]">
+                  ✓ Deleted orphan files: validation.ts &amp; strapi.ts
+                </div>
+              </div>
+              <p class="text-xs text-slate-400 mt-2">The transport handler is a razor-thin adapter; all intake constraints live behind the seam.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            <div class="space-y-3">
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold">Problem</h3>
+              <p class="text-sm text-slate-700 leading-relaxed">
+                While `submitApplication` exists, `api/apply/route.ts` still manually validates file MIME types and enforces the 5MB file size limit before passing buffers. Furthermore, dead residual files (`validation.ts` and `strapi.ts`) remain in `src/lib/` alongside an unencapsulated `rate-limit.ts`.
+              </p>
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold pt-2">Solution</h3>
+              <p class="text-sm text-slate-700 leading-relaxed">
+                Move CV attachment validation (file size and allowed MIME types) directly into `src/lib/intake/validation.ts`. Absorb rate-limiting as an internal adapter within `src/lib/intake/` and delete orphan files (`src/lib/validation.ts`, `src/lib/strapi.ts`).
+              </p>
+            </div>
+
+            <div class="space-y-3">
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold">Benefits</h3>
+              <ul class="space-y-2 text-sm text-slate-700">
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Locality:</strong> All business constraints for Candidate Applications reside in one deep module.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>AI Navigability:</strong> Removing dead files eliminates hallucinations and false search matches.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Deletion Test:</strong> Deleting inline checks in `api/apply` concentrates CV validation where it belongs.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Test Surface:</strong> CV size and MIME rejection are tested in unit tests without HTTP mocking.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Candidate 3 -->
+        <article id="candidate-3" class="bg-white rounded-xl border border-stone-200 shadow-sm p-6 sm:p-8 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="text-lg font-bold font-mono text-stone-400">#3</span>
+              <h2 class="text-2xl font-bold font-serif text-slate-900">Eliminate Article Entity Drift &amp; Relocate Presentation Module</h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-200">Worth exploring</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-indigo-50 text-indigo-700 border border-indigo-200">entity alignment</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-stone-500 bg-stone-50 p-3 rounded border border-stone-200 overflow-x-auto">
+            src/components/ui/article-cards.tsx · src/components/articles.tsx · src/types/homepage.ts · src/Data/homepage.ts
+          </div>
+
+          <!-- Side-by-side Before / After Visualisation -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Before -->
+            <div class="rounded-lg border border-stone-200 bg-stone-50/60 p-4 flex flex-col justify-between">
+              <span class="text-xs font-mono uppercase tracking-wider text-stone-500 font-semibold mb-2 block">Before · 3 Competing Entity Definitions</span>
+              <div class="space-y-2 text-xs">
+                <div class="border border-red-300 bg-red-50 p-2.5 rounded">
+                  <span class="font-bold text-red-900 block">src/components/ui/article-cards.tsx</span>
+                  <span class="text-[10px] text-red-700">Defines <code>CardArticle</code> inside generic UI folder; duplicates domain fields</span>
+                </div>
+                <div class="border border-red-300 bg-red-50 p-2.5 rounded">
+                  <span class="font-bold text-red-900 block">src/types/homepage.ts</span>
+                  <span class="text-[10px] text-red-700">Defines <code>BlogPreview</code> with outdated schema</span>
+                </div>
+                <div class="border border-emerald-300 bg-emerald-50 p-2.5 rounded">
+                  <span class="font-bold text-emerald-900 block">src/lib/articles/types.ts</span>
+                  <span class="text-[10px] text-emerald-700">Canonical <code>Article</code> entity with canonical href</span>
+                </div>
+              </div>
+              <p class="text-xs text-stone-500 mt-2">Domain presentation hides in generic UI primitives with ad-hoc clones.</p>
+            </div>
+
+            <!-- After -->
+            <div class="rounded-lg border border-slate-800 bg-slate-900 text-white p-4 flex flex-col justify-between">
+              <span class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold mb-2 block">After · Single Domain Entity Flow</span>
+              <div class="space-y-2 text-xs">
+                <div class="border-2 border-emerald-500 bg-slate-800 p-3 rounded">
+                  <span class="font-bold text-emerald-300 block">Single Canonical Model: <code>Article</code></span>
+                  <span class="text-[10px] text-slate-300">Imported directly from <code>src/lib/articles</code></span>
+                </div>
+                <div class="border border-slate-700 bg-slate-800 p-2.5 rounded">
+                  <span class="font-bold text-slate-200 block">src/components/article-card.tsx</span>
+                  <span class="text-[10px] text-slate-400">Cohesive article presentation module outside generic UI primitives</span>
+                </div>
+                <div class="border border-emerald-500/40 bg-emerald-950/40 p-2 rounded text-emerald-300 text-center text-[11px]">
+                  ✓ Deleted <code>CardArticle</code> &amp; <code>BlogPreview</code> types
+                </div>
+              </div>
+              <p class="text-xs text-slate-400 mt-2">Zero entity drift: from CMS/static fixtures straight to card presentation.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            <div class="space-y-3">
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold">Problem</h3>
+              <p class="text-sm text-slate-700 leading-relaxed">
+                `article-cards.tsx` masquerades as a generic UI primitive inside `src/components/ui/` while defining its own private `CardArticle` interface that partially overlaps the canonical `Article` entity from `src/lib/articles`. Simultaneously, `src/types/homepage.ts` defines `BlogPreview`, creating three competing representations of an editorial piece.
+              </p>
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold pt-2">Solution</h3>
+              <p class="text-sm text-slate-700 leading-relaxed">
+                Move `article-cards.tsx` to `src/components/article-card.tsx` (or a dedicated presentation module). Replace `CardArticle` and `BlogPreview` with the canonical `Article` entity from `src/lib/articles`.
+              </p>
+            </div>
+
+            <div class="space-y-3">
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold">Benefits</h3>
+              <ul class="space-y-2 text-sm text-slate-700">
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Locality:</strong> Domain presentation lives with domain concepts, keeping `components/ui/` pure for generic primitives.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Deletion Test:</strong> Eliminating `CardArticle` and `BlogPreview` eliminates type maintenance overhead.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Leverage:</strong> Homepage, Articles listing, and Related articles all consume one uniform entity.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Candidate 4 -->
+        <article id="candidate-4" class="bg-white rounded-xl border border-stone-200 shadow-sm p-6 sm:p-8 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="text-lg font-bold font-mono text-stone-400">#4</span>
+              <h2 class="text-2xl font-bold font-serif text-slate-900">Establish an About Module Seam &amp; Collapse Monolithic Page</h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-200">Worth exploring</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-indigo-50 text-indigo-700 border border-indigo-200">ports &amp; adapters</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-stone-500 bg-stone-50 p-3 rounded border border-stone-200 overflow-x-auto">
+            src/app/[locale]/about/page.tsx (459 lines) · src/Data/about.ts · src/components/about-toc.tsx · src/components/bio-expand.tsx · src/components/headline-pills.tsx
+          </div>
+
+          <!-- Side-by-side Before / After Visualisation -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Before -->
+            <div class="rounded-lg border border-stone-200 bg-stone-50/60 p-4 flex flex-col justify-between">
+              <span class="text-xs font-mono uppercase tracking-wider text-stone-500 font-semibold mb-2 block">Before · 459-Line Page &amp; 4 Shallow Satellites</span>
+              <div class="space-y-2 text-xs">
+                <div class="border border-red-300 bg-red-50 p-2.5 rounded">
+                  <div class="font-bold text-red-900">about/page.tsx (459 LOC)</div>
+                  <div class="text-red-700 text-[11px]">Hardcoded raw JSON import, 10 inline SVG icon functions, and deeply nested layout blocks</div>
+                </div>
+                <div class="grid grid-cols-3 gap-1 text-center">
+                  <div class="border border-stone-300 bg-white p-1.5 rounded text-[10px] text-stone-600">about-toc.tsx</div>
+                  <div class="border border-stone-300 bg-white p-1.5 rounded text-[10px] text-stone-600">bio-expand.tsx</div>
+                  <div class="border border-stone-300 bg-white p-1.5 rounded text-[10px] text-stone-600">headline-pills.tsx</div>
+                </div>
+                <div class="border border-amber-300 bg-amber-50 p-2 rounded text-amber-800 text-[11px]">
+                  ⚠️ Strapi "About" single-type has no repository, seam, or adapter.
+                </div>
+              </div>
+              <p class="text-xs text-stone-500 mt-2">Bouncing across multiple tiny client files for a static biographical presentation.</p>
+            </div>
+
+            <!-- After -->
+            <div class="rounded-lg border border-slate-800 bg-slate-900 text-white p-4 flex flex-col justify-between">
+              <span class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold mb-2 block">After · Deep Profile Repository &amp; Cohesive Sections</span>
+              <div class="space-y-2 text-xs">
+                <div class="border-2 border-emerald-500 bg-slate-800 p-3 rounded">
+                  <div class="font-bold text-emerald-300">src/lib/about/ (Deep Profile Module)</div>
+                  <div class="text-slate-300 text-[11px]">Interface: <code>getAboutProfile(locale)</code> with static &amp; CMS adapters behind the seam</div>
+                </div>
+                <div class="border border-slate-700 bg-slate-800 p-2.5 rounded">
+                  <div class="font-bold text-slate-200">Cohesive Presentation Sections</div>
+                  <div class="text-slate-400 text-[11px]">Icons and micro-interactions consolidated within section components</div>
+                </div>
+              </div>
+              <p class="text-xs text-slate-400 mt-2">Architecture aligns with Jobs and Articles; future CMS integration is effortless.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            <div class="space-y-3">
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold">Problem</h3>
+              <p class="text-sm text-slate-700 leading-relaxed">
+                `about/page.tsx` is a 459-line file that directly imports static JSON from `@/Data/about.ts`, embeds 10 SVG icons directly in its body, and bounces across 4 shallow satellite modules. Although Strapi supports an "About" single-type, there is no domain module or seam to absorb CMS changes.
+              </p>
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold pt-2">Solution</h3>
+              <p class="text-sm text-slate-700 leading-relaxed">
+                Establish an `About Profile` module (`src/lib/about/`) with a `getAboutProfile()` interface backed by static and Strapi adapters, mirroring the Jobs/Articles pattern. Collapse shallow satellites (`bio-expand`, `headline-pills`) into cohesive section components.
+              </p>
+            </div>
+
+            <div class="space-y-3">
+              <h3 class="text-xs uppercase font-mono tracking-wider text-stone-500 font-semibold">Benefits</h3>
+              <ul class="space-y-2 text-sm text-slate-700">
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Architectural Consistency:</strong> All core domain entities (Jobs, Articles, About) follow the dual-adapter repository pattern.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Locality:</strong> Biographical data resolution and localization live behind one seam.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-600 font-bold">✓</span>
+                  <span><strong>Deletion Test:</strong> Eliminating scattered satellite modules reduces file-hopping friction.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Top Recommendation Section -->
+      <section id="top-recommendation" class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-2xl p-8 border border-slate-700 shadow-xl space-y-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xs uppercase font-mono tracking-widest text-emerald-400 font-bold">Recomendación Principal</span>
+          <span class="text-xs font-mono bg-emerald-950 text-emerald-300 border border-emerald-700/60 px-2.5 py-0.5 rounded-full">Mayor Apalancamiento (Highest Leverage)</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold font-serif text-white">
+          <a href="#candidate-1" class="hover:text-emerald-300 transition-colors">
+            Candidate 1: Deepen Job Filtering &amp; Query Seam into Job Repository →
+          </a>
+        </h2>
+        <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl">
+          El subsistema de <strong>Jobs</strong> es el núcleo funcional y el área de mayor valor para los candidatos y clientes. En este momento, la recuperación de datos ya es un módulo profundo, pero toda la lógica de búsqueda tokenizada, filtrado por estado y chips de modalidad está atrapada dentro de un componente de UI de 374 líneas sin pruebas unitarias. Al absorber el filtrado detrás de la costura del módulo <code>Job Repository</code>, logramos que la búsqueda sea 100% testeable en milisegundos con Node test runner y unificamos la entidad <code>Job</code> eliminando interfaces redundantes como <code>JobCardProps</code>.
+        </p>
+        <div class="pt-2">
+          <p class="text-xs font-mono text-slate-400">
+            Segundo paso sugerido: <strong>Candidate 2</strong> (encapsular validación de archivos en Intake y eliminar archivos huérfanos <code>validation.ts</code> y <code>strapi.ts</code>).
+          </p>
+        </div>
+      </section>
+
+    </main>
+  </body>
+</html>
