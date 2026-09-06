@@ -35,3 +35,13 @@ An editorial piece or guide published by the recruiter, consisting of metadata a
 - **Seam:** Backed by Strapi CMS adapter (`strapi-adapter.ts`) and static fixture adapter (`static-adapter.ts`). Transparently resolves identifiers across documentIds, slugs, and static IDs. Falls back to static fixtures with rich editorial blocks when Strapi is offline, eliminating 404 routing leaks.
 - **Test surface:** `normalizeStrapiArticle`, `normalizeStrapiBlocks`, `normalizeStaticArticle`, identifier resolution, and deduplication tested directly via `npm test`.
 
+### About Profile
+The professional biographical dossier of the recruiter, containing career journey, competencies, education, honors, roadmap, and contact coordinates.
+- **Attributes:** name, headline pills, location, LinkedIn coordinates, languages, avatar, bio paragraphs, focus areas, categorized skills (recruitment, technical, other), education timeline with honors badges, certification awards and licenses, learning roadmap, and hierarchical work experience.
+
+### About Profile Repository (deep module)
+`src/lib/about/` — the single interface through which the About view accesses recruiter profile intelligence.
+- **Interface:** `getAboutProfile(locale?)` — the only data access symbol the presentation tier imports, plus helper formatters (`flattenExperience`, `formatExperienceDate`).
+- **Seam:** Backed by static profile adapter (`static-adapter.ts`) and Strapi CMS adapter (`strapi-adapter.ts`). Normalizes untrusted payloads into canonical strongly-typed entities with fallback defaults.
+- **Test surface:** `normalizeRawAboutData`, `flattenExperience`, and `formatExperienceDate` tested directly via `npm test`.
+

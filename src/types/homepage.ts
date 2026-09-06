@@ -1,3 +1,22 @@
+import type {
+  Job,
+  JobStatus,
+  JobModality,
+  JobPaymentType,
+  RawStaticJob,
+} from "@/lib/jobs/types";
+import type { RawStaticArticle } from "@/lib/articles/types";
+
+// Re-export canonical domain types to preserve compatibility
+export type {
+  Job,
+  JobStatus,
+  JobModality,
+  JobPaymentType,
+  RawStaticJob,
+};
+export type BlogPreview = RawStaticArticle;
+
 export type NavLink = {
   name: string;
   href: string;
@@ -22,43 +41,6 @@ export type Hero = {
   backgroundImage?: string;
 };
 
-export type JobStatus =
-  | "open"
-  | "on-hold"
-  | "final-steps"
-  | "filled"
-  | "cancelled"
-  | "overstaffed";
-
-export type JobModality = "remote" | "hybrid" | "on-site";
-export type JobPaymentType = "salary" | "hourly" | "equity" | "mixed";
-
-export type Job = {
-  id: string;
-  title: string;
-  description: string;
-  location: string;
-  type: "Full-time" | "Part-time" | "Contract" | "Internship";
-  status: JobStatus;
-  skills: string[];
-  modality: JobModality;
-  paymentType: JobPaymentType;
-  postedAt?: string;
-  image?: string;
-};
-
-export type AboutStat = {
-  value: string;
-  label: string;
-};
-
-export type About = {
-  heading: string;
-  description: string;
-  image?: string;
-  stats?: AboutStat[];
-};
-
 export type Testimonial = {
   id: string;
   name: string;
@@ -75,17 +57,6 @@ export type Author = {
   slug: string;
 };
 
-import type { RawStaticArticle } from "@/lib/articles/types";
-
-export type BlogPreview = RawStaticArticle;
-
-export type ContactCTA = {
-  heading: string;
-  description: string;
-  ctaText: string;
-  ctaLink: string;
-};
-
 export type Footer = {
   copyright: string;
   email?: string;
@@ -95,11 +66,6 @@ export type Footer = {
 export type HomePageData = {
   nav: Nav;
   hero: Hero;
-  openPositions: Job[];
-  about: About;
   testimonials: Testimonial[];
-  blogPreview: BlogPreview[];
-  authors: Author[];
-  contactCTA: ContactCTA;
   footer: Footer;
 };

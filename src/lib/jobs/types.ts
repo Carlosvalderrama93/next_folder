@@ -1,4 +1,13 @@
-import type { JobStatus, JobModality, JobPaymentType } from "@/types/homepage";
+export type JobStatus =
+  | "open"
+  | "on-hold"
+  | "final-steps"
+  | "filled"
+  | "cancelled"
+  | "overstaffed";
+
+export type JobModality = "remote" | "hybrid" | "on-site";
+export type JobPaymentType = "salary" | "hourly" | "equity" | "mixed";
 
 export interface Job {
   id: string;
@@ -15,6 +24,20 @@ export interface Job {
   applyHref: string;
   imageUrl?: string;
   imageAlt?: string;
+}
+
+export interface RawStaticJob {
+  id: string;
+  title: string;
+  description: string;
+  location: string;
+  type: "Full-time" | "Part-time" | "Contract" | "Internship" | string;
+  status: JobStatus;
+  skills: string[];
+  modality: JobModality;
+  paymentType: JobPaymentType;
+  postedAt?: string;
+  image?: string;
 }
 
 export interface JobFilterCriteria {
