@@ -6,13 +6,19 @@ import { useEffect, useState } from "react";
 
 const INTERVAL_MS = 2500;
 
-export default function CyclingCTA({ href }: { href: string }) {
-  const t = useTranslations("hero");
-  const phrases: string[] = t.raw("phrases");
+export default function HeroCTA({ href }: { href: string }) {
+  // Obtiene las traducciones del namespace "hero".
+  const heroTranslations = useTranslations("hero");
+  // Lee la lista de frases que se mostrará en el CTA.
+  const phrases: string[] = heroTranslations.raw("phrases");
+
+  // Controla qué frase se muestra actualmente.
   const [index, setIndex] = useState(0);
+  // Controla si la frase actual es visible o está en transición.
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    // Cada cierto tiempo, la frase actual desaparece y luego cambia a la siguiente.
     const timer = setInterval(() => {
       setVisible(false);
       setTimeout(() => {
@@ -20,8 +26,9 @@ export default function CyclingCTA({ href }: { href: string }) {
         setVisible(true);
       }, 300);
     }, INTERVAL_MS);
+
     return () => clearInterval(timer);
-  }, []);
+  }, [phrases.length]);
 
   return (
     <Link
