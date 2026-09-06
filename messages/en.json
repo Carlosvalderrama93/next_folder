@@ -40,7 +40,8 @@
     "applyNow": "Apply Now"
   },
   "testimonials": {
-    "heading": "What People Say"
+    "heading": "What People Say",
+    "close": "Close"
   },
   "faq": {
     "heading": "Frequently Asked Questions",

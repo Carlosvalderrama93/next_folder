@@ -40,7 +40,8 @@
     "applyNow": "Aplicar ahora"
   },
   "testimonials": {
-    "heading": "Lo que dicen de nosotros"
+    "heading": "Lo que dicen de nosotros",
+    "close": "Cerrar"
   },
   "faq": {
     "heading": "Preguntas Frecuentes",
