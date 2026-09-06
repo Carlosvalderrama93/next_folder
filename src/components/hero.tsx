@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { homePageData } from "../Data/homepage";
-import HeroCTA from "@/components/ui/heroCTA";
+import HeroCTA from "./hero-cta";
 import { getTranslations } from "next-intl/server";
 
 const heroData = homePageData.hero;

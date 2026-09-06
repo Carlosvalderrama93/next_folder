@@ -18,8 +18,8 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción A** | Desacoplar `homepage.ts` & Fixtures de Dominio ([`src/Data/homepage.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/Data/homepage.ts)) | ✅ Completada | Alta (`5f38074`) |
-| **Opción B** | Reglas de Validación en Costura de Intake ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ✅ Completada | **Media-Alta (Sprint Actual)** |
-| **Opción C** | Purgar `ui/dialog.tsx` y Reubicar `ui/heroCTA.tsx` ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ⚪ Pendiente | Media |
+| **Opción B** | Reglas de Validación en Costura de Intake ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ✅ Completada | Media-Alta (`da36328`) |
+| **Opción C** | Purgar `ui/dialog.tsx` y Reubicar `ui/heroCTA.tsx` ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ✅ Completada | **Media (Sprint Actual)** |
 | **Opción D** | Módulo Seam para Testimonios ([`src/components/testimonials.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/testimonials.tsx)) | ⚪ Pendiente | Especulativa |
 
 ---
@@ -49,13 +49,14 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ---
 
-## 📰 Opción C: Purgar Código Muerto (`ui/dialog.tsx`) y Reubicar `ui/heroCTA.tsx` (⚪ Pendiente)
+## 📰 Opción C: Purgar Código Muerto (`ui/dialog.tsx`) y Reubicar `ui/heroCTA.tsx` (✅ Completada)
 **Rama:** `feat/ui-hygiene-sprint`
 
 ### Objetivos
-- [ ] **C.1 Reubicar `heroCTA.tsx`:** Mover fuera de `src/components/ui/` hacia `src/components/hero-cta.tsx` o absorberlo dentro de `src/components/hero.tsx`.
-- [ ] **C.2 Deletion Test en `ui/dialog.tsx`:** Confirmar 0 importaciones en el proyecto y eliminar `src/components/ui/dialog.tsx` para reducir la superficie muerta.
-- [ ] **C.3 Limpiar importaciones y barrel exports:** Garantizar que `src/components/ui/` solo aloje primitivas agnósticas y reutilizables.
+- [x] **C.1 Reubicar `heroCTA.tsx`:** Movido de `src/components/ui/heroCTA.tsx` a [`src/components/hero-cta.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/hero-cta.tsx) adoptando convención kebab-case y colocándolo junto a su consumidor único [`src/components/hero.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/hero.tsx).
+- [x] **C.2 Deletion Test & Purga en `ui/dialog.tsx`:** Confirmado 0 importaciones en el proyecto, eliminado `src/components/ui/dialog.tsx` y desinstalada la dependencia huérfana `@radix-ui/react-dialog` (reduciendo 11 paquetes del árbol de dependencias).
+- [x] **C.3 Limpieza de `src/components/ui/`:** Garantizado que el directorio `src/components/ui/` solo aloja primitivas de diseño reutilizables y agnósticas de dominio, sin barrels que afecten el tree-shaking.
+- [x] **C.4 Verificación completa:** `npm test` (81/81 pasan), `npm run typecheck` (0 errores), `npm run lint` (0 errores), `npm run build` (compilación limpia en 6.6s) y `npm run test:e2e` (18/18 checks pasan).
 
 ---
 
