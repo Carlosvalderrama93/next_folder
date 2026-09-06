@@ -1,25 +1,10 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import type { JobStatus, JobModality, JobPaymentType } from "@/types/homepage";
+import type { JobStatus } from "@/types/homepage";
+import type { Job } from "@/lib/jobs";
 
-export interface JobCardProps {
-  id: string;
-  title: string;
-  description: string;
-  location?: string;
-  type?: string;
-  status?: JobStatus;
-  skills?: string[];
-  modality?: JobModality;
-  paymentType?: JobPaymentType;
-  postedAt?: string;
-  /** Legacy fallback when status is not provided */
-  isOpen?: boolean;
-  applyHref: string;
-  imageUrl?: string;
-  imageAlt?: string;
-}
+export type JobCardProps = Job;
 
 const STATUS_KEYS: Record<JobStatus, string> = {
   open: "open",

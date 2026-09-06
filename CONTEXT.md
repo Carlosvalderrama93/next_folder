@@ -8,10 +8,10 @@ An open or archived employment position managed by the recruiter.
 - **Rules:** If a job has no explicit status, `isOpen = true` maps to `open`, and `isOpen = false` maps to `filled`. Every `Job` carries a canonical `applyHref` of `/jobs/:id` — never `/apply/:id`.
 
 ### Job Repository (deep module)
-`src/lib/jobs/` — the single interface through which all callers obtain Job data.
-- **Interface:** `listJobs(options?)` · `getJob(id)` — the only symbols callers import.
-- **Seam:** Backed by two real adapters (`strapi-adapter.ts`, `static-adapter.ts`), which justifies the seam. All schema normalization, URL resolution, status inference, deduplication, and fallback logic lives inside the module — invisible to callers.
-- **Test surface:** `normalizeStaticJob` and `normalizeStrapiJob` in `normalizer.ts` are tested directly via `npm test`.
+`src/lib/jobs/` — the single interface through which all callers obtain and filter Job data.
+- **Interface:** `listJobs(options?)` · `getJob(id)` · `filterJobs(jobs, criteria)` — the symbols callers import.
+- **Seam:** Backed by two real adapters (`strapi-adapter.ts`, `static-adapter.ts`), which justifies the seam. All schema normalization, URL resolution, status inference, deduplication, multi-token search, multi-criteria filtering, and fallback logic lives inside the module — invisible to callers.
+- **Test surface:** `normalizeStaticJob`, `normalizeStrapiJob` in `normalizer.ts`, and token search/dimension matchers in `query.ts` are tested directly via `npm test`.
 
 ### Intake module (deep module)
 `src/lib/intake/` — the single interface through which all inbound submissions flow.

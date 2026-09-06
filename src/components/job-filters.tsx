@@ -3,8 +3,9 @@
 import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import JobCard, { type JobCardProps } from "./job-card";
+import JobCard from "./job-card";
 import type { JobStatus, JobModality, JobPaymentType } from "@/types/homepage";
+import { filterJobs, type Job } from "@/lib/jobs";
 
 const ALL_STATUSES: JobStatus[] = [
   "open",
@@ -80,7 +81,7 @@ function toggle<T>(set: Set<T>, item: T): Set<T> {
   return next;
 }
 
-export default function JobFilters({ jobs }: { jobs: JobCardProps[] }) {
+export default function JobFilters({ jobs }: { jobs: Job[] }) {
   const t = useTranslations("jobsPage");
 
   const [query, setQuery] = useState("");
@@ -119,27 +120,12 @@ export default function JobFilters({ jobs }: { jobs: JobCardProps[] }) {
   };
 
   const visible = useMemo(() => {
-    return jobs.filter((job) => {
-      if (query.trim()) {
-        const q = query.toLowerCase();
-        const inTitle = job.title.toLowerCase().includes(q);
-        const inDesc = (job.description ?? "").toLowerCase().includes(q);
-        const inSkills = (job.skills ?? []).some((s) => s.toLowerCase().includes(q));
-        if (!inTitle && !inDesc && !inSkills) return false;
-      }
-      if (selectedStatuses.size > 0) {
-        if (!job.status || !selectedStatuses.has(job.status)) return false;
-      }
-      if (selectedSkills.size > 0) {
-        if (!(job.skills ?? []).some((s) => selectedSkills.has(s))) return false;
-      }
-      if (selectedModalities.size > 0) {
-        if (!job.modality || !selectedModalities.has(job.modality)) return false;
-      }
-      if (selectedPayments.size > 0) {
-        if (!job.paymentType || !selectedPayments.has(job.paymentType)) return false;
-      }
-      return true;
+    return filterJobs(jobs, {
+      query,
+      statuses: selectedStatuses,
+      skills: selectedSkills,
+      modalities: selectedModalities,
+      paymentTypes: selectedPayments,
     });
   }, [jobs, query, selectedStatuses, selectedSkills, selectedModalities, selectedPayments]);
 

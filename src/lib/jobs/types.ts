@@ -17,8 +17,17 @@ export interface Job {
   imageAlt?: string;
 }
 
+export interface JobFilterCriteria {
+  query?: string;
+  statuses?: Set<JobStatus> | JobStatus[];
+  skills?: Set<string> | string[];
+  modalities?: Set<JobModality> | JobModality[];
+  paymentTypes?: Set<JobPaymentType> | JobPaymentType[];
+}
+
 export interface ListJobsOptions {
   limit?: number;
+  filter?: JobFilterCriteria;
 }
 
 export interface RawStrapiJob {
