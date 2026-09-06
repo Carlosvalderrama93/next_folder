@@ -11,7 +11,7 @@ Este documento registra el seguimiento detallado de las 4 opciones de mejora arq
 | **Opción 1** | Job Query & Filtering Seam ([`src/lib/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/jobs/)) | ✅ Completada | **Alta (Sprint Actual)** |
 | **Opción 2** | Intake File Validation & Purge Ghosts ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ✅ Completada | Media-Alta |
 | **Opción 3** | Article Entity Alignment & Move Cards ([`src/lib/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/articles/)) | ✅ Completada | Media |
-| **Opción 4** | About Profile Repository & Collapse Page ([`src/app/[locale]/about/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/about/)) | ✅ Completada | Media |
+| **Opción 4** | About Profile Repository & Collapse Page ([`src/app/[locale]/about/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/about/)) | ⚪ Pendiente | Media |
 
 ---
 
@@ -58,17 +58,10 @@ Este documento registra el seguimiento detallado de las 4 opciones de mejora arq
 
 ---
 
-## 👤 Opción 4: Establish About Profile Module Seam (✅ Completada)
-**Rama:** `feat/about-module-sprint`
+## 👤 Opción 4: Establish About Profile Module Seam (Pendiente)
 
 ### Objetivos
-- [x] **4.1 Crear módulo y tipos canónicos de About:** Creado [`src/lib/about/types.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/types.ts) (`AboutProfile`, `ExperienceItem`, `EducationItem`, `CertificationItem`, `FocusArea`, `AboutSkills`).
-- [x] **4.2 Normalizador y utilidades puras:** Creado [`src/lib/about/normalizer.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/normalizer.ts) con `normalizeRawAboutData`, `flattenExperience` y `formatExperienceDate`.
-- [x] **4.3 Adaptadores estático y Strapi:** Creados [`src/lib/about/static-adapter.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/static-adapter.ts) y [`src/lib/about/strapi-adapter.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/strapi-adapter.ts), aislando el JSON estático `@/Data/about`.
-- [x] **4.4 Interfaz pública del dominio:** Creado [`src/lib/about/index.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/index.ts) con `getAboutProfile(locale)` envuelto en React `cache()`.
-- [x] **4.5 Descomponer monolito y absorber satélites:**
-  - Creado directorio [`src/components/about/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/about/) con componentes modulares: `about-hero`, `about-bio`, `about-experience`, `about-focus`, `about-stats`, `about-skills`, `about-education`, `about-certifications`, `about-learning`, `about-cta`, `about-icons`, y `headline-pills`.
-  - Absorbidos componentes satélites superficiales (`bio-expand`, `headline-pills`).
-  - Reducido [`src/app/[locale]/about/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/about/page.tsx) de 459 líneas a ~130 líneas de orquestación pura.
-- [x] **4.6 Suite de pruebas unitarias:** Creado [`src/lib/about/__tests__/about.test.mjs`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/__tests__/about.test.mjs) y añadido a `npm test` (73/73 pruebas pasando).
-- [x] **4.7 Verificación completa:** `npm test` (73 pasan), `npm run typecheck` (0 errores), `npm run lint` (0 errores), `npm run build` (SSG exitoso), y `npm run test:e2e` (18/18 pasan).
+- [ ] **4.1 Crear repositorio About:** Crear `src/lib/about/` con interfaz `getAboutProfile(locale)`.
+- [ ] **4.2 Adaptador estático:** Normalizar [`src/Data/about.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/Data/about.ts) detrás de la costura.
+- [ ] **4.3 Colapsar página monolítica:** Dividir [`src/app/[locale]/about/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/about/page.tsx) (459 líneas) en secciones de alta cohesión y absorber los componentes satélites superficiales (`bio-expand`, `headline-pills`).
+- [ ] **4.4 Pruebas de normalización:** Crear suite unitaria para el perfil de About.
