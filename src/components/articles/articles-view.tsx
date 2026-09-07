@@ -1,22 +1,69 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { ArticleCard, FeaturedArticleCard } from "@/components/articles";
 import type { Article } from "@/lib/articles";
+import {
+  parseArticleQueryCriteria,
+  serializeArticleQueryCriteria,
+} from "@/lib/articles";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
-export type { Article as ArticleItem };
+export interface ArticlesViewProps {
+  articles: Article[];
+  initialCategory?: string;
+}
 
-export default function ArticlesClient({ articles }: { articles: Article[] }) {
+/**
+ * Deep presentation module for articles catalogue.
+ * Encapsulates category filtering, URL query parameter synchronization,
+ * featured article showcase, responsive 3-column grid, and localized category tabs.
+ */
+export function ArticlesView({ articles, initialCategory }: ArticlesViewProps) {
   const t = useTranslations("articles");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState<string>(
+    initialCategory ?? "All"
+  );
 
   const categories = useMemo(
-    () => ["All", ...Array.from(new Set(articles.map((a) => a.category).filter(Boolean)))],
+    () => [
+      "All",
+      ...Array.from(new Set(articles.map((a) => a.category).filter(Boolean))),
+    ],
     [articles]
   );
+
+  // Synchronize category selection with URL search parameters via window.history
+  function handleCategoryChange(nextCategory: string) {
+    setActiveCategory(nextCategory);
+
+    if (typeof window !== "undefined") {
+      const params = serializeArticleQueryCriteria({ category: nextCategory });
+      const queryString = params.toString();
+      const nextUrl = queryString
+        ? `${window.location.pathname}?${queryString}`
+        : window.location.pathname;
+
+      window.history.replaceState(null, "", nextUrl);
+    }
+  }
+
+  // Handle browser back / forward navigation
+  useEffect(() => {
+    function onPopState() {
+      if (typeof window !== "undefined") {
+        const criteria = parseArticleQueryCriteria(
+          new URLSearchParams(window.location.search)
+        );
+        setActiveCategory(criteria.category ?? "All");
+      }
+    }
+
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
 
   const filtered =
     activeCategory === "All"
@@ -26,10 +73,10 @@ export default function ArticlesClient({ articles }: { articles: Article[] }) {
   const [featured, ...rest] = filtered;
 
   return (
-    <Tabs value={activeCategory} onValueChange={setActiveCategory}>
+    <Tabs value={activeCategory} onValueChange={handleCategoryChange}>
       {/* Category filter bar */}
       {categories.length > 1 && (
-        <TabsList>
+        <TabsList ariaLabel={t("allCategories")}>
           {categories.map((cat) => (
             <TabsTrigger key={cat} value={cat}>
               {cat === "All" ? t("allCategories") : cat}
@@ -74,3 +121,5 @@ export default function ArticlesClient({ articles }: { articles: Article[] }) {
     </Tabs>
   );
 }
+
+export default ArticlesView;

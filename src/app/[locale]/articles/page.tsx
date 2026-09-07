@@ -1,7 +1,7 @@
-import { listArticles } from "@/lib/articles";
+import { listArticles, parseArticleQueryCriteria } from "@/lib/articles";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import ArticlesClient from "./articles-client";
+import { ArticlesView } from "@/components/articles";
 
 export async function generateMetadata({
   params,
@@ -18,10 +18,14 @@ export async function generateMetadata({
 
 export default async function ArticlesPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { locale } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const criteria = parseArticleQueryCriteria(resolvedSearchParams);
   const t = await getTranslations({ locale, namespace: "articlesPage" });
 
   const articles = await listArticles();
@@ -34,7 +38,7 @@ export default async function ArticlesPage({
         </h1>
         <div className="mt-3 mb-6 w-10 h-1 bg-brand rounded-full" />
       </div>
-      <ArticlesClient articles={articles} />
+      <ArticlesView articles={articles} initialCategory={criteria.category} />
     </main>
   );
 }

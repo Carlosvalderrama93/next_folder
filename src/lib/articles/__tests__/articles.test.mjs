@@ -497,3 +497,174 @@ describe("Articles UI Locality & Primitives Pureness Contracts", () => {
   });
 });
 
+// ── Article Query URL Criteria Codec & Presentation Seam Contracts ───────────────
+function parseArticleQueryCriteria(searchParams) {
+  if (!searchParams) return {};
+  const getParam = (key) => {
+    if (searchParams instanceof URLSearchParams) {
+      return searchParams.get(key) || undefined;
+    }
+    const val = searchParams[key];
+    if (Array.isArray(val)) return val[0];
+    return val || undefined;
+  };
+
+  const cat = getParam("category");
+  if (!cat || cat.trim().toLowerCase() === "all") {
+    return {};
+  }
+  return { category: cat.trim() };
+}
+
+function serializeArticleQueryCriteria(criteria) {
+  const params = new URLSearchParams();
+  if (criteria.category && criteria.category.trim().toLowerCase() !== "all") {
+    params.set("category", criteria.category.trim());
+  }
+  return params;
+}
+
+describe("Article Query URL Criteria Codec · parseArticleQueryCriteria & serializeArticleQueryCriteria", () => {
+  it("parses URL search parameters dictionary into structured criteria", () => {
+    assert.deepEqual(parseArticleQueryCriteria(undefined), {});
+    assert.deepEqual(parseArticleQueryCriteria({}), {});
+    assert.deepEqual(parseArticleQueryCriteria({ category: "All" }), {});
+    assert.deepEqual(parseArticleQueryCriteria({ category: "all" }), {});
+    assert.deepEqual(parseArticleQueryCriteria({ category: "" }), {});
+    assert.deepEqual(parseArticleQueryCriteria({ category: "Career" }), {
+      category: "Career",
+    });
+
+    const urlParams = new URLSearchParams("category=Engineering");
+    assert.deepEqual(parseArticleQueryCriteria(urlParams), {
+      category: "Engineering",
+    });
+  });
+
+  it("serializes criteria into clean URLSearchParams", () => {
+    assert.equal(serializeArticleQueryCriteria({}).toString(), "");
+    assert.equal(
+      serializeArticleQueryCriteria({ category: "All" }).toString(),
+      ""
+    );
+    assert.equal(
+      serializeArticleQueryCriteria({ category: "all" }).toString(),
+      ""
+    );
+    assert.equal(
+      serializeArticleQueryCriteria({ category: "Career Advice" }).toString(),
+      "category=Career+Advice"
+    );
+  });
+
+  it("guarantees round-trip serialization and deserialization fidelity", () => {
+    const sampleCategories = ["Career", "Remote Work", "Hiring", "LATAM Tech"];
+
+    for (const cat of sampleCategories) {
+      const criteria = { category: cat };
+      const serialized = serializeArticleQueryCriteria(criteria);
+      const deserialized = parseArticleQueryCriteria(serialized);
+      assert.deepEqual(
+        deserialized,
+        criteria,
+        `Round-trip failed for category: ${cat}`
+      );
+    }
+  });
+
+  it("verifies src/lib/articles/query.ts exports codec functions and types", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const queryPath = path.resolve(__dirname, "../query.ts");
+    const indexPath = path.resolve(__dirname, "../index.ts");
+
+    assert.ok(fs.existsSync(queryPath), "src/lib/articles/query.ts must exist");
+    const queryContent = fs.readFileSync(queryPath, "utf-8");
+    const indexContent = fs.readFileSync(indexPath, "utf-8");
+
+    assert.ok(
+      queryContent.includes("export function parseArticleQueryCriteria"),
+      "query.ts must export parseArticleQueryCriteria"
+    );
+    assert.ok(
+      queryContent.includes("export function serializeArticleQueryCriteria"),
+      "query.ts must export serializeArticleQueryCriteria"
+    );
+    assert.ok(
+      indexContent.includes("parseArticleQueryCriteria"),
+      "index.ts must re-export parseArticleQueryCriteria"
+    );
+    assert.ok(
+      indexContent.includes("serializeArticleQueryCriteria"),
+      "index.ts must re-export serializeArticleQueryCriteria"
+    );
+  });
+
+  it("guarantees articles/page.tsx consumes ArticlesView and parseArticleQueryCriteria", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const pagePath = path.resolve(
+      __dirname,
+      "../../../app/[locale]/articles/page.tsx"
+    );
+    const viewPath = path.resolve(
+      __dirname,
+      "../../../components/articles/articles-view.tsx"
+    );
+    const legacyClientPath = path.resolve(
+      __dirname,
+      "../../../app/[locale]/articles/articles-client.tsx"
+    );
+    const barrelPath = path.resolve(
+      __dirname,
+      "../../../components/articles/index.ts"
+    );
+    const tabsPath = path.resolve(
+      __dirname,
+      "../../../components/ui/tabs.tsx"
+    );
+
+    assert.ok(fs.existsSync(pagePath), "articles/page.tsx must exist");
+    assert.ok(fs.existsSync(viewPath), "components/articles/articles-view.tsx must exist");
+    assert.ok(
+      !fs.existsSync(legacyClientPath),
+      "app/[locale]/articles/articles-client.tsx must not exist (purged in favor of components/articles/articles-view.tsx)"
+    );
+
+    const pageContent = fs.readFileSync(pagePath, "utf-8");
+    const barrelContent = fs.readFileSync(barrelPath, "utf-8");
+    const tabsContent = fs.readFileSync(tabsPath, "utf-8");
+
+    assert.ok(
+      pageContent.includes("parseArticleQueryCriteria"),
+      "articles/page.tsx must parse searchParams using parseArticleQueryCriteria"
+    );
+    assert.ok(
+      pageContent.includes("ArticlesView"),
+      "articles/page.tsx must import and render ArticlesView"
+    );
+    assert.ok(
+      pageContent.includes('from "@/components/articles"'),
+      "articles/page.tsx must import ArticlesView from @/components/articles"
+    );
+
+    assert.ok(
+      barrelContent.includes("ArticlesView"),
+      "components/articles/index.ts must export ArticlesView"
+    );
+
+    // ui/tabs.tsx must be generic and not leak article-specific domain strings
+    assert.ok(
+      !tabsContent.includes("Filter articles by category"),
+      "ui/tabs.tsx must not contain hardcoded article domain strings"
+    );
+  });
+});
+
+

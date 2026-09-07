@@ -12,6 +12,11 @@ export type {
   ListArticlesOptions,
 } from "./types";
 export { getStrapiImageSrc } from "./normalizer";
+export {
+  parseArticleQueryCriteria,
+  serializeArticleQueryCriteria,
+  type ArticleQueryCriteria,
+} from "./query";
 
 /**
  * List all available articles, merging Strapi CMS entries with static fallback articles.

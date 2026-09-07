@@ -9,3 +9,5 @@ export {
   SliderBlock,
 } from "./article-blocks";
 export { ArticleCard, FeaturedArticleCard } from "./article-card";
+export { ArticlesView, type ArticlesViewProps } from "./articles-view";
+
