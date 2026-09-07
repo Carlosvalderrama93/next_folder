@@ -88,7 +88,7 @@
 | **Deep Architecture** | Notification & Intake Module (`src/lib/intake/`) | ✅ | — | — |
 | **Deep Architecture** | Article Content Module (`src/lib/articles/`) | ✅ | — | — |
 | **Deep Architecture** | Testimonials Presentation Module (`src/components/testimonials/`) | ✅ | — | — |
-| **Testing** | Automated unit test suite (`npm test`, 143 tests) | ✅ | — | — |
+| **Testing** | Automated unit test suite (`npm test`, 144 tests) | ✅ | — | — |
 | **Testing** | Native E2E verification suite (`npm run test:e2e`, 18 checks) | ✅ | — | — |
 | **Quality** | Full form a11y (focus management, ARIA) & i18n | ✅ | — | — |
 | | | | | |

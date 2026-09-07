@@ -67,7 +67,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 |---|---|---|---|
 | **Opción 1** | Módulo Canónico de Presentación de Contacto ([`src/components/contact/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/contact/)) | ✅ **Completada** | `feat/contact-presentation-module-sprint` |
 | **Opción 2** | Módulo Canónico de Presentación de Testimonios ([`src/components/testimonials/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/testimonials/)) | ✅ **Completada** | `feat/testimonials-presentation-module-sprint` |
-| **Opción 3** | Costura de Presentación Shell & Layout ([`src/components/shell/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/shell/)) | ⏳ Pendiente | Alto Leverage / Deletion Test |
+| **Opción 3** | Costura de Presentación Shell & Layout ([`src/components/shell/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/shell/)) | ✅ **Completada** | `feat/shell-presentation-seam-sprint` |
 | **Opción 4** | Estandarización de Skeletons y Estados de Carga en Módulos | ⏳ Pendiente | Localidad de Presentación |
 
 ### Ciclo 9: Web Interface Guidelines, Accesibilidad (a11y) y Resiliencia UI (⏳ Pendiente de Ejecución)
@@ -367,13 +367,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **2.3 Actualizar importaciones consumidoras:** Conectado `src/app/[locale]/page.tsx` al barril canónico `@/components/testimonials` utilizando `<TestimonialsSection />`.
 - [x] **2.4 Contratos de interfaz y suite de pruebas:** Validados contratos en `testimonials.test.mjs` garantizando la modularidad y purga de archivos sueltos en la raíz de `components/`. 143 tests pasando, 0 errores TS y 0 lints.
 
-### Opción 3: Costura de Presentación Shell & Layout (`components/shell/`) (⏳ Pendiente)
-**Rama propuesta:** `feat/shell-presentation-seam-sprint`
+### Opción 3: Costura de Presentación Shell & Layout (`components/shell/`) (✅ Completada)
+**Rama:** `feat/shell-presentation-seam-sprint`
 
-- [ ] **3.1 Crear directorio canónico `src/components/shell/`:** Reubicar los elementos de navegación y chrome (`navigation.tsx`, `footer.tsx`, `language-switcher.tsx`, `theme-toggle.tsx`, `theme-script.tsx`, `back-to-top.tsx`).
-- [ ] **3.2 Crear barril canónico `src/components/shell/index.ts`:** Proveer un punto de entrada unificado y cohesivo para el layout de la aplicación.
-- [ ] **3.3 Simplificar `src/app/[locale]/layout.tsx`:** Reducir la superficie de acoplamiento de `LocaleLayout` importando los elementos del chrome desde `@/components/shell`.
-- [ ] **3.4 Contratos de interfaz y verificación:** Asegurar en `site-config.test.mjs` la integridad de las rutas activas, la internacionalización y los controles de tema.
+- [x] **3.1 Crear directorio canónico `src/components/shell/`:** Reubicados los elementos de navegación y chrome (`navigation.tsx`, `footer.tsx`, `language-switcher.tsx`, `theme-toggle.tsx`, `theme-script.tsx`, `theme-provider.tsx`, `back-to-top.tsx`, `skip-link.tsx`).
+- [x] **3.2 Crear barril canónico `src/components/shell/index.ts`:** Provisto un punto de entrada unificado y cohesivo para el layout de la aplicación.
+- [x] **3.3 Simplificar `src/app/[locale]/layout.tsx`:** Reducida la superficie de acoplamiento de `LocaleLayout` delegando en `@/components/shell` y eliminando boilerplate inlined de `SkipLink`.
+- [x] **3.4 Contratos de interfaz y verificación:** Validados contratos en `site-config.test.mjs` que garantizan la purga de componentes de shell sueltos en `components/`. 144 tests pasando, 0 errores TS y 0 lints.
 
 ### Opción 4: Estandarización de Skeletons y Estados de Carga en Módulos de Presentación (⏳ Pendiente)
 **Rama propuesta:** `feat/skeletons-presentation-locality-sprint`
