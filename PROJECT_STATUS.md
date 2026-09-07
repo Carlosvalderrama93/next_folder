@@ -153,3 +153,5 @@
 7. ✅ **Hero Rediseñado (HU-100)**: Fondo arquitectónico con dot-grid sutil y badges de confianza, eliminando orbes difusos.
 8. ✅ **Automated CI/CD**: Pipeline GitHub Actions validando typecheck, lint, 162 unit tests, build frío y 18 E2E checks.
 9. ✅ **Strapi CMS Foundation**: Esquemas completos de Strapi 5 en TypeScript, scripts de seed interactivo y dual database config (SQLite + PostgreSQL).
+10. ✅ **Estrategia de Despliegue a Producción**: Documentada en [docs/DEPLOYMENT_STRATEGY.md](docs/DEPLOYMENT_STRATEGY.md) con topología, matriz de variables de entorno, migración a PostgreSQL y guía paso a paso para Vercel + Render + Neon.
+
