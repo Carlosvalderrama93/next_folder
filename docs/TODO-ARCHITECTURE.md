@@ -62,10 +62,10 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | **Opción 3** | Purificación de Primitivas UI e Higiene de Chrome Layout ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ✅ **Completada** | `feat/ui-primitives-hygiene-sprint` |
 | **Opción 4** | Encapsulación de Script de Hidratación de Tema en Root Layout ([`src/components/theme-script.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/theme-script.tsx)) | ✅ **Completada** | `feat/theme-hydration-seam-sprint` |
 
-### Ciclo 8: Simetría de Presentación, Shell Unificado y Co-ubicación de Skeletons (⏳ Pendiente de Aprobación)
+### Ciclo 8: Simetría de Presentación, Shell Unificado y Co-ubicación de Skeletons (⏳ En Progreso)
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
-| **Opción 1** | Módulo Canónico de Presentación de Contacto ([`src/components/contact/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/contact/)) | ⏳ Pendiente | Recomendada (Alta Locality) |
+| **Opción 1** | Módulo Canónico de Presentación de Contacto ([`src/components/contact/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/contact/)) | ✅ **Completada** | `feat/contact-presentation-module-sprint` |
 | **Opción 2** | Módulo Canónico de Presentación de Testimonios ([`src/components/testimonials/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/testimonials/)) | ⏳ Pendiente | Simetría Estructural |
 | **Opción 3** | Costura de Presentación Shell & Layout ([`src/components/shell/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/shell/)) | ⏳ Pendiente | Alto Leverage / Deletion Test |
 | **Opción 4** | Estandarización de Skeletons y Estados de Carga en Módulos | ⏳ Pendiente | Localidad de Presentación |
@@ -351,13 +351,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ## 🚀 Ciclo 8 — Simetría de Presentación, Shell Unificado y Co-ubicación de Skeletons (⏳ Pendiente de Ejecución)
 
-### Opción 1: Módulo Canónico de Presentación de Contacto (`components/contact/`) y Purificación de `contact/page.tsx` (⏳ Pendiente)
-**Rama propuesta:** `feat/contact-presentation-module-sprint`
+### Opción 1: Módulo Canónico de Presentación de Contacto (`components/contact/`) y Purificación de `contact/page.tsx` (✅ Completada)
+**Rama:** `feat/contact-presentation-module-sprint`
 
-- [ ] **1.1 Crear directorio canónico `src/components/contact/` y reubicar `contact-form.tsx`:** Trasladar el formulario de cliente fuera de `src/app/[locale]/contact/` hacia `src/components/contact/`, consolidando la localidad del intake de contacto.
-- [ ] **1.2 Crear barril canónico `src/components/contact/index.ts`:** Exponer la interfaz mínima `<ContactForm />` (o `<ContactView />`), encapsulando estados, validaciones en cliente, hooks y manejo de toasts.
-- [ ] **1.3 Colapsar `src/app/[locale]/contact/page.tsx`:** Reducir la página a un Server Component declarativo y minimalista (<35 líneas) que delega limpiamente en el módulo de presentación.
-- [ ] **1.4 Contratos de interfaz y suite de pruebas:** Implementar contratos que verifiquen la superficie de exportación y la pureza de la ruta de contacto. Asegurar 141+ tests pasando, 0 errores TS y 0 lints.
+- [x] **1.1 Crear directorio canónico `src/components/contact/` y reubicar `contact-form.tsx`:** Trasladado el formulario de cliente fuera de `src/app/[locale]/contact/` hacia `src/components/contact/`, consolidando la localidad del intake de contacto.
+- [x] **1.2 Crear barril canónico `src/components/contact/index.ts`:** Expuesta la interfaz canónica `<ContactForm />` y `<ContactView />`, encapsulando estados, validaciones en cliente, hooks y manejo de toasts.
+- [x] **1.3 Colapsar `src/app/[locale]/contact/page.tsx`:** Reducida la página a un Server Component declarativo y minimalista (30 líneas) que delega limpiamente en `<ContactView />`.
+- [x] **1.4 Contratos de interfaz y suite de pruebas:** Implementados contratos en `intake.test.mjs` que verifican la superficie de exportación y la pureza de la ruta de contacto. 142 tests pasando, 0 errores TS y 0 lints.
 
 ### Opción 2: Módulo Canónico de Presentación de Testimonios (`components/testimonials/`) (⏳ Pendiente)
 **Rama propuesta:** `feat/testimonials-presentation-module-sprint`
