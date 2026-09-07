@@ -112,7 +112,7 @@ export default async function ArticleDetail({
                 <Link
                   key={a.id || a.documentId}
                   href={a.href as `/${string}`}
-                  className="group flex flex-col gap-1 border border-gray-200 dark:border-border rounded-xl p-5 bg-white dark:bg-surface hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800/60 transition-all"
+                  className="group flex flex-col gap-1 border border-gray-200 dark:border-border rounded-xl p-5 bg-white dark:bg-surface hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800/60 transition-[border-color,box-shadow] duration-200 motion-reduce:transition-none"
                 >
                   <time className="text-xs text-gray-400 dark:text-gray-500">
                     {new Date(a.publishedAt).toLocaleDateString(dateLocale, {

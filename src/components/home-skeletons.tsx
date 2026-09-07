@@ -3,7 +3,7 @@ import React from "react";
 export function FeaturedJobsSkeleton() {
   return (
     <section
-      className="py-16 border-t border-gray-100 dark:border-border animate-pulse"
+      className="py-16 border-t border-gray-100 dark:border-border animate-pulse motion-reduce:animate-none"
       aria-busy="true"
       aria-label="Loading featured jobs"
     >
@@ -36,7 +36,7 @@ export function FeaturedJobsSkeleton() {
 export function FeaturedArticlesSkeleton() {
   return (
     <section
-      className="py-16 max-w-7xl mx-auto px-4 border-t border-gray-100 dark:border-border animate-pulse"
+      className="py-16 max-w-7xl mx-auto px-4 border-t border-gray-100 dark:border-border animate-pulse motion-reduce:animate-none"
       aria-busy="true"
       aria-label="Loading featured articles"
     >
@@ -76,7 +76,7 @@ export function FeaturedArticlesSkeleton() {
 export function TestimonialsSkeleton() {
   return (
     <section
-      className="py-16 px-4 border-t border-gray-100 dark:border-border animate-pulse"
+      className="py-16 px-4 border-t border-gray-100 dark:border-border animate-pulse motion-reduce:animate-none"
       aria-busy="true"
       aria-label="Loading testimonials"
     >

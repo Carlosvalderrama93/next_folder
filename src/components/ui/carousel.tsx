@@ -9,7 +9,7 @@ const ARROW_CLASS =
   "bg-white/80 dark:bg-surface/80 backdrop-blur-md " +
   "border border-gray-200 dark:border-border shadow-md " +
   "text-gray-700 dark:text-foreground " +
-  "hover:shadow-lg hover:scale-105 transition-all duration-200";
+  "hover:shadow-lg hover:scale-105 transition-[transform,box-shadow] duration-200 motion-reduce:transition-none motion-reduce:hover:scale-100";
 
 function ChevronLeft() {
   return (
@@ -141,7 +141,7 @@ export default function Carousel({
               key={index}
               onClick={() => onDot(index)}
               aria-label={`Go to slide ${index + 1}`}
-              className={`rounded-full transition-all duration-300 ${
+              className={`rounded-full transition-[width,background-color] duration-300 motion-reduce:transition-none ${
                 index === selectedIndex
                   ? "w-6 h-2 bg-brand"
                   : "w-2 h-2 bg-gray-300 dark:bg-surface-raised hover:bg-brand/40"

@@ -3,7 +3,7 @@ export function JobsSkeleton() {
     <>
       {/* Hero skeleton */}
       <section className="bg-gradient-to-b from-indigo-50/60 via-white to-white dark:from-indigo-950/30 dark:via-background dark:to-background pt-16 pb-12">
-        <div className="max-w-4xl mx-auto px-4 animate-pulse">
+        <div className="max-w-4xl mx-auto px-4 animate-pulse motion-reduce:animate-none">
           <div className="h-10 w-52 bg-gray-200 dark:bg-surface-raised rounded-lg mb-3" />
           <div className="w-10 h-1 bg-gray-200 dark:bg-surface-raised rounded-full mb-4" />
           <div className="h-4 w-32 bg-gray-100 dark:bg-surface rounded" />
@@ -11,7 +11,7 @@ export function JobsSkeleton() {
       </section>
 
       {/* Filter tabs skeleton */}
-      <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20 animate-pulse">
+      <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20 animate-pulse motion-reduce:animate-none">
         <div className="flex gap-2 mb-8">
           <div className="h-9 w-28 bg-gray-200 dark:bg-surface-raised rounded-full" />
           <div className="h-9 w-20 bg-gray-100 dark:bg-surface rounded-full" />

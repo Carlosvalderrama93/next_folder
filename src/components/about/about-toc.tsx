@@ -46,14 +46,14 @@ export default function AboutToc({
         {sections.map(({ id, label }) => (
           <a key={id} href={`#${id}`} className="flex items-center gap-2 group">
             <span
-              className={`block h-px transition-all duration-200 ${
+              className={`block h-px transition-[width,background-color] duration-200 motion-reduce:transition-none ${
                 active === id
                   ? "w-6 bg-brand"
                   : "w-3 bg-gray-300 dark:bg-gray-600 group-hover:w-5 group-hover:bg-brand/60"
               }`}
             />
             <span
-              className={`text-[11px] font-medium transition-all duration-200 whitespace-nowrap ${
+              className={`text-[11px] font-medium transition-[opacity,color] duration-200 motion-reduce:transition-none whitespace-nowrap ${
                 active === id
                   ? "text-brand opacity-100"
                   : "text-muted-fg opacity-0 group-hover:opacity-100"

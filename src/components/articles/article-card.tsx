@@ -40,7 +40,7 @@ export function ArticleCard({
   return (
     <Link
       href={article.href}
-      className="group flex flex-col justify-between border border-gray-200 dark:border-border rounded-xl bg-white dark:bg-surface shadow-sm hover:shadow-lg hover:border-indigo-200 dark:hover:border-brand/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+      className="group flex flex-col justify-between border border-gray-200 dark:border-border rounded-xl bg-white dark:bg-surface shadow-sm hover:shadow-lg hover:border-indigo-200 dark:hover:border-brand/40 transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 overflow-hidden"
     >
       {article.coverImage && (
         <div className="relative w-full h-44 overflow-hidden">
@@ -48,7 +48,7 @@ export function ArticleCard({
             src={article.coverImage}
             alt={article.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
             sizes="(max-width: 768px) 100vw, 33vw"
           />
           <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/30 to-transparent" />
@@ -126,7 +126,7 @@ export function FeaturedArticleCard({
               src={article.coverImage}
               alt={article.title}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
               sizes={`(max-width: 768px) 100vw, ${imageWidth}px`}
               priority
             />

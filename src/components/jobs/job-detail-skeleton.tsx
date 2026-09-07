@@ -1,6 +1,6 @@
 export function JobDetailSkeleton() {
   return (
-    <main id="main-content" className="max-w-3xl mx-auto px-4 py-10 pb-20 animate-pulse">
+    <main id="main-content" className="max-w-3xl mx-auto px-4 py-10 pb-20 animate-pulse motion-reduce:animate-none">
       {/* Breadcrumb */}
       <div className="h-4 w-44 bg-gray-200 dark:bg-gray-700 rounded" />
 
