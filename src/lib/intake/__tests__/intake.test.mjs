@@ -313,10 +313,10 @@ describe("Intake Client Seam · useIntakeForm Contracts", () => {
 
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const contactFormPath = path.resolve(__dirname, "../../../app/[locale]/contact/contact-form.tsx");
-    const applyFormPath = path.resolve(__dirname, "../../../app/[locale]/jobs/[id]/apply-form.tsx");
+    const applyFormPath = path.resolve(__dirname, "../../../components/jobs/apply-form.tsx");
 
     assert.ok(fs.existsSync(contactFormPath), "contact-form.tsx must exist");
-    assert.ok(fs.existsSync(applyFormPath), "apply-form.tsx must exist");
+    assert.ok(fs.existsSync(applyFormPath), "apply-form.tsx must exist in components/jobs/");
 
     const contactContent = fs.readFileSync(contactFormPath, "utf-8");
     const applyContent = fs.readFileSync(applyFormPath, "utf-8");

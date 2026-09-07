@@ -1,7 +1,7 @@
 "use client";
 
 import Carousel from "@/components/ui/carousel";
-import JobCard, { type JobCardProps } from "./job-card";
+import { JobCard, type JobCardProps } from "@/components/jobs";
 
 export default function FeaturedJobsCarousel({ jobs }: { jobs: JobCardProps[] }) {
   if (jobs.length === 0) return null;
