@@ -402,13 +402,14 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **2.2 Anuncios asíncronos y regiones vivas accesibles:** Configurado `type={isSuccess ? "background" : "foreground"}` en `ToastPrimitive.Root` (`aria-live="polite"` vs `assertive`), añadido `aria-live="polite"` en errores de campos de formulario (`FormField`) y configurado `role="status"` + `aria-live="polite"` en el contenedor de éxito de postulación (`ApplyForm`).
 - [x] **2.3 Contratos y verificación:** Suite de pruebas en `site-config.test.mjs`, 148 tests unitarios pasando, 0 errores de tipos, 0 lints y build de producción verificado.
 
-### Opción 3: Resiliencia de Formularios (`beforeunload`) e Higiene de Foco (⏳ Siguiente)
+### Opción 3: Resiliencia de Formularios (`beforeunload`) e Higiene de Foco (✅ Completada)
 **Rama:** `feat/form-resilience-beforeunload-sprint`
 
-- [ ] **3.1 Prevención de pérdida accidental de datos:** Añadir detector de estado sucio (`isDirty`) y listener de `beforeunload` en `useIntakeForm` cuando hay cambios sin guardar en `contact-form` o `apply-form`.
-- [ ] **3.2 Higiene y restauración de foco:** Enfocar automáticamente el primer campo inválido tras un error de validación o el contenedor de éxito tras el envío.
+- [x] **3.1 Prevención de pérdida accidental de datos:** Añadido detector de estado sucio (`isDirty`, `setIsDirty`, `resetDirty`) y listener de `beforeunload` en `useIntakeForm` que advierte al usuario antes de descartar cambios sin guardar en `contact-form` o `apply-form`. El listener se desactiva limpiamente al enviar con éxito o al resetear el formulario.
+- [x] **3.2 Higiene y restauración de foco:** Implementado `focusElement` en `useIntakeForm` para enfocar de forma segura y accesible (`requestAnimationFrame`) el contenedor de confirmación (`role="status"`, `tabIndex={-1}`) tras enviar la postulación, además del enfoque en el primer campo inválido (`focusFirstError`).
+- [x] **3.3 Contratos y verificación:** Suite de pruebas en `intake.test.mjs`, 149 tests unitarios pasando, 0 errores de tipos, 0 lints y build de producción verificado.
 
-### Opción 4: Pulido Tipográfico y Numérico (`text-balance`, `tabular-nums`)
+### Opción 4: Pulido Tipográfico y Numérico (`text-balance`, `tabular-nums`) (⏳ Siguiente)
 **Rama:** `feat/typography-text-balance-tabular-nums-sprint`
 
 - [ ] **4.1 Balanceo tipográfico de títulos:** Aplicar `text-balance` a encabezados principales `h1` y `h2` en las páginas de inicio, sobre mí, empleos y artículos para eliminar huérfanos tipográficos.
