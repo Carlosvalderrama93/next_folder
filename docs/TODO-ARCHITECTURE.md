@@ -22,13 +22,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | **Opción C** | Purgar `ui/dialog.tsx` y Reubicar `ui/heroCTA.tsx` ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ✅ Completada | `feat/ui-hygiene-sprint` (`f9be236`) |
 | **Opción D** | Módulo Seam para Testimonios ([`src/lib/testimonials/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/testimonials/)) | ✅ Completada | `feat/testimonials-module-sprint` (`20c50e5`) |
 
-### Ciclo 3: Shell Persistente en App Router y Centralización de Presentación (🚀 En Curso)
+### Ciclo 3: Shell Persistente en App Router y Centralización de Presentación (✅ 100% Completado)
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción 1** | Shell Persistente en Root Layout ([`src/app/[locale]/layout.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/layout.tsx)) | ✅ **Completada** | `feat/persistent-shell-layout-sprint` (`81e91d3`) |
 | **Opción 2** | Costura de Configuración del Sitio ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/site-config-seam-sprint` (`4da4742`) |
 | **Opción 3** | Componente Canónico `JobStatusBadge` & Presentación ([`src/components/job-status-badge.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job-status-badge.tsx)) | ✅ **Completada** | `feat/job-status-badge-sprint` |
-| **Opción 4** | Descomposición de Bloques de Artículos ([`src/components/article-blocks.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/article-blocks.tsx)) | ⚪ Pendiente | Media |
+| **Opción 4** | Descomposición de Bloques de Artículos ([`src/components/article-blocks.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/article-blocks.tsx)) | ✅ **Completada** | `feat/article-blocks-sprint` |
 
 ---
 
@@ -69,12 +69,29 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ---
 
-## 📰 Opción 4: Descomposición de Bloques de Artículos (⚪ Pendiente)
+## 📰 Opción 4: Descomposición de Bloques de Artículos (✅ Completada)
 **Rama:** `feat/article-blocks-sprint`
 
 ### Objetivos
-- [ ] **4.1 Crear `src/components/article-blocks.tsx`:** Extraer `RichText`, `Quote`, `MediaBlock`, `Slider` y `BlockRenderer`.
-- [ ] **4.2 Simplificar `articles/[documentId]/page.tsx`:** Reducir el archivo controlador a menos de 100 líneas limpias de resolución de datos.
+- [x] **4.1 Crear `src/components/article-blocks.tsx`:** Extraídos como componentes modulares y limpios Server Components:
+  - `RichTextBlock`: Encapsula `ReactMarkdown` con `remarkGfm` y tipografía Tailwind prose responsive.
+  - `QuoteBlock`: Bloque de cita accesible con soporte de `<cite>` y `aria-label`.
+  - `MediaBlock`: Imagen optimizada con Next.js `<Image>`, resolución automática de CDN Strapi o assets locales.
+  - `SliderBlock`: Galería / slider horizontal accesible para colecciones de medios.
+  - `ArticleBlockRenderer`: Despachador polimórfico de bloques según `__component`.
+  - `ArticleBlocks`: Contenedor principal que itera sobre la lista de bloques tipados.
+- [x] **4.2 Simplificar `articles/[documentId]/page.tsx`:**
+  - Archivo reducido de 232 a 148 líneas (~36% de reducción en complejidad).
+  - Eliminado el acoplamiento directo de la página con librerías pesadas de Markdown (`react-markdown`, `remark-gfm`).
+  - Reducción del tamaño de ruta del detalle de artículos a solo 2.73 kB.
+- [x] **4.3 Contratos y Pruebas:**
+  - Agregada suite de pruebas para el contrato de renderizado y discriminación de bloques en [`src/lib/articles/__tests__/articles.test.mjs`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/articles/__tests__/articles.test.mjs).
+- [x] **4.4 Verificación completa:**
+  - 104 pruebas unitarias (`npm test`) pasadas.
+  - 0 errores TypeScript (`npm run typecheck`).
+  - 0 advertencias ESLint (`npm run lint`).
+  - Build de producción Next.js 15.5.0 completado sin errores.
+  - 18/18 pruebas End-to-End (`npm run test:e2e`) pasadas exitosamente.
 
 ---
 

@@ -380,3 +380,40 @@ describe("Merge and Query Logic", () => {
     assert.equal(merged[0].slug, "top-skills-it-2025");
   });
 });
+
+// ── Article Block Dispatch Contract ──────────────────────────────────────────
+
+describe("Article Block Dispatch Contract", () => {
+  function resolveBlockRenderer(block) {
+    if (!block || !block.type) return null;
+    switch (block.type) {
+      case "rich-text":
+        return block.body ? "RichTextBlock" : null;
+      case "quote":
+        return block.body ? "QuoteBlock" : null;
+      case "media":
+        return block.file ? "MediaBlock" : null;
+      case "slider":
+        return block.files?.length ? "SliderBlock" : null;
+      default:
+        return null;
+    }
+  }
+
+  it("resolves rich-text and quote blocks correctly", () => {
+    assert.equal(resolveBlockRenderer({ type: "rich-text", body: "Content" }), "RichTextBlock");
+    assert.equal(resolveBlockRenderer({ type: "quote", body: "Quote" }), "QuoteBlock");
+  });
+
+  it("resolves media and slider blocks with valid attachments", () => {
+    assert.equal(resolveBlockRenderer({ type: "media", file: { url: "/test.jpg" } }), "MediaBlock");
+    assert.equal(resolveBlockRenderer({ type: "slider", files: [{ url: "/s1.jpg" }] }), "SliderBlock");
+  });
+
+  it("safely rejects blocks with missing payload or unrecognized types", () => {
+    assert.equal(resolveBlockRenderer({ type: "media", file: null }), null);
+    assert.equal(resolveBlockRenderer({ type: "slider", files: [] }), null);
+    assert.equal(resolveBlockRenderer({ type: "unknown-type" }), null);
+    assert.equal(resolveBlockRenderer(null), null);
+  });
+});
