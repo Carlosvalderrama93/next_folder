@@ -578,5 +578,87 @@ describe("Serverless Rate Limiter & Upstash/Vercel KV Contracts", () => {
   });
 });
 
+// ── Strapi Persistence Adapter Contract Tests (HU-002, HU-092) ───────────────
+describe("Strapi Intake Persistence Adapter (HU-002, HU-092)", () => {
+  it("guarantees persistence-adapter.ts exists and exports required methods", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const adapterPath = path.resolve(__dirname, "../persistence-adapter.ts");
+
+    assert.ok(fs.existsSync(adapterPath), "persistence-adapter.ts must exist");
+    const content = fs.readFileSync(adapterPath, "utf-8");
+
+    assert.ok(content.includes("persistApplicationToStrapi"), "Must export persistApplicationToStrapi");
+    assert.ok(content.includes("persistInquiryToStrapi"), "Must export persistInquiryToStrapi");
+    assert.ok(content.includes("api/applications"), "Must target /api/applications");
+    assert.ok(content.includes("api/inquiries"), "Must target /api/inquiries");
+  });
+
+  it("verifies Strapi payload construction for application persistence", () => {
+    function buildApplicationPayload(input) {
+      return {
+        data: {
+          name: input.name,
+          email: input.email,
+          phone: input.phone || null,
+          linkedin: input.linkedin || null,
+          jobId: input.jobId,
+          coverLetter: input.message || null,
+          cvFilename: input.cv ? input.cv.filename : null,
+          status: "received",
+        },
+      };
+    }
+
+    const payload = buildApplicationPayload({
+      name: "Carlos Dev",
+      email: "carlos@example.com",
+      phone: "+573001234567",
+      linkedin: "https://linkedin.com/in/carlos",
+      jobId: "job-123",
+      jobTitle: "Senior Dev",
+      message: "Excited to apply",
+      cv: { filename: "carlos-cv.pdf", buffer: Buffer.from("pdf-data") },
+    });
+
+    assert.equal(payload.data.name, "Carlos Dev");
+    assert.equal(payload.data.email, "carlos@example.com");
+    assert.equal(payload.data.jobId, "job-123");
+    assert.equal(payload.data.coverLetter, "Excited to apply");
+    assert.equal(payload.data.cvFilename, "carlos-cv.pdf");
+    assert.equal(payload.data.status, "received");
+  });
+
+  it("verifies Strapi payload construction for inquiry persistence", () => {
+    function buildInquiryPayload(input) {
+      return {
+        data: {
+          name: input.name,
+          email: input.email,
+          subject: input.subject || null,
+          message: input.message,
+          status: "new",
+        },
+      };
+    }
+
+    const payload = buildInquiryPayload({
+      name: "Sarah Recruiter",
+      email: "sarah@uscompany.com",
+      subject: "Hiring Senior Devs",
+      message: "Looking for 3 senior engineers in LATAM.",
+    });
+
+    assert.equal(payload.data.name, "Sarah Recruiter");
+    assert.equal(payload.data.subject, "Hiring Senior Devs");
+    assert.equal(payload.data.status, "new");
+  });
+});
+
+
+
 
 

@@ -32,3 +32,5 @@ export {
 
 export { submitApplication, submitInquiry } from "./submission";
 export { handleApplicationRequest, handleInquiryRequest } from "./http-adapter";
+export { persistApplicationToStrapi, persistInquiryToStrapi } from "./persistence-adapter";
+
