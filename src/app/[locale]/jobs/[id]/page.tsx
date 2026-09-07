@@ -1,7 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { RichText } from "@/components/ui/rich-text";
 import {
   getJob,
   STATUS_PAGE_KEYS,
@@ -191,9 +190,7 @@ export default async function ApplyJobPage({
 
         {/* Job description — open prose */}
         <div className="mt-10 pt-10 border-t border-gray-200 dark:border-border">
-          <div className="prose prose-gray dark:prose-invert max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{job.description}</ReactMarkdown>
-          </div>
+          <RichText content={job.description} />
         </div>
 
         {/* Apply section */}

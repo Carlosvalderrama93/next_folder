@@ -38,13 +38,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | **Opción 3** | Desambiguación de Secciones y Colapso de Módulo Superficial ([`src/components/featured-jobs-section.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/featured-jobs-section.tsx)) | ✅ **Completada** | `feat/home-sections-clarity-sprint` (`faadf64`) |
 | **Opción 4** | Consolidación de Configuración CMS ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/cms-config-consolidation-sprint` (`a563649`) |
 
-### Ciclo 5: Profundización de Cliente, Localidad UI y Streaming Progresivo (En Progreso)
+### Ciclo 5: Profundización de Cliente, Localidad UI y Streaming Progresivo (✅ 100% Completado)
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción 1** | Encapsulación del Ciclo de Vida de Formularios Client (`useIntakeForm`) ([`src/lib/intake/use-intake-form.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/use-intake-form.ts)) | ✅ **Completada** | `feat/intake-form-lifecycle-sprint` |
 | **Opción 2** | Localidad UI de Artículos: Purificar `components/ui/` y Crear `components/articles/` ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ✅ **Completada** | `feat/articles-ui-locality-sprint` |
 | **Opción 3** | Límites de Suspense y Streaming Progresivo en Portada ([`src/app/[locale]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/page.tsx)) | ✅ **Completada** | `feat/streaming-suspense-home-sprint` |
-| **Opción 4** | Consolidación del Seam de Renderizado Markdown ([`src/app/[locale]/jobs/[id]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/jobs/%5Bid%5D/page.tsx)) | ⏳ Pendiente | Media (Desacoplamiento de Terceros) |
+| **Opción 4** | Consolidación del Seam de Renderizado Markdown ([`src/components/ui/rich-text.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/rich-text.tsx)) | ✅ **Completada** | `feat/markdown-adapter-consolidation-sprint` |
 
 
 ---
@@ -235,10 +235,12 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **3.2 Envolver secciones asíncronas en `<Suspense>` en `src/app/[locale]/page.tsx`:** El shell estático y el `Hero` se transmiten de inmediato (TTFB instantáneo) mientras las consultas de `jobs`, `articles` y `testimonials` transmiten en paralelo.
 - [x] **3.3 Verificación de rendimiento y streaming:** 116 pruebas unitarias (`npm test`), 0 errores TS, 0 lints, build de producción 18/18 y 18/18 checks E2E superados sin regresiones ni parpadeos de hidratación.
 
-### Opción 4: Consolidación del Seam de Renderizado Markdown (`jobs/[id]/page.tsx`)
-- [ ] **4.1 Crear o promover adaptador de texto enriquecido/markdown:** Desacoplar el renderizado de `react-markdown` y `remark-gfm` de páginas de ruta.
-- [ ] **4.2 Refactorizar `jobs/[id]/page.tsx`:** Reemplazar la dependencia directa de `react-markdown` por el adaptador unificado de presentación.
-- [ ] **4.3 Verificación de consistencia tipográfica:** Validar estilos de prose en modo claro y oscuro.
+### Opción 4: Consolidación del Seam de Renderizado Markdown (`jobs/[id]/page.tsx`) (✅ Completada)
+**Rama:** `feat/markdown-adapter-consolidation-sprint`
+
+- [x] **4.1 Crear o promover adaptador de texto enriquecido/markdown:** Implementado [`src/components/ui/rich-text.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/rich-text.tsx) encapsulando `react-markdown`, `remark-gfm` y estilos de prose responsivos en modo claro/oscuro.
+- [x] **4.2 Refactorizar `jobs/[id]/page.tsx` y `article-blocks.tsx`:** Eliminado el acoplamiento directo a librerías externas de parsing en las rutas. Ahora el 100% del renderizado de Markdown en el sitio se centraliza en un único adaptador.
+- [x] **4.3 Verificación de consistencia tipográfica:** Añadido contrato en `presentation.test.mjs`. 117 unit tests, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
 
 ---
 
