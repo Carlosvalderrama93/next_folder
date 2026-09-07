@@ -833,7 +833,28 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
       }
     });
   });
+
+  describe("CI/CD Pipeline & GitHub Actions Automation", () => {
+    it("guarantees .github/workflows/ci.yml enforces strict quality gates", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const ciPath = path.resolve(__dirname, "../../../../.github/workflows/ci.yml");
+
+      assert.ok(fs.existsSync(ciPath), ".github/workflows/ci.yml must exist");
+      const content = fs.readFileSync(ciPath, "utf-8");
+
+      assert.ok(content.includes("npm run typecheck"), "CI must execute typecheck");
+      assert.ok(content.includes("npm run lint"), "CI must execute lint");
+      assert.ok(content.includes("npm test"), "CI must execute unit tests");
+      assert.ok(content.includes("npm run build"), "CI must execute production build");
+      assert.ok(content.includes("npm run test:e2e"), "CI must execute end-to-end verification");
+    });
+  });
 });
+
 
 
 
