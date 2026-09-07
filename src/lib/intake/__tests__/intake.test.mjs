@@ -346,6 +346,35 @@ describe("Intake Client Seam · useIntakeForm Contracts", () => {
     assert.ok(!applyContent.includes("setTimeout(() => setToastOpen"), "apply-form must not manually execute raw setTimeout for toast");
   });
 
+  it("guarantees ApplyForm implements 3-step Stepper, CV preview card, and Application Status Timeline (HU-008 & HU-009)", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const applyFormPath = path.resolve(__dirname, "../../../components/jobs/apply-form.tsx");
+
+    assert.ok(fs.existsSync(applyFormPath), "apply-form.tsx must exist");
+    const content = fs.readFileSync(applyFormPath, "utf-8");
+
+    // Stepper navigation
+    assert.ok(content.includes("currentStep"), "Must maintain currentStep state");
+    assert.ok(content.includes("step1"), "Must render step 1 label");
+    assert.ok(content.includes("step2"), "Must render step 2 label");
+    assert.ok(content.includes("step3"), "Must render step 3 label");
+
+    // CV Preview Card
+    assert.ok(content.includes("removeCvFile"), "Must provide CV remove action");
+    assert.ok(content.includes("formatFileSize"), "Must format CV file size");
+
+    // Review step
+    assert.ok(content.includes("reviewTitle"), "Must provide review summary");
+
+    // Post-submission Timeline (HU-009)
+    assert.ok(content.includes("timelineHeading"), "Must render application timeline heading");
+    assert.ok(content.includes("timelineSteps"), "Must orchestrate timeline steps");
+  });
+
   it("correctly resolves first error focus in DOM order", () => {
     const errors = { email: "Invalid email", message: "Required" };
     let focused = null;
