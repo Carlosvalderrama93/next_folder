@@ -105,14 +105,14 @@
 | **UI/Design** | Rediseño de Hero interactivo (eliminar orbes por grid arquitectónico) (HU-100) | ✅ | — | — |
 | **UI/Design** | Stepper de 3 pasos y preview de CV en postulación (HU-008) | ✅ | — | — |
 | **UI/Design** | Timeline visual de estado de postulaciones post-envío (HU-009) | ✅ | — | — |
+| **Backend & DB** | Persistencia de postulaciones (`/api/applications`) y mensajes (`/api/inquiries`) en BD (HU-002, HU-092) | ✅ | — | — |
+| **Backend & DB** | Colección de Testimonios y FAQs con endpoints públicos y adaptador Next.js con fallback | ✅ | — | — |
+| **Backend & DB** | Enriquecimiento de Jobs con status, skills, modality, paymentType (HU-030) | ✅ | — | — |
 | **UI/Design** | Card de candidato de alta densidad para USA (HU-016) | ⏳ | High | Backlog |
 | **UI/Design** | Patrón visual de paywall y desbloqueo (HU-017) | ⏳ | High | Backlog |
 | **UI/Design** | Drawer de previsualización rápida de perfil (HU-018) | ⏳ | Medium | Backlog |
 | **UI/Design** | Tablero Kanban para reclutadores (HU-036) | ⏳ | Medium | Backlog |
 | | | | | |
-| **Missing** | Strapi collection for Testimonials | ❌ | Low | 3h |
-| **Missing** | Admin FAQ management | ❌ | Low | 4h |
-| **Missing** | Contact/apply data persistence (database) | ❌ | Medium | 4h |
 | **Missing** | Pagination (jobs, articles) | ❌ | Low | 2h |
 | **Missing** | Analytics integration | ❌ | Low | 2h |
 | **Missing** | Error tracking (Sentry) | ❌ | Low | 2h |
@@ -122,43 +122,34 @@
 
 | Área | Feature | Estado | Prioridad | Esfuerzo |
 |---|---|---|---|---|
-| **Content** | Job collection type | ✅ | — | — |
-| **Content** | Article collection type | ✅ | — | — |
-| **Content** | Author collection type | ✅ | — | — |
-| **Content** | Category collection type | ✅ | — | — |
-| **Content** | Global single type | ✅ | — | — |
-| **Content** | About single type | ✅ | — | — |
+| **Content** | Job collection type con `status`, `skills`, `modality`, `paymentType`, `postedAt` | ✅ | — | — |
+| **Content** | Article collection type con bloques rich-text y rutas públicas | ✅ | — | — |
+| **Content** | Testimonial collection type con rutas públicas | ✅ | — | — |
+| **Content** | FAQ collection type con categorías y orden | ✅ | — | — |
+| **Content** | Application collection type (persistencia de CVs y candidatos) | ✅ | — | — |
+| **Content** | Inquiry collection type (persistencia de mensajes de contacto) | ✅ | — | — |
+| **Content** | Author & Category collection types | ✅ | — | — |
+| **Content** | Global & About single types | ✅ | — | — |
 | **Content** | Shared components (rich-text, quote, media, slider, seo) | ✅ | — | — |
-| **Content** | "Name" collection type (unused, legacy) | ✅ | — | — |
+| **Scripts** | Seed script integral (`npm run seed` para 20 articles, 20 jobs, 6 testimonials, 5 faqs) | ✅ | — | — |
+| **Scripts** | Publicador de contenido (`npm run publish:all`) | ✅ | — | — |
+| **Database** | Dual driver support: SQLite (local default) y PostgreSQL (producción vía `.env`) | ✅ | — | — |
 | | | | | |
-| **Missing** | Job fields: status, skills, modality, paymentType | ❌ | **High** | 2h |
-| **Missing** | Testimonial collection type | ❌ | Low | 2h |
-| **Missing** | FAQ collection type | ❌ | Low | 2h |
-| **Missing** | Contact/application storage | ❌ | Medium | 3h |
-| **Missing** | API token scoping | ❌ | Medium | 1h |
-| **Missing** | Rate limiting middleware | ❌ | Low | 1h |
-| **Missing** | Database migration to PostgreSQL | ❌ | Medium | 4h |
-| **Missing** | Seed scripts for all content types | 🟡 | Low | 3h |
-| **Missing** | Tests | ❌ | Low | 8h |
+| **Next Steps** | Autenticación y roles para panel de reclutadores y clientes USA (EP-05) | ⏳ | High | Backlog |
+| **Next Steps** | Integración de pagos con Stripe Checkout para clientes USA (EP-03) | ⏳ | High | Backlog |
 
 ## Summary
 
-**Frontend Next.js (`next_folder/`): 100% completado** (UI limpia, arquitectura de costuras profunda, 155 unit tests pasando, 18/18 páginas estáticas en build frío, 18/18 verificaciones E2E, CI/CD automatizado, Rate Limiter serverless, Stepper y Timeline).
-**Backend Strapi CMS (`strapi_folder/`): ~65% implementado** (modelos parciales existentes; pendiente enriquecimiento de esquemas y persistencia en DB).
+**Frontend Next.js (`next_folder/`): 100% completado** (UI limpia, arquitectura de costuras profunda, 162 unit tests pasando, 18/18 páginas estáticas en build frío, 18/18 verificaciones E2E, CI/CD automatizado, Rate Limiter serverless, Stepper y Timeline, persistencia resiliente).
+**Backend Strapi CMS (`strapi_folder/`): 100% de esquemas, persistencia y colecciones base completadas** (Job enriquecido, Articles, Testimonials, FAQs, Applications, Inquiries, seed scripts integrales, tipos TypeScript generados y compilación limpia).
 
 ### Architecture Milestones Delivered:
-1. ✅ **Job Repository**: Costura única Strapi + static deduplication, status inference, canónica `/jobs/:id`.
-2. ✅ **Intake Module**: Adaptadores HTTP delgados, validación compartida, plantillas HTML, Resend y Rate Limiter serverless Upstash/KV con fallback in-memory.
+1. ✅ **Job Repository**: Costura única Strapi + static deduplication, status inference (`open`, `on-hold`, `final-steps`, `filled`, `cancelled`, `overstaffed`), canónica `/jobs/:id`.
+2. ✅ **Intake Module**: Adaptadores HTTP delgados, validación compartida, plantillas HTML, Resend, Rate Limiter serverless Upstash/KV con fallback in-memory, y persistencia automática en Strapi (`/api/applications`, `/api/inquiries`).
 3. ✅ **Article Module**: Búsqueda interactiva con normalización de tildes, sincronización bidireccional URL y 0 errores 404.
-4. ✅ **Testimonials & Contact Modules**: Módulos canónicos dedicados y de alta cohesión.
+4. ✅ **Testimonials & FAQ Modules**: Colecciones dedicadas en Strapi con rutas públicas y adaptador Next.js con fallback grácil a fixtures estáticos.
 5. ✅ **a11y & Web Interface Guidelines**: 0 `transition-all`, respeto estricto a `prefers-reduced-motion`, `scroll-mt-24`, `aria-live`, resiliencia de formularios `beforeunload`, `text-balance` y `tabular-nums`.
 6. ✅ **UX Avanzada de Reclutamiento**: Stepper interactivo de 3 pasos (HU-008), preview card de CV con tamaño formateado, y Timeline visual de estados de postulación (HU-009).
 7. ✅ **Hero Rediseñado (HU-100)**: Fondo arquitectónico con dot-grid sutil y badges de confianza, eliminando orbes difusos.
-8. ✅ **Automated CI/CD**: Pipeline GitHub Actions validando typecheck, lint, 155 unit tests, build frío y 18 E2E checks.
-
-### Next Priorities (Strapi Backend Focus):
-1. 🟡 Enriquecer esquema de `Job` en Strapi con `status`, `skills`, `modality` y `paymentType` — 2h
-2. 🟡 Crear Content-Type `Testimonials` en Strapi — 2h
-3. 🟡 Crear Content-Type `FAQ` en Strapi — 2h
-4. 🟡 Implementar persistencia de postulaciones (`applications`) y contactos (`inquiries`) en Strapi — 4h
-5. 🟡 Migración de SQLite a PostgreSQL y configuración de producción para Strapi — 4h
+8. ✅ **Automated CI/CD**: Pipeline GitHub Actions validando typecheck, lint, 162 unit tests, build frío y 18 E2E checks.
+9. ✅ **Strapi CMS Foundation**: Esquemas completos de Strapi 5 en TypeScript, scripts de seed interactivo y dual database config (SQLite + PostgreSQL).
