@@ -125,40 +125,84 @@ describe("Job Presentation Helpers · isJobDimmed", () => {
 
 // ── Markdown Presentation Adapter Contract ─────────────────────────────────────
 describe("Job Markdown Presentation Adapter Contract", () => {
-  it("guarantees jobs/[id]/page.tsx consumes RichText adapter without direct markdown vendor coupling", async () => {
+  it("guarantees JobDetailView consumes RichText adapter without direct markdown vendor coupling", async () => {
     const fs = await import("node:fs");
     const path = await import("node:path");
     const { fileURLToPath } = await import("node:url");
 
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const pagePath = path.resolve(
+    const detailViewPath = path.resolve(
       __dirname,
-      "../../../app/[locale]/jobs/[id]/page.tsx"
+      "../../../components/jobs/job-detail-view.tsx"
     );
     const richTextPath = path.resolve(
       __dirname,
       "../../../components/ui/rich-text.tsx"
     );
+    const pagePath = path.resolve(
+      __dirname,
+      "../../../app/[locale]/jobs/[id]/page.tsx"
+    );
 
     assert.ok(fs.existsSync(richTextPath), "components/ui/rich-text.tsx must exist");
+    assert.ok(fs.existsSync(detailViewPath), "components/jobs/job-detail-view.tsx must exist");
+
+    const detailContent = fs.readFileSync(detailViewPath, "utf-8");
     const pageContent = fs.readFileSync(pagePath, "utf-8");
 
     assert.ok(
-      pageContent.includes('import { RichText } from "@/components/ui/rich-text";'),
-      "jobs/[id]/page.tsx must import RichText adapter"
+      detailContent.includes('import { RichText } from "@/components/ui/rich-text";'),
+      "JobDetailView must import RichText adapter"
     );
     assert.ok(
-      pageContent.includes("<RichText content={job.description} />"),
-      "jobs/[id]/page.tsx must render description using RichText"
+      detailContent.includes("<RichText content={job.description} />"),
+      "JobDetailView must render description using RichText"
     );
     assert.ok(
-      !pageContent.includes("react-markdown"),
-      "jobs/[id]/page.tsx must not directly import react-markdown"
+      !detailContent.includes("react-markdown"),
+      "JobDetailView must not directly import react-markdown"
     );
     assert.ok(
-      !pageContent.includes("remark-gfm"),
-      "jobs/[id]/page.tsx must not directly import remark-gfm"
+      !detailContent.includes("remark-gfm"),
+      "JobDetailView must not directly import remark-gfm"
     );
+
+    // Page must delegate to JobDetailView
+    assert.ok(
+      pageContent.includes('import { JobDetailView } from "@/components/jobs";'),
+      "jobs/[id]/page.tsx must import JobDetailView from @/components/jobs"
+    );
+    assert.ok(
+      pageContent.includes("<JobDetailView job={job} locale={locale} />"),
+      "jobs/[id]/page.tsx must render JobDetailView"
+    );
+  });
+
+  it("guarantees components/jobs/ acts as the canonical presentation seam", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const jobsDir = path.resolve(__dirname, "../../../components/jobs");
+    const rootComponentsDir = path.resolve(__dirname, "../../../components");
+    const appJobIdDir = path.resolve(__dirname, "../../../app/[locale]/jobs/[id]");
+
+    assert.ok(fs.existsSync(jobsDir), "components/jobs/ directory must exist");
+    assert.ok(fs.existsSync(path.join(jobsDir, "job-card.tsx")), "job-card.tsx must exist in components/jobs/");
+    assert.ok(fs.existsSync(path.join(jobsDir, "job-filters.tsx")), "job-filters.tsx must exist in components/jobs/");
+    assert.ok(fs.existsSync(path.join(jobsDir, "job-status-badge.tsx")), "job-status-badge.tsx must exist in components/jobs/");
+    assert.ok(fs.existsSync(path.join(jobsDir, "job-detail-view.tsx")), "job-detail-view.tsx must exist in components/jobs/");
+    assert.ok(fs.existsSync(path.join(jobsDir, "apply-toggle.tsx")), "apply-toggle.tsx must exist in components/jobs/");
+    assert.ok(fs.existsSync(path.join(jobsDir, "apply-form.tsx")), "apply-form.tsx must exist in components/jobs/");
+    assert.ok(fs.existsSync(path.join(jobsDir, "index.ts")), "index.ts barrel must exist in components/jobs/");
+
+    // Must not leave ghost duplicates in old locations
+    assert.ok(!fs.existsSync(path.join(rootComponentsDir, "job-card.tsx")), "job-card.tsx must not exist in root components/");
+    assert.ok(!fs.existsSync(path.join(rootComponentsDir, "job-filters.tsx")), "job-filters.tsx must not exist in root components/");
+    assert.ok(!fs.existsSync(path.join(rootComponentsDir, "job-status-badge.tsx")), "job-status-badge.tsx must not exist in root components/");
+    assert.ok(!fs.existsSync(path.join(appJobIdDir, "apply-toggle.tsx")), "apply-toggle.tsx must not exist in app/[locale]/jobs/[id]/");
+    assert.ok(!fs.existsSync(path.join(appJobIdDir, "apply-form.tsx")), "apply-form.tsx must not exist in app/[locale]/jobs/[id]/");
   });
 });
 

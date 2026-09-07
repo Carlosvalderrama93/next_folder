@@ -381,10 +381,10 @@ describe("Job Query URL Criteria Codec · parseJobQueryCriteria & serializeJobQu
 
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const pagePath = path.resolve(__dirname, "../../../app/[locale]/jobs/page.tsx");
-    const filtersPath = path.resolve(__dirname, "../../../components/job-filters.tsx");
+    const filtersPath = path.resolve(__dirname, "../../../components/jobs/job-filters.tsx");
 
     assert.ok(fs.existsSync(pagePath), "jobs/page.tsx must exist");
-    assert.ok(fs.existsSync(filtersPath), "job-filters.tsx must exist");
+    assert.ok(fs.existsSync(filtersPath), "job-filters.tsx must exist in components/jobs/");
 
     const pageContent = fs.readFileSync(pagePath, "utf-8");
     const filtersContent = fs.readFileSync(filtersPath, "utf-8");

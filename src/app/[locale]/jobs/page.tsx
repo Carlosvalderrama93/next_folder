@@ -1,5 +1,5 @@
 import { listJobs, parseJobQueryCriteria } from "@/lib/jobs";
-import JobFilters from "@/components/job-filters";
+import { JobFilters } from "@/components/jobs";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 

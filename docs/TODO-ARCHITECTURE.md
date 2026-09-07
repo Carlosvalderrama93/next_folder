@@ -57,7 +57,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 ### Ciclo 7: Módulos Canónicos de Presentación, Sincronización URL e Higiene UI (En Progreso)
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
-| **Opción 1** | Consolidar Módulo de Presentación de Jobs (`components/jobs/`) y Colapsar `jobs/[id]/page.tsx` ([`src/components/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/jobs/)) | ⏳ **En Progreso** | `feat/jobs-presentation-module-sprint` |
+| **Opción 1** | Consolidar Módulo de Presentación de Jobs (`components/jobs/`) y Colapsar `jobs/[id]/page.tsx` ([`src/components/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/jobs/)) | ✅ **Completada** | `feat/jobs-presentation-module-sprint` |
 | **Opción 2** | Costura de Estado URL y Módulo de Presentación para Artículos (`ArticlesView`) ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ⏳ **Pendiente** | `feat/articles-url-state-seam-sprint` |
 | **Opción 3** | Purificación de Primitivas UI e Higiene de Chrome Layout ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ⏳ **Pendiente** | `feat/ui-primitives-hygiene-sprint` |
 | **Opción 4** | Encapsulación de Script de Hidratación de Tema en Root Layout ([`src/components/theme-script.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/theme-script.tsx)) | ⏳ **Pendiente** | `feat/theme-hydration-seam-sprint` |
@@ -300,13 +300,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ## 🚀 Ciclo 7 — Módulos Canónicos de Presentación, Sincronización URL e Higiene UI (En Progreso)
 
-### Opción 1: Consolidar Módulo de Presentación de Jobs (`components/jobs/`) y Colapsar `jobs/[id]/page.tsx` (⏳ En Progreso)
+### Opción 1: Consolidar Módulo de Presentación de Jobs (`components/jobs/`) y Colapsar `jobs/[id]/page.tsx` (✅ Completada)
 **Rama:** `feat/jobs-presentation-module-sprint`
 
-- [ ] **1.1 Crear directorio canónico `src/components/jobs/` con barril `index.ts`:** Reubicar `job-card.tsx`, `job-filters.tsx`, `job-status-badge.tsx`, `featured-jobs-section.tsx`, `featured-jobs-carousel.tsx`, `apply-toggle.tsx` y `apply-form.tsx`.
-- [ ] **1.2 Crear módulo profundo `JobDetailView`:** Encapsular metadatos, badges, chips de habilidades, formato de fechas, bloque markdown `RichText`, y alternador de formulario de postulación / callout de posición cerrada.
-- [ ] **1.3 Colapsar `src/app/[locale]/jobs/[id]/page.tsx`:** Reducir la página de 215 líneas a un coordinador Server Component de ~35 líneas.
-- [ ] **1.4 Contratos de prueba y verificación:** Pruebas unitarias de localidad e interfaz en suite de jobs.
+- [x] **1.1 Crear directorio canónico `src/components/jobs/` con barril `index.ts`:** Reubicados `job-card.tsx`, `job-filters.tsx`, `job-status-badge.tsx`, `apply-toggle.tsx` y `apply-form.tsx` en `src/components/jobs/`, erradicando componentes de presentación sueltos en la raíz de `src/components/` o rutas de `src/app/`.
+- [x] **1.2 Crear módulo profundo `JobDetailView`:** Encapsula metadatos, badges, chips de habilidades, formato de fechas, bloque markdown `RichText`, y alternador de formulario de postulación / callout de posición cerrada.
+- [x] **1.3 Colapsar `src/app/[locale]/jobs/[id]/page.tsx`:** Reducida la página de 215 a 50 líneas, actuando como coordinador Server Component puro que únicamente obtiene los datos del repositorio y renderiza `<JobDetailView />`.
+- [x] **1.4 Contratos de prueba y verificación:** Pruebas unitarias de localidad e interfaz en suite de jobs (`presentation.test.mjs`), 132/132 unit tests verdes, 0 TS errors, 0 lints.
 
 ### Opción 2: Costura de Estado URL y Módulo de Presentación para Artículos (`ArticlesView`) (⏳ Pendiente)
 **Rama:** `feat/articles-url-state-seam-sprint`
