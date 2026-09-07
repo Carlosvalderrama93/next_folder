@@ -27,7 +27,10 @@
       "Ofréceme roles",
       "Busca mi próximo rol",
       "Recomiéndame empleos"
-    ]
+    ],
+    "trustRemote": "100% Remoto LATAM",
+    "trustVetted": "Talento Validado",
+    "trustDirect": "Contratación Directa"
   },
   "jobs": {
     "heading": "Posiciones Abiertas",
