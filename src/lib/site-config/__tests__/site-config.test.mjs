@@ -415,7 +415,99 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
       assert.ok(!articleContent.includes("JSON.stringify(jsonLd)"), "article route must not serialize raw jsonLd");
     });
   });
+
+  describe("UI Primitives Purity & Chrome Hygiene Contracts", () => {
+    it("guarantees navigation and chrome widgets are colocated in components/ and not in ui/", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const componentsDir = path.resolve(__dirname, "../../../components");
+      const uiDir = path.resolve(componentsDir, "ui");
+
+      assert.ok(
+        fs.existsSync(path.join(componentsDir, "language-switcher.tsx")),
+        "language-switcher.tsx must reside in components/"
+      );
+      assert.ok(
+        !fs.existsSync(path.join(uiDir, "language-switcher.tsx")),
+        "language-switcher.tsx must not reside in components/ui/"
+      );
+
+      assert.ok(
+        fs.existsSync(path.join(componentsDir, "back-to-top.tsx")),
+        "back-to-top.tsx must reside in components/"
+      );
+      assert.ok(
+        !fs.existsSync(path.join(uiDir, "back-to-top.tsx")),
+        "back-to-top.tsx must not reside in components/ui/"
+      );
+    });
+
+    it("guarantees Accordion UI primitive is generic and domain-agnostic", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const accordionPath = path.resolve(
+        __dirname,
+        "../../../components/ui/accordion.tsx"
+      );
+
+      assert.ok(fs.existsSync(accordionPath), "components/ui/accordion.tsx must exist");
+      const content = fs.readFileSync(accordionPath, "utf-8");
+
+      assert.ok(content.includes("itemTitle"), "Accordion must support generic item title");
+      assert.ok(content.includes("itemContent"), "Accordion must support generic item content");
+      assert.ok(content.includes("title?:"), "AccordionItemData must declare title prop");
+      assert.ok(content.includes("content?:"), "AccordionItemData must declare content prop");
+    });
+
+    it("guarantees Navigation removes dead TooltipProvider and ThemeToggle is internationalized", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const navPath = path.resolve(__dirname, "../../../components/navigation.tsx");
+      const themeTogglePath = path.resolve(__dirname, "../../../components/theme-toggle.tsx");
+      const layoutPath = path.resolve(__dirname, "../../../app/[locale]/layout.tsx");
+
+      const navContent = fs.readFileSync(navPath, "utf-8");
+      const themeToggleContent = fs.readFileSync(themeTogglePath, "utf-8");
+      const layoutContent = fs.readFileSync(layoutPath, "utf-8");
+
+      // Navigation must not wrap tree in TooltipProvider
+      assert.ok(
+        !navContent.includes("<TooltipProvider>"),
+        "Navigation must not wrap its tree in TooltipProvider"
+      );
+      assert.ok(
+        !navContent.includes('from "./ui/tooltip"'),
+        "Navigation must not import TooltipProvider"
+      );
+
+      // TooltipProvider must be hoisted to LocaleLayout
+      assert.ok(
+        layoutContent.includes("<TooltipProvider>"),
+        "layout.tsx must wrap tree in TooltipProvider"
+      );
+
+      // ThemeToggle must use translations for tooltip
+      assert.ok(
+        themeToggleContent.includes('useTranslations("nav")'),
+        "ThemeToggle must use translations from nav namespace"
+      );
+      assert.ok(
+        !themeToggleContent.includes('"Switch to light mode"'),
+        "ThemeToggle must not contain hardcoded English string"
+      );
+    });
+  });
 });
+
 
 
 

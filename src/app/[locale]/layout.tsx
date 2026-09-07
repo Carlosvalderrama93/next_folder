@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { BackToTop } from "@/components/ui/back-to-top";
+import { BackToTop } from "@/components/back-to-top";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 
@@ -96,12 +97,14 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <SkipLink locale={locale} />
           <ThemeProvider>
-            <Navigation />
-            <div className="flex-1">
-              {children}
-            </div>
-            <Footer />
-            <BackToTop />
+            <TooltipProvider>
+              <Navigation />
+              <div className="flex-1">
+                {children}
+              </div>
+              <Footer />
+              <BackToTop />
+            </TooltipProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
