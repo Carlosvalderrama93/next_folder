@@ -12,7 +12,9 @@
     "jobs": "Empleos",
     "contact": "Contacto",
     "articles": "Artículos",
-    "cta": "Contáctame"
+    "cta": "Contáctame",
+    "themeLight": "Cambiar a modo claro",
+    "themeDark": "Cambiar a modo oscuro"
   },
   "hero": {
     "badge": "Tech Recruiter · LATAM",

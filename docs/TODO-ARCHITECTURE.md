@@ -59,7 +59,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 |---|---|---|---|
 | **Opción 1** | Consolidar Módulo de Presentación de Jobs (`components/jobs/`) y Colapsar `jobs/[id]/page.tsx` ([`src/components/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/jobs/)) | ✅ **Completada** | `feat/jobs-presentation-module-sprint` |
 | **Opción 2** | Costura de Estado URL y Módulo de Presentación para Artículos (`ArticlesView`) ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ✅ **Completada** | `feat/articles-url-state-seam-sprint` |
-| **Opción 3** | Purificación de Primitivas UI e Higiene de Chrome Layout ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ⏳ **Pendiente** | `feat/ui-primitives-hygiene-sprint` |
+| **Opción 3** | Purificación de Primitivas UI e Higiene de Chrome Layout ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ✅ **Completada** | `feat/ui-primitives-hygiene-sprint` |
 | **Opción 4** | Encapsulación de Script de Hidratación de Tema en Root Layout ([`src/components/theme-script.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/theme-script.tsx)) | ⏳ **Pendiente** | `feat/theme-hydration-seam-sprint` |
 
 
@@ -316,12 +316,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **2.3 Purificar `src/components/ui/tabs.tsx`:** Eliminado el texto de dominio quemado `aria-label="Filter articles by category"`, haciendo la etiqueta configurable como primitiva accesible neutra.
 - [x] **2.4 Pruebas y verificación:** Pruebas unitarias de códec, round-trip y contratos de no-regresión en `articles.test.mjs`, 137/137 tests verdes, 0 TS errors, 0 lints.
 
-### Opción 3: Purificación de Primitivas UI e Higiene de Chrome Layout (⏳ Pendiente)
+### Opción 3: Purificación de Primitivas UI e Higiene de Chrome Layout (✅ Completada)
 **Rama:** `feat/ui-primitives-hygiene-sprint`
 
-- [ ] **3.1 Reubicar widgets de chrome:** Mover `language-switcher.tsx` y `back-to-top.tsx` fuera de `src/components/ui/` hacia `src/components/`.
-- [ ] **3.2 Generalizar `src/components/ui/accordion.tsx`:** Cambiar interfaz de `{ question, answer }` a `{ title: ReactNode, content: ReactNode }` genérica.
-- [ ] **3.3 Limpiar `Navigation` y `ThemeToggle`:** Remover `<TooltipProvider>` inerte en `Navigation` e internacionalizar tooltips en `ThemeToggle`.
+- [x] **3.1 Reubicar widgets de chrome:** Reubicados `language-switcher.tsx` y `back-to-top.tsx` fuera de `src/components/ui/` hacia `src/components/`, dejando `components/ui/` 100% libre de elementos de navegación o shell.
+- [x] **3.2 Generalizar `src/components/ui/accordion.tsx`:** Interfaz pura `AccordionItemData` con `{ title, content }` agnóstica a dominios de negocio, adaptando `faq.tsx` para proyectar sus preguntas a títulos/contenidos.
+- [x] **3.3 Limpiar `Navigation` y `ThemeToggle`:** Removido `<TooltipProvider>` inerte en `Navigation`, elevado al layout raíz (`LocaleLayout`), e internacionalizados los tooltips y aria-labels de `ThemeToggle` en español e inglés.
+- [x] **3.4 Pruebas y verificación:** Suite de contratos `UI Primitives Purity & Chrome Hygiene Contracts` en `site-config.test.mjs`, 140/140 tests verdes, 0 TS errors, 0 lints.
 
 ### Opción 4: Encapsulación de Script de Hidratación de Tema en Root Layout (⏳ Pendiente)
 **Rama:** `feat/theme-hydration-seam-sprint`

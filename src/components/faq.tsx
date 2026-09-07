@@ -3,8 +3,14 @@ import { getTranslations } from "next-intl/server";
 
 export default async function FAQ() {
   const faqTranslations = await getTranslations("faq");
-  const items: { question: string; answer: string }[] =
+  const rawItems: { question: string; answer: string }[] =
     faqTranslations.raw("items");
+
+  const items = rawItems.map((item, index) => ({
+    title: item.question,
+    content: item.answer,
+    value: `faq-${index}`,
+  }));
 
   return (
     <section className="py-16 px-4 border-t border-gray-100 dark:border-border">

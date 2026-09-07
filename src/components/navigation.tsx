@@ -4,9 +4,8 @@ import React, { useState, useEffect } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { NAV_LINKS, siteConfig, isRouteActive } from "@/lib/site-config";
 import { ThemeToggle } from "./theme-toggle";
-import { TooltipProvider } from "./ui/tooltip";
 import { useTranslations } from "next-intl";
-import LanguageSwitcher from "./ui/language-switcher";
+import LanguageSwitcher from "./language-switcher";
 
 const ctaHref = siteConfig.navCta.href;
 
@@ -20,7 +19,7 @@ function Navigation() {
   }, [pathname]);
 
   return (
-    <TooltipProvider>
+    <>
       {menuOpen && (
         
         <div
@@ -125,7 +124,7 @@ function Navigation() {
           </div>
         )}
       </nav>
-    </TooltipProvider>
+    </>
   );
 }
 

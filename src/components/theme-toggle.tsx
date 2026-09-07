@@ -2,15 +2,18 @@
 
 import { useTheme } from "./theme-provider";
 import { Tooltip } from "./ui/tooltip";
+import { useTranslations } from "next-intl";
 
 export function ThemeToggle() {
   const { theme, toggle } = useTheme();
+  const t = useTranslations("nav");
+  const label = theme === "dark" ? t("themeLight") : t("themeDark");
 
   return (
-    <Tooltip content={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"} side="bottom">
+    <Tooltip content={label} side="bottom">
       <button
         onClick={toggle}
-        aria-label="Toggle dark mode"
+        aria-label={label}
         className="p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors"
       >
         {theme === "dark" ? (
