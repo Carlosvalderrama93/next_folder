@@ -1,55 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { submitApplication, ALLOWED_CV_MIME, MAX_CV_BYTES } from "@/lib/intake";
+import { NextRequest } from "next/server";
+import { handleApplicationRequest } from "@/lib/intake";
 
 export async function POST(req: NextRequest) {
-  // ── Parse multipart / JSON ─────────────────────────────────────────────────
-  const contentType = req.headers.get("content-type") ?? "";
-  let fields: Record<string, string> = {};
-  let cv: { filename: string; buffer: Buffer } | undefined;
-
-  if (contentType.includes("multipart/form-data")) {
-    const formData = await req.formData();
-    for (const [key, value] of formData.entries()) {
-      if (value instanceof File) {
-        if (!ALLOWED_CV_MIME.has(value.type)) {
-          return NextResponse.json(
-            { errors: { cv: "Only PDF, DOC, and DOCX files are allowed." } },
-            { status: 400 }
-          );
-        }
-        if (value.size > MAX_CV_BYTES) {
-          return NextResponse.json(
-            { errors: { cv: "CV must be under 5 MB." } },
-            { status: 400 }
-          );
-        }
-        cv = { filename: value.name, buffer: Buffer.from(await value.arrayBuffer()) };
-      } else {
-        fields[key] = value;
-      }
-    }
-  } else {
-    fields = await req.json();
-  }
-
-  // ── Delegate to intake module ──────────────────────────────────────────────
-  const result = await submitApplication(req, {
-    name: fields.name?.trim() ?? "",
-    email: fields.email?.trim() ?? "",
-    phone: fields.phone?.trim(),
-    linkedin: fields.linkedin?.trim(),
-    message: fields.message?.trim() ?? "",
-    jobId: fields.jobId ?? "",
-    jobTitle: fields.jobTitle ?? "",
-    cv,
-  });
-
-  if (!result.ok) {
-    if (result.errors) return NextResponse.json({ errors: result.errors }, { status: 400 });
-    if (result.message?.startsWith("Too many"))
-      return NextResponse.json({ error: result.message }, { status: 429 });
-    return NextResponse.json({ error: result.message ?? "Server error" }, { status: 500 });
-  }
-
-  return NextResponse.json({ success: true });
+  return handleApplicationRequest(req);
 }

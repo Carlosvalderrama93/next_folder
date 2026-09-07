@@ -1,24 +1,20 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { BackToTop } from "@/components/ui/back-to-top";
+import {
+  Navigation,
+  Footer,
+  ThemeScript,
+  ThemeProvider,
+  BackToTop,
+  SkipLink,
+} from "@/components/shell";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
-
-async function SkipLink({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: "layout" });
-  return (
-    <a
-      href="#main-content"
-      className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-black focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold focus:shadow-lg"
-    >
-      {t("skipToContent")}
-    </a>
-  );
-}
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import { SITE_URL, siteConfig } from "@/lib/site-config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,8 +25,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://carlosvalderrama.com";
 
 export async function generateMetadata({
   params,
@@ -43,13 +37,13 @@ export async function generateMetadata({
     metadataBase: new URL(SITE_URL),
     title: {
       default: t("title"),
-      template: `%s | Carlos Valderrama`,
+      template: `%s | ${siteConfig.name}`,
     },
     description: t("description"),
     alternates: { canonical: "/" },
     openGraph: {
       type: "website",
-      siteName: "Carlos Valderrama",
+      siteName: siteConfig.name,
       title: t("title"),
       description: t("description"),
       url: SITE_URL,
@@ -84,18 +78,20 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var s=localStorage.getItem('theme'),p=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';if((s||p)==='dark')document.documentElement.classList.add('dark');})()`,
-          }}
-        />
+        <ThemeScript />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
         <NextIntlClientProvider messages={messages}>
           <SkipLink locale={locale} />
           <ThemeProvider>
-            {children}
-            <BackToTop />
+            <TooltipProvider>
+              <Navigation />
+              <div className="flex-1">
+                {children}
+              </div>
+              <Footer />
+              <BackToTop />
+            </TooltipProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

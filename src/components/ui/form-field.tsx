@@ -17,7 +17,7 @@ export function FormField({ id, label, required, error, children }: FormFieldPro
       </label>
       {children}
       {error && (
-        <p id={`${id}-error`} role="alert" className="text-red-500 text-xs mt-1">
+        <p id={`${id}-error`} role="alert" aria-live="polite" className="text-red-500 text-xs mt-1">
           {error}
         </p>
       )}

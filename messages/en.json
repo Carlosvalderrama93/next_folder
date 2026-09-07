@@ -12,7 +12,9 @@
     "jobs": "Jobs",
     "contact": "Contact",
     "articles": "Articles",
-    "cta": "Get in Touch"
+    "cta": "Get in Touch",
+    "themeLight": "Switch to light mode",
+    "themeDark": "Switch to dark mode"
   },
   "hero": {
     "badge": "Tech Recruiter · LATAM",
@@ -25,7 +27,10 @@
       "Offer me roles",
       "Source my next role",
       "Recommend me jobs"
-    ]
+    ],
+    "trustRemote": "100% Remote LATAM",
+    "trustVetted": "Pre-screened Talent",
+    "trustDirect": "Direct Tech Hiring"
   },
   "jobs": {
     "heading": "Open Positions",
@@ -40,7 +45,8 @@
     "applyNow": "Apply Now"
   },
   "testimonials": {
-    "heading": "What People Say"
+    "heading": "What People Say",
+    "close": "Close"
   },
   "faq": {
     "heading": "Frequently Asked Questions",
@@ -72,7 +78,15 @@
     "heading": "Articles",
     "viewAll": "View all →",
     "readArticle": "Read article →",
-    "moreArticles": "More Articles"
+    "moreArticles": "More Articles",
+    "allCategories": "All",
+    "noArticles": "No articles in this category yet.",
+    "searchPlaceholder": "Search articles…",
+    "clearSearch": "Clear search",
+    "noSearchResults": "No articles match your search.",
+    "readMore": "Read more",
+    "minRead": "{count} min read",
+    "by": "By"
   },
   "footer": {
     "tagline": "Connecting top LATAM tech talent with leading companies worldwide.",
@@ -81,7 +95,8 @@
     "follow": "Follow",
     "builtWith": "Built with Next.js & Tailwind",
     "cta": "Ready for your next opportunity?",
-    "ctaAction": "Apply Now"
+    "ctaAction": "Apply Now",
+    "newTab": "opens in a new tab"
   },
   "jobsPage": {
     "heading": "Open Positions",
@@ -213,7 +228,26 @@
     "viewMoreRoles": "View more positions",
     "sectionPersonal": "Personal Info",
     "sectionDocuments": "Documents",
-    "sectionMessage": "Your Message"
+    "sectionMessage": "Your Message",
+    "step1": "Personal",
+    "step2": "CV & Letter",
+    "step3": "Review",
+    "nextStep": "Continue",
+    "prevStep": "Back",
+    "confirmAndSubmit": "Confirm & Submit",
+    "removeCv": "Remove",
+    "reviewTitle": "Review your application",
+    "reviewSubtitle": "Please verify your details before submitting.",
+    "noCvUploaded": "No CV file attached",
+    "timelineHeading": "What happens next?",
+    "timelineStep1Title": "Application Received",
+    "timelineStep1Desc": "Your application has been safely registered in our system.",
+    "timelineStep2Title": "Profile & Skills Review",
+    "timelineStep2Desc": "We review your experience within 24-48 business hours.",
+    "timelineStep3Title": "Recruiter Call",
+    "timelineStep3Desc": "Introductory conversation to discuss expectations and technical fit.",
+    "timelineStep4Title": "Client Introduction",
+    "timelineStep4Desc": "Presentation of your profile directly to hiring managers."
   },
   "contactForm": {
     "fullName": "Full Name",

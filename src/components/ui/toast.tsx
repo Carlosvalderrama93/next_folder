@@ -33,9 +33,10 @@ export function Toast({
     <ToastPrimitive.Root
       open={open}
       onOpenChange={onOpenChange}
+      type={isSuccess ? "background" : "foreground"}
       className={[
         "rounded-xl border-y border-r p-4 shadow-xl flex items-start gap-3",
-        "transition-all duration-300",
+        "transition-[transform,opacity] duration-300 motion-reduce:transition-none",
         "data-[state=open]:opacity-100 data-[state=open]:translate-x-0",
         "data-[state=closed]:opacity-0 data-[state=closed]:translate-x-full",
         "data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)]",

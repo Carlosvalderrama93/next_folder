@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Architecture Review Cycle 2 · recruiter_Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+    </script>
+    <style>
+      .seam { stroke-dasharray: 4 4; }
+      .leak { stroke: #dc2626; }
+      .deep { background: linear-gradient(135deg, #0f172a, #1e293b); }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-slate-900 font-sans antialiased">
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
+
+      <!-- Header -->
+      <header class="border-b border-stone-200 pb-8 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs uppercase font-mono tracking-wider text-stone-500">Architecture Review · Ciclo 2</span>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Todo Verde · 73/73 Tests · 18/18 E2E</span>
+            </div>
+            <h1 class="text-3xl font-bold font-serif text-slate-900 mt-1">recruiter_Page · Estado de Salud &amp; Nuevas Oportunidades de Profundización</h1>
+          </div>
+          <time class="text-sm font-mono text-stone-500 bg-stone-100 px-3 py-1.5 rounded-md border border-stone-200">2026-09-06 17:25</time>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex flex-wrap items-center gap-6 pt-3 text-xs font-mono text-stone-600 bg-white p-3 rounded-lg border border-stone-200">
+          <div class="flex items-center gap-2">
+            <span class="w-3.5 h-3.5 border border-slate-700 bg-stone-50 inline-block"></span>
+            <span>Módulo</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-4 h-0 border-t-2 border-dashed border-stone-600 inline-block"></span>
+            <span>Costura (Seam)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-red-600 font-bold">─▶</span>
+            <span>Fuga / Dependencia Invertida</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-3.5 h-3.5 bg-slate-900 inline-block"></span>
+            <span>Módulo Profundo (Deep Module)</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Status / "Todo bien por ahora?" Answer Banner -->
+      <section class="bg-gradient-to-r from-slate-950 via-slate-900 to-indigo-950 border border-slate-700 rounded-2xl p-6 sm:p-8 text-white shadow-xl space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-xs uppercase font-mono tracking-widest text-emerald-400 font-bold">Diagnóstico: Todo va excelente en develop</span>
+          </div>
+          <span class="text-xs font-mono text-slate-400">4 de 4 Opciones Iniciales Completadas</span>
+        </div>
+        <h2 class="text-2xl font-bold font-serif text-white">
+          La base de código está en su punto arquitectónico más sólido hasta la fecha.
+        </h2>
+        <p class="text-slate-300 text-sm leading-relaxed max-w-3xl">
+          Las 4 opciones del sprint anterior (<strong>Job Query Seam</strong>, <strong>Intake Encapsulation</strong>, <strong>Article Entity Alignment</strong> y <strong>About Profile Repository</strong>) fueron implementadas, probadas y fusionadas a <code class="text-emerald-300">develop</code>. Todos los indicadores de calidad están en verde:
+        </p>
+
+        <!-- Metric Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
+          <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
+            <div class="text-2xl font-bold text-emerald-400 font-mono">73 / 73</div>
+            <div class="text-xs text-slate-400 mt-1">Pruebas Unitarias (`npm test`)</div>
+          </div>
+          <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
+            <div class="text-2xl font-bold text-emerald-400 font-mono">18 / 18</div>
+            <div class="text-xs text-slate-400 mt-1">Checks E2E (`test:e2e`)</div>
+          </div>
+          <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
+            <div class="text-2xl font-bold text-emerald-400 font-mono">0 Errores</div>
+            <div class="text-xs text-slate-400 mt-1">TypeScript (`tsc --noEmit`)</div>
+          </div>
+          <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-xl">
+            <div class="text-2xl font-bold text-emerald-400 font-mono">0 Lints</div>
+            <div class="text-xs text-slate-400 mt-1">ESLint (`npm run lint`)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Nuevas Oportunidades de Profundización -->
+      <section class="space-y-6">
+        <div>
+          <div class="text-xs font-mono uppercase tracking-wider text-stone-500">Nuevas Oportunidades</div>
+          <h2 class="text-2xl font-bold font-serif text-slate-900 mt-1">Opciones de Refactorización para el Siguiente Ciclo</h2>
+          <p class="text-slate-600 text-sm mt-1">
+            Habiendo cerrado los monolitos de presentación y costuras primarias, ahora podemos eliminar fricciones secundarias de <strong>acoplamiento de datos</strong>, <strong>fugas de validación cliente/servidor</strong> y <strong>componentes mal ubicados</strong>.
+          </p>
+        </div>
+
+        <div class="space-y-8">
+
+          <!-- Candidate 1: Invert Domain Data Dependency & Decouple homepage.ts -->
+          <article class="bg-white border border-stone-200 rounded-xl p-6 sm:p-8 space-y-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-4">
+              <div class="space-y-1">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                  Recomendación Fuerte (Strong)
+                </span>
+                <h3 class="text-xl font-bold font-serif text-slate-900">
+                  Opción A: Invertir Dependencia de Datos &amp; Desacoplar Monolito <code class="text-base text-indigo-600 font-mono">src/Data/homepage.ts</code>
+                </h3>
+              </div>
+              <span class="text-xs font-mono text-stone-500">Módulos: Jobs, Articles, Homepage Data</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 text-sm">
+              <div class="space-y-3">
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs">Archivos Involucrados</h4>
+                <ul class="list-disc list-inside text-stone-600 space-y-1 font-mono text-xs">
+                  <li>src/Data/homepage.ts (408 líneas)</li>
+                  <li>src/types/homepage.ts</li>
+                  <li>src/lib/jobs/static-adapter.ts</li>
+                  <li>src/lib/articles/static-adapter.ts</li>
+                </ul>
+
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs pt-2">El Problema (Fricción Arquitectónica)</h4>
+                <p class="text-slate-600 leading-relaxed">
+                  Existe una <strong>dependencia invertida</strong>: los repositorios profundos de dominio (<code class="font-mono text-xs">src/lib/jobs/</code> y <code class="font-mono text-xs">src/lib/articles/</code>) dependen de un archivo de presentación general (<code class="font-mono text-xs">src/Data/homepage.ts</code>) para cargar sus registros estáticos. Además, <code class="font-mono text-xs">homepage.ts</code> contiene 279 líneas de empleos, 45 líneas de artículos, y código muerto (<code class="font-mono text-xs">about</code> y <code class="font-mono text-xs">contactCTA</code> que nadie consume). En paralelo, <code class="font-mono text-xs">src/types/homepage.ts</code> mantiene una definición clonada de la entidad <code class="font-mono text-xs">Job</code>.
+                </p>
+              </div>
+
+              <div class="space-y-3">
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs">Solución Propuesta</h4>
+                <p class="text-slate-600 leading-relaxed">
+                  1. Mover los fixtures estáticos de Jobs a su propio dominio (<code class="font-mono text-xs">src/lib/jobs/fixtures.ts</code> o <code class="font-mono text-xs">src/Data/jobs.ts</code>).<br />
+                  2. Mover los fixtures estáticos de Articles a su propio dominio (<code class="font-mono text-xs">src/lib/articles/fixtures.ts</code> o <code class="font-mono text-xs">src/Data/articles.ts</code>).<br />
+                  3. Purgar entidades huérfanas en <code class="font-mono text-xs">homepage.ts</code> y sustituir el tipo clonado <code class="font-mono text-xs">Job</code> en <code class="font-mono text-xs">types/homepage.ts</code> por la entidad canónica de <code class="font-mono text-xs">src/lib/jobs</code>.<br />
+                  4. Reducir <code class="font-mono text-xs">homepage.ts</code> a solo datos específicos de la página de inicio (hero, testimonials, footer).
+                </p>
+
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs pt-2">Beneficios (Localidad y Leverage)</h4>
+                <ul class="list-disc list-inside text-slate-600 space-y-1">
+                  <li><strong>Localidad:</strong> Los cambios a un empleo o artículo no tocan archivos de la homepage.</li>
+                  <li><strong>Prueba de Eliminación (Deletion Test):</strong> Si se eliminara <code class="font-mono text-xs">homepage.ts</code>, los dominios de Jobs y Articles continuarían funcionando sin romperse.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Before / After Visual -->
+            <div class="bg-stone-50 rounded-lg p-4 border border-stone-200">
+              <div class="text-xs font-mono uppercase text-stone-500 mb-3">Visualización Estructural: Antes vs. Después</div>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded border border-red-200 space-y-2">
+                  <div class="text-xs font-bold text-red-700 uppercase">Antes: Dependencia Invertida &amp; Acoplamiento</div>
+                  <pre class="mermaid text-xs">
+graph TD
+  HP["src/Data/homepage.ts (408 LOC)"]
+  JR["src/lib/jobs/static-adapter"]
+  AR["src/lib/articles/static-adapter"]
+  JR -->|"import openPositions (Leak)"| HP
+  AR -->|"import blogPreview (Leak)"| HP
+                  </pre>
+                </div>
+                <div class="bg-white p-4 rounded border border-emerald-200 space-y-2">
+                  <div class="text-xs font-bold text-emerald-700 uppercase">Después: Dominios Autosuficientes &amp; Alta Localidad</div>
+                  <pre class="mermaid text-xs">
+graph TD
+  JF["src/lib/jobs/fixtures.ts"]
+  AF["src/lib/articles/fixtures.ts"]
+  JR["src/lib/jobs/static-adapter"]
+  AR["src/lib/articles/static-adapter"]
+  HP["src/Data/homepage.ts (~60 LOC limpia)"]
+  JR --> JF
+  AR --> AF
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Candidate 2: Client/Server Validation Seam -->
+          <article class="bg-white border border-stone-200 rounded-xl p-6 sm:p-8 space-y-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-4">
+              <div class="space-y-1">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+                  Vale la pena explorar (Worth exploring)
+                </span>
+                <h3 class="text-xl font-bold font-serif text-slate-900">
+                  Opción B: Unificar Reglas de Validación en la Costura de Intake (<code class="text-base text-indigo-600 font-mono">src/lib/intake/</code>)
+                </h3>
+              </div>
+              <span class="text-xs font-mono text-stone-500">Módulos: Intake, ApplyForm, ContactForm</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 text-sm">
+              <div class="space-y-3">
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs">Archivos Involucrados</h4>
+                <ul class="list-disc list-inside text-stone-600 space-y-1 font-mono text-xs">
+                  <li>src/lib/intake/validation.ts</li>
+                  <li>src/lib/intake/index.ts</li>
+                  <li>src/app/[locale]/jobs/[id]/apply-form.tsx</li>
+                  <li>src/app/[locale]/contact/contact-form.tsx</li>
+                </ul>
+
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs pt-2">El Problema</h4>
+                <p class="text-slate-600 leading-relaxed">
+                  <code class="font-mono text-xs">apply-form.tsx</code> tiene reglas hardcodeadas de tipos MIME (<code class="font-mono text-xs">ALLOWED_CV_TYPES</code>), tamaño máximo (<code class="font-mono text-xs">5 * 1024 * 1024</code>) y regex de email. En <code class="font-mono text-xs">contact-form.tsx</code> se repite exactamente la misma regex de email. El módulo de Intake ya contiene y prueba estas reglas canónicas en <code class="font-mono text-xs">src/lib/intake/validation.ts</code>, pero no las expone hacia los formularios cliente.
+                </p>
+              </div>
+
+              <div class="space-y-3">
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs">Solución Propuesta</h4>
+                <p class="text-slate-600 leading-relaxed">
+                  Exponer las constantes de validación (<code class="font-mono text-xs">ALLOWED_CV_MIME</code>, <code class="font-mono text-xs">MAX_CV_BYTES</code>) y validadores puros a través de la interfaz pública de Intake (<code class="font-mono text-xs">src/lib/intake/index.ts</code>). Los formularios cliente importan estas definiciones de la costura de dominio en lugar de mantener números mágicos locales.
+                </p>
+
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs pt-2">Beneficios</h4>
+                <ul class="list-disc list-inside text-slate-600 space-y-1">
+                  <li><strong>Fuente única de verdad:</strong> Modificar los límites de archivos o formatos aceptados impacta inmediatamente el cliente y el servidor en un solo paso.</li>
+                  <li><strong>Palanca (Leverage):</strong> Mayor coherencia y cero divergencias entre la UI interactiva y el backend.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Candidate 3: UI Directory Purge & Relocate HeroCTA -->
+          <article class="bg-white border border-stone-200 rounded-xl p-6 sm:p-8 space-y-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-4">
+              <div class="space-y-1">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+                  Vale la pena explorar (Worth exploring)
+                </span>
+                <h3 class="text-xl font-bold font-serif text-slate-900">
+                  Opción C: Purgar Código Muerto (<code class="text-base text-indigo-600 font-mono">ui/dialog.tsx</code>) y Reubicar <code class="text-base text-indigo-600 font-mono">ui/heroCTA.tsx</code>
+                </h3>
+              </div>
+              <span class="text-xs font-mono text-stone-500">Módulos: components/ui, Hero</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 text-sm">
+              <div class="space-y-3">
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs">Archivos Involucrados</h4>
+                <ul class="list-disc list-inside text-stone-600 space-y-1 font-mono text-xs">
+                  <li>src/components/ui/heroCTA.tsx</li>
+                  <li>src/components/ui/dialog.tsx (2.5 KB huérfano)</li>
+                  <li>src/components/hero.tsx</li>
+                </ul>
+
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs pt-2">El Problema</h4>
+                <p class="text-slate-600 leading-relaxed">
+                  Similar a como estaba <code class="font-mono text-xs">article-cards.tsx</code> antes de la Opción 3, <code class="font-mono text-xs">heroCTA.tsx</code> está guardado dentro de <code class="font-mono text-xs">components/ui/</code> a pesar de estar fuertemente acoplado al namespace de traducción <code class="font-mono text-xs">hero</code> y no ser un componente UI genérico. Por otro lado, <code class="font-mono text-xs">src/components/ui/dialog.tsx</code> tiene 0 importaciones en todo el repositorio (código muerto).
+                </p>
+              </div>
+
+              <div class="space-y-3">
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs">Solución Propuesta</h4>
+                <p class="text-slate-600 leading-relaxed">
+                  1. Mover <code class="font-mono text-xs">heroCTA.tsx</code> a <code class="font-mono text-xs">src/components/hero-cta.tsx</code> o absorberlo directamente en <code class="font-mono text-xs">hero.tsx</code>.<br />
+                  2. Aplicar el <strong>Deletion Test</strong> a <code class="font-mono text-xs">src/components/ui/dialog.tsx</code> y eliminarlo para reducir la superficie no utilizada de la librería Radix.
+                </p>
+
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs pt-2">Beneficios</h4>
+                <ul class="list-disc list-inside text-slate-600 space-y-1">
+                  <li><strong>Claridad del catálogo UI:</strong> <code class="font-mono text-xs">components/ui/</code> solo contendrá primitivas agnósticas reutilizables.</li>
+                  <li><strong>Higiene:</strong> Cero archivos huérfanos sin llamadas activas.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Candidate 4: Deepen Testimonials Module -->
+          <article class="bg-white border border-stone-200 rounded-xl p-6 sm:p-8 space-y-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-4">
+              <div class="space-y-1">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-700">
+                  Especulativa (Speculative)
+                </span>
+                <h3 class="text-xl font-bold font-serif text-slate-900">
+                  Opción D: Crear Módulo Seam para Testimonios (<code class="text-base text-indigo-600 font-mono">src/lib/testimonials/</code>)
+                </h3>
+              </div>
+              <span class="text-xs font-mono text-stone-500">Módulos: Testimonials</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 text-sm">
+              <div class="space-y-3">
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs">Archivos Involucrados</h4>
+                <ul class="list-disc list-inside text-stone-600 space-y-1 font-mono text-xs">
+                  <li>src/components/testimonials.tsx</li>
+                  <li>src/Data/homepage.ts</li>
+                </ul>
+
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs pt-2">El Problema</h4>
+                <p class="text-slate-600 leading-relaxed">
+                  Testimonios es actualmente la única entidad de datos que no cuenta con un repositorio o costura formal, dependiendo directamente del arreglo estático. Si en el futuro se conecta a Strapi u otra fuente, requerirá una costura dedicada.
+                </p>
+              </div>
+
+              <div class="space-y-3">
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs">Solución Propuesta</h4>
+                <p class="text-slate-600 leading-relaxed">
+                  Crear <code class="font-mono text-xs">src/lib/testimonials/</code> con una función <code class="font-mono text-xs">listTestimonials()</code> respaldada por un adaptador estático, manteniendo la simetría con Jobs, Articles y About.
+                </p>
+                <h4 class="font-bold text-slate-800 uppercase tracking-wider text-xs pt-2">Veredicto</h4>
+                <p class="text-stone-500 text-xs italic">
+                  Dado que actualmente no hay requerimientos inmediatos de CMS para testimonios, clasifica como especulativa bajo el principio YAGNI ("un adaptador = costura hipotética").
+                </p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Top Recommendation Section -->
+      <section class="bg-stone-900 text-white p-8 rounded-2xl space-y-4">
+        <div class="flex items-center gap-2">
+          <span class="text-amber-400 font-mono text-xs uppercase tracking-widest font-bold">★ Recomendación Principal</span>
+        </div>
+        <h3 class="text-2xl font-bold font-serif">
+          Iniciar con la Opción A: Desacoplar <code class="text-indigo-400 font-mono">homepage.ts</code> y Reubicar los Fixtures de Dominio
+        </h3>
+        <p class="text-stone-300 text-sm leading-relaxed max-w-3xl">
+          La <strong>Opción A</strong> es el paso natural tras haber profundizado los módulos de Jobs y Articles. Actualmente ambos repositorios aún arrastran la fuga de tener que importar <code class="text-emerald-300 font-mono">openPositions</code> y <code class="text-emerald-300 font-mono">blogPreview</code> desde el archivo general de la página de inicio.
+          <br /><br />
+          Mover los datos a <code class="text-emerald-300 font-mono">src/lib/jobs/fixtures.ts</code> y <code class="text-emerald-300 font-mono">src/lib/articles/fixtures.ts</code> otorga <strong>localidad absoluta</strong>, elimina el archivo inflado de 408 líneas y purga tipos duplicados en <code class="text-emerald-300 font-mono">types/homepage.ts</code>.
+        </p>
+      </section>
+
+    </main>
+  </body>
+</html>

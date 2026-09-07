@@ -12,7 +12,9 @@
     "jobs": "Empleos",
     "contact": "Contacto",
     "articles": "Artículos",
-    "cta": "Contáctame"
+    "cta": "Contáctame",
+    "themeLight": "Cambiar a modo claro",
+    "themeDark": "Cambiar a modo oscuro"
   },
   "hero": {
     "badge": "Tech Recruiter · LATAM",
@@ -25,7 +27,10 @@
       "Ofréceme roles",
       "Busca mi próximo rol",
       "Recomiéndame empleos"
-    ]
+    ],
+    "trustRemote": "100% Remoto LATAM",
+    "trustVetted": "Talento Validado",
+    "trustDirect": "Contratación Directa"
   },
   "jobs": {
     "heading": "Posiciones Abiertas",
@@ -40,7 +45,8 @@
     "applyNow": "Aplicar ahora"
   },
   "testimonials": {
-    "heading": "Lo que dicen de nosotros"
+    "heading": "Lo que dicen de nosotros",
+    "close": "Cerrar"
   },
   "faq": {
     "heading": "Preguntas Frecuentes",
@@ -72,16 +78,25 @@
     "heading": "Artículos",
     "viewAll": "Ver todos →",
     "readArticle": "Leer artículo →",
-    "moreArticles": "Más Artículos"
+    "moreArticles": "Más Artículos",
+    "allCategories": "Todos",
+    "noArticles": "No hay artículos en esta categoría aún.",
+    "searchPlaceholder": "Buscar artículos…",
+    "clearSearch": "Limpiar búsqueda",
+    "noSearchResults": "No se encontraron artículos que coincidan con tu búsqueda.",
+    "readMore": "Leer más",
+    "minRead": "{count} min de lectura",
+    "by": "Por"
   },
   "footer": {
     "tagline": "Conectando el mejor talento tech de LATAM con empresas líderes en todo el mundo.",
     "navigation": "Navegación",
-    "contact": "Contáctame",
-    "follow": "Síguenos",
-    "builtWith": "Hecho con Next.js & Tailwind",
+    "contact": "Contacto",
+    "follow": "Seguir",
+    "builtWith": "Construido con Next.js & Tailwind",
     "cta": "¿Listo para tu próxima oportunidad?",
-    "ctaAction": "Aplicar ahora"
+    "ctaAction": "Aplicar Ahora",
+    "newTab": "abre en una nueva pestaña"
   },
   "jobsPage": {
     "heading": "Posiciones Abiertas",
@@ -213,7 +228,26 @@
     "viewMoreRoles": "Ver más posiciones",
     "sectionPersonal": "Información personal",
     "sectionDocuments": "Documentos",
-    "sectionMessage": "Tu mensaje"
+    "sectionMessage": "Tu mensaje",
+    "step1": "Personal",
+    "step2": "CV y Carta",
+    "step3": "Revisión",
+    "nextStep": "Continuar",
+    "prevStep": "Atrás",
+    "confirmAndSubmit": "Confirmar y Enviar",
+    "removeCv": "Quitar",
+    "reviewTitle": "Revisa tu postulación",
+    "reviewSubtitle": "Por favor verifica tus datos antes de enviar.",
+    "noCvUploaded": "Sin archivo de CV adjunto",
+    "timelineHeading": "¿Qué sucede ahora?",
+    "timelineStep1Title": "Postulación Recibida",
+    "timelineStep1Desc": "Tu información y CV han sido registrados exitosamente.",
+    "timelineStep2Title": "Revisión de Perfil",
+    "timelineStep2Desc": "Evaluamos tu experiencia en un plazo de 24 a 48 horas hábiles.",
+    "timelineStep3Title": "Llamada con Reclutador",
+    "timelineStep3Desc": "Conversación introductoria para alinear expectativas y proyectos.",
+    "timelineStep4Title": "Presentación al Cliente",
+    "timelineStep4Desc": "Presentación directa de tu candidatura a los líderes técnicos."
   },
   "contactForm": {
     "fullName": "Nombre completo",

@@ -1,26 +1,35 @@
+import { Suspense } from "react";
 import Hero from "@/components/hero";
-import Navigation from "@/components/navigation";
-import Articles from "@/components/articles";
-import Job from "@/components/job";
-import Testimonials from "@/components/testimonials";
+import FeaturedJobsSection from "@/components/featured-jobs-section";
+import FeaturedArticlesSection from "@/components/featured-articles-section";
+import { TestimonialsSection } from "@/components/testimonials";
 import FAQ from "@/components/faq";
-import Footer from "@/components/footer";
-import { homePageData } from "@/Data/homepage";
+import {
+  FeaturedJobsSkeleton,
+  FeaturedArticlesSkeleton,
+  TestimonialsSkeleton,
+} from "@/components/home-skeletons";
+import { buildWebsiteJsonLd } from "@/lib/site-config";
+import { StructuredData } from "@/components/ui/structured-data";
 
-const data = homePageData.footer;
-
-export default function page() {
+export default function HomePage() {
   return (
     <>
-      <Navigation />
-      <main id="main-content">
+      <StructuredData data={buildWebsiteJsonLd()} />
+      <main id="main-content" className="scroll-mt-24">
         <Hero />
-        <Job />
-        <Articles />
-        <Testimonials />
+        <Suspense fallback={<FeaturedJobsSkeleton />}>
+          <FeaturedJobsSection />
+        </Suspense>
+        <Suspense fallback={<FeaturedArticlesSkeleton />}>
+          <FeaturedArticlesSection />
+        </Suspense>
+        <Suspense fallback={<TestimonialsSkeleton />}>
+          <TestimonialsSection />
+        </Suspense>
         <FAQ />
       </main>
-      <Footer {...data} />
     </>
   );
 }
+

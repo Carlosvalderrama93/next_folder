@@ -1,7 +1,5 @@
-import { STRAPI_URL } from "@/lib/config";
-import type { Job, RawStrapiJob } from "./types";
-import type { Job as StaticJob } from "@/types/homepage";
-import type { JobStatus } from "@/types/homepage";
+import { STRAPI_URL } from "@/lib/site-config";
+import type { Job, RawStrapiJob, RawStaticJob, JobStatus } from "./types";
 
 export function getStrapiImageSrc(url: string): string {
   return url.startsWith("http") ? url : `${STRAPI_URL}${url}`;
@@ -12,7 +10,7 @@ export function normalizeStrapiJob(raw: RawStrapiJob): Job {
     (raw.status as JobStatus | undefined) ?? (raw.isOpen ? "open" : "filled");
 
   return {
-    id: raw.documentId,
+    id: String(raw.documentId),
     title: raw.title,
     description: raw.description,
     location: raw.location,
@@ -29,7 +27,7 @@ export function normalizeStrapiJob(raw: RawStrapiJob): Job {
   };
 }
 
-export function normalizeStaticJob(raw: StaticJob): Job {
+export function normalizeStaticJob(raw: RawStaticJob): Job {
   return {
     id: raw.id,
     title: raw.title,
@@ -43,7 +41,7 @@ export function normalizeStaticJob(raw: StaticJob): Job {
     paymentType: raw.paymentType,
     postedAt: raw.postedAt,
     applyHref: `/jobs/${raw.id}`,
-    imageUrl: raw.image ?? undefined,
+    imageUrl: raw.image,
     imageAlt: raw.title,
   };
 }

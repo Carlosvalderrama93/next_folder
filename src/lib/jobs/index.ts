@@ -2,13 +2,42 @@ import { cache } from "react";
 import type { Job, ListJobsOptions } from "./types";
 import { fetchJobsFromStrapi, fetchJobFromStrapi } from "./strapi-adapter";
 import { fetchJobsFromStatic, fetchJobFromStatic } from "./static-adapter";
+import { filterJobs } from "./query";
 
-export type { Job, ListJobsOptions } from "./types";
+export type {
+  Job,
+  JobStatus,
+  JobModality,
+  JobPaymentType,
+  RawStaticJob,
+  ListJobsOptions,
+  JobFilterCriteria,
+} from "./types";
 export { getStrapiImageSrc } from "./normalizer";
+export {
+  filterJobs,
+  parseJobQueryCriteria,
+  serializeJobQueryCriteria,
+  type RawSearchParams,
+} from "./query";
+
+export {
+  STATUS_BADGE_CLASSES,
+  STATUS_TRANSLATION_KEYS,
+  STATUS_PAGE_KEYS,
+  MODALITY_KEYS,
+  PAYMENT_KEYS,
+  STATUS_CHIP_ACTIVE,
+  DIMMED_STATUSES,
+  ALL_STATUSES,
+  ALL_MODALITIES,
+  ALL_PAYMENTS,
+  isJobDimmed,
+} from "./presentation";
 
 /**
  * List all available jobs, merging Strapi CMS entries with static fallback data.
- * Deduplicates by ID and title, and applies optional slicing behind the seam.
+ * Deduplicates by ID and title, applies optional filtering and slicing behind the seam.
  */
 export async function listJobs(options?: ListJobsOptions): Promise<Job[]> {
   const [strapiJobs, staticJobs] = await Promise.all([
@@ -29,6 +58,10 @@ export async function listJobs(options?: ListJobsOptions): Promise<Job[]> {
     );
 
     combined = [...strapiJobs, ...uniqueStatic];
+  }
+
+  if (options?.filter) {
+    combined = filterJobs(combined, options.filter);
   }
 
   if (options?.limit && options.limit > 0) {

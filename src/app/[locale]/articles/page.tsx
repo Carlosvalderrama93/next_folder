@@ -1,10 +1,7 @@
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
-import { homePageData } from "@/Data/homepage";
-import { listArticles } from "@/lib/articles";
+import { listArticles, parseArticleQueryCriteria } from "@/lib/articles";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import ArticlesClient from "./articles-client";
+import { ArticlesView } from "@/components/articles";
 
 export async function generateMetadata({
   params,
@@ -21,28 +18,27 @@ export async function generateMetadata({
 
 export default async function ArticlesPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { locale } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const criteria = parseArticleQueryCriteria(resolvedSearchParams);
   const t = await getTranslations({ locale, namespace: "articlesPage" });
 
   const articles = await listArticles();
-  const footerData = homePageData.footer;
 
   return (
-    <>
-      <Navigation />
-      <main id="main-content" className="max-w-5xl mx-auto px-4 py-16">
-        <div className="mb-10">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-            {t("heading")}
-          </h1>
-          <div className="mt-3 mb-6 w-10 h-1 bg-brand rounded-full" />
-        </div>
-        <ArticlesClient articles={articles} />
-      </main>
-      <Footer {...footerData} />
-    </>
+    <main id="main-content" className="max-w-5xl mx-auto px-4 py-16 scroll-mt-24">
+      <div className="mb-10">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white text-balance">
+          {t("heading")}
+        </h1>
+        <div className="mt-3 mb-6 w-10 h-1 bg-brand rounded-full" />
+      </div>
+      <ArticlesView articles={articles} initialCriteria={criteria} />
+    </main>
   );
 }

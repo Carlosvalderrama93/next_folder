@@ -8,10 +8,10 @@ An open or archived employment position managed by the recruiter.
 - **Rules:** If a job has no explicit status, `isOpen = true` maps to `open`, and `isOpen = false` maps to `filled`. Every `Job` carries a canonical `applyHref` of `/jobs/:id` — never `/apply/:id`.
 
 ### Job Repository (deep module)
-`src/lib/jobs/` — the single interface through which all callers obtain Job data.
-- **Interface:** `listJobs(options?)` · `getJob(id)` — the only symbols callers import.
-- **Seam:** Backed by two real adapters (`strapi-adapter.ts`, `static-adapter.ts`), which justifies the seam. All schema normalization, URL resolution, status inference, deduplication, and fallback logic lives inside the module — invisible to callers.
-- **Test surface:** `normalizeStaticJob` and `normalizeStrapiJob` in `normalizer.ts` are tested directly via `npm test`.
+`src/lib/jobs/` — the single interface through which all callers obtain and filter Job data.
+- **Interface:** `listJobs(options?)` · `getJob(id)` · `filterJobs(jobs, criteria)` — the symbols callers import.
+- **Seam:** Backed by two real adapters (`strapi-adapter.ts`, `static-adapter.ts`), which justifies the seam. All schema normalization, URL resolution, status inference, deduplication, multi-token search, multi-criteria filtering, and fallback logic lives inside the module — invisible to callers.
+- **Test surface:** `normalizeStaticJob`, `normalizeStrapiJob` in `normalizer.ts`, and token search/dimension matchers in `query.ts` are tested directly via `npm test`.
 
 ### Intake module (deep module)
 `src/lib/intake/` — the single interface through which all inbound submissions flow.
@@ -34,4 +34,14 @@ An editorial piece or guide published by the recruiter, consisting of metadata a
 - **Interface:** `listArticles(options?)` · `getArticle(identifier)` — the only symbols callers import.
 - **Seam:** Backed by Strapi CMS adapter (`strapi-adapter.ts`) and static fixture adapter (`static-adapter.ts`). Transparently resolves identifiers across documentIds, slugs, and static IDs. Falls back to static fixtures with rich editorial blocks when Strapi is offline, eliminating 404 routing leaks.
 - **Test surface:** `normalizeStrapiArticle`, `normalizeStrapiBlocks`, `normalizeStaticArticle`, identifier resolution, and deduplication tested directly via `npm test`.
+
+### About Profile
+The professional biographical dossier of the recruiter, containing career journey, competencies, education, honors, roadmap, and contact coordinates.
+- **Attributes:** name, headline pills, location, LinkedIn coordinates, languages, avatar, bio paragraphs, focus areas, categorized skills (recruitment, technical, other), education timeline with honors badges, certification awards and licenses, learning roadmap, and hierarchical work experience.
+
+### About Profile Repository (deep module)
+`src/lib/about/` — the single interface through which the About view accesses recruiter profile intelligence.
+- **Interface:** `getAboutProfile(locale?)` — the only data access symbol the presentation tier imports, plus helper formatters (`flattenExperience`, `formatExperienceDate`).
+- **Seam:** Backed by static profile adapter (`static-adapter.ts`) and Strapi CMS adapter (`strapi-adapter.ts`). Normalizes untrusted payloads into canonical strongly-typed entities with fallback defaults.
+- **Test surface:** `normalizeRawAboutData`, `flattenExperience`, and `formatExperienceDate` tested directly via `npm test`.
 

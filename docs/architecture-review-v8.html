@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revisión de Arquitectura — Ciclo 8 | recruiter_Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#0f172a',
+        primaryColor: '#6366f1',
+        primaryTextColor: '#f8fafc',
+        primaryBorderColor: '#818cf8',
+        lineColor: '#94a3b8',
+        secondaryColor: '#1e293b',
+        tertiaryColor: '#0f172a'
+      }
+    });
+  </script>
+</head>
+<body class="min-h-full font-sans antialiased selection:bg-indigo-500 selection:text-white">
+  <!-- Top Header -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl bg-indigo-600 flex items-center justify-center font-black text-white text-lg shadow-lg shadow-indigo-500/30">
+          🏛️
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white tracking-tight">Arquitectura de Software &bull; Ciclo 8</h1>
+          <p class="text-xs text-slate-400">Auditoría Post-Ciclo 7 &bull; 141 Pruebas Unitarias &bull; 18 E2E Verificados</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 text-xs font-semibold">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Ciclos 1 al 7 Completados (28/28 Opciones)
+        </span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">
+          Septiembre 2026
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-10 space-y-12">
+    <!-- Executive Health Check -->
+    <section class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 space-y-4">
+        <div class="inline-block px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold uppercase tracking-wider">
+          Diagnóstico del Sistema: "¿Todo bien por ahora?"
+        </div>
+        <h2 class="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
+          El estado de la base de código es <span class="text-emerald-400">impecable, maduro y 100% libre de regresiones</span>.
+        </h2>
+        <p class="text-slate-300 text-base max-w-4xl leading-relaxed">
+          Los 7 ciclos completados han dotado a <code class="text-indigo-300">next_folder</code> de módulos profundos, costuras de dominio con adaptadores intercambiables, sincronización de estado URL bidireccional, generadores Schema.org JSON-LD libres de XSS, streaming RSC y cero fugas de protocolo. La totalidad del proyecto cuenta con <strong class="text-white">141 pruebas unitarias</strong> en verde (41 suites), <strong class="text-white">18 verificaciones funcionales E2E</strong>, <strong class="text-white">0 errores</strong> de TypeScript y <strong class="text-white">0 advertencias</strong> de ESLint.
+        </p>
+
+        <!-- KPI Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-emerald-400">141 / 141</div>
+            <div class="text-xs text-slate-400 mt-0.5">Tests Unitarios en Verde</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-indigo-400">18 / 18</div>
+            <div class="text-xs text-slate-400 mt-0.5">Checks E2E Verificados</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-cyan-400">28 / 28</div>
+            <div class="text-xs text-slate-400 mt-0.5">Hitos Ciclos 1-7 en Develop</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-purple-400">0 Lints / TS</div>
+            <div class="text-xs text-slate-400 mt-0.5">Higiene 100% Limpia</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Historical Summary Table -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+      <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <span>🏆</span> Consolidación Histórica de Refactorización (Ciclos 1 al 7)
+      </h3>
+      <div class="overflow-x-auto text-xs">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider">
+              <th class="py-2.5 px-3">Ciclo</th>
+              <th class="py-2.5 px-3">Enfoque Arquitectónico Primario</th>
+              <th class="py-2.5 px-3">Hitos Integrados</th>
+              <th class="py-2.5 px-3">Estado</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60 text-slate-300">
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 1</td>
+              <td class="py-2.5 px-3">Costuras de Dominio &amp; Descomposición de Monolitos Iniciales</td>
+              <td class="py-2.5 px-3">4 opciones: `jobs/`, `intake/`, `articles/`, `about/`</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 2</td>
+              <td class="py-2.5 px-3">Desacoplamiento de Datos, Higiene UI y Fugas de Validación</td>
+              <td class="py-2.5 px-3">4 opciones: `homepage.ts` split, intake validation, dialog purge, `testimonials/`</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 3</td>
+              <td class="py-2.5 px-3">Shell Persistente en App Router &amp; Tokens de Presentación</td>
+              <td class="py-2.5 px-3">4 opciones: Root layout shell, `site-config/`, `JobStatusBadge`, `article-blocks`</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 4</td>
+              <td class="py-2.5 px-3">Localidad Absoluta, Higiene de Primitivas &amp; Purga de `Data/`</td>
+              <td class="py-2.5 px-3">4 opciones: `Data/` purge, Card purity, disambiguated sections, CMS config</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 5</td>
+              <td class="py-2.5 px-3">Profundización de Cliente, Localidad UI y Streaming Progresivo</td>
+              <td class="py-2.5 px-3">4 opciones: `useIntakeForm` lifecycle, `components/articles/`, Suspense/streaming, Markdown adapter</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 6</td>
+              <td class="py-2.5 px-3">Profundización de Costuras de Protocolo, Presentación y Estado</td>
+              <td class="py-2.5 px-3">4 opciones: Intake HTTP seam, `components/about/`, Job URL criteria codec, Schema.org JSON-LD</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+            <tr class="bg-indigo-950/20 font-semibold text-indigo-200">
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 7</td>
+              <td class="py-2.5 px-3">Módulos Canónicos de Presentación, Sincronización URL e Higiene UI</td>
+              <td class="py-2.5 px-3">4 opciones: `components/jobs/` deep module, Articles URL state seam, UI purity &amp; chrome relocation, Theme hydration script</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Architecture Vocabulary Reference -->
+    <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+      <h3 class="text-md font-bold text-white uppercase tracking-wider text-xs text-indigo-400">
+        Vocabulario de Diseño de Código
+      </h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+        <div class="border border-slate-800 bg-slate-950/40 p-3 rounded-xl">
+          <span class="font-bold text-indigo-300 block mb-1">Módulo Profundo</span>
+          <span class="text-slate-400">Interfaz simple y pequeña que oculta una gran cantidad de funcionalidad y complejidad interna.</span>
+        </div>
+        <div class="border border-slate-800 bg-slate-950/40 p-3 rounded-xl">
+          <span class="font-bold text-indigo-300 block mb-1">Costura (Seam)</span>
+          <span class="text-slate-400">Punto bien delimitado donde el comportamiento puede variar o aislarse sin alterar el resto del sistema.</span>
+        </div>
+        <div class="border border-slate-800 bg-slate-950/40 p-3 rounded-xl">
+          <span class="font-bold text-indigo-300 block mb-1">Adaptador</span>
+          <span class="text-slate-400">Traduce entre una forma externa (HTTP, URL params, Strapi) y la interfaz interna canónica.</span>
+        </div>
+        <div class="border border-slate-800 bg-slate-950/40 p-3 rounded-xl">
+          <span class="font-bold text-indigo-300 block mb-1">Deletion Test</span>
+          <span class="text-slate-400">Si se elimina una funcionalidad, debe desprenderse limpiamente sin dejar residuos ni acoplamiento fantasma.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cycle 8 Options Section -->
+    <section class="space-y-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-black text-white tracking-tight">Opciones de Refactorización Arquitectónica &bull; Ciclo 8</h2>
+          <p class="text-slate-400 text-sm">Oportunidades identificadas para elevar la simetría, localidad y profundidad del sistema de presentación y shell.</p>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
+          4 Opciones Candidatas
+        </span>
+      </div>
+
+      <!-- Option 1 Card -->
+      <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 transition-all duration-200 rounded-2xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <span class="h-8 w-8 rounded-lg bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center font-black text-sm">
+              01
+            </span>
+            <div>
+              <h3 class="text-lg font-bold text-white">Módulo Canónico de Presentación de Contacto (`components/contact/`)</h3>
+              <p class="text-xs text-slate-400">Simetría de presentación, encapsulación de formulario y purificación de `contact/page.tsx`</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Recomendada &bull; Alta Locality
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80 space-y-2">
+            <span class="text-rose-400 font-bold uppercase tracking-wider block">Fricción Arquitectónica</span>
+            <p class="text-slate-300 leading-relaxed">
+              Mientras que <code class="text-indigo-300">about/</code>, <code class="text-indigo-300">articles/</code> y <code class="text-indigo-300">jobs/</code> cuentan con módulos canónicos en <code class="text-indigo-300">src/components/</code>, el formulario de contacto (<code class="text-slate-300">contact-form.tsx</code>, 217 líneas) reside atrapado directamente dentro del directorio de enrutamiento <code class="text-slate-300">src/app/[locale]/contact/</code>. Esto fragmenta la arquitectura de presentación y expone la lógica del cliente en la capa de enrutamiento de Next.js.
+            </p>
+          </div>
+          <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80 space-y-2">
+            <span class="text-emerald-400 font-bold uppercase tracking-wider block">Solución Arquitectónica</span>
+            <p class="text-slate-300 leading-relaxed">
+              Crear el módulo canónico <code class="text-indigo-300">src/components/contact/</code> (<code class="text-slate-300">contact-form.tsx</code>, <code class="text-slate-300">index.ts</code>) exponiendo una interfaz mínima <code class="text-emerald-300">&lt;ContactForm /&gt;</code>. Colapsar <code class="text-indigo-300">src/app/[locale]/contact/page.tsx</code> a un Server Component declarativo de menos de 35 líneas que delega limpiamente en el módulo.
+            </p>
+          </div>
+        </div>
+
+        <!-- Mermaid Diagram for Option 1 -->
+        <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+          <div class="mermaid">
+graph LR
+  subgraph AppRouter ["Capa de Rutas (App Router)"]
+    Page["contact/page.tsx<br/><i>(Server Component declarativo)</i>"]
+  end
+
+  subgraph PresentationModule ["src/components/contact/ (Módulo Profundo)"]
+    Barrel["index.ts<br/><i>(Interfaz Canónica)</i>"]
+    ContactForm["contact-form.tsx<br/><i>(Cliente: estado, toasts, focus)</i>"]
+  end
+
+  subgraph DomainSeam ["src/lib/intake/ (Costura de Dominio)"]
+    UseIntake["useIntakeForm Hook"]
+    Validation["Reglas de Validación"]
+  end
+
+  Page --> Barrel
+  Barrel --> ContactForm
+  ContactForm --> UseIntake
+  ContactForm --> Validation
+          </div>
+        </div>
+      </div>
+
+      <!-- Option 2 Card -->
+      <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 transition-all duration-200 rounded-2xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <span class="h-8 w-8 rounded-lg bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center font-black text-sm">
+              02
+            </span>
+            <div>
+              <h3 class="text-lg font-bold text-white">Módulo Canónico de Presentación de Testimonios (`components/testimonials/`)</h3>
+              <p class="text-xs text-slate-400">Consolidación de RSC y carrusel de cliente bajo una fachada canónica única</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            Simetría Estructural
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80 space-y-2">
+            <span class="text-rose-400 font-bold uppercase tracking-wider block">Fricción Arquitectónica</span>
+            <p class="text-slate-300 leading-relaxed">
+              Existe una costura de dominio limpia en <code class="text-indigo-300">src/lib/testimonials/</code>, pero en la capa de presentación hay dos archivos huérfanos sueltos en la raíz de <code class="text-indigo-300">src/components/</code>: <code class="text-slate-300">testimonials.tsx</code> y <code class="text-slate-300">testimonials-carousel.tsx</code>. Esto contradice la organización modular adoptada por los demás dominios.
+            </p>
+          </div>
+          <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80 space-y-2">
+            <span class="text-emerald-400 font-bold uppercase tracking-wider block">Solución Arquitectónica</span>
+            <p class="text-slate-300 leading-relaxed">
+              Agrupar la presentación bajo <code class="text-indigo-300">src/components/testimonials/</code> (<code class="text-slate-300">testimonials-section.tsx</code>, <code class="text-slate-300">testimonials-carousel.tsx</code>, <code class="text-slate-300">index.ts</code>). Ocultar el manejo del carrusel, transiciones, animaciones y tokens visuales tras la interfaz <code class="text-emerald-300">TestimonialsSection</code>.
+            </p>
+          </div>
+        </div>
+
+        <!-- Mermaid Diagram for Option 2 -->
+        <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+          <div class="mermaid">
+graph LR
+  subgraph HomeRoute ["src/app/[locale]/page.tsx"]
+    Home["HomePage (RSC)"]
+  end
+
+  subgraph TestimonialsModule ["src/components/testimonials/ (Módulo de Presentación)"]
+    TestimonialsBarrel["index.ts<br/><i>(Export Canónico)</i>"]
+    Section["testimonials-section.tsx<br/><i>(Adaptador RSC)</i>"]
+    Carousel["testimonials-carousel.tsx<br/><i>(Client Component: Embla)</i>"]
+  end
+
+  subgraph TestimonialsSeam ["src/lib/testimonials/ (Costura de Dominio)"]
+    ListFacade["listTestimonials()"]
+  end
+
+  Home --> TestimonialsBarrel
+  TestimonialsBarrel --> Section
+  Section --> ListFacade
+  Section --> Carousel
+          </div>
+        </div>
+      </div>
+
+      <!-- Option 3 Card -->
+      <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 transition-all duration-200 rounded-2xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <span class="h-8 w-8 rounded-lg bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center font-black text-sm">
+              03
+            </span>
+            <div>
+              <h3 class="text-lg font-bold text-white">Costura de Presentación de Shell &amp; Layout (`components/shell/`)</h3>
+              <p class="text-xs text-slate-400">Encapsulación de widgets de chrome, scripts de tema y reducción de acoplamiento en `layout.tsx`</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            Alto Leverage &bull; Deletion Test
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80 space-y-2">
+            <span class="text-rose-400 font-bold uppercase tracking-wider block">Fricción Arquitectónica</span>
+            <p class="text-slate-300 leading-relaxed">
+              Los elementos del shell persistente (<code class="text-indigo-300">navigation.tsx</code>, <code class="text-indigo-300">footer.tsx</code>, <code class="text-indigo-300">language-switcher.tsx</code>, <code class="text-indigo-300">theme-toggle.tsx</code>, <code class="text-indigo-300">theme-script.tsx</code>, <code class="text-indigo-300">back-to-top.tsx</code>) están dispersos de manera plana en la raíz de <code class="text-indigo-300">src/components/</code>. <code class="text-slate-300">LocaleLayout</code> actúa como ensamblador masivo importando cada widget por separado en lugar de delegar en un módulo de shell cohesivo.
+            </p>
+          </div>
+          <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80 space-y-2">
+            <span class="text-emerald-400 font-bold uppercase tracking-wider block">Solución Arquitectónica</span>
+            <p class="text-slate-300 leading-relaxed">
+              Consolidar <code class="text-indigo-300">src/components/shell/</code> con un barril canónico y orquestadores declarativos. Centralizar los widgets de navegación, cambio de idioma, tema y accesibilidad detrás de una interfaz profunda que simplifica radicalmente <code class="text-slate-300">LocaleLayout</code>.
+            </p>
+          </div>
+        </div>
+
+        <!-- Mermaid Diagram for Option 3 -->
+        <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+          <div class="mermaid">
+graph LR
+  subgraph Layout ["src/app/[locale]/layout.tsx"]
+    RootLayout["LocaleLayout"]
+  end
+
+  subgraph ShellModule ["src/components/shell/ (Módulo de Shell)"]
+    ShellBarrel["index.ts<br/><i>(Interfaz Canónica)</i>"]
+    NavWidget["navigation.tsx"]
+    FooterWidget["footer.tsx"]
+    ThemeScriptWidget["theme-script.tsx"]
+    BackToTopWidget["back-to-top.tsx"]
+    LangSwitch["language-switcher.tsx"]
+    ThemeTog["theme-toggle.tsx"]
+  end
+
+  RootLayout --> ShellBarrel
+  ShellBarrel --> NavWidget
+  ShellBarrel --> FooterWidget
+  ShellBarrel --> ThemeScriptWidget
+  ShellBarrel --> BackToTopWidget
+  NavWidget --> LangSwitch
+  NavWidget --> ThemeTog
+          </div>
+        </div>
+      </div>
+
+      <!-- Option 4 Card -->
+      <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 transition-all duration-200 rounded-2xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <span class="h-8 w-8 rounded-lg bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center font-black text-sm">
+              04
+            </span>
+            <div>
+              <h3 class="text-lg font-bold text-white">Estandarización de Skeletons y Estados de Carga en Módulos de Presentación</h3>
+              <p class="text-xs text-slate-400">Co-ubicación de esqueletos en `components/jobs/` y `components/articles/`, colapsando `loading.tsx`</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            Localidad de Presentación
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80 space-y-2">
+            <span class="text-rose-400 font-bold uppercase tracking-wider block">Fricción Arquitectónica</span>
+            <p class="text-slate-300 leading-relaxed">
+              Los archivos de carga <code class="text-indigo-300">jobs/loading.tsx</code>, <code class="text-indigo-300">jobs/[id]/loading.tsx</code>, <code class="text-indigo-300">articles/loading.tsx</code> y <code class="text-indigo-300">articles/[documentId]/loading.tsx</code> contienen decenas de líneas de marcado Tailwind repetitivo emulando tarjetas y filtros fuera de sus módulos de presentación. Además, <code class="text-slate-300">home-skeletons.tsx</code> está suelto en la raíz de <code class="text-indigo-300">src/components/</code>.
+            </p>
+          </div>
+          <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80 space-y-2">
+            <span class="text-emerald-400 font-bold uppercase tracking-wider block">Solución Arquitectónica</span>
+            <p class="text-slate-300 leading-relaxed">
+              Trasladar los esqueletos a sus respectivos módulos profundos (<code class="text-indigo-300">components/jobs/jobs-skeleton.tsx</code>, <code class="text-indigo-300">components/articles/articles-skeleton.tsx</code>). Los archivos de ruta <code class="text-slate-300">loading.tsx</code> se transforman en adaptadores de una sola línea (<code class="text-emerald-300">export { JobsSkeleton as default } from "@/components/jobs"</code>). Si la UI evoluciona, el skeleton cambia en el mismo módulo.
+            </p>
+          </div>
+        </div>
+
+        <!-- Mermaid Diagram for Option 4 -->
+        <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+          <div class="mermaid">
+graph LR
+  subgraph RouteLoading ["Capa de Rutas (App Router)"]
+    JobsLoading["jobs/loading.tsx<br/><i>(1 línea: export)</i>"]
+    JobIdLoading["jobs/[id]/loading.tsx<br/><i>(1 línea: export)</i>"]
+  end
+
+  subgraph JobsModule ["src/components/jobs/ (Módulo Profundo)"]
+    JobsBarrel["index.ts"]
+    JobCard["job-card.tsx"]
+    JobsSkeleton["jobs-skeleton.tsx<br/><i>(Co-ubicado con JobCard)</i>"]
+    DetailSkeleton["job-detail-skeleton.tsx"]
+  end
+
+  JobsLoading --> JobsBarrel
+  JobIdLoading --> JobsBarrel
+  JobsBarrel --> JobsSkeleton
+  JobsBarrel --> DetailSkeleton
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparative Tradeoff Matrix -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+      <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+        <span>⚖️</span> Matriz Comparativa de Opciones &bull; Ciclo 8
+      </h3>
+      <div class="overflow-x-auto text-xs">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider">
+              <th class="py-3 px-4">Opción</th>
+              <th class="py-3 px-4">Profundidad (Depth)</th>
+              <th class="py-3 px-4">Localidad (Locality)</th>
+              <th class="py-3 px-4">Superficie de Interfaz</th>
+              <th class="py-3 px-4">Facilidad Deletion Test</th>
+              <th class="py-3 px-4">Riesgo / Esfuerzo</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60 text-slate-300">
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-3 px-4 font-bold text-white">Opción 1: Módulo Contact (`components/contact/`)</td>
+              <td class="py-3 px-4 text-emerald-400">Muy Alta</td>
+              <td class="py-3 px-4 text-emerald-400">Excelente</td>
+              <td class="py-3 px-4 text-indigo-300">Mínima (`&lt;ContactForm /&gt;`)</td>
+              <td class="py-3 px-4 text-emerald-400">Inmediata (Sin acoplamiento difuso)</td>
+              <td class="py-3 px-4 text-slate-400">Bajo / 1 Sprint</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-3 px-4 font-bold text-white">Opción 2: Módulo Testimonios (`components/testimonials/`)</td>
+              <td class="py-3 px-4 text-emerald-400">Alta</td>
+              <td class="py-3 px-4 text-emerald-400">Excelente</td>
+              <td class="py-3 px-4 text-indigo-300">Mínima (`&lt;TestimonialsSection /&gt;`)</td>
+              <td class="py-3 px-4 text-emerald-400">Inmediata (Módulo autocontenido)</td>
+              <td class="py-3 px-4 text-slate-400">Bajo / 1 Sprint</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-3 px-4 font-bold text-white">Opción 3: Costura Shell &amp; Layout (`components/shell/`)</td>
+              <td class="py-3 px-4 text-emerald-400">Muy Alta</td>
+              <td class="py-3 px-4 text-emerald-400">Excelente</td>
+              <td class="py-3 px-4 text-indigo-300">Centralizada (`SiteShell` / Chrome)</td>
+              <td class="py-3 px-4 text-emerald-400">Alta (Aislamiento de Chrome)</td>
+              <td class="py-3 px-4 text-slate-400">Medio-Bajo / 1 Sprint</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-3 px-4 font-bold text-white">Opción 4: Estandarización de Skeletons en Módulos</td>
+              <td class="py-3 px-4 text-emerald-400">Alta</td>
+              <td class="py-3 px-4 text-emerald-400">Máxima (Co-ubicación visual)</td>
+              <td class="py-3 px-4 text-indigo-300">1 línea de delegación en `loading.tsx`</td>
+              <td class="py-3 px-4 text-emerald-400">Inmediata (Eliminación atómica)</td>
+              <td class="py-3 px-4 text-slate-400">Bajo / 1 Sprint</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Footer Note -->
+    <footer class="text-center py-6 border-t border-slate-800/60 text-xs text-slate-500">
+      Reporte de Revisión Arquitectónica &bull; Generado para <span class="text-slate-300 font-semibold">recruiter_Page</span> &bull; 141 tests en verde &bull; 0 errores de tipos
+    </footer>
+  </main>
+</body>
+</html>

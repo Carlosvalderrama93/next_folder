@@ -1,26 +1,17 @@
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
-import { ReadingProgress } from "@/components/ui/reading-progress";
-import { ShareButtons } from "@/components/ui/share-buttons";
-import { homePageData } from "@/Data/homepage";
 import {
-  getArticle,
-  listArticles,
-  getStrapiImageSrc,
-  type ArticleBlock,
-  type MediaFile,
-} from "@/lib/articles";
+  ReadingProgress,
+  ShareButtons,
+  ArticleBlocks,
+} from "@/components/articles";
+import { getArticle, listArticles } from "@/lib/articles";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import Image from "next/image";
+import { SITE_URL, buildArticleJsonLd } from "@/lib/site-config";
+import { StructuredData } from "@/components/ui/structured-data";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://carlosvalderrama.com";
-const footerData = homePageData.footer;
 
 export async function generateMetadata({
   params,
@@ -45,78 +36,6 @@ export async function generateMetadata({
       description: article.description,
     },
   };
-}
-
-function RichText({ body }: { body: string }) {
-  return (
-    <div className="prose dark:prose-invert prose-gray max-w-none">
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
-    </div>
-  );
-}
-
-function Quote({ title, body }: { title: string; body: string }) {
-  return (
-    <blockquote className="border-l-4 border-gray-300 dark:border-gray-600 pl-6 my-8">
-      <p className="text-xl italic text-gray-700 dark:text-gray-300 leading-relaxed">
-        &ldquo;{body}&rdquo;
-      </p>
-      {title && (
-        <cite className="text-sm text-gray-500 dark:text-gray-400 mt-2 block not-italic font-semibold">
-          — {title}
-        </cite>
-      )}
-    </blockquote>
-  );
-}
-
-function MediaBlock({ file }: { file: MediaFile }) {
-  return (
-    <figure className="my-8">
-      <div className="relative w-full aspect-video">
-        <Image
-          src={getStrapiImageSrc(file.url)}
-          alt={file.alternativeText ?? ""}
-          fill
-          className="object-cover rounded-xl"
-          sizes="(max-width: 768px) 100vw, 672px"
-        />
-      </div>
-    </figure>
-  );
-}
-
-function Slider({ files }: { files: MediaFile[] }) {
-  return (
-    <div className="flex gap-4 overflow-x-auto my-8 pb-2">
-      {files.map((file, i) => (
-        <div key={i} className="relative w-72 h-48 flex-shrink-0">
-          <Image
-            src={getStrapiImageSrc(file.url)}
-            alt={file.alternativeText ?? ""}
-            fill
-            className="object-cover rounded-xl"
-            sizes="288px"
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function BlockRenderer({ block }: { block: ArticleBlock }) {
-  switch (block.type) {
-    case "rich-text":
-      return <RichText body={block.body} />;
-    case "quote":
-      return <Quote title={block.title ?? ""} body={block.body} />;
-    case "media":
-      return block.file ? <MediaBlock file={block.file} /> : null;
-    case "slider":
-      return block.files?.length ? <Slider files={block.files} /> : null;
-    default:
-      return null;
-  }
 }
 
 export default async function ArticleDetail({
@@ -145,27 +64,15 @@ export default async function ArticleDetail({
     .slice(0, 3);
 
   const articleUrl = `${SITE_URL}${article.href}`;
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: article.title,
-    description: article.description ?? "",
-    datePublished: article.publishedAt,
-    author: { "@type": "Person", name: "Carlos Valderrama" },
-  };
-
   const dateLocale = locale === "es" ? "es-ES" : "en-US";
+
 
   return (
     <>
       <ReadingProgress />
-      <Navigation />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <main id="main-content" className="max-w-3xl mx-auto px-4 py-16">
+      <StructuredData data={buildArticleJsonLd(article)} />
+      <main id="main-content" className="max-w-3xl mx-auto px-4 py-16 scroll-mt-24">
+
         <Breadcrumb
           items={[
             { label: t("breadcrumbHome"), href: "/" },
@@ -175,14 +82,14 @@ export default async function ArticleDetail({
         />
 
         <article className="mt-4">
-          <p className="text-xs text-gray-400 dark:text-gray-500 mb-3">
+          <p className="text-xs text-gray-400 dark:text-gray-500 mb-3 tabular-nums">
             {new Date(article.publishedAt).toLocaleDateString(dateLocale, {
               year: "numeric",
               month: "long",
               day: "numeric",
             })}
           </p>
-          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
+          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight text-balance">
             {article.title}
           </h1>
           {article.description && (
@@ -190,18 +97,14 @@ export default async function ArticleDetail({
               {article.description}
             </p>
           )}
-          {article.blocks?.map((block, i) => (
-            <div key={i} className="mb-6">
-              <BlockRenderer block={block} />
-            </div>
-          ))}
+          <ArticleBlocks blocks={article.blocks} />
         </article>
 
         <ShareButtons title={article.title} url={articleUrl} />
 
         {related.length > 0 && (
           <section className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-balance">
               {articlesT("moreArticles")}
             </h2>
             <div className="flex flex-col gap-4">
@@ -209,7 +112,7 @@ export default async function ArticleDetail({
                 <Link
                   key={a.id || a.documentId}
                   href={a.href as `/${string}`}
-                  className="group flex flex-col gap-1 border border-gray-200 dark:border-border rounded-xl p-5 bg-white dark:bg-surface hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800/60 transition-all"
+                  className="group flex flex-col gap-1 border border-gray-200 dark:border-border rounded-xl p-5 bg-white dark:bg-surface hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800/60 transition-[border-color,box-shadow] duration-200 motion-reduce:transition-none"
                 >
                   <time className="text-xs text-gray-400 dark:text-gray-500">
                     {new Date(a.publishedAt).toLocaleDateString(dateLocale, {
@@ -232,7 +135,6 @@ export default async function ArticleDetail({
           </section>
         )}
       </main>
-      <Footer {...footerData} />
     </>
   );
 }

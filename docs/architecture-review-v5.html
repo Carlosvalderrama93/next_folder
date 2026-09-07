@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revisión de Arquitectura — Ciclo 5 | recruiter_Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#0f172a',
+        primaryColor: '#6366f1',
+        primaryTextColor: '#f8fafc',
+        primaryBorderColor: '#818cf8',
+        lineColor: '#94a3b8',
+        secondaryColor: '#1e293b',
+        tertiaryColor: '#0f172a'
+      }
+    });
+  </script>
+</head>
+<body class="min-h-full font-sans antialiased selection:bg-indigo-500 selection:text-white">
+  <!-- Top Navigation / Header -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl bg-indigo-600 flex items-center justify-center font-black text-white text-lg shadow-lg shadow-indigo-500/30">
+          🏗️
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white tracking-tight">Arquitectura de Software &bull; Ciclo 5</h1>
+          <p class="text-xs text-slate-400">Auditoría Post-Sprints &bull; 109 Pruebas Unitarias &bull; 18 E2E Verificados</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 text-xs font-semibold">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Ciclos 1 al 4 Completados (16/16 Opciones)
+        </span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">
+          Septiembre 2026
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-10 space-y-12">
+    <!-- Executive Health Check -->
+    <section class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 space-y-4">
+        <div class="inline-block px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold uppercase tracking-wider">
+          Diagnóstico del Sistema: "¿Todo bien por ahora?"
+        </div>
+        <h2 class="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
+          El estado de la base de código es <span class="text-emerald-400">impecable, maduro y libre de regresiones</span>.
+        </h2>
+        <p class="text-slate-300 text-base max-w-4xl leading-relaxed">
+          Los 4 ciclos completados han transformado por completo la arquitectura de <code class="text-indigo-300">next_folder</code>: 
+          se consolidaron <strong>6 costuras de dominio puras</strong> (<code class="text-indigo-300">jobs</code>, <code class="text-indigo-300">articles</code>, <code class="text-indigo-300">about</code>, <code class="text-indigo-300">intake</code>, <code class="text-indigo-300">testimonials</code>, <code class="text-indigo-300">site-config</code>), se erradicaron todas las carpetas fantasmas y re-exportaciones deprecadas, se neutralizó el componente agnóstico <code class="text-indigo-300">Card</code>, y la configuración de Strapi quedó unificada. La suite completa cuenta con <strong class="text-white">109 pruebas unitarias</strong> en verde, <strong class="text-white">18 verificaciones E2E</strong>, <strong class="text-white">0 errores</strong> de TypeScript y <strong class="text-white">0 advertencias</strong> de ESLint.
+        </p>
+
+        <!-- KPI Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-emerald-400">109 / 109</div>
+            <div class="text-xs text-slate-400 mt-0.5">Tests Unitarios en Verde</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-indigo-400">18 / 18</div>
+            <div class="text-xs text-slate-400 mt-0.5">Checks E2E en Producción</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-cyan-400">16 / 16</div>
+            <div class="text-xs text-slate-400 mt-0.5">Hitos Ciclos 1-4 en Develop</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-purple-400">0 Lints / TS</div>
+            <div class="text-xs text-slate-400 mt-0.5">Higiene 100% Limpia</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Historical Summary Table -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+      <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <span>🏆</span> Consolidación Histórica de Refactorización (Ciclos 1 al 4)
+      </h3>
+      <div class="overflow-x-auto text-xs">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider">
+              <th class="py-2.5 px-3">Ciclo</th>
+              <th class="py-2.5 px-3">Enfoque Primario</th>
+              <th class="py-2.5 px-3">Hitos Integrados</th>
+              <th class="py-2.5 px-3">Estado</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60 text-slate-300 font-mono">
+            <tr>
+              <td class="py-2 px-3 text-indigo-400 font-bold">Ciclo 1</td>
+              <td class="py-2 px-3 font-sans">Costuras de filtrado, límites de CV en intake, alineación de artículos y colapso de About</td>
+              <td class="py-2 px-3">4 opciones (commits 5518fcb, 1680f0c, 2a1b832, 38f0eaa)</td>
+              <td class="py-2 px-3 text-emerald-400 font-sans font-bold">✓ Merged</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-3 text-indigo-400 font-bold">Ciclo 2</td>
+              <td class="py-2 px-3 font-sans">Desacoplamiento de datos, reglas compartidas intake, higiene Radix y seam Testimonials</td>
+              <td class="py-2 px-3">4 opciones (commits 5f38074, da36328, f9be236, 20c50e5)</td>
+              <td class="py-2 px-3 text-emerald-400 font-sans font-bold">✓ Merged</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-3 text-indigo-400 font-bold">Ciclo 3</td>
+              <td class="py-2 px-3 font-sans">Shell persistente Root Layout, costura site-config, JobStatusBadge y ArticleBlocks</td>
+              <td class="py-2 px-3">4 opciones (commits 81e91d3, 4da4742, 0afeb24, bb2806e)</td>
+              <td class="py-2 px-3 text-emerald-400 font-sans font-bold">✓ Merged</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-3 text-indigo-400 font-bold">Ciclo 4</td>
+              <td class="py-2 px-3 font-sans">Purga de lib/Data, Card agnóstico, eliminación de re-exportaciones, desambiguación secciones Home y STRAPI_URL centralizado</td>
+              <td class="py-2 px-3">4 opciones (commits f8eea3d, f7a48de, faadf64, a563649)</td>
+              <td class="py-2 px-3 text-emerald-400 font-sans font-bold">✓ Merged</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Cycle 5 Section Header -->
+    <div class="space-y-2 border-b border-slate-800 pb-4">
+      <div class="flex items-center gap-2">
+        <span class="text-indigo-400 font-bold text-sm tracking-wider uppercase">Ciclo 5 &bull; Profundización de Cliente, Localidad UI y Rendimiento de Streaming</span>
+      </div>
+      <h3 class="text-2xl font-bold text-white">4 Nuevas Oportunidades de Profundización Arquitectónica</h3>
+      <p class="text-sm text-slate-400 leading-relaxed">
+        Con las capas fundamentales de datos limpias y verificadas, el escaneo del código revela cuatro áreas donde podemos elevar la <strong>profundidad de módulos cliente</strong>, maximizar la <strong>localidad visual</strong> (prueba de eliminación), desbloquear el <strong>streaming concurrente de RSC</strong> en la portada y <strong>eliminar dependencias duplicadas</strong> en páginas.
+      </p>
+    </div>
+
+    <!-- Candidate Cards Grid -->
+    <div class="space-y-10">
+
+      <!-- Candidate 1 -->
+      <article class="bg-slate-900/90 border border-slate-800 rounded-3xl p-8 hover:border-slate-700 transition-all space-y-6 shadow-lg">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div class="space-y-1 max-w-2xl">
+            <div class="flex items-center gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-xs font-mono font-bold">OPCIÓN 1</span>
+              <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">Módulo Cliente &bull; Profundidad (Depth)</span>
+            </div>
+            <h4 class="text-2xl font-bold text-white tracking-tight">
+              Encapsulación del Ciclo de Vida de Formularios Client (<code class="text-indigo-400">useIntakeForm</code>)
+            </h4>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold">
+            Reducción de Código Duplicado: Alta
+          </span>
+        </div>
+
+        <p class="text-slate-300 text-sm leading-relaxed">
+          <strong>Fricción Arquitectónica:</strong> Tanto <code class="text-indigo-300">src/app/[locale]/contact/contact-form.tsx</code> como <code class="text-indigo-300">src/app/[locale]/jobs/[id]/apply-form.tsx</code> manejan de forma manual e idéntica: el ciclo de vida del Toast (incluyendo el hack de temporizador de 50ms para re-apertura), el estado reactivo de envío (<code class="text-slate-200">submitting</code>) junto a la opacidad y desactivación del fieldset, y la lógica imperativa de enfocar el primer input con error mediante <code class="text-slate-200">requestAnimationFrame</code> y referencias DOM.
+        </p>
+
+        <!-- Diagram -->
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6">
+          <h5 class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-4">Transformación Arquitectónica</h5>
+          <div class="mermaid">
+graph LR
+    subgraph Actual [Estado Actual: Duplicación Superficial]
+      CF[contact-form.tsx] -->|Reimplementa| T1[Toast State & 50ms Timeout]
+      CF -->|Reimplementa| S1[Submitting & Fieldset Disabling]
+      CF -->|Reimplementa| F1[RAF First-Error Focus Logic]
+      AF[apply-form.tsx] -->|Reimplementa| T2[Toast State & 50ms Timeout]
+      AF -->|Reimplementa| S2[Submitting & Fieldset Disabling]
+      AF -->|Reimplementa| F2[RAF First-Error Focus Logic]
+    end
+
+    subgraph Propuesto [Módulo Profundo: useIntakeForm]
+      H[lib/intake/useIntakeForm.ts] -->|Encapsula| Toast[Manejo Robusto de Toast]
+      H -->|Encapsula| Submit[Lifecycle de Submisión & Fieldset]
+      H -->|Encapsula| Focus[Autofoco en Primer Error con RAF]
+      CF2[contact-form.tsx] -->|Interfaz Estrecha| H
+      AF2[apply-form.tsx] -->|Interfaz Estrecha| H
+    end
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-indigo-400 font-bold block mb-1">Concepto Clave</span>
+            <strong>Módulo Profundo (Deep Module):</strong> Oculta la complejidad de sincronización de estado, accesibilidad y toasts tras una interfaz limpia e intuitiva.
+          </div>
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-emerald-400 font-bold block mb-1">Beneficio Directo</span>
+            Elimina más de 80 líneas de código reactivo repetido entre ambos formularios y garantiza accesibilidad unificada (foco accesible) ante errores de validación.
+          </div>
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-cyan-400 font-bold block mb-1">Impacto & Riesgo</span>
+            Cero impacto en Server Components. Requiere probar interactivamente el envío exitoso y con error en ambos formularios.
+          </div>
+        </div>
+      </article>
+
+      <!-- Candidate 2 -->
+      <article class="bg-slate-900/90 border border-slate-800 rounded-3xl p-8 hover:border-slate-700 transition-all space-y-6 shadow-lg">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div class="space-y-1 max-w-2xl">
+            <div class="flex items-center gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-xs font-mono font-bold">OPCIÓN 2</span>
+              <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">Localidad &bull; Pureza de Primitivas UI (Deletion Test)</span>
+            </div>
+            <h4 class="text-2xl font-bold text-white tracking-tight">
+              Localidad UI de Artículos: Purificar <code class="text-indigo-400">components/ui/</code> y Consolidar <code class="text-indigo-400">components/articles/</code>
+            </h4>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold">
+            Higiene de Diseño: Alta
+          </span>
+        </div>
+
+        <p class="text-slate-300 text-sm leading-relaxed">
+          <strong>Fricción Arquitectónica:</strong> La carpeta <code class="text-indigo-300">src/components/ui/</code> está diseñada para primitivas de diseño genéricas y reutilizables en cualquier app (como <code class="text-slate-200">card</code>, <code class="text-slate-200">avatar</code>, <code class="text-slate-200">toast</code>, <code class="text-slate-200">accordion</code>). Sin embargo, <code class="text-indigo-300">reading-progress.tsx</code> y <code class="text-indigo-300">share-buttons.tsx</code> están alojados en <code class="text-slate-200">ui/</code> a pesar de pertenecer exclusivamente al dominio de artículos y ser consumidos únicamente por la página de lectura (<code class="text-indigo-300">articles/[documentId]/page.tsx</code>). A su vez, los componentes de artículos (<code class="text-indigo-300">article-blocks</code>, <code class="text-indigo-300">article-card</code>, <code class="text-indigo-300">featured-articles-section</code>) residen dispersos en la raíz de <code class="text-slate-200">src/components/</code>.
+        </p>
+
+        <!-- Diagram -->
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6">
+          <h5 class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-4">Transformación de Localidad</h5>
+          <div class="mermaid">
+graph LR
+    subgraph Disperso [Estado Actual: Fuga de Dominio en UI Genérica]
+      UI[components/ui/] --> RP[reading-progress.tsx]
+      UI --> SB[share-buttons.tsx]
+      C[components/] --> AB[article-blocks.tsx]
+      C --> AC[article-card.tsx]
+      C --> FAS[featured-articles-section.tsx]
+    end
+
+    subgraph Agrupado [Arquitectura Limpia: components/articles/]
+      UI2[components/ui/] --> Pure[Solo Primitivas Agnósticas: Card, Toast, etc.]
+      ART[components/articles/] --> RP2[reading-progress.tsx]
+      ART --> SB2[share-buttons.tsx]
+      ART --> AB2[article-blocks.tsx]
+      ART --> AC2[article-card.tsx]
+      ART --> FAS2[featured-articles-section.tsx]
+    end
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-indigo-400 font-bold block mb-1">Concepto Clave</span>
+            <strong>Localidad & Prueba de Eliminación (Deletion Test):</strong> Si se eliminara el dominio de artículos, todo su código UI se borra en una sola carpeta (<code class="text-slate-300">components/articles</code>) sin dejar basura en <code class="text-slate-300">components/ui/</code>.
+          </div>
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-emerald-400 font-bold block mb-1">Beneficio Directo</span>
+            Unifica el estándar de organización de componentes ya establecido con éxito en <code class="text-slate-300">src/components/about/</code>.
+          </div>
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-cyan-400 font-bold block mb-1">Impacto & Riesgo</span>
+            Cero riesgo funcional. Actualización limpia de rutas de importación en <code class="text-slate-300">articles/[documentId]/page.tsx</code> y páginas asociadas.
+          </div>
+        </div>
+      </article>
+
+      <!-- Candidate 3 -->
+      <article class="bg-slate-900/90 border border-slate-800 rounded-3xl p-8 hover:border-slate-700 transition-all space-y-6 shadow-lg">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div class="space-y-1 max-w-2xl">
+            <div class="flex items-center gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-xs font-mono font-bold">OPCIÓN 3</span>
+              <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">Rendimiento &bull; Streaming Concurrente de RSC</span>
+            </div>
+            <h4 class="text-2xl font-bold text-white tracking-tight">
+              Límites de Suspense y Streaming Progresivo en la Portada (<code class="text-indigo-400">HomePage</code>)
+            </h4>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+            Mejora de TTFB / UX: Inmediata
+          </span>
+        </div>
+
+        <p class="text-slate-300 text-sm leading-relaxed">
+          <strong>Fricción Arquitectónica:</strong> Siguiendo los estándares de rendimiento recomendados por Vercel para Next.js App Router, la página principal (<code class="text-indigo-300">src/app/[locale]/page.tsx</code>) renderiza secuencialmente 3 Server Components asíncronos (<code class="text-indigo-300">FeaturedJobsSection</code>, <code class="text-indigo-300">FeaturedArticlesSection</code>, <code class="text-indigo-300">Testimonials</code>) sin límites <code class="text-slate-200">&lt;Suspense&gt;</code>. Esto provoca que el renderizado en el servidor bloquee el Time to First Byte (TTFB) y el envío del primer fragmento de HTML hasta que Strapi CMS o las fuentes de datos respondan, demorando la visualización del Hero y el layout estático.
+        </p>
+
+        <!-- Diagram -->
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6">
+          <h5 class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-4">Flujo de Streaming en App Router</h5>
+          <div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant Browser as Navegador del Usuario
+    participant Server as Next.js Server (RSC)
+    participant CMS as Strapi CMS / Adapters
+
+    Note over Browser,CMS: Estado Actual: Renderizado Bloqueante sin Suspense
+    Browser->>Server: GET /
+    Server->>CMS: listJobs() + listArticles() + listTestimonials()
+    Note over Server: El servidor ESPERA todas las respuestas antes de enviar un solo byte
+    CMS-->>Server: Respuestas listas
+    Server-->>Browser: Envía HTML completo (Hero + Secciones) con demora
+
+    Note over Browser,CMS: Arquitectura con Suspense y Streaming
+    Browser->>Server: GET /
+    Server-->>Browser: STREAM INMEDIATO: Shell HTML + Hero Banner + Skeletons
+    par Carga en Paralelo
+      Server->>CMS: listJobs()
+      Server->>CMS: listArticles()
+      Server->>CMS: listTestimonials()
+    and Streaming Progresivo
+      CMS-->>Server: Jobs listos -> Envía sección de Empleos vía Stream
+      CMS-->>Server: Articles listos -> Envía sección de Artículos vía Stream
+      CMS-->>Server: Testimonials listos -> Reemplaza skeleton de testimonios
+    end
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-indigo-400 font-bold block mb-1">Concepto Clave</span>
+            <strong>Apalancamiento de Streaming (RSC Leverage):</strong> Separa la disponibilidad del cascarón de la página de la latencia de las fuentes de datos remotas.
+          </div>
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-emerald-400 font-bold block mb-1">Beneficio Directo</span>
+            El usuario percibe una carga instantánea con First Contentful Paint inmediato y transiciones suaves con esqueletos semánticos.
+          </div>
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-cyan-400 font-bold block mb-1">Impacto & Riesgo</span>
+            Riesgo muy bajo. Requiere crear esqueletos mínimos y elegantes para las secciones de portada.
+          </div>
+        </div>
+      </article>
+
+      <!-- Candidate 4 -->
+      <article class="bg-slate-900/90 border border-slate-800 rounded-3xl p-8 hover:border-slate-700 transition-all space-y-6 shadow-lg">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div class="space-y-1 max-w-2xl">
+            <div class="flex items-center gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-xs font-mono font-bold">OPCIÓN 4</span>
+              <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">Adaptador &bull; Desacoplamiento de Terceros</span>
+            </div>
+            <h4 class="text-2xl font-bold text-white tracking-tight">
+              Consolidación del Seam de Renderizado Markdown (<code class="text-indigo-400">jobs/[id]/page.tsx</code>)
+            </h4>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold">
+            Desacoplamiento: Medio
+          </span>
+        </div>
+
+        <p class="text-slate-300 text-sm leading-relaxed">
+          <strong>Fricción Arquitectónica:</strong> En el Ciclo 3 se introdujo <code class="text-indigo-300">RichTextBlock</code> en <code class="text-indigo-300">src/components/article-blocks.tsx</code> para encapsular la renderización segura de Markdown (<code class="text-slate-200">react-markdown</code> + <code class="text-slate-200">remark-gfm</code>) con tipografía prose unificada. Sin embargo, la página de detalle de empleo (<code class="text-indigo-300">src/app/[locale]/jobs/[id]/page.tsx</code>) todavía importa directamente las librerías <code class="text-slate-200">react-markdown</code> y <code class="text-slate-200">remark-gfm</code>, duplicando el código del wrapper y violando la regla de adaptadores limpios al acoplar una ruta de Next.js directamente a un paquete externo.
+        </p>
+
+        <!-- Diagram -->
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6">
+          <h5 class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-4">Alineación de Adaptador</h5>
+          <div class="mermaid">
+graph LR
+    subgraph Actual [Acoplamiento a Terceros en Rutas]
+      P1[jobs/[id]/page.tsx] -->|Import Directo| RM1[react-markdown + remark-gfm]
+      P2[article-blocks.tsx] -->|Import Directo| RM2[react-markdown + remark-gfm]
+    end
+
+    subgraph Canónico [Adaptador de Presentación Unificado]
+      Shared[RichTextBlock / MarkdownContent] -->|Único Seam| Vendor[react-markdown + remark-gfm]
+      JPage[jobs/[id]/page.tsx] -->|Consume Adaptador| Shared
+      ArtPage[article-blocks.tsx] -->|Consume Adaptador| Shared
+    end
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-indigo-400 font-bold block mb-1">Concepto Clave</span>
+            <strong>Adaptador Único:</strong> Ninguna página de ruta debe depender directamente de librerías de parsing de Markdown. Cualquier cambio de configuración, sanitización o plugin se gestiona en un solo lugar.
+          </div>
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-emerald-400 font-bold block mb-1">Beneficio Directo</span>
+            Homogeniza el renderizado de texto enriquecido en todo el sitio y reduce la superficie de importación de librerías en las rutas de la aplicación.
+          </div>
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+            <span class="text-cyan-400 font-bold block mb-1">Impacto & Riesgo</span>
+            Riesgo prácticamente nulo; cambio puramente aditivo y de limpieza.
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Comparative Matrix -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6">
+      <h3 class="text-xl font-bold text-white tracking-tight">Matriz Comparativa de Opciones (Ciclo 5)</h3>
+      <div class="overflow-x-auto text-xs">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider">
+              <th class="py-3 px-4">Opción</th>
+              <th class="py-3 px-4">Concepto Arquitectónico</th>
+              <th class="py-3 px-4">Archivos Afectados</th>
+              <th class="py-3 px-4">Apalancamiento</th>
+              <th class="py-3 px-4">Riesgo</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60 text-slate-300">
+            <tr class="hover:bg-slate-800/30 transition-colors">
+              <td class="py-3 px-4 font-bold text-indigo-400">Opción 1</td>
+              <td class="py-3 px-4">Módulo Profundo Client (<code class="text-slate-300">useIntakeForm</code>)</td>
+              <td class="py-3 px-4 font-mono text-slate-400">contact-form.tsx, apply-form.tsx, useIntakeForm.ts</td>
+              <td class="py-3 px-4 text-emerald-400 font-semibold">Alto (Elimina duplicación interactiva y unifica a11y)</td>
+              <td class="py-3 px-4 text-slate-400">Bajo (Solo client-side)</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30 transition-colors">
+              <td class="py-3 px-4 font-bold text-indigo-400">Opción 2</td>
+              <td class="py-3 px-4">Localidad y Deletion Test (<code class="text-slate-300">components/articles/</code>)</td>
+              <td class="py-3 px-4 font-mono text-slate-400">components/ui/*, components/articles/*</td>
+              <td class="py-3 px-4 text-indigo-400 font-semibold">Medio-Alto (Purifica primitives y encapsula artículos)</td>
+              <td class="py-3 px-4 text-emerald-400 font-semibold">Muy Bajo (Relocalización)</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30 transition-colors">
+              <td class="py-3 px-4 font-bold text-indigo-400">Opción 3</td>
+              <td class="py-3 px-4">Streaming RSC & Suspense (<code class="text-slate-300">HomePage</code>)</td>
+              <td class="py-3 px-4 font-mono text-slate-400">app/[locale]/page.tsx, skeletons de portada</td>
+              <td class="py-3 px-4 text-emerald-400 font-semibold">Alto (TTFB instantáneo y streaming en paralelo)</td>
+              <td class="py-3 px-4 text-slate-400">Bajo (Diseño de skeletons)</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30 transition-colors">
+              <td class="py-3 px-4 font-bold text-indigo-400">Opción 4</td>
+              <td class="py-3 px-4">Adaptador Markdown Consolidado (<code class="text-slate-300">jobs/[id]</code>)</td>
+              <td class="py-3 px-4 font-mono text-slate-400">jobs/[id]/page.tsx, article-blocks.tsx</td>
+              <td class="py-3 px-4 text-indigo-400 font-semibold">Medio (Desacopla páginas de vendors externos)</td>
+              <td class="py-3 px-4 text-emerald-400 font-semibold">Nulo (Refactorización simple)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Footer Note -->
+    <footer class="text-center py-6 text-xs text-slate-500 border-t border-slate-800 space-y-2">
+      <p>Reporte generado por Antigravity Architecture Assistant &bull; Basado en principios de diseño de software (Ousterhout) y mejores prácticas de Next.js App Router (Vercel).</p>
+      <p class="text-slate-600">Para iniciar cualquiera de las opciones, simplemente selecciona la opción deseada para comenzar su diseño e implementación incremental.</p>
+    </footer>
+  </main>
+</body>
+</html>

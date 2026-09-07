@@ -1,14 +1,6 @@
-import { homePageData } from "@/Data/homepage";
+import { staticArticles, defaultAuthor } from "./fixtures";
 import type { Article, ArticleDetail, ArticleBlock } from "./types";
 import { normalizeStaticArticle } from "./normalizer";
-
-const defaultAuthor = homePageData.authors?.[0]
-  ? {
-      name: homePageData.authors[0].name,
-      avatar: homePageData.authors[0].avatar,
-      role: "Lead Tech Recruiter",
-    }
-  : undefined;
 
 // ── Curated Editorial Blocks for Static Articles ─────────────────────────────
 
@@ -90,11 +82,11 @@ Senior engineers are expected to own their code in production. Familiarity with 
 };
 
 /**
- * Fetch all static articles from homePageData.blogPreview.
+ * Fetch all static articles from domain fixtures.
  * Deduplicates entries by slug and ID.
  */
 export function fetchArticlesFromStatic(): Article[] {
-  const rawList = homePageData.blogPreview || [];
+  const rawList = staticArticles;
   const seenSlugs = new Set<string>();
   const seenIds = new Set<string>();
   const results: Article[] = [];
@@ -119,7 +111,7 @@ export function fetchArticlesFromStatic(): Article[] {
 export function fetchArticleFromStatic(identifier: string): ArticleDetail | null {
   if (!identifier) return null;
 
-  const rawList = homePageData.blogPreview || [];
+  const rawList = staticArticles;
   const match = rawList.find(
     (item) =>
       item.slug === identifier ||

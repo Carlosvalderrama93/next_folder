@@ -36,6 +36,16 @@ export interface ArticleDetail extends Article {
   blocks: ArticleBlock[];
 }
 
+export interface RawStaticArticle {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  coverImage?: string;
+  createdAt: string;
+  category?: string;
+}
+
 export interface ListArticlesOptions {
   limit?: number;
   category?: string;

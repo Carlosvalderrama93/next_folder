@@ -1,8 +1,5 @@
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
-import { homePageData } from "@/Data/homepage";
-import { listJobs } from "@/lib/jobs";
-import JobFilters from "@/components/job-filters";
+import { listJobs, parseJobQueryCriteria } from "@/lib/jobs";
+import { JobFilters } from "@/components/jobs";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
@@ -21,21 +18,22 @@ export async function generateMetadata({
 
 export default async function JobsPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { locale } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const initialCriteria = parseJobQueryCriteria(resolvedSearchParams);
   const t = await getTranslations({ locale, namespace: "jobsPage" });
 
   const jobs = await listJobs();
-  const footerData = homePageData.footer;
-
   const countKey = jobs.length === 1 ? "available_one" : "available_other";
+
 
   return (
     <>
-      <Navigation />
-
       {/* ── Gradient hero header ─────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-b from-indigo-50/60 via-white to-white dark:from-indigo-950/30 dark:via-background dark:to-background pt-16 pb-12">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -43,22 +41,21 @@ export default async function JobsPage({
           <div className="absolute top-12 -left-16 w-64 h-64 rounded-full bg-violet-200/20 dark:bg-violet-900/10 blur-3xl" />
         </div>
         <div className="relative max-w-4xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white text-balance">
             {t("heading")}
           </h1>
           <div className="mt-3 mb-4 w-10 h-1 bg-brand rounded-full" />
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-gray-500 dark:text-gray-400 tabular-nums">
             {t(countKey, { count: jobs.length })}
           </p>
         </div>
       </section>
 
       {/* ── Job list ──────────────────────────────────────────── */}
-      <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20">
-        <JobFilters jobs={jobs} />
+      <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20 scroll-mt-24">
+        <JobFilters jobs={jobs} initialCriteria={initialCriteria} />
       </main>
 
-      <Footer {...footerData} />
     </>
   );
 }

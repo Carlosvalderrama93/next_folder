@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revisión de Arquitectura — Ciclo 3 | recruiter_Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#0f172a',
+        primaryColor: '#6366f1',
+        primaryTextColor: '#f8fafc',
+        primaryBorderColor: '#818cf8',
+        lineColor: '#94a3b8',
+        secondaryColor: '#1e293b',
+        tertiaryColor: '#0f172a'
+      }
+    });
+  </script>
+</head>
+<body class="min-h-full font-sans antialiased selection:bg-indigo-500 selection:text-white">
+  <!-- Top Navigation / Banner -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl bg-indigo-600 flex items-center justify-center font-black text-white text-lg shadow-lg shadow-indigo-500/30">
+          🏗️
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white tracking-tight">Arquitectura de Software &bull; Ciclo 3</h1>
+          <p class="text-xs text-slate-400">Auditoría Post-Sprints &bull; 88 Pruebas Unitarias &bull; 18 E2E 100% Verificados</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 text-xs font-semibold">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Ciclo 1 & 2 Completados (8/8 Opciones)
+        </span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">
+          Septiembre 2026
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-10 space-y-12">
+    <!-- Executive Summary / Health Check -->
+    <section class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 space-y-4">
+        <div class="inline-block px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold uppercase tracking-wider">
+          Diagnóstico del Sistema: "¿Todo bien por ahora?"
+        </div>
+        <h2 class="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
+          El estado de la base de código es <span class="text-emerald-400">excepcional</span> y libre de regresiones.
+        </h2>
+        <p class="text-slate-300 text-base max-w-4xl leading-relaxed">
+          Los dos primeros ciclos lograron encapsular las 5 entidades principales en costuras de dominio profundas (<code class="text-indigo-300">jobs</code>, <code class="text-indigo-300">articles</code>, <code class="text-indigo-300">about</code>, <code class="text-indigo-300">intake</code>, <code class="text-indigo-300">testimonials</code>). La suite de pruebas cuenta con <strong class="text-white">88 pruebas unitarias</strong> sin dependencias externas, <strong class="text-white">18 verificaciones E2E</strong>, compilación de Next.js en <strong class="text-white">6.4s</strong> sin advertencias, y <strong class="text-white">0 errores</strong> de TypeScript o ESLint.
+        </p>
+
+        <!-- KPI Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-emerald-400">88 / 88</div>
+            <div class="text-xs text-slate-400 mt-0.5">Tests Unitarios (24 suites)</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-indigo-400">18 / 18</div>
+            <div class="text-xs text-slate-400 mt-0.5">Checks E2E (SSG + API)</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-cyan-400">5 Seams</div>
+            <div class="text-xs text-slate-400 mt-0.5">Módulos de Dominio Puros</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-purple-400">0 Lints / TS</div>
+            <div class="text-xs text-slate-400 mt-0.5">Higiene 100% Limpia</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cycle 3 Opportunities Section Header -->
+    <div class="space-y-2 border-b border-slate-800 pb-4">
+      <div class="flex items-center gap-2">
+        <span class="text-indigo-400 font-bold text-sm tracking-wider uppercase">Ciclo 3 &bull; Profundización de Arquitectura</span>
+      </div>
+      <h3 class="text-2xl font-bold text-white">4 Oportunidades de Refactorización y Alto Apalancamiento</h3>
+      <p class="text-sm text-slate-400">
+        Con el dominio de negocio estabilizado, los siguientes puntos de fricción corresponden a la capa de presentación de Next.js App Router, duplicación de shell de layout y metadatos residuales.
+      </p>
+    </div>
+
+    <!-- Candidate Cards Grid -->
+    <div class="space-y-10">
+
+      <!-- CANDIDATE 1 -->
+      <article class="border border-indigo-500/30 bg-slate-900/60 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 hover:border-indigo-500/50 transition-colors">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-0.5 text-xs font-bold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                Recomendación Fuerte (Top Priority)
+              </span>
+              <span class="text-xs font-mono text-slate-400">Opción 1</span>
+            </div>
+            <h4 class="text-xl sm:text-2xl font-bold text-white">
+              Shell Persistente en Root Layout (Elevación de Navigation &amp; Footer)
+            </h4>
+          </div>
+          <div class="text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700">
+            15 archivos involucrados
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div class="space-y-2 bg-slate-950/40 p-5 rounded-2xl border border-slate-800/80">
+            <div class="font-bold text-rose-400 flex items-center gap-2">
+              <span>⚠️</span> Problema Actual (Fricción &amp; Deuda UI)
+            </div>
+            <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">
+              Cada una de las páginas (<code class="text-slate-200">page.tsx</code>, <code class="text-slate-200">about</code>, <code class="text-slate-200">jobs</code>, <code class="text-slate-200">jobs/[id]</code>, <code class="text-slate-200">articles</code>, <code class="text-slate-200">articles/[id]</code>, <code class="text-slate-200">contact</code>, <code class="text-slate-200">not-found</code>) y <strong>cada loading skeleton y error boundary</strong> importa y monta manualmente <code class="text-indigo-300">&lt;Navigation /&gt;</code> y <code class="text-indigo-300">&lt;Footer {...data} /&gt;</code>.
+              Esto provoca que en cada transición de ruta, el Header y Footer se desmonten y remonten, perdiendo estado efímero y requiriendo pasar props repetitivas.
+            </p>
+          </div>
+
+          <div class="space-y-2 bg-slate-950/40 p-5 rounded-2xl border border-slate-800/80">
+            <div class="font-bold text-emerald-400 flex items-center gap-2">
+              <span>💡</span> Solución Propuesta (Idiotismo Next.js)
+            </div>
+            <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">
+              Elevar <code class="text-indigo-300">&lt;Navigation /&gt;</code> y <code class="text-indigo-300">&lt;Footer /&gt;</code> directamente a <code class="text-slate-200">src/app/[locale]/layout.tsx</code>. El componente <code class="text-indigo-300">Footer</code> leerá sus datos de forma autónoma (o vía site config seam).
+              Eliminar la duplicación de 15 archivos de páginas y esqueletos de carga.
+            </p>
+          </div>
+        </div>
+
+        <!-- Before / After Diagram -->
+        <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Diagrama Comparativo: Estructura de Rutas</div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="border border-rose-900/40 bg-rose-950/10 p-4 rounded-xl space-y-2">
+              <div class="text-xs font-bold text-rose-400">ANTES: Disperso en 15 Componentes</div>
+              <pre class="text-[11px] font-mono text-slate-400 overflow-x-auto leading-relaxed">
+// en cada page.tsx, loading.tsx, error.tsx:
+&lt;&gt;
+  &lt;Navigation /&gt;
+  &lt;main&gt;{contenido específico}&lt;/main&gt;
+  &lt;Footer {...homePageData.footer} /&gt;
+&lt;/&gt;
+&bull; Desmonta y remonta el Nav en cada clic
+&bull; Props pasadas a mano en 15 sitios
+&bull; Skeletons parpadean toda la ventana
+              </pre>
+            </div>
+
+            <div class="border border-emerald-900/40 bg-emerald-950/10 p-4 rounded-xl space-y-2">
+              <div class="text-xs font-bold text-emerald-400">DESPUÉS: Shell Único en LocaleLayout</div>
+              <pre class="text-[11px] font-mono text-slate-300 overflow-x-auto leading-relaxed">
+// en src/app/[locale]/layout.tsx:
+&lt;LocaleLayout&gt;
+  &lt;Navigation /&gt;
+  &lt;main id="main-content"&gt;{children}&lt;/main&gt;
+  &lt;Footer /&gt;
+&lt;/LocaleLayout&gt;
+&bull; Nav y Footer persisten entre rutas (cero flickering)
+&bull; Skeletons solo animan el contenido ({children})
+&bull; Código de páginas 100% enfocado en su contenido
+              </pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 text-xs text-slate-400 pt-1">
+          <span class="text-slate-300 font-semibold">Beneficios de Apalancamiento &amp; Localidad:</span>
+          <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Cero prop drilling a Footer</span>
+          <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Preserva estado de Nav en navegación</span>
+          <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">~60 líneas eliminadas en páginas</span>
+        </div>
+      </article>
+
+      <!-- CANDIDATE 2 -->
+      <article class="border border-slate-800 bg-slate-900/60 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 hover:border-slate-700 transition-colors">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-0.5 text-xs font-bold rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                Recomendación Fuerte
+              </span>
+              <span class="text-xs font-mono text-slate-400">Opción 2</span>
+            </div>
+            <h4 class="text-xl sm:text-2xl font-bold text-white">
+              Costura de Configuración del Sitio (<code class="text-indigo-300 text-lg">src/lib/site-config/</code>) y Retiro de <code class="text-slate-400 text-lg">homepage.ts</code>
+            </h4>
+          </div>
+          <div class="text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700">
+            Data/homepage.ts &bull; types/homepage.ts
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div class="space-y-2 bg-slate-950/40 p-5 rounded-2xl border border-slate-800/80">
+            <div class="font-bold text-rose-400 flex items-center gap-2">
+              <span>⚠️</span> Problema Actual
+            </div>
+            <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">
+              Tras desacoplar Jobs, Articles y Testimonials, <code class="text-indigo-300">src/Data/homepage.ts</code> quedó como un contenedor residual de metadatos con campos obsoletos (<code class="text-slate-400">nav.logo</code> no se usa, <code class="text-slate-400">links</code> apunta al enlace roto <code class="text-slate-400">/blog</code> mientras que <code class="text-slate-400">navigation.tsx</code> y <code class="text-slate-400">footer.tsx</code> duplican la lista <code class="text-slate-400">NAV_LINKS</code> en duro).
+            </p>
+          </div>
+
+          <div class="space-y-2 bg-slate-950/40 p-5 rounded-2xl border border-slate-800/80">
+            <div class="font-bold text-emerald-400 flex items-center gap-2">
+              <span>💡</span> Solución Propuesta
+            </div>
+            <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">
+              Crear la costura de dominio <code class="text-indigo-300">src/lib/site-config/</code> con configuración canónica: identidad de marca, enlaces de redes sociales, correo oficial y el arreglo canónico de <code class="text-indigo-300">NAV_LINKS</code>. Retirar definitivamente <code class="text-slate-400">homepage.ts</code> y <code class="text-slate-400">types/homepage.ts</code>.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800">
+          <div class="mermaid">
+graph LR
+    subgraph Antiguo [Monolito Residual homepage.ts]
+        H[homepage.ts] -->|copia 1 de NAV_LINKS| N[navigation.tsx]
+        H -->|copia 2 de NAV_LINKS| F[footer.tsx]
+        H -.->|campos no usados| X[logo, /blog, etc]
+    end
+    subgraph Nuevo [Costura Canónica site-config]
+        SC[src/lib/site-config] -->|NAV_LINKS canónicos| N2[Navigation]
+        SC -->|NAV_LINKS + Socials| F2[Footer]
+        SC -->|Brand info| M[Metadata / SEO]
+    end
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 text-xs text-slate-400 pt-1">
+          <span class="text-slate-300 font-semibold">Beneficios:</span>
+          <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Única fuente de verdad para el menú</span>
+          <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Elimina el último archivo de datos ambiguo</span>
+        </div>
+      </article>
+
+      <!-- CANDIDATE 3 -->
+      <article class="border border-slate-800 bg-slate-900/60 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 hover:border-slate-700 transition-colors">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-0.5 text-xs font-bold rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                Vale la pena explorar
+              </span>
+              <span class="text-xs font-mono text-slate-400">Opción 3</span>
+            </div>
+            <h4 class="text-xl sm:text-2xl font-bold text-white">
+              Componente Canónico <code class="text-cyan-300 text-lg">JobStatusBadge</code> y Tokens de Presentación
+            </h4>
+          </div>
+          <div class="text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700">
+            job-card.tsx &bull; jobs/[id]/page.tsx &bull; job-filters.tsx
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div class="space-y-2 bg-slate-950/40 p-5 rounded-2xl border border-slate-800/80">
+            <div class="font-bold text-rose-400 flex items-center gap-2">
+              <span>⚠️</span> Problema Actual
+            </div>
+            <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">
+              Las etiquetas de estado (<code class="text-slate-400">STATUS_BADGE</code> y <code class="text-slate-400">STATUS_KEYS</code>) están duplicadas con código idéntico en <code class="text-indigo-300">job-card.tsx</code> y <code class="text-indigo-300">jobs/[id]/page.tsx</code>. Además, las listas <code class="text-slate-400">ALL_STATUSES</code>, <code class="text-slate-400">ALL_MODALITIES</code> y <code class="text-slate-400">ALL_PAYMENTS</code> están declaradas ad-hoc en <code class="text-indigo-300">job-filters.tsx</code>.
+            </p>
+          </div>
+
+          <div class="space-y-2 bg-slate-950/40 p-5 rounded-2xl border border-slate-800/80">
+            <div class="font-bold text-emerald-400 flex items-center gap-2">
+              <span>💡</span> Solución Propuesta
+            </div>
+            <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">
+              Crear un componente reutilizable <code class="text-cyan-300">&lt;JobStatusBadge status={job.status} /&gt;</code> y centralizar constantes de presentación en <code class="text-cyan-300">src/lib/jobs/presentation.ts</code>. Si se añade un nuevo estado o se ajusta un color de Tailwind, el cambio se aplica de forma atómica en toda la aplicación.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 text-xs text-slate-400 pt-1">
+          <span class="text-slate-300 font-semibold">Beneficios:</span>
+          <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Cero duplicación de estilos de badges</span>
+          <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Diseño coherente entre lista y detalle</span>
+        </div>
+      </article>
+
+      <!-- CANDIDATE 4 -->
+      <article class="border border-slate-800 bg-slate-900/60 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 hover:border-slate-700 transition-colors">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-0.5 text-xs font-bold rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                Vale la pena explorar
+              </span>
+              <span class="text-xs font-mono text-slate-400">Opción 4</span>
+            </div>
+            <h4 class="text-xl sm:text-2xl font-bold text-white">
+              Descomposición de Bloques Editoriales de Artículos (<code class="text-purple-300 text-lg">src/components/article-blocks.tsx</code>)
+            </h4>
+          </div>
+          <div class="text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700">
+            articles/[documentId]/page.tsx
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div class="space-y-2 bg-slate-950/40 p-5 rounded-2xl border border-slate-800/80">
+            <div class="font-bold text-rose-400 flex items-center gap-2">
+              <span>⚠️</span> Problema Actual
+            </div>
+            <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">
+              El archivo <code class="text-indigo-300">articles/[documentId]/page.tsx</code> contiene 239 líneas porque define en el mismo archivo los subcomponentes <code class="text-slate-400">RichText</code>, <code class="text-slate-400">Quote</code>, <code class="text-slate-400">MediaBlock</code>, <code class="text-slate-400">Slider</code> y <code class="text-slate-400">BlockRenderer</code>, mezclando renderizado tipográfico dinámico con el controlador de página y generación de metadatos.
+            </p>
+          </div>
+
+          <div class="space-y-2 bg-slate-950/40 p-5 rounded-2xl border border-slate-800/80">
+            <div class="font-bold text-emerald-400 flex items-center gap-2">
+              <span>💡</span> Solución Propuesta
+            </div>
+            <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">
+              Extraer los renderizadores a <code class="text-purple-300">src/components/article-blocks.tsx</code>. La página del artículo se reduce a menos de 100 líneas limpias, enfocadas exclusivamente en resolver datos y artículos relacionados.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 text-xs text-slate-400 pt-1">
+          <span class="text-slate-300 font-semibold">Beneficios:</span>
+          <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Página de detalle limpia y navegable</span>
+          <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Bloques editoriales testeables de forma aislada</span>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Top Recommendation Summary Box -->
+    <section class="border border-emerald-500/40 bg-gradient-to-r from-emerald-950/30 via-slate-900 to-indigo-950/30 rounded-3xl p-8 shadow-2xl space-y-4">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl">🏆</span>
+        <h3 class="text-xl font-bold text-white">Recomendación Principal para el Próximo Paso</h3>
+      </div>
+      <p class="text-slate-300 text-sm leading-relaxed max-w-4xl">
+        Sugerimos iniciar con la <strong class="text-white">Opción 1 (Shell Persistente en Root Layout)</strong>. Es la mejora con mayor ratio de apalancamiento: simplifica 15 archivos en toda la aplicación, elimina parpadeos visuales en navegaciones y carga de esqueletos, y alinea el proyecto con las prácticas óptimas de arquitectura de Next.js App Router recomendadas por Vercel.
+      </p>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-500">
+    recruiter_Page &bull; Revisión de Arquitectura Automatizada con Antigravity &bull; 2026
+  </footer>
+</body>
+</html>

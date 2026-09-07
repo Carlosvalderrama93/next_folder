@@ -380,3 +380,389 @@ describe("Merge and Query Logic", () => {
     assert.equal(merged[0].slug, "top-skills-it-2025");
   });
 });
+
+// ── Article Block Dispatch Contract ──────────────────────────────────────────
+
+describe("Article Block Dispatch Contract", () => {
+  function resolveBlockRenderer(block) {
+    if (!block || !block.type) return null;
+    switch (block.type) {
+      case "rich-text":
+        return block.body ? "RichTextBlock" : null;
+      case "quote":
+        return block.body ? "QuoteBlock" : null;
+      case "media":
+        return block.file ? "MediaBlock" : null;
+      case "slider":
+        return block.files?.length ? "SliderBlock" : null;
+      default:
+        return null;
+    }
+  }
+
+  it("resolves rich-text and quote blocks correctly", () => {
+    assert.equal(resolveBlockRenderer({ type: "rich-text", body: "Content" }), "RichTextBlock");
+    assert.equal(resolveBlockRenderer({ type: "quote", body: "Quote" }), "QuoteBlock");
+  });
+
+  it("resolves media and slider blocks with valid attachments", () => {
+    assert.equal(resolveBlockRenderer({ type: "media", file: { url: "/test.jpg" } }), "MediaBlock");
+    assert.equal(resolveBlockRenderer({ type: "slider", files: [{ url: "/s1.jpg" }] }), "SliderBlock");
+  });
+
+  it("safely rejects blocks with missing payload or unrecognized types", () => {
+    assert.equal(resolveBlockRenderer({ type: "media", file: null }), null);
+    assert.equal(resolveBlockRenderer({ type: "slider", files: [] }), null);
+    assert.equal(resolveBlockRenderer({ type: "unknown-type" }), null);
+    assert.equal(resolveBlockRenderer(null), null);
+  });
+});
+
+// ── Articles UI Locality & Primitives Pureness Contracts ───────────────────────
+
+describe("Articles UI Locality & Primitives Pureness Contracts", () => {
+  it("guarantees ui/ directory is free of article domain widgets", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const uiDir = path.resolve(__dirname, "../../../components/ui");
+
+    assert.ok(
+      !fs.existsSync(path.join(uiDir, "reading-progress.tsx")),
+      "components/ui/reading-progress.tsx must not exist (must be in components/articles)"
+    );
+    assert.ok(
+      !fs.existsSync(path.join(uiDir, "share-buttons.tsx")),
+      "components/ui/share-buttons.tsx must not exist (must be in components/articles)"
+    );
+  });
+
+  it("guarantees components/articles/ acts as the canonical presentation seam", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const articlesDir = path.resolve(__dirname, "../../../components/articles");
+
+    assert.ok(fs.existsSync(articlesDir), "components/articles/ directory must exist");
+    assert.ok(
+      fs.existsSync(path.join(articlesDir, "reading-progress.tsx")),
+      "reading-progress.tsx must exist in components/articles/"
+    );
+    assert.ok(
+      fs.existsSync(path.join(articlesDir, "share-buttons.tsx")),
+      "share-buttons.tsx must exist in components/articles/"
+    );
+    assert.ok(
+      fs.existsSync(path.join(articlesDir, "article-blocks.tsx")),
+      "article-blocks.tsx must exist in components/articles/"
+    );
+    assert.ok(
+      fs.existsSync(path.join(articlesDir, "article-card.tsx")),
+      "article-card.tsx must exist in components/articles/"
+    );
+    assert.ok(
+      fs.existsSync(path.join(articlesDir, "index.ts")),
+      "index.ts must exist in components/articles/"
+    );
+  });
+
+  it("verifies articles/[documentId]/page.tsx imports exclusively from @/components/articles", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const pagePath = path.resolve(
+      __dirname,
+      "../../../app/[locale]/articles/[documentId]/page.tsx"
+    );
+
+    const pageContent = fs.readFileSync(pagePath, "utf-8");
+    assert.ok(
+      pageContent.includes('from "@/components/articles"'),
+      "page.tsx must import article UI components from @/components/articles"
+    );
+    assert.ok(
+      !pageContent.includes("@/components/ui/reading-progress"),
+      "page.tsx must not import reading-progress from ui/"
+    );
+    assert.ok(
+      !pageContent.includes("@/components/ui/share-buttons"),
+      "page.tsx must not import share-buttons from ui/"
+    );
+  });
+});
+
+// ── Article Query URL Criteria Codec & Presentation Seam Contracts ───────────────
+function parseArticleQueryCriteria(searchParams) {
+  if (!searchParams) return {};
+  const getParam = (key) => {
+    if (searchParams instanceof URLSearchParams) {
+      return searchParams.get(key) || undefined;
+    }
+    const val = searchParams[key];
+    if (Array.isArray(val)) return val[0];
+    return val || undefined;
+  };
+
+  const cat = getParam("category");
+  const q = getParam("q");
+
+  const category =
+    cat && cat.trim().toLowerCase() !== "all" ? cat.trim() : undefined;
+  const queryStr = q && q.trim().length > 0 ? q.trim() : undefined;
+
+  return {
+    ...(category ? { category } : {}),
+    ...(queryStr ? { q: queryStr } : {}),
+  };
+}
+
+function serializeArticleQueryCriteria(criteria) {
+  const params = new URLSearchParams();
+  if (criteria.category && criteria.category.trim().toLowerCase() !== "all") {
+    params.set("category", criteria.category.trim());
+  }
+  if (criteria.q && criteria.q.trim().length > 0) {
+    params.set("q", criteria.q.trim());
+  }
+  return params;
+}
+
+function filterArticles(articles, criteria) {
+  let result = articles;
+  if (criteria.category && criteria.category.trim().toLowerCase() !== "all") {
+    const targetCat = criteria.category.trim().toLowerCase();
+    result = result.filter(
+      (a) => a.category && a.category.trim().toLowerCase() === targetCat
+    );
+  }
+  if (criteria.q && criteria.q.trim().length > 0) {
+    const normalize = (s) =>
+      s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const tokens = normalize(criteria.q).split(/\s+/).filter(Boolean);
+    result = result.filter((article) => {
+      const text = normalize(
+        `${article.title} ${article.excerpt} ${article.description || ""} ${article.category || ""}`
+      );
+      return tokens.every((token) => text.includes(token));
+    });
+  }
+  return result;
+}
+
+describe("Article Query URL Criteria Codec · parseArticleQueryCriteria & serializeArticleQueryCriteria", () => {
+  it("parses URL search parameters dictionary into structured criteria", () => {
+    assert.deepEqual(parseArticleQueryCriteria(undefined), {});
+    assert.deepEqual(parseArticleQueryCriteria({}), {});
+    assert.deepEqual(parseArticleQueryCriteria({ category: "All" }), {});
+    assert.deepEqual(parseArticleQueryCriteria({ category: "all" }), {});
+    assert.deepEqual(parseArticleQueryCriteria({ category: "" }), {});
+    assert.deepEqual(parseArticleQueryCriteria({ category: "Career" }), {
+      category: "Career",
+    });
+
+    const urlParams = new URLSearchParams("category=Engineering&q=interview");
+    assert.deepEqual(parseArticleQueryCriteria(urlParams), {
+      category: "Engineering",
+      q: "interview",
+    });
+  });
+
+  it("serializes criteria into clean URLSearchParams", () => {
+    assert.equal(serializeArticleQueryCriteria({}).toString(), "");
+    assert.equal(
+      serializeArticleQueryCriteria({ category: "All" }).toString(),
+      ""
+    );
+    assert.equal(
+      serializeArticleQueryCriteria({ category: "all" }).toString(),
+      ""
+    );
+    assert.equal(
+      serializeArticleQueryCriteria({ category: "Career Advice", q: "remote tips" }).toString(),
+      "category=Career+Advice&q=remote+tips"
+    );
+  });
+
+  it("guarantees round-trip serialization and deserialization fidelity", () => {
+    const sampleCases = [
+      { category: "Career" },
+      { q: "remote work" },
+      { category: "Hiring", q: "LATAM" },
+    ];
+
+    for (const criteria of sampleCases) {
+      const serialized = serializeArticleQueryCriteria(criteria);
+      const deserialized = parseArticleQueryCriteria(serialized);
+      assert.deepEqual(
+        deserialized,
+        criteria,
+        `Round-trip failed for: ${JSON.stringify(criteria)}`
+      );
+    }
+  });
+
+  it("filters articles by category and keyword search with diacritic normalization", () => {
+    const fixtureArticles = [
+      { id: "1", title: "Remote Interview Tips", excerpt: "How to ace interviews", category: "Career" },
+      { id: "2", title: "Top Skills for Bogotá IT", excerpt: "Node.js and React in Colombia", category: "Tech" },
+      { id: "3", title: "Hiring Strategies", excerpt: "Building remote teams", category: "Recruiting" },
+    ];
+
+    // Category filter
+    const careerOnly = filterArticles(fixtureArticles, { category: "Career" });
+    assert.equal(careerOnly.length, 1);
+    assert.equal(careerOnly[0].id, "1");
+
+    // Accent-insensitive keyword search
+    const bogotaSearch = filterArticles(fixtureArticles, { q: "bogota" });
+    assert.equal(bogotaSearch.length, 1);
+    assert.equal(bogotaSearch[0].id, "2");
+
+    // Combined criteria
+    const combined = filterArticles(fixtureArticles, { category: "Career", q: "interview" });
+    assert.equal(combined.length, 1);
+
+    const nonMatching = filterArticles(fixtureArticles, { category: "Tech", q: "interview" });
+    assert.equal(nonMatching.length, 0);
+  });
+
+  it("verifies src/lib/articles/query.ts exports codec functions and types", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const queryPath = path.resolve(__dirname, "../query.ts");
+    const indexPath = path.resolve(__dirname, "../index.ts");
+
+    assert.ok(fs.existsSync(queryPath), "src/lib/articles/query.ts must exist");
+    const queryContent = fs.readFileSync(queryPath, "utf-8");
+    const indexContent = fs.readFileSync(indexPath, "utf-8");
+
+    assert.ok(
+      queryContent.includes("export function parseArticleQueryCriteria"),
+      "query.ts must export parseArticleQueryCriteria"
+    );
+    assert.ok(
+      queryContent.includes("export function serializeArticleQueryCriteria"),
+      "query.ts must export serializeArticleQueryCriteria"
+    );
+    assert.ok(
+      queryContent.includes("export function filterArticles"),
+      "query.ts must export filterArticles"
+    );
+    assert.ok(
+      indexContent.includes("parseArticleQueryCriteria"),
+      "index.ts must re-export parseArticleQueryCriteria"
+    );
+    assert.ok(
+      indexContent.includes("serializeArticleQueryCriteria"),
+      "index.ts must re-export serializeArticleQueryCriteria"
+    );
+    assert.ok(
+      indexContent.includes("filterArticles"),
+      "index.ts must re-export filterArticles"
+    );
+  });
+
+  it("guarantees articles/page.tsx consumes ArticlesView and parseArticleQueryCriteria", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const pagePath = path.resolve(
+      __dirname,
+      "../../../app/[locale]/articles/page.tsx"
+    );
+    const viewPath = path.resolve(
+      __dirname,
+      "../../../components/articles/articles-view.tsx"
+    );
+    const legacyClientPath = path.resolve(
+      __dirname,
+      "../../../app/[locale]/articles/articles-client.tsx"
+    );
+    const barrelPath = path.resolve(
+      __dirname,
+      "../../../components/articles/index.ts"
+    );
+    const tabsPath = path.resolve(
+      __dirname,
+      "../../../components/ui/tabs.tsx"
+    );
+
+    assert.ok(fs.existsSync(pagePath), "articles/page.tsx must exist");
+    assert.ok(fs.existsSync(viewPath), "components/articles/articles-view.tsx must exist");
+    assert.ok(
+      !fs.existsSync(legacyClientPath),
+      "app/[locale]/articles/articles-client.tsx must not exist (purged in favor of components/articles/articles-view.tsx)"
+    );
+
+    const pageContent = fs.readFileSync(pagePath, "utf-8");
+    const barrelContent = fs.readFileSync(barrelPath, "utf-8");
+    const tabsContent = fs.readFileSync(tabsPath, "utf-8");
+
+    assert.ok(
+      pageContent.includes("parseArticleQueryCriteria"),
+      "articles/page.tsx must parse searchParams using parseArticleQueryCriteria"
+    );
+    assert.ok(
+      pageContent.includes("ArticlesView"),
+      "articles/page.tsx must import and render ArticlesView"
+    );
+    assert.ok(
+      pageContent.includes('from "@/components/articles"'),
+      "articles/page.tsx must import ArticlesView from @/components/articles"
+    );
+
+    assert.ok(
+      barrelContent.includes("ArticlesView"),
+      "components/articles/index.ts must export ArticlesView"
+    );
+
+    // ui/tabs.tsx must be generic and not leak article-specific domain strings
+    assert.ok(
+      !tabsContent.includes("Filter articles by category"),
+      "ui/tabs.tsx must not contain hardcoded article domain strings"
+    );
+  });
+
+  it("guarantees article skeletons are colocated in components/articles/ and loading.tsx files are thin re-exports", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const articlesDir = path.resolve(__dirname, "../../../components/articles");
+    const articlesLoading = path.resolve(__dirname, "../../../app/[locale]/articles/loading.tsx");
+    const articleDocLoading = path.resolve(__dirname, "../../../app/[locale]/articles/[documentId]/loading.tsx");
+
+    assert.ok(fs.existsSync(path.join(articlesDir, "articles-skeleton.tsx")), "articles-skeleton.tsx must exist in components/articles/");
+    assert.ok(fs.existsSync(path.join(articlesDir, "article-detail-skeleton.tsx")), "article-detail-skeleton.tsx must exist in components/articles/");
+
+    const articlesBarrel = fs.readFileSync(path.join(articlesDir, "index.ts"), "utf-8");
+    assert.ok(articlesBarrel.includes("ArticlesSkeleton"), "articles index.ts must export ArticlesSkeleton");
+    assert.ok(articlesBarrel.includes("ArticleDetailSkeleton"), "articles index.ts must export ArticleDetailSkeleton");
+
+    const articlesLoadingContent = fs.readFileSync(articlesLoading, "utf-8");
+    const articleDocLoadingContent = fs.readFileSync(articleDocLoading, "utf-8");
+
+    assert.ok(
+      articlesLoadingContent.includes('export { ArticlesSkeleton as default } from "@/components/articles"'),
+      "articles/loading.tsx must be a clean 1-line re-export from @/components/articles"
+    );
+    assert.ok(
+      articleDocLoadingContent.includes('export { ArticleDetailSkeleton as default } from "@/components/articles"'),
+      "articles/[documentId]/loading.tsx must be a clean 1-line re-export from @/components/articles"
+    );
+  });
+});
+
+

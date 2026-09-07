@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revisión de Arquitectura — Ciclo 4 | recruiter_Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#0f172a',
+        primaryColor: '#6366f1',
+        primaryTextColor: '#f8fafc',
+        primaryBorderColor: '#818cf8',
+        lineColor: '#94a3b8',
+        secondaryColor: '#1e293b',
+        tertiaryColor: '#0f172a'
+      }
+    });
+  </script>
+</head>
+<body class="min-h-full font-sans antialiased selection:bg-indigo-500 selection:text-white">
+  <!-- Top Navigation / Header -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl bg-indigo-600 flex items-center justify-center font-black text-white text-lg shadow-lg shadow-indigo-500/30">
+          🏗️
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white tracking-tight">Arquitectura de Software &bull; Ciclo 4</h1>
+          <p class="text-xs text-slate-400">Auditoría Post-Sprints &bull; 104 Pruebas Unitarias &bull; 18 E2E 100% Verificados</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 text-xs font-semibold">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Ciclos 1, 2 y 3 Completados (12/12 Opciones)
+        </span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">
+          Septiembre 2026
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-10 space-y-12">
+    <!-- Executive Health Check -->
+    <section class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 space-y-4">
+        <div class="inline-block px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold uppercase tracking-wider">
+          Diagnóstico del Sistema: "¿Todo bien por ahora?"
+        </div>
+        <h2 class="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
+          El estado de la base de código es <span class="text-emerald-400">impecable y altamente resiliente</span>.
+        </h2>
+        <p class="text-slate-300 text-base max-w-4xl leading-relaxed">
+          Los 3 primeros ciclos han consolidado <strong>6 costuras de dominio profundas</strong> (<code class="text-indigo-300">jobs</code>, <code class="text-indigo-300">articles</code>, <code class="text-indigo-300">about</code>, <code class="text-indigo-300">intake</code>, <code class="text-indigo-300">testimonials</code>, <code class="text-indigo-300">site-config</code>). La navegación cuenta con un shell persistente en Root Layout, badges y bloques de artículos desacoplados como Server Components. El sistema compila con <strong class="text-white">104 pruebas unitarias</strong> en verde, <strong class="text-white">18 verificaciones E2E</strong>, <strong class="text-white">0 errores</strong> de TypeScript y <strong class="text-white">0 advertencias</strong> de ESLint.
+        </p>
+
+        <!-- KPI Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-emerald-400">104 / 104</div>
+            <div class="text-xs text-slate-400 mt-0.5">Tests Unitarios en Verde</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-indigo-400">18 / 18</div>
+            <div class="text-xs text-slate-400 mt-0.5">Checks E2E en Producción</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-cyan-400">6 Seams</div>
+            <div class="text-xs text-slate-400 mt-0.5">Costuras de Dominio Puras</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-purple-400">0 Lints / TS</div>
+            <div class="text-xs text-slate-400 mt-0.5">Higiene 100% Limpia</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cycle 4 Section Header -->
+    <div class="space-y-2 border-b border-slate-800 pb-4">
+      <div class="flex items-center gap-2">
+        <span class="text-indigo-400 font-bold text-sm tracking-wider uppercase">Ciclo 4 &bull; Pulido Fino, Localidad Absoluta e Higiene UI</span>
+      </div>
+      <h3 class="text-2xl font-bold text-white">4 Oportunidades de Profundización y Desacoplamiento Residual</h3>
+      <p class="text-sm text-slate-400">
+        Habiendo blindado la lógica de negocio y los flujos críticos de la aplicación, el escaneo orgánico de la base de código revela cuatro puntos de fricción menores pero de alto apalancamiento en términos de <strong>localidad</strong>, <strong>profundidad</strong> y <strong>eliminación de capas superficiales</strong>.
+      </p>
+    </div>
+
+    <!-- Candidate Cards Grid -->
+    <div class="space-y-10">
+
+      <!-- Candidate 1 -->
+      <article class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 hover:border-slate-700 transition-colors shadow-lg">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+              Opción 1
+            </span>
+            <h4 class="text-xl font-bold text-white">Retiro Definitivo de <code>src/Data/</code> y Localidad en About Profile Fixtures</h4>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Strong
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
+          <div class="space-y-4">
+            <div>
+              <span class="text-xs font-bold uppercase text-slate-400 tracking-wider">Archivos y Módulos</span>
+              <p class="text-xs font-mono text-indigo-300 mt-1 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                src/Data/about.ts<br>
+                src/lib/about/static-adapter.ts<br>
+                src/Data/ (directorio residual)
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-rose-400 tracking-wider">El Problema (Fricción &amp; Localidad)</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                En los ciclos anteriores, todos los fixtures estáticos de los módulos (<code class="text-indigo-300">jobs</code>, <code class="text-indigo-300">articles</code>, <code class="text-indigo-300">testimonials</code>) se colocaron dentro de su propia costura en <code class="text-indigo-300">src/lib/&lt;dominio&gt;/fixtures.ts</code>. Sin embargo, <code class="text-indigo-300">src/Data/about.ts</code> quedó como el único archivo huérfano dentro de la carpeta <code class="text-indigo-300">src/Data/</code>. Para obtener sus datos, <code class="text-indigo-300">src/lib/about/static-adapter.ts</code> debe fugarse de su propio módulo e importar de una carpeta externa. Viola el principio de <strong>localidad</strong> y falla el <strong>test de eliminación</strong>.
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-emerald-400 tracking-wider">La Solución</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                Mover <code class="text-indigo-300">src/Data/about.ts</code> hacia <code class="text-indigo-300">src/lib/about/fixtures.ts</code>. Actualizar el adaptador estático para importar localmente desde <code class="text-indigo-300">./fixtures</code> y purgar definitivamente el directorio <code class="text-indigo-300">src/Data/</code> del repositorio.
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-cyan-400 tracking-wider">Beneficios (Leverage &amp; Locality)</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                <strong>Localidad 100% consistente:</strong> Cada uno de los 5 módulos de dominio encapsula sus adaptadores y fixtures tras su propia costura. Se elimina la última carpeta huérfana de datos, mejorando la navegabilidad tanto para desarrolladores como para agentes de IA.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <span class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2 block">Comparativa Antes / Después</span>
+            <div class="mermaid">
+graph LR
+  subgraph Antes ["❌ Antes: Fuga de Localidad"]
+    DA["src/Data/about.ts<br/>(huérfano en carpeta Data)"]
+    SA["src/lib/about/static-adapter.ts"]
+    SA -.->|importa desde fuera| DA
+  end
+
+  subgraph Despues ["✅ Después: Seam Completa"]
+    subgraph AboutMod ["src/lib/about/ (Módulo Autónomo)"]
+      AF["fixtures.ts"]
+      NSA["static-adapter.ts"]
+      IDX["index.ts (getAboutProfile)"]
+      NSA --> AF
+      IDX --> NSA
+    end
+  end
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Candidate 2 -->
+      <article class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 hover:border-slate-700 transition-colors shadow-lg">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+              Opción 2
+            </span>
+            <h4 class="text-xl font-bold text-white">Higiene UI y Purga de Clutter Muerto (<code>ui/card.tsx</code>, Re-exports y Ghost Folders)</h4>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Strong
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
+          <div class="space-y-4">
+            <div>
+              <span class="text-xs font-bold uppercase text-slate-400 tracking-wider">Archivos y Módulos</span>
+              <p class="text-xs font-mono text-indigo-300 mt-1 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                src/components/ui/card.tsx<br>
+                src/components/headline-pills.tsx (re-export @deprecated)<br>
+                src/components/bio-expand.tsx (re-export @deprecated)<br>
+                src/app/jobs/, src/app/about/, src/app/contact/, src/app/apply/ (carpetas vacías)
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-rose-400 tracking-wider">El Problema (Fuga de Conceptos &amp; Clutter)</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                1. <code class="text-indigo-300">src/components/ui/card.tsx</code> viola la abstracción genérica codificando variantes de negocio: <code class="text-indigo-300">variant === "testimonial" ? "h-[200px]" : variant === "job" ? "" : ""</code>. El variant "job" no hace nada y "testimonial" fuerza un height rígido en un componente que debería ser agnóstico.<br>
+                2. Existen dos archivos <code class="text-indigo-300">headline-pills.tsx</code> y <code class="text-indigo-300">bio-expand.tsx</code> en la raíz de components con 0 referencias, que son simples envoltorios obsoletos.<br>
+                3. Existen 4 carpetas vacías en <code class="text-indigo-300">src/app/</code> que quedaron al migrar el enrutamiento a <code class="text-indigo-300">[locale]</code>.
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-emerald-400 tracking-wider">La Solución</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                Sanitizar la interfaz de <code class="text-indigo-300">Card</code> removiendo las variantes de negocio artificiales y permitiendo composición estándar con Tailwind. Eliminar los archivos re-export obsoletos y las carpetas zombi en <code class="text-indigo-300">src/app/</code>.
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-cyan-400 tracking-wider">Beneficios (Leverage &amp; Interface Surface)</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                Supera el <strong>test de eliminación</strong>: la interfaz de los componentes UI base vuelve a ser pura y sin filtraciones de dominio. Se reduce el ruido estático del árbol de archivos a cero.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <span class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2 block">Comparativa Antes / Después</span>
+            <div class="mermaid">
+graph TD
+  subgraph Antes ["❌ Antes: Fuga y Artefactos Muertos"]
+    C1["ui/card.tsx<br/>(variant: 'job' | 'testimonial')"]
+    R1["headline-pills.tsx (@deprecated)"]
+    R2["bio-expand.tsx (@deprecated)"]
+    G["src/app/jobs/, about/, contact/, apply/<br/>(carpetas fantasma vacías)"]
+  end
+
+  subgraph Despues ["✅ Después: Interfaz Limpia y Purgada"]
+    C2["ui/card.tsx<br/>(Contenedor semántico genérico)"]
+    J["JobCard (estilo propio)"]
+    T["TestimonialsCarousel (h-[200px] local)"]
+    C2 --> J
+    C2 --> T
+  end
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Candidate 3 -->
+      <article class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 hover:border-slate-700 transition-colors shadow-lg">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+              Opción 3
+            </span>
+            <h4 class="text-xl font-bold text-white">Desambiguación de Secciones de Portada y Colapso de Módulo Superficial</h4>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            Worth exploring
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
+          <div class="space-y-4">
+            <div>
+              <span class="text-xs font-bold uppercase text-slate-400 tracking-wider">Archivos y Módulos</span>
+              <p class="text-xs font-mono text-indigo-300 mt-1 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                src/components/job.tsx<br>
+                src/components/job-carousel.tsx (módulo superficial de 20 líneas)<br>
+                src/components/articles.tsx<br>
+                src/app/[locale]/page.tsx
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-rose-400 tracking-wider">El Problema (Ambigüedad de Dominio &amp; Módulo Superficial)</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                El archivo <code class="text-indigo-300">src/components/job.tsx</code> exporta <code class="text-indigo-300">default async function Job()</code>. En el glosario de dominio (<code class="text-indigo-300">CONTEXT.md</code>), un <strong>Job</strong> es una entidad de posición laboral. Tener un componente de sección llamado <code class="text-indigo-300">Job</code> crea una colisión semántica confusa con <code class="text-indigo-300">import type { Job } from "@/lib/jobs"</code>. Además, <code class="text-indigo-300">job-carousel.tsx</code> es un <strong>módulo superficial</strong> de 10 líneas de lógica efectiva que solo toma jobs y los reenvía a <code class="text-indigo-300">&lt;Carousel&gt;</code>, agregando un salto innecesario.
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-emerald-400 tracking-wider">La Solución</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                Renombrar las secciones de portada a nombres semánticos inequívocos: <code class="text-indigo-300">FeaturedJobsSection</code> y <code class="text-indigo-300">FeaturedArticlesSection</code>. Colapsar el componente pasarela <code class="text-indigo-300">JobCarousel</code> directamente dentro de la sección de empleos destacados.
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-cyan-400 tracking-wider">Beneficios (Depth &amp; Domain Clarity)</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                Alineación total con <code class="text-indigo-300">CONTEXT.md</code>. Se elimina la ambigüedad conceptual entre la entidad y la sección UI. Se profundiza el componente y se reduce una capa de indirección trivial.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <span class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2 block">Comparativa Antes / Después</span>
+            <div class="mermaid">
+graph TD
+  subgraph Antes ["❌ Antes: Ambigüedad & Superficialidad"]
+    P1["page.tsx"] --> J1["Job (Componente sección)"]
+    J1 --> JC["JobCarousel (20 líneas pasarela)"]
+    JC --> EM1["ui/carousel.tsx"]
+    ENT["Job (Entidad en CONTEXT.md)"] -.-|¿mismo nombre?| J1
+  end
+
+  subgraph Despues ["✅ Después: Secciones Semánticas Profundas"]
+    P2["page.tsx"] --> FJ["FeaturedJobsSection (Server Component)"]
+    FJ --> EM2["ui/carousel.tsx"]
+    ENT2["Job (Entidad única de Dominio)"]
+  end
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Candidate 4 -->
+      <article class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 hover:border-slate-700 transition-colors shadow-lg">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+              Opción 4
+            </span>
+            <h4 class="text-xl font-bold text-white">Consolidación de Configuración CMS y Retiro de <code>src/lib/config.ts</code></h4>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            Worth exploring
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
+          <div class="space-y-4">
+            <div>
+              <span class="text-xs font-bold uppercase text-slate-400 tracking-wider">Archivos y Módulos</span>
+              <p class="text-xs font-mono text-indigo-300 mt-1 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                src/lib/config.ts (2 líneas huérfanas)<br>
+                src/lib/site-config/config.ts<br>
+                src/lib/jobs/strapi-adapter.ts<br>
+                src/lib/articles/strapi-adapter.ts<br>
+                src/lib/about/strapi-adapter.ts
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-rose-400 tracking-wider">El Problema (Fragmentación de Configuración)</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                El archivo <code class="text-indigo-300">src/lib/config.ts</code> contiene solo 2 líneas: <code class="text-indigo-300">export const STRAPI_URL = process.env.STRAPI_URL ?? "http://localhost:1337";</code>. En el Ciclo 3 creamos la costura profunda y testeada <code class="text-indigo-300">src/lib/site-config/</code> para centralizar los metadatos y configuración del proyecto. Mantener dos puntos de verdad para variables y configuración de servicios fragmenta la arquitectura.
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-emerald-400 tracking-wider">La Solución</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                Integrar la resolución de <code class="text-indigo-300">STRAPI_URL</code> dentro de la costura <code class="text-indigo-300">src/lib/site-config/</code>, actualizar los adaptadores y normalizadores consumidores, y eliminar el archivo huérfano <code class="text-indigo-300">src/lib/config.ts</code>.
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase text-cyan-400 tracking-wider">Beneficios (Leverage &amp; Single Seam)</span>
+              <p class="text-sm text-slate-300 mt-1 leading-relaxed">
+                Una sola fuente de verdad para la configuración de la aplicación y servicios externos. Se elimina la fragmentación de variables de entorno y se reduce la dispersión de archivos en <code class="text-indigo-300">src/lib/</code>.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+            <span class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2 block">Comparativa Antes / Después</span>
+            <div class="mermaid">
+graph LR
+  subgraph Antes ["❌ Antes: Configuración Dividida"]
+    C1["src/lib/config.ts (STRAPI_URL)"]
+    SC["src/lib/site-config/ (SITE_URL, NAV)"]
+    A1["jobs/strapi-adapter"] --> C1
+    A2["articles/strapi-adapter"] --> C1
+    A3["about/strapi-adapter"] --> C1
+  end
+
+  subgraph Despues ["✅ Después: Seam Unificada"]
+    USC["src/lib/site-config/<br/>(Configuración Unificada y Testeada)"]
+    NA1["jobs/strapi-adapter"] --> USC
+    NA2["articles/strapi-adapter"] --> USC
+    NA3["about/strapi-adapter"] --> USC
+  end
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Top Recommendation Section -->
+    <section class="bg-gradient-to-r from-indigo-950/60 via-slate-900 to-slate-900 border-2 border-indigo-500/40 rounded-3xl p-8 shadow-2xl space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">🎯</span>
+        <h3 class="text-2xl font-bold text-white">Recomendación Principal para el Próximo Paso</h3>
+      </div>
+      <p class="text-slate-300 leading-relaxed">
+        Nuestra recomendación prioritaria es abordar la <strong class="text-indigo-300">Opción 1 (Retiro definitivo de <code>src/Data/</code> y localidad en About fixtures)</strong> en conjunto con la <strong class="text-indigo-300">Opción 2 (Higiene UI y purga de clutter muerto)</strong>.
+      </p>
+      <div class="bg-slate-950/80 rounded-2xl p-4 border border-slate-800 text-sm text-slate-300 space-y-2">
+        <p>
+          <strong>¿Por qué?</strong> Son refactorizaciones de mínimo riesgo y máximo retorno arquitectónico. Dejan el repositorio con <strong>cero carpetas zombi</strong>, <strong>cero archivos muertos</strong>, y <strong>100% de localidad</strong> en los adaptadores de datos de dominio.
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
