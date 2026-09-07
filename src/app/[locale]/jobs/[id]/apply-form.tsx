@@ -12,6 +12,7 @@ import {
   isValidEmail,
   isValidLinkedInUrl,
 } from "@/lib/intake/validation";
+import { useIntakeForm } from "@/lib/intake/use-intake-form";
 
 interface Props {
   jobTitle: string;
@@ -48,8 +49,19 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   const linkedinRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
+  const {
+    submitting,
+    setSubmitting,
+    fieldErrors,
+    setFieldErrors,
+    clearFieldError,
+    toastOpen,
+    setToastOpen,
+    showToast,
+    focusFirstError,
+  } = useIntakeForm<FieldErrors>();
+
   const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -57,8 +69,6 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   const [message, setMessage] = useState("");
   const [cvName, setCvName] = useState("");
   const [cvFile, setCvFile] = useState<File | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-  const [toastOpen, setToastOpen] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
 
   function validate(): FieldErrors {
@@ -89,7 +99,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
     }
     setCvFile(file);
     setCvName(file.name);
-    setFieldErrors((fe) => ({ ...fe, cv: undefined }));
+    clearFieldError("cv");
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -98,12 +108,12 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
     const errors = validate();
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
-      requestAnimationFrame(() => {
-        if (errors.name) nameRef.current?.focus();
-        else if (errors.email) emailRef.current?.focus();
-        else if (errors.linkedin) linkedinRef.current?.focus();
-        else if (errors.message) messageRef.current?.focus();
-      });
+      focusFirstError(errors, [
+        ["name", nameRef],
+        ["email", emailRef],
+        ["linkedin", linkedinRef],
+        ["message", messageRef],
+      ]);
       return;
     }
     setFieldErrors({});
@@ -126,12 +136,10 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
       } else {
         const body = await res.json().catch(() => ({}));
         if (body?.errors) setFieldErrors(body.errors);
-        setToastOpen(false);
-        setTimeout(() => setToastOpen(true), 50);
+        showToast("error");
       }
     } catch {
-      setToastOpen(false);
-      setTimeout(() => setToastOpen(true), 50);
+      showToast("error");
     } finally {
       setSubmitting(false);
     }
@@ -186,7 +194,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               autoComplete="name"
               placeholder="Jane Doe"
               value={name}
-              onChange={(e) => { setName(e.target.value); setFieldErrors((fe) => ({ ...fe, name: undefined })); }}
+              onChange={(e) => { setName(e.target.value); clearFieldError("name"); }}
               aria-invalid={!!fieldErrors.name}
               aria-describedby={fieldErrors.name ? "name-error" : undefined}
               className={`${INPUT_CLASS} ${fieldErrors.name ? "border-red-400 dark:border-red-500" : ""}`}
@@ -203,7 +211,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               spellCheck={false}
               placeholder="jane@example.com"
               value={email}
-              onChange={(e) => { setEmail(e.target.value); setFieldErrors((fe) => ({ ...fe, email: undefined })); }}
+              onChange={(e) => { setEmail(e.target.value); clearFieldError("email"); }}
               aria-invalid={!!fieldErrors.email}
               aria-describedby={fieldErrors.email ? "email-error" : undefined}
               className={`${INPUT_CLASS} ${fieldErrors.email ? "border-red-400 dark:border-red-500" : ""}`}
@@ -232,7 +240,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               autoComplete="url"
               placeholder="https://linkedin.com/in/yourname"
               value={linkedin}
-              onChange={(e) => { setLinkedin(e.target.value); setFieldErrors((fe) => ({ ...fe, linkedin: undefined })); }}
+              onChange={(e) => { setLinkedin(e.target.value); clearFieldError("linkedin"); }}
               aria-invalid={!!fieldErrors.linkedin}
               aria-describedby={fieldErrors.linkedin ? "linkedin-error" : undefined}
               className={`${INPUT_CLASS} ${fieldErrors.linkedin ? "border-red-400 dark:border-red-500" : ""}`}
@@ -299,7 +307,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               maxLength={MAX_COVER_LETTER}
               placeholder={t("coverLetterPlaceholder")}
               value={message}
-              onChange={(e) => { setMessage(e.target.value); setFieldErrors((fe) => ({ ...fe, message: undefined })); }}
+              onChange={(e) => { setMessage(e.target.value); clearFieldError("message"); }}
               aria-invalid={!!fieldErrors.message}
               aria-describedby={[fieldErrors.message ? "message-error" : null, "message-count"].filter(Boolean).join(" ")}
               className={`${INPUT_CLASS} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}

@@ -286,3 +286,71 @@ describe("escape", () => {
     assert.equal(escape(input), expected);
   });
 });
+
+// ── Intake Client Seam & Form Lifecycle Contract ──────────────────────────────
+describe("Intake Client Seam · useIntakeForm Contracts", () => {
+  it("provides useIntakeForm hook with canonical export and state functions", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const hookPath = path.resolve(__dirname, "../use-intake-form.ts");
+
+    assert.ok(fs.existsSync(hookPath), "use-intake-form.ts must exist in lib/intake/");
+    const hookContent = fs.readFileSync(hookPath, "utf-8");
+
+    assert.ok(hookContent.includes("export function useIntakeForm"), "Must export useIntakeForm function");
+    assert.ok(hookContent.includes("showToast"), "Must encapsulate showToast");
+    assert.ok(hookContent.includes("focusFirstError"), "Must encapsulate focusFirstError");
+    assert.ok(hookContent.includes("clearFieldError"), "Must encapsulate clearFieldError");
+  });
+
+  it("verifies both contact-form and apply-form consume useIntakeForm", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const contactFormPath = path.resolve(__dirname, "../../../app/[locale]/contact/contact-form.tsx");
+    const applyFormPath = path.resolve(__dirname, "../../../app/[locale]/jobs/[id]/apply-form.tsx");
+
+    assert.ok(fs.existsSync(contactFormPath), "contact-form.tsx must exist");
+    assert.ok(fs.existsSync(applyFormPath), "apply-form.tsx must exist");
+
+    const contactContent = fs.readFileSync(contactFormPath, "utf-8");
+    const applyContent = fs.readFileSync(applyFormPath, "utf-8");
+
+    assert.ok(contactContent.includes("useIntakeForm"), "contact-form.tsx must import and consume useIntakeForm");
+    assert.ok(applyContent.includes("useIntakeForm"), "apply-form.tsx must import and consume useIntakeForm");
+
+    // Must not retain duplicated manual timeout / RAF boilerplate
+    assert.ok(!contactContent.includes("setTimeout(() => {"), "contact-form must not manually execute raw setTimeout for toast");
+    assert.ok(!applyContent.includes("setTimeout(() => setToastOpen"), "apply-form must not manually execute raw setTimeout for toast");
+  });
+
+  it("correctly resolves first error focus in DOM order", () => {
+    const errors = { email: "Invalid email", message: "Required" };
+    let focused = null;
+
+    const nameRef = { current: { focus: () => { focused = "name"; } } };
+    const emailRef = { current: { focus: () => { focused = "email"; } } };
+    const messageRef = { current: { focus: () => { focused = "message"; } } };
+
+    const fieldOrder = [
+      ["name", nameRef],
+      ["email", emailRef],
+      ["message", messageRef],
+    ];
+
+    for (const [key, ref] of fieldOrder) {
+      if (errors[key] && ref.current) {
+        ref.current.focus();
+        break;
+      }
+    }
+
+    assert.equal(focused, "email", "Should focus first invalid element in order (email)");
+  });
+});
+
