@@ -1,7 +1,7 @@
 import { getAboutProfile } from "@/lib/about";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import AboutToc from "@/components/about-toc";
+import AboutToc from "@/components/about/about-toc";
 import ScrollReveal from "@/components/scroll-reveal";
 import AboutHero from "@/components/about/about-hero";
 import AboutBio from "@/components/about/about-bio";

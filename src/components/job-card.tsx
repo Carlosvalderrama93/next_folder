@@ -82,7 +82,6 @@ export default function JobCard({
 
   return (
     <Card
-      variant="job"
       className={`group relative flex flex-col transition-all duration-200 hover:border-brand/30 dark:hover:border-brand/30 hover:shadow-md${isDimmed ? " opacity-60" : ""}`}
     >
       {/* Body */}

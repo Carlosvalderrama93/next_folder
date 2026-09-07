@@ -121,3 +121,65 @@ describe("Site Config Seam · Canonical Contracts", () => {
     assert.equal(CANONICAL_SITE_CONFIG.hero.ctaLink, "/jobs");
   });
 });
+
+describe("UI Hygiene & Dead Code Purge Contracts", () => {
+  it("guarantees Card UI primitive is agnostic and free of domain variants", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const cardPath = path.resolve(__dirname, "../../../components/ui/card.tsx");
+
+    assert.ok(fs.existsSync(cardPath), "ui/card.tsx must exist");
+    const cardContent = fs.readFileSync(cardPath, "utf-8");
+
+    // Must not contain hardcoded domain variants
+    assert.ok(!cardContent.includes('"job"'), "Card must not contain hardcoded 'job' variant");
+    assert.ok(
+      !cardContent.includes('"testimonial"'),
+      "Card must not contain hardcoded 'testimonial' variant"
+    );
+    assert.ok(
+      !cardContent.includes("h-[200px]"),
+      "Card must not bake in testimonial height"
+    );
+  });
+
+  it("verifies dead deprecated re-exports and ghost app directories are purged", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const componentsDir = path.resolve(__dirname, "../../../components");
+    const appDir = path.resolve(__dirname, "../../../app");
+
+    // 1. Dead re-exports must not exist
+    assert.ok(
+      !fs.existsSync(path.join(componentsDir, "headline-pills.tsx")),
+      "Root headline-pills.tsx must be purged"
+    );
+    assert.ok(
+      !fs.existsSync(path.join(componentsDir, "bio-expand.tsx")),
+      "Root bio-expand.tsx must be purged"
+    );
+
+    // 2. Ghost app route folders must not exist
+    assert.ok(!fs.existsSync(path.join(appDir, "jobs")), "Ghost app/jobs must not exist");
+    assert.ok(!fs.existsSync(path.join(appDir, "about")), "Ghost app/about must not exist");
+    assert.ok(!fs.existsSync(path.join(appDir, "contact")), "Ghost app/contact must not exist");
+    assert.ok(!fs.existsSync(path.join(appDir, "apply")), "Ghost app/apply must not exist");
+
+    // 3. About TOC resides in about/
+    assert.ok(
+      fs.existsSync(path.join(componentsDir, "about/about-toc.tsx")),
+      "about-toc.tsx must reside inside components/about/"
+    );
+    assert.ok(
+      !fs.existsSync(path.join(componentsDir, "about-toc.tsx")),
+      "about-toc.tsx must not be loose at components/ root"
+    );
+  });
+});
+

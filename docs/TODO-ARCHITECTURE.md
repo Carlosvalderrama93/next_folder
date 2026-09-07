@@ -33,8 +33,8 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 ### Ciclo 4: Pulido Fino, Localidad Absoluta e Higiene UI (🚀 En Curso)
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
-| **Opción 1** | Retiro Definitivo de `src/Data/` y Localidad en About ([`src/lib/about/fixtures.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/fixtures.ts)) | ✅ **Completada** | `feat/about-fixtures-locality-sprint` |
-| **Opción 2** | Higiene UI y Purga de Clutter Muerto ([`src/components/ui/card.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/card.tsx)) | ⚪ Pendiente | Alta |
+| **Opción 1** | Retiro Definitivo de `src/Data/` y Localidad en About ([`src/lib/about/fixtures.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/fixtures.ts)) | ✅ **Completada** | `feat/about-fixtures-locality-sprint` (`f8eea3d`) |
+| **Opción 2** | Higiene UI y Purga de Clutter Muerto ([`src/components/ui/card.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/card.tsx)) | ✅ **Completada** | `feat/ui-hygiene-card-purge-sprint` |
 | **Opción 3** | Desambiguación de Secciones y Colapso de Módulo Superficial ([`src/components/job.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job.tsx)) | ⚪ Pendiente | Media |
 | **Opción 4** | Consolidación de Configuración CMS ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ⚪ Pendiente | Media |
 
@@ -117,6 +117,30 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
   - Agregada suite de pruebas `About Fixtures Locality Contract` en [`src/lib/about/__tests__/about.test.mjs`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/__tests__/about.test.mjs) que verifica que `fixtures.ts` reside localmente y que `src/Data` no existe.
 - [x] **1.5 Verificación completa:**
   - 105 pruebas unitarias (`npm test`) pasadas al 100%.
+  - 0 errores TypeScript (`npm run typecheck`).
+  - 0 advertencias ESLint (`npm run lint`).
+  - Build de producción Next.js 15.5.0 completado sin errores.
+  - 18/18 pruebas End-to-End (`npm run test:e2e`) pasadas exitosamente.
+
+---
+
+## 🧹 Ciclo 4 — Opción 2: Higiene UI y Purga de Clutter Muerto (✅ Completada)
+**Rama:** `feat/ui-hygiene-card-purge-sprint`
+
+### Objetivos
+- [x] **2.1 Desacoplar variantes de dominio en `ui/card.tsx`:**
+  - Removido `CardVariant = "default" | "job" | "testimonial"` y `variantStyles`. El componente [`src/components/ui/card.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/card.tsx) ahora es un contenedor semántico y polimórfico 100% puro y agnóstico a entidades de negocio.
+  - Actualizados los consumidores ([`job-card.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job-card.tsx) y [`testimonials-carousel.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/testimonials-carousel.tsx)) para controlar sus alturas y estados mediante composición estándar con Tailwind.
+- [x] **2.2 Purgar re-exports obsoletos `@deprecated`:**
+  - Eliminados definitivamente `src/components/headline-pills.tsx` y `src/components/bio-expand.tsx` que no tenían ningún llamador activo.
+- [x] **2.3 Purgar carpetas fantasma vacías en `src/app/`:**
+  - Eliminadas las carpetas residuales `src/app/jobs/`, `src/app/about/`, `src/app/contact/` y `src/app/apply/` heredadas de la estructura pre-internacionalización.
+- [x] **2.4 Reubicar `about-toc.tsx` para localidad de componentes:**
+  - Movido `about-toc.tsx` a [`src/components/about/about-toc.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/about/about-toc.tsx) y actualizado su import en [`src/app/[locale]/about/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/about/page.tsx).
+- [x] **2.5 Contratos en pruebas unitarias:**
+  - Agregada la suite `UI Hygiene & Dead Code Purge Contracts` en [`src/lib/site-config/__tests__/site-config.test.mjs`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/__tests__/site-config.test.mjs) garantizando que `Card` no contenga variantes de negocio y que los archivos y carpetas fantasma no reaparezcan.
+- [x] **2.6 Verificación completa:**
+  - 107 pruebas unitarias (`npm test`) pasadas.
   - 0 errores TypeScript (`npm run typecheck`).
   - 0 advertencias ESLint (`npm run lint`).
   - Build de producción Next.js 15.5.0 completado sin errores.

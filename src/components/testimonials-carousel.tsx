@@ -16,8 +16,7 @@ function TestimonialCard({
 }) {
   return (
     <Card
-      variant="testimonial"
-      className="group cursor-pointer flex flex-col p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+      className="group cursor-pointer flex flex-col h-[200px] p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
       onClick={onClick}
       role="button"
       tabIndex={0}
