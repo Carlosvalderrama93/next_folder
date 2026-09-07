@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { ArticleCard, FeaturedArticleCard } from "./article-card";
 import { listArticles } from "@/lib/articles";
 
-async function Articles() {
+export default async function FeaturedArticlesSection() {
   const t = await getTranslations("articles");
   const articles = await listArticles({ limit: 4 });
   const [featured, ...rest] = articles;
@@ -42,5 +42,3 @@ async function Articles() {
     </section>
   );
 }
-
-export default Articles;

@@ -181,5 +181,62 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
       "about-toc.tsx must not be loose at components/ root"
     );
   });
+
+  it("verifies homepage sections use unambiguous semantic naming without entity collisions", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const componentsDir = path.resolve(__dirname, "../../../components");
+    const pagePath = path.resolve(__dirname, "../../../app/[locale]/page.tsx");
+
+    // 1. Ambiguous component files must not exist
+    assert.ok(
+      !fs.existsSync(path.join(componentsDir, "job.tsx")),
+      "components/job.tsx must not exist (eliminates collision with Job domain entity)"
+    );
+    assert.ok(
+      !fs.existsSync(path.join(componentsDir, "articles.tsx")),
+      "components/articles.tsx must not exist (eliminates collision with Article entity)"
+    );
+    assert.ok(
+      !fs.existsSync(path.join(componentsDir, "job-carousel.tsx")),
+      "components/job-carousel.tsx must not exist (renamed to featured-jobs-carousel)"
+    );
+
+    // 2. Clear semantic showcase sections must exist
+    assert.ok(
+      fs.existsSync(path.join(componentsDir, "featured-jobs-section.tsx")),
+      "components/featured-jobs-section.tsx must exist"
+    );
+    assert.ok(
+      fs.existsSync(path.join(componentsDir, "featured-articles-section.tsx")),
+      "components/featured-articles-section.tsx must exist"
+    );
+    assert.ok(
+      fs.existsSync(path.join(componentsDir, "featured-jobs-carousel.tsx")),
+      "components/featured-jobs-carousel.tsx must exist"
+    );
+
+    // 3. page.tsx must consume the semantic section components
+    const pageContent = fs.readFileSync(pagePath, "utf-8");
+    assert.ok(
+      pageContent.includes("FeaturedJobsSection"),
+      "page.tsx must import and render FeaturedJobsSection"
+    );
+    assert.ok(
+      pageContent.includes("FeaturedArticlesSection"),
+      "page.tsx must import and render FeaturedArticlesSection"
+    );
+    assert.ok(
+      !pageContent.includes("import Job from"),
+      "page.tsx must not import Job as a section component"
+    );
+    assert.ok(
+      !pageContent.includes("import Articles from"),
+      "page.tsx must not import Articles as a section component"
+    );
+  });
 });
 

@@ -3,7 +3,7 @@
 import Carousel from "@/components/ui/carousel";
 import JobCard, { type JobCardProps } from "./job-card";
 
-export default function JobCarousel({ jobs }: { jobs: JobCardProps[] }) {
+export default function FeaturedJobsCarousel({ jobs }: { jobs: JobCardProps[] }) {
   if (jobs.length === 0) return null;
 
   return (

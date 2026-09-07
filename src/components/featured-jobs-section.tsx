@@ -1,9 +1,9 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { listJobs } from "@/lib/jobs";
-import JobCarousel from "@/components/job-carousel";
+import FeaturedJobsCarousel from "@/components/featured-jobs-carousel";
 
-export default async function Job() {
+export default async function FeaturedJobsSection() {
   const jobTranslations = await getTranslations("jobs");
   const jobs = await listJobs({ limit: 8 });
 
@@ -15,7 +15,7 @@ export default async function Job() {
         </h2>
         <div className="mt-3 w-10 h-1 bg-brand rounded-full" />
       </div>
-      <JobCarousel jobs={jobs} />
+      <FeaturedJobsCarousel jobs={jobs} />
       <div className="flex justify-center mt-8">
         <Link
           href="/jobs"

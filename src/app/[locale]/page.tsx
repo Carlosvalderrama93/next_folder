@@ -1,15 +1,15 @@
 import Hero from "@/components/hero";
-import Articles from "@/components/articles";
-import Job from "@/components/job";
+import FeaturedJobsSection from "@/components/featured-jobs-section";
+import FeaturedArticlesSection from "@/components/featured-articles-section";
 import Testimonials from "@/components/testimonials";
 import FAQ from "@/components/faq";
 
-export default function page() {
+export default function HomePage() {
   return (
     <main id="main-content">
       <Hero />
-      <Job />
-      <Articles />
+      <FeaturedJobsSection />
+      <FeaturedArticlesSection />
       <Testimonials />
       <FAQ />
     </main>
