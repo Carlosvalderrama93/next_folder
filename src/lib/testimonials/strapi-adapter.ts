@@ -34,6 +34,7 @@ export async function fetchTestimonialsFromStrapi(
     const query = options?.limit ? `?pagination[pageSize]=${options.limit}` : "";
     const res = await fetch(`${STRAPI_URL}/api/testimonials${query}`, {
       next: { revalidate: 60 },
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return [];
     const json = await res.json();

@@ -14,6 +14,7 @@ export async function fetchAboutProfileFromStrapi(
     const query = locale ? `?locale=${encodeURIComponent(locale)}&populate=*` : "?populate=*";
     const res = await fetch(`${STRAPI_URL}/api/about${query}`, {
       next: { revalidate: REVALIDATE_SECONDS },
+      signal: AbortSignal.timeout(5000),
     });
 
     if (!res.ok) return null;

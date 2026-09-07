@@ -15,6 +15,7 @@ export async function fetchArticlesFromStrapi(): Promise<Article[]> {
   try {
     const res = await fetch(`${STRAPI_URL}/api/articles?populate=*`, {
       next: { revalidate: REVALIDATE_SECONDS },
+      signal: AbortSignal.timeout(5000),
     });
 
     if (!res.ok) return [];
@@ -42,7 +43,7 @@ export async function fetchArticleFromStrapi(
     // 1. Attempt direct documentId / ID fetch
     const directRes = await fetch(
       `${STRAPI_URL}/api/articles/${encodeURIComponent(identifier)}?populate[blocks][populate]=*`,
-      { next: { revalidate: REVALIDATE_SECONDS } }
+      { next: { revalidate: REVALIDATE_SECONDS }, signal: AbortSignal.timeout(5000) }
     );
 
     if (directRes.ok) {
@@ -55,7 +56,7 @@ export async function fetchArticleFromStrapi(
     // 2. Fallback: query by slug filter
     const slugRes = await fetch(
       `${STRAPI_URL}/api/articles?filters[slug][$eq]=${encodeURIComponent(identifier)}&populate[blocks][populate]=*`,
-      { next: { revalidate: REVALIDATE_SECONDS } }
+      { next: { revalidate: REVALIDATE_SECONDS }, signal: AbortSignal.timeout(5000) }
     );
 
     if (slugRes.ok) {
