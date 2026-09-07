@@ -385,7 +385,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ---
 
-## 🎨 Ciclo 9 — Web Interface Guidelines, Accesibilidad (a11y) y Resiliencia UX
+## 🎨 Ciclo 9 — Web Interface Guidelines, Accesibilidad (a11y) y Resiliencia UX (✅ Completado)
 
 ### Opción 1: Respeto a `prefers-reduced-motion` y Purga de `transition-all` (✅ Completada)
 **Rama:** `feat/a11y-reduced-motion-transitions-sprint`
@@ -409,11 +409,12 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **3.2 Higiene y restauración de foco:** Implementado `focusElement` en `useIntakeForm` para enfocar de forma segura y accesible (`requestAnimationFrame`) el contenedor de confirmación (`role="status"`, `tabIndex={-1}`) tras enviar la postulación, además del enfoque en el primer campo inválido (`focusFirstError`).
 - [x] **3.3 Contratos y verificación:** Suite de pruebas en `intake.test.mjs`, 149 tests unitarios pasando, 0 errores de tipos, 0 lints y build de producción verificado.
 
-### Opción 4: Pulido Tipográfico y Numérico (`text-balance`, `tabular-nums`) (⏳ Siguiente)
+### Opción 4: Pulido Tipográfico y Numérico (`text-balance`, `tabular-nums`) (✅ Completada)
 **Rama:** `feat/typography-text-balance-tabular-nums-sprint`
 
-- [ ] **4.1 Balanceo tipográfico de títulos:** Aplicar `text-balance` a encabezados principales `h1` y `h2` en las páginas de inicio, sobre mí, empleos y artículos para eliminar huérfanos tipográficos.
-- [ ] **4.2 Alineación numérica tabular:** Aplicar `tabular-nums` en contadores de caracteres (e.g. textarea de postulaciones), fechas, horas de lectura y badges numéricos.
+- [x] **4.1 Balanceo tipográfico de títulos:** Aplicado `text-balance` a encabezados principales `h1` y `h2` en las páginas de inicio (`hero`, `featured-jobs`, `featured-articles`, `testimonials`, `faq`), sobre mí (`about-hero`, `about-focus`, `about-skills`, `about-experience`, `about-education`, `about-certifications`, `about-learning`, `about-cta`), empleos (`jobs/page`, `job-detail-view`, `job-card`), artículos (`articles/page`, `articles/[documentId]`, `article-card`), contacto (`contact-view`) y 404 (`not-found`) para eliminar huérfanos tipográficos.
+- [x] **4.2 Alineación numérica tabular:** Aplicado `tabular-nums` en contadores de caracteres (e.g. textarea de postulaciones), fechas (`job-card`, `job-detail-view`, `article-card`, `articles/[documentId]`), estadísticas de impacto (`about-stats`), contador de roles abiertos (`jobs/page`) y badges numéricos.
+- [x] **4.3 Contratos y verificación:** Suite de pruebas en `site-config.test.mjs`, 150 tests unitarios pasando, 0 errores de tipos, 0 lints y build de producción verificado.
 
 ---
 
