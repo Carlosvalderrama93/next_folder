@@ -110,16 +110,46 @@ git push origin develop
 ### C. Variables de Entorno en Vercel
 En la sección **Environment Variables**, añade las siguientes claves:
 
-| Variable | Valor Recomendado | Propósito |
-|---|---|---|
-| `NEXT_PUBLIC_STRAPI_URL` | `https://strapi-back-awqc.onrender.com` | URL de Strapi accesible desde el cliente |
-| `STRAPI_URL` | `https://strapi-back-awqc.onrender.com` | URL de Strapi consumida por el servidor SSR/SSG |
-| `NEXT_PUBLIC_SITE_URL` | `https://tudominio.com` *(o la URL de Vercel)* | Metadatos canónicos, OpenGraph y Sitemap |
-| `RESEND_API_KEY` | *(Opcional)* `re_xxxxxxxxxxxx` | Envío de correos de postulación |
-| `CONTACT_EMAIL` | *(Opcional)* `tu-email@correo.com` | Buzón donde recibes los avisos |
+| Variable | ¿Es Obligatoria? | Valor Recomendado | Propósito |
+|---|---|---|---|
+| `NEXT_PUBLIC_STRAPI_URL` | **Sí** | `https://strapi-back-awqc.onrender.com` | URL de Strapi accesible desde el navegador del cliente |
+| `STRAPI_URL` | **Sí** | `https://strapi-back-awqc.onrender.com` | URL de Strapi consumida por Next.js en servidor (SSR/SSG) |
+| `NEXT_PUBLIC_SITE_URL` | Recomendada | `https://tudominio.com` *(o la URL de Vercel)* | Metadatos canónicos, OpenGraph y Sitemap |
+| `RESEND_API_KEY` | Opcional | `re_xxxxxxxxxxxx` | Envío de emails con CVs adjuntos (ver detalle abajo) |
+| `CONTACT_EMAIL` | Opcional | `tu-email@gmail.com` | Correo donde tú recibes las postulaciones de candidatos |
+| `RESEND_FROM` | Opcional | `onboarding@resend.dev` | Remitente verificado de los correos transaccionales |
 
-5. Haz clic en **Deploy**.
-6. Vercel compilará la aplicación en ~60 segundos y te asignará una URL en vivo (ejemplo: `https://recruiter-page-xxx.vercel.app`).
+---
+
+### 📧 D. ¿Qué es `RESEND_API_KEY` y cómo configurarlo?
+
+[Resend](https://resend.com) es una plataforma de **emails transaccionales** de alta entregabilidad. En este proyecto se utiliza para que, cada vez que un candidato postule a una vacante o alguien use el formulario de contacto:
+1. El candidato y su información queden registrados en Strapi (`/api/applications`).
+2. Recibas un **correo instantáneo en tu buzón personal** con los datos del candidato y su **CV (PDF) adjunto**.
+
+> [!NOTE]
+> **¿Es obligatorio para desplegar hoy?**
+> **No.** El código cuenta con un *Graceful Fallback*: si no configuras `RESEND_API_KEY`, la postulación **se guarda exitosamente en Strapi** y la notificación se registra en los logs del servidor sin arrojar errores ni bloquear al candidato.
+
+#### Paso a paso para activarlo (100% Gratuito - 3,000 emails/mes):
+1. Entra a [resend.com](https://resend.com) y crea una cuenta gratuita con tu GitHub o correo.
+2. En el menú lateral izquierdo, haz clic en **API Keys**.
+3. Haz clic en **Create API Key**:
+   - **Name**: `Recruiter Production`
+   - **Permission**: `Full access` o `Sending access`
+4. Copia la clave generada (empieza por `re_...`).
+5. En Vercel (o en tu archivo `.env.local`):
+   - `RESEND_API_KEY`: Pega tu clave (`re_...`).
+   - `CONTACT_EMAIL`: Pon el email donde deseas recibir las alertas (ej. `tu-correo@outlook.com`).
+   - `RESEND_FROM`: Puedes dejar `onboarding@resend.dev` (el remitente de pruebas de Resend).
+     *(Nota: En modo sandbox con `onboarding@resend.dev`, Resend permite enviar correos únicamente a la dirección con la que te registraste en Resend).*
+6. *(Opcional para el futuro)*: Si quieres enviar desde tu propio dominio (ej. `carlos@midominio.com`), en Resend vas a **Domains** ➔ **Add Domain** y agregas los registros DNS que te indique.
+
+---
+
+### E. Despliegue en Vercel
+1. Haz clic en **Deploy**.
+2. Vercel compilará la aplicación en ~60 segundos y te asignará una URL en vivo (ejemplo: `https://recruiter-page-xxx.vercel.app`).
 
 ---
 
