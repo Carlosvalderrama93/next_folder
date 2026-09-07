@@ -64,6 +64,7 @@ export async function generateMetadata({
 
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import { ThemeScript } from "@/components/theme-script";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -87,11 +88,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var s=localStorage.getItem('theme'),p=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';if((s||p)==='dark')document.documentElement.classList.add('dark');})()`,
-          }}
-        />
+        <ThemeScript />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
         <NextIntlClientProvider messages={messages}>
