@@ -51,7 +51,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 |---|---|---|---|
 | **Opción 1** | Profundizar Costura HTTP de Intake y Colapsar Route Handlers ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ✅ **Completada** | `feat/intake-http-seam-sprint` |
 | **Opción 2** | Consolidar Módulo de Presentación de About Profile ([`src/components/about/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/about/)) | ✅ **Completada** | `feat/about-presentation-consolidation-sprint` |
-| **Opción 3** | Costura de Estado URL para Consultas y Filtros de Empleo ([`src/lib/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/jobs/)) | ⏳ Pendiente | `feat/job-query-url-state-sprint` |
+| **Opción 3** | Costura de Estado URL para Consultas y Filtros de Empleo ([`src/lib/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/jobs/)) | ✅ **Completada** | `feat/job-query-url-state-sprint` |
 | **Opción 4** | Metadata Estructurada y Schema.org JSON-LD ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ⏳ Pendiente | `feat/structured-metadata-seam-sprint` |
 
 
@@ -272,12 +272,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **2.4 Pruebas y verificación:** Contratos de no-regresión y eliminación de complejidad superficial en `about.test.mjs`. 122/122 unit tests verdes, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
 
 
-### Opción 3: Costura de Estado URL para Consultas y Filtros de Empleo (⏳ Pendiente)
+### Opción 3: Costura de Estado URL para Consultas y Filtros de Empleo (✅ Completada)
 **Rama:** `feat/job-query-url-state-sprint`
 
-- [ ] **3.1 Crear códec bidireccional de criterios de búsqueda (`src/lib/jobs/query.ts`):** Funciones puras `parseJobQueryCriteria(searchParams)` y `serializeJobQueryCriteria(criteria)` para sincronizar query string con `JobQueryCriteria`.
-- [ ] **3.2 Conectar `JobFilters` con la URL del navegador:** Permitir enlaces profundos compartibles (ej. `/jobs?modality=remote&status=open`), compatibilidad con historial atrás/adelante y persistencia ante recargas.
-- [ ] **3.3 Pruebas y verificación:** Cobertura de códec unitario y tests funcionales.
+- [x] **3.1 Crear códec bidireccional de criterios de búsqueda (`src/lib/jobs/query.ts`):** Funciones puras `parseJobQueryCriteria(params)` y `serializeJobQueryCriteria(criteria)` para sincronizar query string con `JobFilterCriteria` y re-exportadas canónicamente desde `@/lib/jobs`.
+- [x] **3.2 Conectar `JobFilters` con la URL del navegador:** Soporte para `initialCriteria` procesado en el servidor vía `searchParams` y sincronización client-side vía `window.history.replaceState` garantizando enlaces compartibles, navegación atrás/adelante y persistencia ante recargas.
+- [x] **3.3 Pruebas y verificación:** 4 pruebas de contrato y códec añadidas en `query.test.mjs`. 126/126 unit tests verdes, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
+
 
 ### Opción 4: Metadata Estructurada y Schema.org JSON-LD (⏳ Pendiente)
 **Rama:** `feat/structured-metadata-seam-sprint`

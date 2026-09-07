@@ -1,4 +1,4 @@
-import { listJobs } from "@/lib/jobs";
+import { listJobs, parseJobQueryCriteria } from "@/lib/jobs";
 import JobFilters from "@/components/job-filters";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
@@ -18,14 +18,19 @@ export async function generateMetadata({
 
 export default async function JobsPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { locale } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const initialCriteria = parseJobQueryCriteria(resolvedSearchParams);
   const t = await getTranslations({ locale, namespace: "jobsPage" });
 
   const jobs = await listJobs();
   const countKey = jobs.length === 1 ? "available_one" : "available_other";
+
 
   return (
     <>
@@ -48,8 +53,9 @@ export default async function JobsPage({
 
       {/* ── Job list ──────────────────────────────────────────── */}
       <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20">
-        <JobFilters jobs={jobs} />
+        <JobFilters jobs={jobs} initialCriteria={initialCriteria} />
       </main>
+
     </>
   );
 }

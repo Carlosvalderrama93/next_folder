@@ -243,3 +243,157 @@ describe("filterJobs · Combined Criteria", () => {
     assert.equal(results.length, 0);
   });
 });
+
+describe("Job Query URL Criteria Codec · parseJobQueryCriteria & serializeJobQueryCriteria", () => {
+  // Pure inline mirrors for node --test execution
+  function parseJobQueryCriteria(params) {
+    if (!params) return {};
+    const getValues = (keys) => {
+      const values = [];
+      if (params instanceof URLSearchParams) {
+        for (const k of keys) {
+          const all = params.getAll(k);
+          for (const item of all) {
+            values.push(...item.split(",").map((s) => s.trim()).filter(Boolean));
+          }
+        }
+      } else {
+        for (const k of keys) {
+          const val = params[k];
+          if (typeof val === "string") {
+            values.push(...val.split(",").map((s) => s.trim()).filter(Boolean));
+          } else if (Array.isArray(val)) {
+            for (const item of val) {
+              if (typeof item === "string") {
+                values.push(...item.split(",").map((s) => s.trim()).filter(Boolean));
+              }
+            }
+          }
+        }
+      }
+      return values;
+    };
+
+    const queryValues = getValues(["q", "query"]);
+    const query = queryValues.length > 0 ? queryValues.join(" ") : undefined;
+
+    const validStatuses = new Set(["open", "on-hold", "final-steps", "filled", "cancelled", "overstaffed"]);
+    const rawStatuses = getValues(["status", "statuses"]);
+    const statuses = new Set(rawStatuses.filter((s) => validStatuses.has(s)));
+
+    const validModalities = new Set(["remote", "hybrid", "on-site"]);
+    const rawModalities = getValues(["modality", "modalities"]);
+    const modalities = new Set(rawModalities.filter((m) => validModalities.has(m)));
+
+    const validPayments = new Set(["salary", "hourly", "equity", "mixed"]);
+    const rawPayments = getValues(["payment", "paymentType", "payments"]);
+    const paymentTypes = new Set(rawPayments.filter((p) => validPayments.has(p)));
+
+    const rawSkills = getValues(["skill", "skills"]);
+    const skills = new Set(rawSkills);
+
+    const criteria = {};
+    if (query) criteria.query = query;
+    if (statuses.size > 0) criteria.statuses = statuses;
+    if (modalities.size > 0) criteria.modalities = modalities;
+    if (paymentTypes.size > 0) criteria.paymentTypes = paymentTypes;
+    if (skills.size > 0) criteria.skills = skills;
+    return criteria;
+  }
+
+  function serializeJobQueryCriteria(criteria) {
+    const params = new URLSearchParams();
+    if (criteria.query && criteria.query.trim()) {
+      params.set("q", criteria.query.trim());
+    }
+    const formatSet = (col) => (!col ? [] : col instanceof Set ? Array.from(col) : col);
+
+    const statuses = formatSet(criteria.statuses);
+    if (statuses.length > 0) params.set("status", statuses.join(","));
+
+    const modalities = formatSet(criteria.modalities);
+    if (modalities.length > 0) params.set("modality", modalities.join(","));
+
+    const paymentTypes = formatSet(criteria.paymentTypes);
+    if (paymentTypes.length > 0) params.set("payment", paymentTypes.join(","));
+
+    const skills = formatSet(criteria.skills);
+    if (skills.length > 0) params.set("skills", skills.join(","));
+
+    return params;
+  }
+
+  it("parses URL search parameters dictionary into structured criteria", () => {
+    const parsed = parseJobQueryCriteria({
+      q: "fullstack engineer",
+      status: "open,on-hold,invalid-status",
+      modality: "remote",
+      payment: "salary",
+      skills: "React,TypeScript",
+    });
+
+    assert.equal(parsed.query, "fullstack engineer");
+    assert.deepEqual(Array.from(parsed.statuses).sort(), ["on-hold", "open"]);
+    assert.deepEqual(Array.from(parsed.modalities), ["remote"]);
+    assert.deepEqual(Array.from(parsed.paymentTypes), ["salary"]);
+    assert.deepEqual(Array.from(parsed.skills).sort(), ["React", "TypeScript"]);
+  });
+
+  it("serializes criteria into clean URLSearchParams", () => {
+    const serialized = serializeJobQueryCriteria({
+      query: "react",
+      statuses: new Set(["open", "final-steps"]),
+      modalities: new Set(["remote"]),
+      paymentTypes: new Set(["hourly"]),
+      skills: new Set(["Next.js"]),
+    });
+
+    assert.equal(serialized.get("q"), "react");
+    assert.equal(serialized.get("modality"), "remote");
+    assert.equal(serialized.get("payment"), "hourly");
+    assert.equal(serialized.get("skills"), "Next.js");
+    assert.ok(serialized.get("status").includes("open"));
+  });
+
+  it("guarantees round-trip serialization and deserialization fidelity", () => {
+    const original = {
+      query: "tech lead",
+      statuses: new Set(["open"]),
+      modalities: new Set(["remote", "hybrid"]),
+      paymentTypes: new Set(["salary"]),
+      skills: new Set(["Leadership", "Node.js"]),
+    };
+
+    const qs = serializeJobQueryCriteria(original);
+    const restored = parseJobQueryCriteria(qs);
+
+    assert.equal(restored.query, original.query);
+    assert.deepEqual(Array.from(restored.statuses), Array.from(original.statuses));
+    assert.deepEqual(Array.from(restored.modalities).sort(), Array.from(original.modalities).sort());
+    assert.deepEqual(Array.from(restored.paymentTypes), Array.from(original.paymentTypes));
+    assert.deepEqual(Array.from(restored.skills).sort(), Array.from(original.skills).sort());
+  });
+
+  it("guarantees jobs/page.tsx consumes parseJobQueryCriteria and delegates to JobFilters", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const pagePath = path.resolve(__dirname, "../../../app/[locale]/jobs/page.tsx");
+    const filtersPath = path.resolve(__dirname, "../../../components/job-filters.tsx");
+
+    assert.ok(fs.existsSync(pagePath), "jobs/page.tsx must exist");
+    assert.ok(fs.existsSync(filtersPath), "job-filters.tsx must exist");
+
+    const pageContent = fs.readFileSync(pagePath, "utf-8");
+    const filtersContent = fs.readFileSync(filtersPath, "utf-8");
+
+    assert.ok(pageContent.includes("parseJobQueryCriteria"), "jobs/page.tsx must parse searchParams via parseJobQueryCriteria");
+    assert.ok(pageContent.includes("initialCriteria={initialCriteria}"), "jobs/page.tsx must pass initialCriteria to JobFilters");
+
+    assert.ok(filtersContent.includes("serializeJobQueryCriteria"), "job-filters.tsx must import serializeJobQueryCriteria");
+    assert.ok(filtersContent.includes("window.history.replaceState"), "job-filters.tsx must sync URL state via window.history.replaceState");
+  });
+});
+

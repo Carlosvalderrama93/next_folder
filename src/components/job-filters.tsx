@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import JobCard from "./job-card";
 import {
   filterJobs,
+  serializeJobQueryCriteria,
   ALL_STATUSES,
   ALL_MODALITIES,
   ALL_PAYMENTS,
@@ -17,7 +18,9 @@ import {
   type JobStatus,
   type JobModality,
   type JobPaymentType,
+  type JobFilterCriteria,
 } from "@/lib/jobs";
+
 
 const CHIP_BASE =
   "text-sm font-medium px-3.5 py-1.5 rounded-full border transition-colors whitespace-nowrap";
@@ -73,15 +76,53 @@ function toggle<T>(set: Set<T>, item: T): Set<T> {
   return next;
 }
 
-export default function JobFilters({ jobs }: { jobs: Job[] }) {
+export interface JobFiltersProps {
+  jobs: Job[];
+  initialCriteria?: JobFilterCriteria;
+}
+
+export default function JobFilters({ jobs, initialCriteria }: JobFiltersProps) {
   const t = useTranslations("jobsPage");
 
-  const [query, setQuery] = useState("");
-  const [selectedStatuses, setSelectedStatuses] = useState<Set<JobStatus>>(new Set());
-  const [selectedSkills, setSelectedSkills] = useState<Set<string>>(new Set());
-  const [selectedModalities, setSelectedModalities] = useState<Set<JobModality>>(new Set());
-  const [selectedPayments, setSelectedPayments] = useState<Set<JobPaymentType>>(new Set());
-  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [query, setQuery] = useState(initialCriteria?.query ?? "");
+  const [selectedStatuses, setSelectedStatuses] = useState<Set<JobStatus>>(
+    () => (initialCriteria?.statuses ? new Set(initialCriteria.statuses) : new Set())
+  );
+  const [selectedSkills, setSelectedSkills] = useState<Set<string>>(
+    () => (initialCriteria?.skills ? new Set(initialCriteria.skills) : new Set())
+  );
+  const [selectedModalities, setSelectedModalities] = useState<Set<JobModality>>(
+    () => (initialCriteria?.modalities ? new Set(initialCriteria.modalities) : new Set())
+  );
+  const [selectedPayments, setSelectedPayments] = useState<Set<JobPaymentType>>(
+    () => (initialCriteria?.paymentTypes ? new Set(initialCriteria.paymentTypes) : new Set())
+  );
+  const [showAdvanced, setShowAdvanced] = useState(
+    () =>
+      Boolean(
+        (initialCriteria?.skills && new Set(initialCriteria.skills).size > 0) ||
+        (initialCriteria?.modalities && new Set(initialCriteria.modalities).size > 0) ||
+        (initialCriteria?.paymentTypes && new Set(initialCriteria.paymentTypes).size > 0)
+      )
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = serializeJobQueryCriteria({
+      query,
+      statuses: selectedStatuses,
+      skills: selectedSkills,
+      modalities: selectedModalities,
+      paymentTypes: selectedPayments,
+    });
+    const qs = params.toString();
+    const newUrl = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
+    const currentUrl = `${window.location.pathname}${window.location.search}`;
+    if (newUrl !== currentUrl) {
+      window.history.replaceState(null, "", newUrl);
+    }
+  }, [query, selectedStatuses, selectedSkills, selectedModalities, selectedPayments]);
+
 
   const allSkills = useMemo(() => {
     const set = new Set<string>();

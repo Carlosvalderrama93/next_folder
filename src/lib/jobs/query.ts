@@ -99,3 +99,121 @@ export function filterJobs(jobs: Job[], criteria?: JobFilterCriteria): Job[] {
     return true;
   });
 }
+
+export type RawSearchParams =
+  | URLSearchParams
+  | Record<string, string | string[] | undefined>;
+
+/**
+ * Parses URL search parameters or Next.js searchParams dictionary into validated JobFilterCriteria.
+ */
+export function parseJobQueryCriteria(params?: RawSearchParams): JobFilterCriteria {
+  if (!params) return {};
+
+  const getValues = (keys: string[]): string[] => {
+    const values: string[] = [];
+    if (params instanceof URLSearchParams) {
+      for (const k of keys) {
+        const all = params.getAll(k);
+        for (const item of all) {
+          values.push(...item.split(",").map((s) => s.trim()).filter(Boolean));
+        }
+      }
+    } else {
+      for (const k of keys) {
+        const val = params[k];
+        if (typeof val === "string") {
+          values.push(...val.split(",").map((s) => s.trim()).filter(Boolean));
+        } else if (Array.isArray(val)) {
+          for (const item of val) {
+            if (typeof item === "string") {
+              values.push(...item.split(",").map((s) => s.trim()).filter(Boolean));
+            }
+          }
+        }
+      }
+    }
+    return values;
+  };
+
+  const queryValues = getValues(["q", "query"]);
+  const query = queryValues.length > 0 ? queryValues.join(" ") : undefined;
+
+  const validStatuses: Set<string> = new Set([
+    "open",
+    "on-hold",
+    "final-steps",
+    "filled",
+    "cancelled",
+    "overstaffed",
+  ]);
+  const rawStatuses = getValues(["status", "statuses"]);
+  const statuses = new Set<JobStatus>(
+    rawStatuses.filter((s): s is JobStatus => validStatuses.has(s))
+  );
+
+  const validModalities: Set<string> = new Set(["remote", "hybrid", "on-site"]);
+  const rawModalities = getValues(["modality", "modalities"]);
+  const modalities = new Set<JobModality>(
+    rawModalities.filter((m): m is JobModality => validModalities.has(m))
+  );
+
+  const validPayments: Set<string> = new Set(["salary", "hourly", "equity", "mixed"]);
+  const rawPayments = getValues(["payment", "paymentType", "payments"]);
+  const paymentTypes = new Set<JobPaymentType>(
+    rawPayments.filter((p): p is JobPaymentType => validPayments.has(p))
+  );
+
+  const rawSkills = getValues(["skill", "skills"]);
+  const skills = new Set<string>(rawSkills);
+
+  const criteria: JobFilterCriteria = {};
+  if (query) criteria.query = query;
+  if (statuses.size > 0) criteria.statuses = statuses;
+  if (modalities.size > 0) criteria.modalities = modalities;
+  if (paymentTypes.size > 0) criteria.paymentTypes = paymentTypes;
+  if (skills.size > 0) criteria.skills = skills;
+
+  return criteria;
+}
+
+/**
+ * Serializes JobFilterCriteria into URLSearchParams for bookmarkable and shareable search URLs.
+ */
+export function serializeJobQueryCriteria(criteria: JobFilterCriteria): URLSearchParams {
+  const params = new URLSearchParams();
+
+  if (criteria.query && criteria.query.trim()) {
+    params.set("q", criteria.query.trim());
+  }
+
+  const formatSet = (collection?: Set<unknown> | unknown[]): string[] => {
+    if (!collection) return [];
+    if (collection instanceof Set) return Array.from(collection).map(String);
+    return collection.map(String);
+  };
+
+
+  const statuses = formatSet(criteria.statuses);
+  if (statuses.length > 0) {
+    params.set("status", statuses.join(","));
+  }
+
+  const modalities = formatSet(criteria.modalities);
+  if (modalities.length > 0) {
+    params.set("modality", modalities.join(","));
+  }
+
+  const paymentTypes = formatSet(criteria.paymentTypes);
+  if (paymentTypes.length > 0) {
+    params.set("payment", paymentTypes.join(","));
+  }
+
+  const skills = formatSet(criteria.skills);
+  if (skills.length > 0) {
+    params.set("skills", skills.join(","));
+  }
+
+  return params;
+}
+

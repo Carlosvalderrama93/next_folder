@@ -14,7 +14,13 @@ export type {
   JobFilterCriteria,
 } from "./types";
 export { getStrapiImageSrc } from "./normalizer";
-export { filterJobs } from "./query";
+export {
+  filterJobs,
+  parseJobQueryCriteria,
+  serializeJobQueryCriteria,
+  type RawSearchParams,
+} from "./query";
+
 export {
   STATUS_BADGE_CLASSES,
   STATUS_TRANSLATION_KEYS,
