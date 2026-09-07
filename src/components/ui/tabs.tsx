@@ -19,9 +19,17 @@ export function Tabs({
   );
 }
 
-export function TabsList({ children }: { children: ReactNode }) {
+export function TabsList({
+  children,
+  ariaLabel,
+  className = "flex gap-2 flex-wrap mb-10",
+}: {
+  children: ReactNode;
+  ariaLabel?: string;
+  className?: string;
+}) {
   return (
-    <TabsPrimitive.List className="flex gap-2 flex-wrap mb-10" aria-label="Filter articles by category">
+    <TabsPrimitive.List className={className} aria-label={ariaLabel}>
       {children}
     </TabsPrimitive.List>
   );

@@ -58,7 +58,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción 1** | Consolidar Módulo de Presentación de Jobs (`components/jobs/`) y Colapsar `jobs/[id]/page.tsx` ([`src/components/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/jobs/)) | ✅ **Completada** | `feat/jobs-presentation-module-sprint` |
-| **Opción 2** | Costura de Estado URL y Módulo de Presentación para Artículos (`ArticlesView`) ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ⏳ **Pendiente** | `feat/articles-url-state-seam-sprint` |
+| **Opción 2** | Costura de Estado URL y Módulo de Presentación para Artículos (`ArticlesView`) ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ✅ **Completada** | `feat/articles-url-state-seam-sprint` |
 | **Opción 3** | Purificación de Primitivas UI e Higiene de Chrome Layout ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ⏳ **Pendiente** | `feat/ui-primitives-hygiene-sprint` |
 | **Opción 4** | Encapsulación de Script de Hidratación de Tema en Root Layout ([`src/components/theme-script.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/theme-script.tsx)) | ⏳ **Pendiente** | `feat/theme-hydration-seam-sprint` |
 
@@ -308,13 +308,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **1.3 Colapsar `src/app/[locale]/jobs/[id]/page.tsx`:** Reducida la página de 215 a 50 líneas, actuando como coordinador Server Component puro que únicamente obtiene los datos del repositorio y renderiza `<JobDetailView />`.
 - [x] **1.4 Contratos de prueba y verificación:** Pruebas unitarias de localidad e interfaz en suite de jobs (`presentation.test.mjs`), 132/132 unit tests verdes, 0 TS errors, 0 lints.
 
-### Opción 2: Costura de Estado URL y Módulo de Presentación para Artículos (`ArticlesView`) (⏳ Pendiente)
+### Opción 2: Costura de Estado URL y Módulo de Presentación para Artículos (`ArticlesView`) (✅ Completada)
 **Rama:** `feat/articles-url-state-seam-sprint`
 
-- [ ] **2.1 Crear códec bidireccional de categoría en `src/lib/articles/query.ts`:** Funciones `parseArticleCategoryCriteria` y `serializeArticleCategoryCriteria`.
-- [ ] **2.2 Crear `ArticlesView` en `src/components/articles/`:** Mover `articles-client.tsx` fuera de `src/app/`, sincronizar URL vía `window.history.replaceState` y soportar `initialCategory`.
-- [ ] **2.3 Purificar `src/components/ui/tabs.tsx`:** Eliminar `aria-label="Filter articles by category"` quemado y permitir label configurable.
-- [ ] **2.4 Pruebas y verificación:** Pruebas unitarias de códec y contratos de exportación.
+- [x] **2.1 Crear códec bidireccional de categoría en `src/lib/articles/query.ts`:** Funciones `parseArticleQueryCriteria` y `serializeArticleQueryCriteria` re-exportadas canónicamente desde `@/lib/articles`.
+- [x] **2.2 Crear `ArticlesView` en `src/components/articles/`:** Reubicado `articles-client.tsx` fuera de `src/app/`, sincronizando URL vía `window.history.replaceState` y soportando navegación `popstate`.
+- [x] **2.3 Purificar `src/components/ui/tabs.tsx`:** Eliminado el texto de dominio quemado `aria-label="Filter articles by category"`, haciendo la etiqueta configurable como primitiva accesible neutra.
+- [x] **2.4 Pruebas y verificación:** Pruebas unitarias de códec, round-trip y contratos de no-regresión en `articles.test.mjs`, 137/137 tests verdes, 0 TS errors, 0 lints.
 
 ### Opción 3: Purificación de Primitivas UI e Higiene de Chrome Layout (⏳ Pendiente)
 **Rama:** `feat/ui-primitives-hygiene-sprint`
