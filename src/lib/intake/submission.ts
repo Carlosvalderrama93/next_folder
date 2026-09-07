@@ -2,6 +2,7 @@ import { rateLimit, getIp } from "./rate-limit";
 import { validateApplication, validateInquiry } from "./validation";
 import { applicationHtml, applicationSubject, inquiryHtml, inquirySubject } from "./templates";
 import { sendNotification } from "./notification-adapter";
+import { persistApplicationToStrapi, persistInquiryToStrapi } from "./persistence-adapter";
 import type { ApplicationInput, InquiryInput, IntakeResult } from "./types";
 
 async function checkRateLimit(req: Request): Promise<{ allowed: boolean; retryAfter: number }> {
@@ -40,6 +41,13 @@ export async function submitApplication(
         ? [{ filename: input.cv.filename, content: input.cv.buffer }]
         : undefined,
     });
+
+    try {
+      await persistApplicationToStrapi(input);
+    } catch (persistErr) {
+      console.warn("[intake] Application persistence fallback:", persistErr);
+    }
+
     return { ok: true, status: 200 };
   } catch (err) {
     console.error("[intake] submitApplication error:", err);
@@ -81,6 +89,13 @@ export async function submitInquiry(
       subject: inquirySubject(input),
       html: inquiryHtml(input),
     });
+
+    try {
+      await persistInquiryToStrapi(input);
+    } catch (persistErr) {
+      console.warn("[intake] Inquiry persistence fallback:", persistErr);
+    }
+
     return { ok: true, status: 200 };
   } catch (err) {
     console.error("[intake] submitInquiry error:", err);
