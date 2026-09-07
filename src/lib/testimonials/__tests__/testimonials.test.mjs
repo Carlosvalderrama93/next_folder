@@ -126,3 +126,35 @@ describe("Testimonials Domain Seam", () => {
     });
   });
 });
+
+describe("Testimonials Presentation Module · Locality & Architecture Contracts", () => {
+  it("guarantees components/testimonials/ acts as canonical module and purges loose root components", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const testimonialsDir = path.resolve(__dirname, "../../../components/testimonials");
+    const indexPath = path.join(testimonialsDir, "index.ts");
+    const sectionPath = path.join(testimonialsDir, "testimonials-section.tsx");
+    const carouselPath = path.join(testimonialsDir, "testimonials-carousel.tsx");
+    const legacySectionPath = path.resolve(__dirname, "../../../components/testimonials.tsx");
+    const legacyCarouselPath = path.resolve(__dirname, "../../../components/testimonials-carousel.tsx");
+    const pagePath = path.resolve(__dirname, "../../../app/[locale]/page.tsx");
+
+    assert.ok(fs.existsSync(testimonialsDir), "components/testimonials/ directory must exist");
+    assert.ok(fs.existsSync(indexPath), "components/testimonials/index.ts must exist");
+    assert.ok(fs.existsSync(sectionPath), "components/testimonials/testimonials-section.tsx must exist");
+    assert.ok(fs.existsSync(carouselPath), "components/testimonials/testimonials-carousel.tsx must exist");
+    assert.ok(!fs.existsSync(legacySectionPath), "Legacy testimonials.tsx must be purged from components/ root");
+    assert.ok(!fs.existsSync(legacyCarouselPath), "Legacy testimonials-carousel.tsx must be purged from components/ root");
+
+    const indexContent = fs.readFileSync(indexPath, "utf-8");
+    assert.ok(indexContent.includes("TestimonialsSection"), "index.ts must export TestimonialsSection");
+    assert.ok(indexContent.includes("TestimonialsCarousel"), "index.ts must export TestimonialsCarousel");
+
+    const pageContent = fs.readFileSync(pagePath, "utf-8");
+    assert.ok(pageContent.includes('from "@/components/testimonials"'), "HomePage must import from @/components/testimonials");
+  });
+});
+
