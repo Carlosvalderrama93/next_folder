@@ -30,7 +30,9 @@ export default function ContactForm() {
     toastVariant,
     showToast,
     focusFirstError,
-  } = useIntakeForm<FieldErrors>();
+    setIsDirty,
+    resetDirty,
+  } = useIntakeForm<FieldErrors>({ warnOnUnload: true });
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -76,6 +78,7 @@ export default function ContactForm() {
         setEmail("");
         setSubject("");
         setMessage("");
+        resetDirty();
         showToast("success");
       } else {
         showToast("error");
@@ -108,6 +111,7 @@ export default function ContactForm() {
               onChange={(e) => {
                 setName(e.target.value);
                 clearFieldError("name");
+                setIsDirty(true);
               }}
               aria-invalid={!!fieldErrors.name}
               aria-describedby={fieldErrors.name ? "name-error" : undefined}
@@ -130,6 +134,7 @@ export default function ContactForm() {
               onChange={(e) => {
                 setEmail(e.target.value);
                 clearFieldError("email");
+                setIsDirty(true);
               }}
               aria-invalid={!!fieldErrors.email}
               aria-describedby={fieldErrors.email ? "email-error" : undefined}
@@ -147,7 +152,10 @@ export default function ContactForm() {
               autoComplete="off"
               placeholder={t("subjectPlaceholder")}
               value={subject}
-              onChange={(e) => setSubject(e.target.value)}
+              onChange={(e) => {
+                setSubject(e.target.value);
+                setIsDirty(true);
+              }}
               className={INPUT_CLASS}
             />
           </FormField>
@@ -163,6 +171,7 @@ export default function ContactForm() {
               onChange={(e) => {
                 setMessage(e.target.value);
                 clearFieldError("message");
+                setIsDirty(true);
               }}
               aria-invalid={!!fieldErrors.message}
               aria-describedby={fieldErrors.message ? "message-error" : undefined}
