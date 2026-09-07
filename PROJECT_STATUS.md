@@ -87,8 +87,8 @@
 | **Deep Architecture** | Job Repository Module (`src/lib/jobs/`) | ✅ | — | — |
 | **Deep Architecture** | Notification & Intake Module (`src/lib/intake/`) | ✅ | — | — |
 | **Deep Architecture** | Article Content Module (`src/lib/articles/`) | ✅ | — | — |
-| **Deep Architecture** | Testimonials Module Collapsed (`src/components/testimonials.tsx`) | ✅ | — | — |
-| **Testing** | Automated unit test suite (`npm test`, 142 tests) | ✅ | — | — |
+| **Deep Architecture** | Testimonials Presentation Module (`src/components/testimonials/`) | ✅ | — | — |
+| **Testing** | Automated unit test suite (`npm test`, 143 tests) | ✅ | — | — |
 | **Testing** | Native E2E verification suite (`npm run test:e2e`, 18 checks) | ✅ | — | — |
 | **Quality** | Full form a11y (focus management, ARIA) & i18n | ✅ | — | — |
 | | | | | |
