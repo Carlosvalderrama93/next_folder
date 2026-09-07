@@ -424,24 +424,33 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
 
       const __dirname = path.dirname(fileURLToPath(import.meta.url));
       const componentsDir = path.resolve(__dirname, "../../../components");
+      const shellDir = path.resolve(componentsDir, "shell");
       const uiDir = path.resolve(componentsDir, "ui");
 
       assert.ok(
-        fs.existsSync(path.join(componentsDir, "language-switcher.tsx")),
-        "language-switcher.tsx must reside in components/"
+        fs.existsSync(path.join(shellDir, "language-switcher.tsx")),
+        "language-switcher.tsx must reside in components/shell/"
       );
       assert.ok(
         !fs.existsSync(path.join(uiDir, "language-switcher.tsx")),
         "language-switcher.tsx must not reside in components/ui/"
       );
+      assert.ok(
+        !fs.existsSync(path.join(componentsDir, "language-switcher.tsx")),
+        "language-switcher.tsx must not reside loose in components/"
+      );
 
       assert.ok(
-        fs.existsSync(path.join(componentsDir, "back-to-top.tsx")),
-        "back-to-top.tsx must reside in components/"
+        fs.existsSync(path.join(shellDir, "back-to-top.tsx")),
+        "back-to-top.tsx must reside in components/shell/"
       );
       assert.ok(
         !fs.existsSync(path.join(uiDir, "back-to-top.tsx")),
         "back-to-top.tsx must not reside in components/ui/"
+      );
+      assert.ok(
+        !fs.existsSync(path.join(componentsDir, "back-to-top.tsx")),
+        "back-to-top.tsx must not reside loose in components/"
       );
     });
 
@@ -471,8 +480,8 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
       const { fileURLToPath } = await import("node:url");
 
       const __dirname = path.dirname(fileURLToPath(import.meta.url));
-      const navPath = path.resolve(__dirname, "../../../components/navigation.tsx");
-      const themeTogglePath = path.resolve(__dirname, "../../../components/theme-toggle.tsx");
+      const navPath = path.resolve(__dirname, "../../../components/shell/navigation.tsx");
+      const themeTogglePath = path.resolve(__dirname, "../../../components/shell/theme-toggle.tsx");
       const layoutPath = path.resolve(__dirname, "../../../app/[locale]/layout.tsx");
 
       const navContent = fs.readFileSync(navPath, "utf-8");
@@ -514,14 +523,14 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
       const __dirname = path.dirname(fileURLToPath(import.meta.url));
       const themeScriptPath = path.resolve(
         __dirname,
-        "../../../components/theme-script.tsx"
+        "../../../components/shell/theme-script.tsx"
       );
       const layoutPath = path.resolve(
         __dirname,
         "../../../app/[locale]/layout.tsx"
       );
 
-      assert.ok(fs.existsSync(themeScriptPath), "components/theme-script.tsx must exist");
+      assert.ok(fs.existsSync(themeScriptPath), "components/shell/theme-script.tsx must exist");
       const scriptContent = fs.readFileSync(themeScriptPath, "utf-8");
       const layoutContent = fs.readFileSync(layoutPath, "utf-8");
 
@@ -554,6 +563,71 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
       assert.ok(
         !layoutContent.includes("localStorage.getItem('theme')"),
         "layout.tsx must not contain raw inline theme script string"
+      );
+    });
+
+    it("guarantees Shell presentation seam encapsulates chrome layout and purges loose root components", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const shellDir = path.resolve(__dirname, "../../../components/shell");
+      const componentsDir = path.resolve(__dirname, "../../../components");
+      const layoutPath = path.resolve(__dirname, "../../../app/[locale]/layout.tsx");
+
+      assert.ok(fs.existsSync(shellDir), "components/shell/ directory must exist");
+      assert.ok(fs.existsSync(path.join(shellDir, "index.ts")), "components/shell/index.ts must exist");
+      assert.ok(fs.existsSync(path.join(shellDir, "navigation.tsx")), "navigation.tsx must reside in components/shell/");
+      assert.ok(fs.existsSync(path.join(shellDir, "footer.tsx")), "footer.tsx must reside in components/shell/");
+      assert.ok(fs.existsSync(path.join(shellDir, "theme-toggle.tsx")), "theme-toggle.tsx must reside in components/shell/");
+      assert.ok(fs.existsSync(path.join(shellDir, "theme-script.tsx")), "theme-script.tsx must reside in components/shell/");
+      assert.ok(fs.existsSync(path.join(shellDir, "theme-provider.tsx")), "theme-provider.tsx must reside in components/shell/");
+      assert.ok(fs.existsSync(path.join(shellDir, "language-switcher.tsx")), "language-switcher.tsx must reside in components/shell/");
+      assert.ok(fs.existsSync(path.join(shellDir, "back-to-top.tsx")), "back-to-top.tsx must reside in components/shell/");
+      assert.ok(fs.existsSync(path.join(shellDir, "skip-link.tsx")), "skip-link.tsx must reside in components/shell/");
+
+      // Loose legacy components must be purged from components/ root
+      const looseFiles = [
+        "navigation.tsx",
+        "footer.tsx",
+        "language-switcher.tsx",
+        "theme-toggle.tsx",
+        "theme-script.tsx",
+        "theme-provider.tsx",
+        "back-to-top.tsx",
+      ];
+      for (const file of looseFiles) {
+        assert.ok(
+          !fs.existsSync(path.join(componentsDir, file)),
+          `Legacy file ${file} must be purged from components/ root`
+        );
+      }
+
+      // Index barrel exports
+      const indexContent = fs.readFileSync(path.join(shellDir, "index.ts"), "utf-8");
+      assert.ok(indexContent.includes("Navigation"), "index.ts must export Navigation");
+      assert.ok(indexContent.includes("Footer"), "index.ts must export Footer");
+      assert.ok(indexContent.includes("LanguageSwitcher"), "index.ts must export LanguageSwitcher");
+      assert.ok(indexContent.includes("ThemeToggle"), "index.ts must export ThemeToggle");
+      assert.ok(indexContent.includes("ThemeScript"), "index.ts must export ThemeScript");
+      assert.ok(indexContent.includes("ThemeProvider"), "index.ts must export ThemeProvider");
+      assert.ok(indexContent.includes("BackToTop"), "index.ts must export BackToTop");
+      assert.ok(indexContent.includes("SkipLink"), "index.ts must export SkipLink");
+
+      // layout.tsx imports cleanly from @/components/shell
+      const layoutContent = fs.readFileSync(layoutPath, "utf-8");
+      assert.ok(
+        layoutContent.includes('from "@/components/shell"'),
+        "layout.tsx must import chrome elements from @/components/shell"
+      );
+      assert.ok(
+        !layoutContent.includes('from "@/components/navigation"'),
+        "layout.tsx must not import directly from @/components/navigation"
+      );
+      assert.ok(
+        !layoutContent.includes('from "@/components/footer"'),
+        "layout.tsx must not import directly from @/components/footer"
       );
     });
   });

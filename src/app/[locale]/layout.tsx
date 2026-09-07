@@ -1,23 +1,17 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { BackToTop } from "@/components/back-to-top";
+import {
+  Navigation,
+  Footer,
+  ThemeScript,
+  ThemeProvider,
+  BackToTop,
+  SkipLink,
+} from "@/components/shell";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
-
-async function SkipLink({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: "layout" });
-  return (
-    <a
-      href="#main-content"
-      className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-black focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold focus:shadow-lg"
-    >
-      {t("skipToContent")}
-    </a>
-  );
-}
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { SITE_URL, siteConfig } from "@/lib/site-config";
@@ -61,10 +55,6 @@ export async function generateMetadata({
     },
   };
 }
-
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
-import { ThemeScript } from "@/components/theme-script";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

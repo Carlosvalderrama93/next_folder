@@ -21,13 +21,11 @@ function Navigation() {
   return (
     <>
       {menuOpen && (
-        
         <div
           className="fixed inset-0 z-40 bg-black/20 md:hidden"
           onClick={() => setMenuOpen(false)}
           aria-hidden="true"
         />
-        
       )}
       <nav className="flex items-center justify-between bg-white/90 dark:bg-background/90 backdrop-blur-md w-full px-6 md:px-10 py-4 border-b border-gray-100/80 dark:border-border sticky top-0 z-50">
         <div className="flex items-center gap-8">

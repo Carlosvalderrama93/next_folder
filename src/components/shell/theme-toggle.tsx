@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "./theme-provider";
-import { Tooltip } from "./ui/tooltip";
+import { Tooltip } from "@/components/ui/tooltip";
 import { useTranslations } from "next-intl";
 
 export function ThemeToggle() {
