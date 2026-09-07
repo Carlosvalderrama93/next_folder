@@ -395,14 +395,14 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **1.3 Purgar `transition-all` en toda la capa de componentes:** Reemplazado el uso indiscriminado de `transition-all` por propiedades CSS explícitas (`transition-[color,background-color,border-color]`, `transition-transform`, `transition-opacity`, `transition-[transform,opacity]`, etc.) junto a `motion-reduce:transition-none` en `articles/[documentId]/page.tsx`, `about-focus.tsx`, `about-toc.tsx`, `article-card.tsx`, `job-card.tsx`, `testimonials-carousel.tsx`, `ui/card.tsx`, `ui/carousel.tsx` y `ui/toast.tsx`.
 - [x] **1.4 Contratos de interfaz y suite de pruebas:** Creada suite en `site-config.test.mjs` que escanea todo `src/` verificando 0 ocurrencias de `transition-all`, cobertura de `prefers-reduced-motion` y protección en esqueletos. 147 tests unitarios pasando, 0 errores de tipos y 0 lints.
 
-### Opción 2: Anclaje Accesible (`scroll-margin-top`) y Anuncios Asíncronos (`aria-live`) (⏳ Siguiente)
+### Opción 2: Anclaje Accesible (`scroll-margin-top`) y Anuncios Asíncronos (`aria-live`) (✅ Completada)
 **Rama:** `feat/a11y-scroll-margin-aria-live-sprint`
 
-- [ ] **2.1 Configurar offset de desplazamiento en anclas (`scroll-mt-20` / `scroll-mt-24`):** Garantizar que la barra de navegación fija/sticky no tape encabezados o secciones al navegar con enlaces internos o SkipLink (`#main-content`, `#about`, `#focus`, `#experience`, `#skills`, etc.).
-- [ ] **2.2 Anuncios asíncronos y regiones vivas accesibles:** Auditar y reforzar `aria-live="polite"` y `role="status"` en toasts y notificaciones de formularios asíncronos.
-- [ ] **2.3 Contratos y verificación:** Suite de pruebas y validación en `npm test`, typecheck y build.
+- [x] **2.1 Configurar offset de desplazamiento en anclas (`scroll-mt-24`):** Garantizado que la barra de navegación sticky nunca tape encabezados o secciones al navegar con enlaces internos o SkipLink (`#main-content` en todas las páginas y esqueletos, `#focus`, `#skills`, `#experience`, `#education`, `#certifications`, `#learning` en la página de About).
+- [x] **2.2 Anuncios asíncronos y regiones vivas accesibles:** Configurado `type={isSuccess ? "background" : "foreground"}` en `ToastPrimitive.Root` (`aria-live="polite"` vs `assertive`), añadido `aria-live="polite"` en errores de campos de formulario (`FormField`) y configurado `role="status"` + `aria-live="polite"` en el contenedor de éxito de postulación (`ApplyForm`).
+- [x] **2.3 Contratos y verificación:** Suite de pruebas en `site-config.test.mjs`, 148 tests unitarios pasando, 0 errores de tipos, 0 lints y build de producción verificado.
 
-### Opción 3: Resiliencia de Formularios (`beforeunload`) e Higiene de Foco
+### Opción 3: Resiliencia de Formularios (`beforeunload`) e Higiene de Foco (⏳ Siguiente)
 **Rama:** `feat/form-resilience-beforeunload-sprint`
 
 - [ ] **3.1 Prevención de pérdida accidental de datos:** Añadir detector de estado sucio (`isDirty`) y listener de `beforeunload` en `useIntakeForm` cuando hay cambios sin guardar en `contact-form` o `apply-form`.
