@@ -4,15 +4,15 @@ import { applicationHtml, applicationSubject, inquiryHtml, inquirySubject } from
 import { sendNotification } from "./notification-adapter";
 import type { ApplicationInput, InquiryInput, IntakeResult } from "./types";
 
-function checkRateLimit(req: Request): { allowed: boolean; retryAfter: number } {
-  return rateLimit(getIp(req));
+async function checkRateLimit(req: Request): Promise<{ allowed: boolean; retryAfter: number }> {
+  return await rateLimit(getIp(req));
 }
 
 export async function submitApplication(
   req: Request,
   input: ApplicationInput
 ): Promise<IntakeResult> {
-  const { allowed, retryAfter } = checkRateLimit(req);
+  const { allowed, retryAfter } = await checkRateLimit(req);
   if (!allowed) {
     return {
       ok: false,
@@ -56,7 +56,7 @@ export async function submitInquiry(
   req: Request,
   input: InquiryInput
 ): Promise<IntakeResult> {
-  const { allowed, retryAfter } = checkRateLimit(req);
+  const { allowed, retryAfter } = await checkRateLimit(req);
   if (!allowed) {
     return {
       ok: false,
