@@ -4,3 +4,5 @@ export { default as JobStatusBadge } from "./job-status-badge";
 export { ApplyToggle } from "./apply-toggle";
 export { default as ApplyForm } from "./apply-form";
 export { JobDetailView, type JobDetailViewProps } from "./job-detail-view";
+export { JobsSkeleton, default as JobsSkeletonDefault } from "./jobs-skeleton";
+export { JobDetailSkeleton, default as JobDetailSkeletonDefault } from "./job-detail-skeleton";
