@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { RichText } from "@/components/ui/rich-text";
 import {
   getStrapiImageSrc,
   type ArticleBlock,
@@ -9,11 +8,7 @@ import {
 } from "@/lib/articles";
 
 export function RichTextBlock({ body }: { body: string }) {
-  return (
-    <div className="prose dark:prose-invert prose-gray max-w-none">
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
-    </div>
-  );
+  return <RichText content={body} />;
 }
 
 export function QuoteBlock({

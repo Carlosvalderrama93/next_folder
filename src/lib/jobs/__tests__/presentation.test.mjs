@@ -122,3 +122,43 @@ describe("Job Presentation Helpers · isJobDimmed", () => {
     assert.equal(isJobDimmed(undefined, undefined), false);
   });
 });
+
+// ── Markdown Presentation Adapter Contract ─────────────────────────────────────
+describe("Job Markdown Presentation Adapter Contract", () => {
+  it("guarantees jobs/[id]/page.tsx consumes RichText adapter without direct markdown vendor coupling", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const pagePath = path.resolve(
+      __dirname,
+      "../../../app/[locale]/jobs/[id]/page.tsx"
+    );
+    const richTextPath = path.resolve(
+      __dirname,
+      "../../../components/ui/rich-text.tsx"
+    );
+
+    assert.ok(fs.existsSync(richTextPath), "components/ui/rich-text.tsx must exist");
+    const pageContent = fs.readFileSync(pagePath, "utf-8");
+
+    assert.ok(
+      pageContent.includes('import { RichText } from "@/components/ui/rich-text";'),
+      "jobs/[id]/page.tsx must import RichText adapter"
+    );
+    assert.ok(
+      pageContent.includes("<RichText content={job.description} />"),
+      "jobs/[id]/page.tsx must render description using RichText"
+    );
+    assert.ok(
+      !pageContent.includes("react-markdown"),
+      "jobs/[id]/page.tsx must not directly import react-markdown"
+    );
+    assert.ok(
+      !pageContent.includes("remark-gfm"),
+      "jobs/[id]/page.tsx must not directly import remark-gfm"
+    );
+  });
+});
+
