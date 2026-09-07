@@ -1,6 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Dependencies
 /node_modules
 /.pnp
 .pnp.*
@@ -10,32 +8,89 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
-# next.js
+# Next.js, Bundling & Caches
 /.next/
 /out/
-
-# production
 /build
+/dist
+/.turbo
+/.swc
+/.cache
 
-# misc
-.DS_Store
+# Testing & Coverage
+/coverage
+/.nyc_output
+/test-results
+/playwright-report
+
+# Environment variables & Local secrets
+.env*
+!.env.example
+.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Certificates, Keys & Credentials
 *.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
 
-# debug
+# Logs & Diagnostics
+*.log
+logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
+# Vercel CLI
 .vercel
 
-# typescript
+# TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDEs, Editors & AI Assistants
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.sublime-project
+*.sublime-workspace
+.claude/settings.local.json
+.claude/*.local.*
+.cursor/
+.cursorrules.local
+
+# OS Artifacts & Metadata
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Temp, Backups & Candidate Uploads
+*.tmp
+.tmp/
+tmp/
+*.bak
+*.swp
+*.swo
+*~
+public/uploads/*
+!public/uploads/.gitkeep
+uploads/
+
+# Internal Planning Docs
+*DYNAMIC_ROLE_FORM_PLAN.md
+docs/DYNAMIC_ROLE_FORM_PLAN.md
