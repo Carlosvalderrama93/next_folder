@@ -1,4 +1,4 @@
-import { STRAPI_URL } from "@/lib/config";
+import { STRAPI_URL } from "@/lib/site-config";
 import type { Article, ArticleDetail } from "./types";
 import {
   normalizeStrapiArticle,

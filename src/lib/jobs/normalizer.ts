@@ -1,4 +1,4 @@
-import { STRAPI_URL } from "@/lib/config";
+import { STRAPI_URL } from "@/lib/site-config";
 import type { Job, RawStrapiJob, RawStaticJob, JobStatus } from "./types";
 
 export function getStrapiImageSrc(url: string): string {

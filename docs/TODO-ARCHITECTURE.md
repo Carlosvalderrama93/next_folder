@@ -30,13 +30,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | **Opción 3** | Componente Canónico `JobStatusBadge` & Presentación ([`src/components/job-status-badge.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job-status-badge.tsx)) | ✅ **Completada** | `feat/job-status-badge-sprint` (`0afeb24`) |
 | **Opción 4** | Descomposición de Bloques de Artículos ([`src/components/article-blocks.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/article-blocks.tsx)) | ✅ **Completada** | `feat/article-blocks-sprint` (`bb2806e`) |
 
-### Ciclo 4: Pulido Fino, Localidad Absoluta e Higiene UI (🚀 En Curso)
+### Ciclo 4: Pulido Fino, Localidad Absoluta e Higiene UI (✅ 100% Completado)
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción 1** | Retiro Definitivo de `src/Data/` y Localidad en About ([`src/lib/about/fixtures.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/fixtures.ts)) | ✅ **Completada** | `feat/about-fixtures-locality-sprint` (`f8eea3d`) |
 | **Opción 2** | Higiene UI y Purga de Clutter Muerto ([`src/components/ui/card.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/card.tsx)) | ✅ **Completada** | `feat/ui-hygiene-card-purge-sprint` (`f7a48de`) |
-| **Opción 3** | Desambiguación de Secciones y Colapso de Módulo Superficial ([`src/components/featured-jobs-section.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/featured-jobs-section.tsx)) | ✅ **Completada** | `feat/home-sections-clarity-sprint` |
-| **Opción 4** | Consolidación de Configuración CMS ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ⚪ Pendiente | Media |
+| **Opción 3** | Desambiguación de Secciones y Colapso de Módulo Superficial ([`src/components/featured-jobs-section.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/featured-jobs-section.tsx)) | ✅ **Completada** | `feat/home-sections-clarity-sprint` (`faadf64`) |
+| **Opción 4** | Consolidación de Configuración CMS ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/cms-config-consolidation-sprint` |
 
 ---
 
@@ -165,6 +165,33 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
   - Añadida prueba en [`src/lib/site-config/__tests__/site-config.test.mjs`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/__tests__/site-config.test.mjs) que verifica la no-existencia de componentes ambiguos y el consumo estricto de las secciones semánticas.
 - [x] **3.6 Verificación completa:**
   - 108 pruebas unitarias (`npm test`) pasadas.
+  - 0 errores TypeScript (`npm run typecheck`).
+  - 0 advertencias ESLint (`npm run lint`).
+  - Build de producción Next.js 15.5.0 completado sin errores.
+  - 18/18 pruebas End-to-End (`npm run test:e2e`) pasadas exitosamente.
+
+---
+
+## ⚙️ Ciclo 4 — Opción 4: Consolidación de Configuración CMS y Retiro de `src/lib/config.ts` (✅ Completada)
+**Rama:** `feat/cms-config-consolidation-sprint`
+
+### Objetivos
+- [x] **4.1 Centralizar `STRAPI_URL` en `src/lib/site-config/`:**
+  - Añadido `STRAPI_URL` a [`src/lib/site-config/config.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/config.ts) con soporte para variable de entorno `process.env.STRAPI_URL` y fallback por defecto a `http://localhost:1337`.
+  - Re-exportado canónicamente desde [`src/lib/site-config/index.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/index.ts).
+- [x] **4.2 Actualizar adaptadores y normalizadores de dominio:**
+  - Actualizados los 5 consumidores para importar `STRAPI_URL` desde `@/lib/site-config`:
+    - `src/lib/jobs/strapi-adapter.ts`
+    - `src/lib/jobs/normalizer.ts`
+    - `src/lib/articles/strapi-adapter.ts`
+    - `src/lib/articles/normalizer.ts`
+    - `src/lib/about/strapi-adapter.ts`
+- [x] **4.3 Purgar archivo huérfano `src/lib/config.ts`:**
+  - Eliminado definitivamente `src/lib/config.ts`. Ahora el 100% de los archivos dentro de `src/lib/` residen de forma estricta y limpia dentro de subdirectorios de costura de dominio (`jobs/`, `articles/`, `about/`, `intake/`, `testimonials/`, `site-config/`).
+- [x] **4.4 Contratos en pruebas unitarias:**
+  - Agregada prueba en [`src/lib/site-config/__tests__/site-config.test.mjs`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/__tests__/site-config.test.mjs) validando que `STRAPI_URL` es expuesto por `site-config`, que los adaptadores lo importan de allí y que `src/lib/config.ts` no existe.
+- [x] **4.5 Verificación completa:**
+  - 109 pruebas unitarias (`npm test`) pasadas.
   - 0 errores TypeScript (`npm run typecheck`).
   - 0 advertencias ESLint (`npm run lint`).
   - Build de producción Next.js 15.5.0 completado sin errores.

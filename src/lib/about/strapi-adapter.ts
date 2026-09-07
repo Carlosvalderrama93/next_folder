@@ -1,4 +1,4 @@
-import { STRAPI_URL } from "@/lib/config";
+import { STRAPI_URL } from "@/lib/site-config";
 import type { AboutProfile } from "./types";
 
 const REVALIDATE_SECONDS = 60;

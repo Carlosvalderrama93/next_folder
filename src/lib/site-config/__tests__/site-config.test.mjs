@@ -238,5 +238,42 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
       "page.tsx must not import Articles as a section component"
     );
   });
+
+  it("verifies CMS configuration is consolidated in site-config and legacy lib/config is purged", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const libDir = path.resolve(__dirname, "../../");
+    const siteConfigIndex = path.join(libDir, "site-config/index.ts");
+    const legacyConfigPath = path.join(libDir, "config.ts");
+
+    // 1. Legacy config.ts must not exist
+    assert.ok(
+      !fs.existsSync(legacyConfigPath),
+      "src/lib/config.ts must be completely removed"
+    );
+
+    // 2. site-config exports STRAPI_URL
+    const indexContent = fs.readFileSync(siteConfigIndex, "utf-8");
+    assert.ok(
+      indexContent.includes("STRAPI_URL"),
+      "site-config/index.ts must export STRAPI_URL"
+    );
+
+    // 3. Adapters must import from @/lib/site-config
+    const jobsAdapterPath = path.join(libDir, "jobs/strapi-adapter.ts");
+    const articlesAdapterPath = path.join(libDir, "articles/strapi-adapter.ts");
+    const aboutAdapterPath = path.join(libDir, "about/strapi-adapter.ts");
+
+    for (const adapter of [jobsAdapterPath, articlesAdapterPath, aboutAdapterPath]) {
+      const content = fs.readFileSync(adapter, "utf-8");
+      assert.ok(
+        content.includes('from "@/lib/site-config"'),
+        `${path.basename(adapter)} must import STRAPI_URL from @/lib/site-config`
+      );
+    }
+  });
 });
 
