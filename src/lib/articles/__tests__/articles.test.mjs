@@ -510,10 +510,16 @@ function parseArticleQueryCriteria(searchParams) {
   };
 
   const cat = getParam("category");
-  if (!cat || cat.trim().toLowerCase() === "all") {
-    return {};
-  }
-  return { category: cat.trim() };
+  const q = getParam("q");
+
+  const category =
+    cat && cat.trim().toLowerCase() !== "all" ? cat.trim() : undefined;
+  const queryStr = q && q.trim().length > 0 ? q.trim() : undefined;
+
+  return {
+    ...(category ? { category } : {}),
+    ...(queryStr ? { q: queryStr } : {}),
+  };
 }
 
 function serializeArticleQueryCriteria(criteria) {
@@ -521,7 +527,32 @@ function serializeArticleQueryCriteria(criteria) {
   if (criteria.category && criteria.category.trim().toLowerCase() !== "all") {
     params.set("category", criteria.category.trim());
   }
+  if (criteria.q && criteria.q.trim().length > 0) {
+    params.set("q", criteria.q.trim());
+  }
   return params;
+}
+
+function filterArticles(articles, criteria) {
+  let result = articles;
+  if (criteria.category && criteria.category.trim().toLowerCase() !== "all") {
+    const targetCat = criteria.category.trim().toLowerCase();
+    result = result.filter(
+      (a) => a.category && a.category.trim().toLowerCase() === targetCat
+    );
+  }
+  if (criteria.q && criteria.q.trim().length > 0) {
+    const normalize = (s) =>
+      s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const tokens = normalize(criteria.q).split(/\s+/).filter(Boolean);
+    result = result.filter((article) => {
+      const text = normalize(
+        `${article.title} ${article.excerpt} ${article.description || ""} ${article.category || ""}`
+      );
+      return tokens.every((token) => text.includes(token));
+    });
+  }
+  return result;
 }
 
 describe("Article Query URL Criteria Codec · parseArticleQueryCriteria & serializeArticleQueryCriteria", () => {
@@ -535,9 +566,10 @@ describe("Article Query URL Criteria Codec · parseArticleQueryCriteria & serial
       category: "Career",
     });
 
-    const urlParams = new URLSearchParams("category=Engineering");
+    const urlParams = new URLSearchParams("category=Engineering&q=interview");
     assert.deepEqual(parseArticleQueryCriteria(urlParams), {
       category: "Engineering",
+      q: "interview",
     });
   });
 
@@ -552,24 +584,52 @@ describe("Article Query URL Criteria Codec · parseArticleQueryCriteria & serial
       ""
     );
     assert.equal(
-      serializeArticleQueryCriteria({ category: "Career Advice" }).toString(),
-      "category=Career+Advice"
+      serializeArticleQueryCriteria({ category: "Career Advice", q: "remote tips" }).toString(),
+      "category=Career+Advice&q=remote+tips"
     );
   });
 
   it("guarantees round-trip serialization and deserialization fidelity", () => {
-    const sampleCategories = ["Career", "Remote Work", "Hiring", "LATAM Tech"];
+    const sampleCases = [
+      { category: "Career" },
+      { q: "remote work" },
+      { category: "Hiring", q: "LATAM" },
+    ];
 
-    for (const cat of sampleCategories) {
-      const criteria = { category: cat };
+    for (const criteria of sampleCases) {
       const serialized = serializeArticleQueryCriteria(criteria);
       const deserialized = parseArticleQueryCriteria(serialized);
       assert.deepEqual(
         deserialized,
         criteria,
-        `Round-trip failed for category: ${cat}`
+        `Round-trip failed for: ${JSON.stringify(criteria)}`
       );
     }
+  });
+
+  it("filters articles by category and keyword search with diacritic normalization", () => {
+    const fixtureArticles = [
+      { id: "1", title: "Remote Interview Tips", excerpt: "How to ace interviews", category: "Career" },
+      { id: "2", title: "Top Skills for Bogotá IT", excerpt: "Node.js and React in Colombia", category: "Tech" },
+      { id: "3", title: "Hiring Strategies", excerpt: "Building remote teams", category: "Recruiting" },
+    ];
+
+    // Category filter
+    const careerOnly = filterArticles(fixtureArticles, { category: "Career" });
+    assert.equal(careerOnly.length, 1);
+    assert.equal(careerOnly[0].id, "1");
+
+    // Accent-insensitive keyword search
+    const bogotaSearch = filterArticles(fixtureArticles, { q: "bogota" });
+    assert.equal(bogotaSearch.length, 1);
+    assert.equal(bogotaSearch[0].id, "2");
+
+    // Combined criteria
+    const combined = filterArticles(fixtureArticles, { category: "Career", q: "interview" });
+    assert.equal(combined.length, 1);
+
+    const nonMatching = filterArticles(fixtureArticles, { category: "Tech", q: "interview" });
+    assert.equal(nonMatching.length, 0);
   });
 
   it("verifies src/lib/articles/query.ts exports codec functions and types", async () => {
@@ -594,12 +654,20 @@ describe("Article Query URL Criteria Codec · parseArticleQueryCriteria & serial
       "query.ts must export serializeArticleQueryCriteria"
     );
     assert.ok(
+      queryContent.includes("export function filterArticles"),
+      "query.ts must export filterArticles"
+    );
+    assert.ok(
       indexContent.includes("parseArticleQueryCriteria"),
       "index.ts must re-export parseArticleQueryCriteria"
     );
     assert.ok(
       indexContent.includes("serializeArticleQueryCriteria"),
       "index.ts must re-export serializeArticleQueryCriteria"
+    );
+    assert.ok(
+      indexContent.includes("filterArticles"),
+      "index.ts must re-export filterArticles"
     );
   });
 

@@ -38,7 +38,7 @@ export default async function ArticlesPage({
         </h1>
         <div className="mt-3 mb-6 w-10 h-1 bg-brand rounded-full" />
       </div>
-      <ArticlesView articles={articles} initialCategory={criteria.category} />
+      <ArticlesView articles={articles} initialCriteria={criteria} />
     </main>
   );
 }

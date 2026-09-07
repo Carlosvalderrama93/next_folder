@@ -48,9 +48,17 @@ export function TabsTrigger({ value, children }: { value: string; children: Reac
   );
 }
 
-export function TabsContent({ value, children }: { value: string; children: ReactNode }) {
+export function TabsContent({
+  value,
+  children,
+  className,
+}: {
+  value: string;
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <TabsPrimitive.Content value={value} forceMount>
+    <TabsPrimitive.Content value={value} className={className} forceMount>
       {children}
     </TabsPrimitive.Content>
   );
