@@ -312,10 +312,12 @@ describe("Intake Client Seam · useIntakeForm Contracts", () => {
     const { fileURLToPath } = await import("node:url");
 
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const contactFormPath = path.resolve(__dirname, "../../../app/[locale]/contact/contact-form.tsx");
+    const contactFormPath = path.resolve(__dirname, "../../../components/contact/contact-form.tsx");
+    const legacyContactFormPath = path.resolve(__dirname, "../../../app/[locale]/contact/contact-form.tsx");
     const applyFormPath = path.resolve(__dirname, "../../../components/jobs/apply-form.tsx");
 
-    assert.ok(fs.existsSync(contactFormPath), "contact-form.tsx must exist");
+    assert.ok(fs.existsSync(contactFormPath), "contact-form.tsx must exist in components/contact/");
+    assert.ok(!fs.existsSync(legacyContactFormPath), "contact-form.tsx must not exist in app/[locale]/contact/");
     assert.ok(fs.existsSync(applyFormPath), "apply-form.tsx must exist in components/jobs/");
 
     const contactContent = fs.readFileSync(contactFormPath, "utf-8");
@@ -423,6 +425,38 @@ describe("Intake HTTP Seam · Protocol & Route Delegation Contracts", () => {
     assert.ok(indexContent.includes("submitInquiry"), "Must export submitInquiry");
     assert.ok(indexContent.includes("handleApplicationRequest"), "Must export handleApplicationRequest");
     assert.ok(indexContent.includes("handleInquiryRequest"), "Must export handleInquiryRequest");
+  });
+});
+
+describe("Contact Presentation Module · Locality & Purity Contracts", () => {
+  it("guarantees components/contact/ acts as canonical presentation module and purifies contact/page.tsx", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const contactDir = path.resolve(__dirname, "../../../components/contact");
+    const indexPath = path.join(contactDir, "index.ts");
+    const viewPath = path.join(contactDir, "contact-view.tsx");
+    const formPath = path.join(contactDir, "contact-form.tsx");
+    const pagePath = path.resolve(__dirname, "../../../app/[locale]/contact/page.tsx");
+    const legacyFormPath = path.resolve(__dirname, "../../../app/[locale]/contact/contact-form.tsx");
+
+    assert.ok(fs.existsSync(contactDir), "components/contact/ directory must exist");
+    assert.ok(fs.existsSync(indexPath), "components/contact/index.ts must exist");
+    assert.ok(fs.existsSync(viewPath), "components/contact/contact-view.tsx must exist");
+    assert.ok(fs.existsSync(formPath), "components/contact/contact-form.tsx must exist");
+    assert.ok(!fs.existsSync(legacyFormPath), "Legacy contact-form.tsx in app route must be purged");
+
+    const indexContent = fs.readFileSync(indexPath, "utf-8");
+    assert.ok(indexContent.includes("ContactForm"), "index.ts must export ContactForm");
+    assert.ok(indexContent.includes("ContactView"), "index.ts must export ContactView");
+
+    const pageContent = fs.readFileSync(pagePath, "utf-8");
+    assert.ok(pageContent.includes('from "@/components/contact"'), "contact/page.tsx must import from @/components/contact");
+    assert.ok(!pageContent.includes("./contact-form"), "contact/page.tsx must not import local contact-form");
+    const lines = pageContent.split("\n").filter((l) => l.trim().length > 0);
+    assert.ok(lines.length <= 35, `ContactPage must be concise and declarative (found ${lines.length} non-empty lines)`);
   });
 });
 
