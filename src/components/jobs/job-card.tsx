@@ -110,7 +110,7 @@ export default function JobCard({
         </div>
 
         {/* Title — ::before makes full card clickable */}
-        <h2 className="text-lg font-bold text-gray-900 dark:text-foreground mb-2 group-hover:text-brand transition-colors">
+        <h2 className="text-lg font-bold text-gray-900 dark:text-foreground mb-2 group-hover:text-brand transition-colors text-balance">
           <Link
             href={applyHref as `/${string}`}
             className="before:content-[''] before:absolute before:inset-0 focus:outline-none focus-visible:outline-2 focus-visible:outline-brand focus-visible:rounded-2xl"
@@ -135,7 +135,7 @@ export default function JobCard({
               </span>
             ))}
             {extraSkills > 0 && (
-              <span className="text-xs text-muted-fg self-center">
+              <span className="text-xs text-muted-fg self-center tabular-nums">
                 +{extraSkills}
               </span>
             )}
@@ -153,7 +153,7 @@ export default function JobCard({
             </span>
           )}
           {formattedDate && (
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1 tabular-nums">
               <CalendarIcon />
               {formattedDate}
             </span>

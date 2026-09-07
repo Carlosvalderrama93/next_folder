@@ -82,14 +82,14 @@ export default async function ArticleDetail({
         />
 
         <article className="mt-4">
-          <p className="text-xs text-gray-400 dark:text-gray-500 mb-3">
+          <p className="text-xs text-gray-400 dark:text-gray-500 mb-3 tabular-nums">
             {new Date(article.publishedAt).toLocaleDateString(dateLocale, {
               year: "numeric",
               month: "long",
               day: "numeric",
             })}
           </p>
-          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
+          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight text-balance">
             {article.title}
           </h1>
           {article.description && (
@@ -104,7 +104,7 @@ export default async function ArticleDetail({
 
         {related.length > 0 && (
           <section className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-balance">
               {articlesT("moreArticles")}
             </h2>
             <div className="flex flex-col gap-4">

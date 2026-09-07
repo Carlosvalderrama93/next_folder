@@ -23,7 +23,7 @@ export default function AboutExperience({
 
   return (
     <section id="experience" className="max-w-4xl mx-auto px-4 pb-16 scroll-mt-24">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-10">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-10 text-balance">
         {translations.experienceHeading}
       </h2>
       <div className="flex flex-col gap-10">

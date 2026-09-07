@@ -33,7 +33,7 @@ export default async function ArticlesPage({
   return (
     <main id="main-content" className="max-w-5xl mx-auto px-4 py-16 scroll-mt-24">
       <div className="mb-10">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white text-balance">
           {t("heading")}
         </h1>
         <div className="mt-3 mb-6 w-10 h-1 bg-brand rounded-full" />
