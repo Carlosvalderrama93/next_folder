@@ -50,7 +50,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción 1** | Profundizar Costura HTTP de Intake y Colapsar Route Handlers ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ✅ **Completada** | `feat/intake-http-seam-sprint` |
-| **Opción 2** | Consolidar Módulo de Presentación de About Profile ([`src/components/about/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/about/)) | ⏳ Pendiente | `feat/about-presentation-consolidation-sprint` |
+| **Opción 2** | Consolidar Módulo de Presentación de About Profile ([`src/components/about/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/about/)) | ✅ **Completada** | `feat/about-presentation-consolidation-sprint` |
 | **Opción 3** | Costura de Estado URL para Consultas y Filtros de Empleo ([`src/lib/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/jobs/)) | ⏳ Pendiente | `feat/job-query-url-state-sprint` |
 | **Opción 4** | Metadata Estructurada y Schema.org JSON-LD ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ⏳ Pendiente | `feat/structured-metadata-seam-sprint` |
 
@@ -263,13 +263,14 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **1.4 Contratos de prueba y verificación:** Añadidas 3 pruebas unitarias de contrato en `src/lib/intake/__tests__/intake.test.mjs`, 120/120 unit tests verdes, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
 
 
-### Opción 2: Consolidar Módulo de Presentación de About Profile (⏳ Pendiente)
+### Opción 2: Consolidar Módulo de Presentación de About Profile (✅ Completada)
 **Rama:** `feat/about-presentation-consolidation-sprint`
 
-- [ ] **2.1 Crear costura unificada `AboutView` en `src/components/about/`:** Proporcionar un único módulo de presentación que encapsula la orquestación visual, navegación por secciones y resolución de i18n para el perfil profesional.
-- [ ] **2.2 Crear barril canónico `src/components/about/index.ts`:** Exponer `AboutView` como punto de entrada de la costura análogo a `src/components/articles/`.
-- [ ] **2.3 Simplificar `src/app/[locale]/about/page.tsx`:** Colapsar la página de 145 líneas eliminando la inyección manual de 10 diccionarios a componentes individuales.
-- [ ] **2.4 Pruebas y verificación:** Contratos de no-regresión y eliminación de complejidad superficial.
+- [x] **2.1 Crear costura unificada `AboutView` en `src/components/about/`:** Proporcionar un único módulo de presentación que encapsula la orquestación visual, navegación por secciones y resolución de i18n para el perfil profesional.
+- [x] **2.2 Crear barril canónico `src/components/about/index.ts`:** Exponer `AboutView` como punto de entrada de la costura análogo a `src/components/articles/`.
+- [x] **2.3 Simplificar `src/app/[locale]/about/page.tsx`:** Colapsar la página de 145 a 30 líneas eliminando la inyección manual de 10 diccionarios y acoplamiento a secciones individuales.
+- [x] **2.4 Pruebas y verificación:** Contratos de no-regresión y eliminación de complejidad superficial en `about.test.mjs`. 122/122 unit tests verdes, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
+
 
 ### Opción 3: Costura de Estado URL para Consultas y Filtros de Empleo (⏳ Pendiente)
 **Rama:** `feat/job-query-url-state-sprint`

@@ -1,0 +1,13 @@
+export { default as AboutView } from "./about-view";
+export type { AboutViewProps } from "./about-view";
+export { default as AboutToc } from "./about-toc";
+export { default as AboutHero } from "./about-hero";
+export { default as AboutBio } from "./about-bio";
+export { default as AboutExperience } from "./about-experience";
+export { default as AboutFocus } from "./about-focus";
+export { default as AboutStats } from "./about-stats";
+export { default as AboutSkills } from "./about-skills";
+export { default as AboutEducation } from "./about-education";
+export { default as AboutCertifications } from "./about-certifications";
+export { default as AboutLearning } from "./about-learning";
+export { default as AboutCta } from "./about-cta";
