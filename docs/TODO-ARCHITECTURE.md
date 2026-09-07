@@ -349,7 +349,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ---
 
-## 🚀 Ciclo 8 — Simetría de Presentación, Shell Unificado y Co-ubicación de Skeletons (⏳ Pendiente de Ejecución)
+## 🚀 Ciclo 8 — Simetría de Presentación, Shell Unificado y Co-ubicación de Skeletons (✅ Completado)
 
 ### Opción 1: Módulo Canónico de Presentación de Contacto (`components/contact/`) y Purificación de `contact/page.tsx` (✅ Completada)
 **Rama:** `feat/contact-presentation-module-sprint`
@@ -382,6 +382,37 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **4.2 Co-ubicar esqueletos de Articles:** Creados `src/components/articles/articles-skeleton.tsx` y `article-detail-skeleton.tsx`, exportándolos canónicamente desde `@/components/articles`.
 - [x] **4.3 Colapsar archivos `loading.tsx` en App Router:** Convertidos `jobs/loading.tsx`, `jobs/[id]/loading.tsx`, `articles/loading.tsx` y `articles/[documentId]/loading.tsx` en adaptadores delgados de una sola línea que re-exportan los esqueletos de sus módulos canónicos.
 - [x] **4.4 Contratos y verificación:** Agregados contratos en `presentation.test.mjs` y `articles.test.mjs` garantizando la co-ubicación de esqueletos y la pureza minimalista de los adaptadores de ruta. 146 tests pasando, 0 errores TS y 0 lints.
+
+---
+
+## 🎨 Ciclo 9 — Web Interface Guidelines, Accesibilidad (a11y) y Resiliencia UX
+
+### Opción 1: Respeto a `prefers-reduced-motion` y Purga de `transition-all` (✅ Completada)
+**Rama:** `feat/a11y-reduced-motion-transitions-sprint`
+
+- [x] **1.1 Reglas globales de movimiento reducido:** Agregada regla `@media (prefers-reduced-motion: reduce)` en `src/app/globals.css` anulando transformaciones, opacidades y transiciones con `!important` para `.reveal-hidden`.
+- [x] **1.2 Desactivar animaciones pulsantes y spinners bajo movimiento reducido:** Añadida clase utilitaria `motion-reduce:animate-none` a todos los skeletons (`home-skeletons`, `jobs-skeleton`, `job-detail-skeleton`, `articles-skeleton`, `article-detail-skeleton`) y spinners de envío en formularios (`contact-form.tsx`, `apply-form.tsx`).
+- [x] **1.3 Purgar `transition-all` en toda la capa de componentes:** Reemplazado el uso indiscriminado de `transition-all` por propiedades CSS explícitas (`transition-[color,background-color,border-color]`, `transition-transform`, `transition-opacity`, `transition-[transform,opacity]`, etc.) junto a `motion-reduce:transition-none` en `articles/[documentId]/page.tsx`, `about-focus.tsx`, `about-toc.tsx`, `article-card.tsx`, `job-card.tsx`, `testimonials-carousel.tsx`, `ui/card.tsx`, `ui/carousel.tsx` y `ui/toast.tsx`.
+- [x] **1.4 Contratos de interfaz y suite de pruebas:** Creada suite en `site-config.test.mjs` que escanea todo `src/` verificando 0 ocurrencias de `transition-all`, cobertura de `prefers-reduced-motion` y protección en esqueletos. 147 tests unitarios pasando, 0 errores de tipos y 0 lints.
+
+### Opción 2: Anclaje Accesible (`scroll-margin-top`) y Anuncios Asíncronos (`aria-live`) (⏳ Siguiente)
+**Rama:** `feat/a11y-scroll-margin-aria-live-sprint`
+
+- [ ] **2.1 Configurar offset de desplazamiento en anclas (`scroll-mt-20` / `scroll-mt-24`):** Garantizar que la barra de navegación fija/sticky no tape encabezados o secciones al navegar con enlaces internos o SkipLink (`#main-content`, `#about`, `#focus`, `#experience`, `#skills`, etc.).
+- [ ] **2.2 Anuncios asíncronos y regiones vivas accesibles:** Auditar y reforzar `aria-live="polite"` y `role="status"` en toasts y notificaciones de formularios asíncronos.
+- [ ] **2.3 Contratos y verificación:** Suite de pruebas y validación en `npm test`, typecheck y build.
+
+### Opción 3: Resiliencia de Formularios (`beforeunload`) e Higiene de Foco
+**Rama:** `feat/form-resilience-beforeunload-sprint`
+
+- [ ] **3.1 Prevención de pérdida accidental de datos:** Añadir detector de estado sucio (`isDirty`) y listener de `beforeunload` en `useIntakeForm` cuando hay cambios sin guardar en `contact-form` o `apply-form`.
+- [ ] **3.2 Higiene y restauración de foco:** Enfocar automáticamente el primer campo inválido tras un error de validación o el contenedor de éxito tras el envío.
+
+### Opción 4: Pulido Tipográfico y Numérico (`text-balance`, `tabular-nums`)
+**Rama:** `feat/typography-text-balance-tabular-nums-sprint`
+
+- [ ] **4.1 Balanceo tipográfico de títulos:** Aplicar `text-balance` a encabezados principales `h1` y `h2` en las páginas de inicio, sobre mí, empleos y artículos para eliminar huérfanos tipográficos.
+- [ ] **4.2 Alineación numérica tabular:** Aplicar `tabular-nums` en contadores de caracteres (e.g. textarea de postulaciones), fechas, horas de lectura y badges numéricos.
 
 ---
 
