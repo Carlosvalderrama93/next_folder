@@ -43,7 +43,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 |---|---|---|---|
 | **Opción 1** | Encapsulación del Ciclo de Vida de Formularios Client (`useIntakeForm`) ([`src/lib/intake/use-intake-form.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/use-intake-form.ts)) | ✅ **Completada** | `feat/intake-form-lifecycle-sprint` |
 | **Opción 2** | Localidad UI de Artículos: Purificar `components/ui/` y Crear `components/articles/` ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ✅ **Completada** | `feat/articles-ui-locality-sprint` |
-| **Opción 3** | Límites de Suspense y Streaming Progresivo en Portada ([`src/app/[locale]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/page.tsx)) | ⏳ Pendiente | Alta (RSC Streaming Leverage) |
+| **Opción 3** | Límites de Suspense y Streaming Progresivo en Portada ([`src/app/[locale]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/page.tsx)) | ✅ **Completada** | `feat/streaming-suspense-home-sprint` |
 | **Opción 4** | Consolidación del Seam de Renderizado Markdown ([`src/app/[locale]/jobs/[id]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/jobs/%5Bid%5D/page.tsx)) | ⏳ Pendiente | Media (Desacoplamiento de Terceros) |
 
 
@@ -228,10 +228,12 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
   - Reubicados `article-blocks.tsx` y `article-card.tsx` a `src/components/articles/` con barril canónico `index.ts`.
 - [x] **2.4 Actualizar rutas de consumo y contratos de prueba:** Actualizados `articles/[documentId]/page.tsx`, `articles-client.tsx` y `featured-articles-section.tsx`. Agregadas 3 pruebas de contrato en `articles.test.mjs`. 115 unit tests, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
 
-### Opción 3: Límites de Suspense y Streaming Progresivo en Portada (`HomePage`)
-- [ ] **3.1 Diseñar skeletons semánticos ligeros para secciones de portada:** `JobsSectionSkeleton`, `ArticlesSectionSkeleton` y `TestimonialsSkeleton`.
-- [ ] **3.2 Envolver secciones asíncronas en `<Suspense>` en `src/app/[locale]/page.tsx`:** Permitir que el servidor Next.js transmita de forma inmediata el shell de layout y el `Hero` banner interactivo mientras las consultas remotas cargan en paralelo.
-- [ ] **3.3 Verificación de rendimiento y streaming:** Comprobar streaming sin hydration mismatches y verificar suite E2E.
+### Opción 3: Límites de Suspense y Streaming Progresivo en Portada (`HomePage`) (✅ Completada)
+**Rama:** `feat/streaming-suspense-home-sprint`
+
+- [x] **3.1 Diseñar skeletons semánticos ligeros para secciones de portada:** Creado [`src/components/home-skeletons.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/home-skeletons.tsx) con `FeaturedJobsSkeleton`, `FeaturedArticlesSkeleton` y `TestimonialsSkeleton` respetando las proporciones y grid de cada sección.
+- [x] **3.2 Envolver secciones asíncronas en `<Suspense>` en `src/app/[locale]/page.tsx`:** El shell estático y el `Hero` se transmiten de inmediato (TTFB instantáneo) mientras las consultas de `jobs`, `articles` y `testimonials` transmiten en paralelo.
+- [x] **3.3 Verificación de rendimiento y streaming:** 116 pruebas unitarias (`npm test`), 0 errores TS, 0 lints, build de producción 18/18 y 18/18 checks E2E superados sin regresiones ni parpadeos de hidratación.
 
 ### Opción 4: Consolidación del Seam de Renderizado Markdown (`jobs/[id]/page.tsx`)
 - [ ] **4.1 Crear o promover adaptador de texto enriquecido/markdown:** Desacoplar el renderizado de `react-markdown` y `remark-gfm` de páginas de ruta.

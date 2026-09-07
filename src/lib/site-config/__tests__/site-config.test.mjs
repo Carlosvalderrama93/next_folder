@@ -275,5 +275,32 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
       );
     }
   });
+
+  it("guarantees HomePage implements Suspense boundaries and semantic skeletons for RSC streaming", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const componentsDir = path.resolve(__dirname, "../../../components");
+    const pagePath = path.resolve(__dirname, "../../../app/[locale]/page.tsx");
+
+    // 1. Skeletons component must exist
+    const skeletonsPath = path.join(componentsDir, "home-skeletons.tsx");
+    assert.ok(fs.existsSync(skeletonsPath), "components/home-skeletons.tsx must exist");
+
+    const skeletonsContent = fs.readFileSync(skeletonsPath, "utf-8");
+    assert.ok(skeletonsContent.includes("FeaturedJobsSkeleton"), "Must export FeaturedJobsSkeleton");
+    assert.ok(skeletonsContent.includes("FeaturedArticlesSkeleton"), "Must export FeaturedArticlesSkeleton");
+    assert.ok(skeletonsContent.includes("TestimonialsSkeleton"), "Must export TestimonialsSkeleton");
+
+    // 2. page.tsx must wrap async sections in Suspense
+    const pageContent = fs.readFileSync(pagePath, "utf-8");
+    assert.ok(pageContent.includes("Suspense"), "page.tsx must import and use Suspense");
+    assert.ok(pageContent.includes("<Suspense fallback={<FeaturedJobsSkeleton />}>"), "Jobs section must have Suspense fallback");
+    assert.ok(pageContent.includes("<Suspense fallback={<FeaturedArticlesSkeleton />}>"), "Articles section must have Suspense fallback");
+    assert.ok(pageContent.includes("<Suspense fallback={<TestimonialsSkeleton />}>"), "Testimonials section must have Suspense fallback");
+  });
 });
+
 
