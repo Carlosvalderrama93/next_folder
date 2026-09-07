@@ -1,34 +1,11 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import type { Job, JobStatus } from "@/lib/jobs";
+import type { Job } from "@/lib/jobs";
+import { isJobDimmed, STATUS_TRANSLATION_KEYS } from "@/lib/jobs";
+import JobStatusBadge from "./job-status-badge";
 
 export type JobCardProps = Job;
-
-const STATUS_KEYS: Record<JobStatus, string> = {
-  open: "open",
-  "on-hold": "onHold",
-  "final-steps": "finalSteps",
-  filled: "filled",
-  cancelled: "cancelled",
-  overstaffed: "overstaffed",
-};
-
-const STATUS_BADGE: Record<JobStatus, string> = {
-  open: "bg-emerald-500 text-white",
-  "on-hold": "bg-amber-400 text-amber-900",
-  "final-steps": "bg-indigo-500 text-white",
-  filled: "bg-gray-200 dark:bg-surface-raised text-gray-500 dark:text-muted-fg",
-  cancelled: "bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-400",
-  overstaffed:
-    "bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400",
-};
-
-const DIMMED_STATUSES = new Set<JobStatus>([
-  "filled",
-  "cancelled",
-  "overstaffed",
-]);
 
 function MapPinIcon() {
   return (
@@ -98,23 +75,7 @@ export default function JobCard({
     : null;
 
   const isEffectivelyOpen = status ? status === "open" : (isOpen ?? true);
-  const isDimmed = status ? DIMMED_STATUSES.has(status) : !isEffectivelyOpen;
-
-  const badgeEl = status ? (
-    <span
-      className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${STATUS_BADGE[status]}`}
-    >
-      {jobsTranslations(STATUS_KEYS[status])}
-    </span>
-  ) : isEffectivelyOpen ? (
-    <span className="bg-emerald-500 text-white px-2.5 py-0.5 rounded-full text-xs font-semibold">
-      {jobsTranslations("open")}
-    </span>
-  ) : (
-    <span className="bg-gray-200 dark:bg-surface-raised text-gray-500 dark:text-muted-fg px-2.5 py-0.5 rounded-full text-xs font-semibold">
-      {jobsTranslations("closed")}
-    </span>
-  );
+  const isDimmed = isJobDimmed(status, isOpen);
 
   const visibleSkills = skills?.slice(0, 3) ?? [];
   const extraSkills = (skills?.length ?? 0) - visibleSkills.length;
@@ -129,7 +90,7 @@ export default function JobCard({
         {/* Top row: badges + optional thumbnail */}
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex flex-wrap items-center gap-2">
-            {badgeEl}
+            <JobStatusBadge status={status} isOpen={isOpen} />
             {type && (
               <span className="text-xs text-muted-fg bg-gray-100 dark:bg-surface-raised px-2.5 py-0.5 rounded-full">
                 {type}
@@ -209,7 +170,7 @@ export default function JobCard({
         ) : (
           <span className="shrink-0 px-4 py-2 bg-gray-100 dark:bg-surface-raised text-muted-fg rounded-full text-xs font-semibold cursor-not-allowed">
             {status
-              ? jobsTranslations(STATUS_KEYS[status])
+              ? jobsTranslations(STATUS_TRANSLATION_KEYS[status])
               : jobsTranslations("closed")}
           </span>
         )}

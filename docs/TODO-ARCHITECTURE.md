@@ -26,8 +26,8 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción 1** | Shell Persistente en Root Layout ([`src/app/[locale]/layout.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/layout.tsx)) | ✅ **Completada** | `feat/persistent-shell-layout-sprint` (`81e91d3`) |
-| **Opción 2** | Costura de Configuración del Sitio ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/site-config-seam-sprint` |
-| **Opción 3** | Componente Canónico `JobStatusBadge` & Presentación ([`src/components/job-status-badge.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job-status-badge.tsx)) | ⚪ Pendiente | Media |
+| **Opción 2** | Costura de Configuración del Sitio ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/site-config-seam-sprint` (`4da4742`) |
+| **Opción 3** | Componente Canónico `JobStatusBadge` & Presentación ([`src/components/job-status-badge.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job-status-badge.tsx)) | ✅ **Completada** | `feat/job-status-badge-sprint` |
 | **Opción 4** | Descomposición de Bloques de Artículos ([`src/components/article-blocks.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/article-blocks.tsx)) | ⚪ Pendiente | Media |
 
 ---
@@ -57,13 +57,15 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ---
 
-## 🏷️ Opción 3: Componente Canónico `JobStatusBadge` & Tokens de Presentación (⚪ Pendiente)
+## 🏷️ Opción 3: Componente Canónico `JobStatusBadge` & Tokens de Presentación (✅ Completada)
 **Rama:** `feat/job-status-badge-sprint`
 
 ### Objetivos
-- [ ] **3.1 Centralizar tokens de estado y modalidad:** Crear `src/components/job-status-badge.tsx` (o `src/lib/jobs/presentation.ts`) para `STATUS_BADGE`, `STATUS_KEYS`, `MODALITY_KEYS` y `PAYMENT_KEYS`.
-- [ ] **3.2 Desacoplar `job-card.tsx` y `jobs/[id]/page.tsx`:** Reemplazar las definiciones duplicadas por el nuevo badge canónico.
-- [ ] **3.3 Sincronizar filtros:** Alinear `job-filters.tsx` con las constantes de presentación compartidas.
+- [x] **3.1 Centralizar tokens de estado y modalidad:** Creado [`src/lib/jobs/presentation.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/jobs/presentation.ts) con `STATUS_BADGE_CLASSES`, `STATUS_TRANSLATION_KEYS`, `STATUS_PAGE_KEYS`, `MODALITY_KEYS`, `PAYMENT_KEYS`, `STATUS_CHIP_ACTIVE`, `DIMMED_STATUSES` e `isJobDimmed()`.
+- [x] **3.2 Crear componente canónico `JobStatusBadge`:** Implementado [`src/components/job-status-badge.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job-status-badge.tsx) con soporte para variantes de tamaño (`sm`, `md`), traducción automática y soporte de fallback.
+- [x] **3.3 Desacoplar `job-card.tsx` y `jobs/[id]/page.tsx`:** Reemplazadas las 50+ líneas de diccionarios duplicados por el componente canónico y helper `isJobDimmed()`.
+- [x] **3.4 Sincronizar filtros:** Alinear [`job-filters.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job-filters.tsx) consumiendo constantes y mapeos de presentación directamente del dominio, reduciendo el bundle del cliente en ~38%.
+- [x] **3.5 Verificación completa:** 101 unit tests (`npm test`), 0 errores de tipos, 0 advertencias ESLint, build de producción y 18/18 tests E2E superados.
 
 ---
 

@@ -4,46 +4,17 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {
   getJob,
-  type JobStatus,
-  type JobModality,
-  type JobPaymentType,
+  STATUS_PAGE_KEYS,
+  MODALITY_KEYS,
+  PAYMENT_KEYS,
 } from "@/lib/jobs";
+import { siteConfig } from "@/lib/site-config";
+import JobStatusBadge from "@/components/job-status-badge";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { ApplyToggle } from "./apply-toggle";
-
-const STATUS_BADGE: Record<JobStatus, string> = {
-  open: "bg-emerald-500 text-white",
-  "on-hold": "bg-amber-400 text-amber-900",
-  "final-steps": "bg-indigo-500 text-white",
-  filled: "bg-gray-200 dark:bg-surface-raised text-gray-500 dark:text-muted-fg",
-  cancelled: "bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-400",
-  overstaffed: "bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400",
-};
-
-const STATUS_KEYS: Record<JobStatus, string> = {
-  open: "statusOpen",
-  "on-hold": "statusOnHold",
-  "final-steps": "statusFinalSteps",
-  filled: "statusFilled",
-  cancelled: "statusCancelled",
-  overstaffed: "statusOverstaffed",
-};
-
-const MODALITY_KEYS: Record<JobModality, string> = {
-  remote: "modalityRemote",
-  hybrid: "modalityHybrid",
-  "on-site": "modalityOnSite",
-};
-
-const PAYMENT_KEYS: Record<JobPaymentType, string> = {
-  salary: "paymentSalary",
-  hourly: "paymentHourly",
-  equity: "paymentEquity",
-  mixed: "paymentMixed",
-};
 
 export async function generateMetadata({
   params,
@@ -128,7 +99,7 @@ export default async function ApplyJobPage({
     description: job.description,
     jobLocation: { "@type": "Place", address: job.location },
     employmentType: job.type.toUpperCase().replace(/\s+/g, "_"),
-    hiringOrganization: { "@type": "Organization", name: "Carlos Valderrama" },
+    hiringOrganization: { "@type": "Organization", name: siteConfig.name },
   };
 
   return (
@@ -152,9 +123,12 @@ export default async function ApplyJobPage({
             <div className="flex-1 min-w-0">
               {/* Badges row */}
               <div className="flex flex-wrap items-center gap-2 mb-4">
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${STATUS_BADGE[job.status]}`}>
-                  {t(STATUS_KEYS[job.status])}
-                </span>
+                <JobStatusBadge
+                  status={job.status}
+                  isOpen={isOpen}
+                  size="md"
+                  label={t(STATUS_PAGE_KEYS[job.status])}
+                />
                 <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">{job.type}</span>
                 {job.modality && (
                   <span className="text-xs bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded-full font-medium">

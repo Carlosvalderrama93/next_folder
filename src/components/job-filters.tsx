@@ -6,31 +6,18 @@ import { Link } from "@/i18n/navigation";
 import JobCard from "./job-card";
 import {
   filterJobs,
+  ALL_STATUSES,
+  ALL_MODALITIES,
+  ALL_PAYMENTS,
+  STATUS_CHIP_ACTIVE,
+  STATUS_PAGE_KEYS,
+  MODALITY_KEYS,
+  PAYMENT_KEYS,
   type Job,
   type JobStatus,
   type JobModality,
   type JobPaymentType,
 } from "@/lib/jobs";
-
-const ALL_STATUSES: JobStatus[] = [
-  "open",
-  "on-hold",
-  "final-steps",
-  "filled",
-  "cancelled",
-  "overstaffed",
-];
-const ALL_MODALITIES: JobModality[] = ["remote", "hybrid", "on-site"];
-const ALL_PAYMENTS: JobPaymentType[] = ["salary", "hourly", "equity", "mixed"];
-
-const STATUS_CHIP_ACTIVE: Record<JobStatus, string> = {
-  open: "bg-emerald-500 text-white border-emerald-500",
-  "on-hold": "bg-amber-400 text-amber-900 border-amber-400",
-  "final-steps": "bg-indigo-500 text-white border-indigo-500",
-  filled: "bg-gray-500 text-white border-gray-500",
-  cancelled: "bg-red-500 text-white border-red-500",
-  overstaffed: "bg-orange-500 text-white border-orange-500",
-};
 
 const CHIP_BASE =
   "text-sm font-medium px-3.5 py-1.5 rounded-full border transition-colors whitespace-nowrap";
@@ -102,28 +89,6 @@ export default function JobFilters({ jobs }: { jobs: Job[] }) {
     return Array.from(set).sort();
   }, [jobs]);
 
-  const STATUS_LABELS: Record<JobStatus, string> = {
-    open: t("statusOpen"),
-    "on-hold": t("statusOnHold"),
-    "final-steps": t("statusFinalSteps"),
-    filled: t("statusFilled"),
-    cancelled: t("statusCancelled"),
-    overstaffed: t("statusOverstaffed"),
-  };
-
-  const MODALITY_LABELS: Record<JobModality, string> = {
-    remote: t("modalityRemote"),
-    hybrid: t("modalityHybrid"),
-    "on-site": t("modalityOnSite"),
-  };
-
-  const PAYMENT_LABELS: Record<JobPaymentType, string> = {
-    salary: t("paymentSalary"),
-    hourly: t("paymentHourly"),
-    equity: t("paymentEquity"),
-    mixed: t("paymentMixed"),
-  };
-
   const visible = useMemo(() => {
     return filterJobs(jobs, {
       query,
@@ -194,7 +159,7 @@ export default function JobFilters({ jobs }: { jobs: Job[] }) {
                 : CHIP_INACTIVE
             }
           >
-            {STATUS_LABELS[status]}
+            {t(STATUS_PAGE_KEYS[status])}
           </button>
         ))}
       </div>
@@ -234,7 +199,7 @@ export default function JobFilters({ jobs }: { jobs: Job[] }) {
                   onClick={() => setSelectedModalities(toggle(selectedModalities, m))}
                   className={selectedModalities.has(m) ? FILTER_CHIP_ACTIVE : FILTER_CHIP_INACTIVE}
                 >
-                  {MODALITY_LABELS[m]}
+                  {t(MODALITY_KEYS[m])}
                 </button>
               ))}
             </div>
@@ -252,7 +217,7 @@ export default function JobFilters({ jobs }: { jobs: Job[] }) {
                   onClick={() => setSelectedPayments(toggle(selectedPayments, p))}
                   className={selectedPayments.has(p) ? FILTER_CHIP_ACTIVE : FILTER_CHIP_INACTIVE}
                 >
-                  {PAYMENT_LABELS[p]}
+                  {t(PAYMENT_KEYS[p])}
                 </button>
               ))}
             </div>
@@ -273,7 +238,7 @@ export default function JobFilters({ jobs }: { jobs: Job[] }) {
               onClick={() => setSelectedStatuses(toggle(selectedStatuses, s))}
               className="flex items-center gap-1 text-xs px-2.5 py-1 bg-gray-100 dark:bg-surface-raised rounded-full text-gray-600 dark:text-muted-fg hover:bg-gray-200 dark:hover:bg-surface transition-colors"
             >
-              {STATUS_LABELS[s]} <XSmallIcon />
+              {t(STATUS_PAGE_KEYS[s])} <XSmallIcon />
             </button>
           ))}
           {[...selectedSkills].map((s) => (
@@ -291,7 +256,7 @@ export default function JobFilters({ jobs }: { jobs: Job[] }) {
               onClick={() => setSelectedModalities(toggle(selectedModalities, m))}
               className="flex items-center gap-1 text-xs px-2.5 py-1 bg-gray-100 dark:bg-surface-raised rounded-full text-gray-600 dark:text-muted-fg hover:bg-gray-200 dark:hover:bg-surface transition-colors"
             >
-              {MODALITY_LABELS[m]} <XSmallIcon />
+              {t(MODALITY_KEYS[m])} <XSmallIcon />
             </button>
           ))}
           {[...selectedPayments].map((p) => (
@@ -300,7 +265,7 @@ export default function JobFilters({ jobs }: { jobs: Job[] }) {
               onClick={() => setSelectedPayments(toggle(selectedPayments, p))}
               className="flex items-center gap-1 text-xs px-2.5 py-1 bg-gray-100 dark:bg-surface-raised rounded-full text-gray-600 dark:text-muted-fg hover:bg-gray-200 dark:hover:bg-surface transition-colors"
             >
-              {PAYMENT_LABELS[p]} <XSmallIcon />
+              {t(PAYMENT_KEYS[p])} <XSmallIcon />
             </button>
           ))}
 
