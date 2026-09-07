@@ -6,6 +6,7 @@ export async function fetchJobsFromStrapi(): Promise<Job[]> {
   try {
     const res = await fetch(`${STRAPI_URL}/api/jobs?populate=image`, {
       next: { revalidate: 60 },
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return [];
     const json = await res.json();
@@ -20,6 +21,7 @@ export async function fetchJobFromStrapi(id: string): Promise<Job | null> {
   try {
     const res = await fetch(`${STRAPI_URL}/api/jobs/${id}?populate=image`, {
       next: { revalidate: 60 },
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return null;
     const json = await res.json();
