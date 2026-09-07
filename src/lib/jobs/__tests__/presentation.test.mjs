@@ -204,5 +204,35 @@ describe("Job Markdown Presentation Adapter Contract", () => {
     assert.ok(!fs.existsSync(path.join(appJobIdDir, "apply-toggle.tsx")), "apply-toggle.tsx must not exist in app/[locale]/jobs/[id]/");
     assert.ok(!fs.existsSync(path.join(appJobIdDir, "apply-form.tsx")), "apply-form.tsx must not exist in app/[locale]/jobs/[id]/");
   });
+
+  it("guarantees job skeletons are colocated in components/jobs/ and loading.tsx files are thin re-exports", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const jobsDir = path.resolve(__dirname, "../../../components/jobs");
+    const jobsLoading = path.resolve(__dirname, "../../../app/[locale]/jobs/loading.tsx");
+    const jobIdLoading = path.resolve(__dirname, "../../../app/[locale]/jobs/[id]/loading.tsx");
+
+    assert.ok(fs.existsSync(path.join(jobsDir, "jobs-skeleton.tsx")), "jobs-skeleton.tsx must exist in components/jobs/");
+    assert.ok(fs.existsSync(path.join(jobsDir, "job-detail-skeleton.tsx")), "job-detail-skeleton.tsx must exist in components/jobs/");
+
+    const jobsBarrel = fs.readFileSync(path.join(jobsDir, "index.ts"), "utf-8");
+    assert.ok(jobsBarrel.includes("JobsSkeleton"), "jobs index.ts must export JobsSkeleton");
+    assert.ok(jobsBarrel.includes("JobDetailSkeleton"), "jobs index.ts must export JobDetailSkeleton");
+
+    const jobsLoadingContent = fs.readFileSync(jobsLoading, "utf-8");
+    const jobIdLoadingContent = fs.readFileSync(jobIdLoading, "utf-8");
+
+    assert.ok(
+      jobsLoadingContent.includes('export { JobsSkeleton as default } from "@/components/jobs"'),
+      "jobs/loading.tsx must be a clean 1-line re-export from @/components/jobs"
+    );
+    assert.ok(
+      jobIdLoadingContent.includes('export { JobDetailSkeleton as default } from "@/components/jobs"'),
+      "jobs/[id]/loading.tsx must be a clean 1-line re-export from @/components/jobs"
+    );
+  });
 });
 

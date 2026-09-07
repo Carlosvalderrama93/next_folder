@@ -665,6 +665,36 @@ describe("Article Query URL Criteria Codec · parseArticleQueryCriteria & serial
       "ui/tabs.tsx must not contain hardcoded article domain strings"
     );
   });
+
+  it("guarantees article skeletons are colocated in components/articles/ and loading.tsx files are thin re-exports", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const articlesDir = path.resolve(__dirname, "../../../components/articles");
+    const articlesLoading = path.resolve(__dirname, "../../../app/[locale]/articles/loading.tsx");
+    const articleDocLoading = path.resolve(__dirname, "../../../app/[locale]/articles/[documentId]/loading.tsx");
+
+    assert.ok(fs.existsSync(path.join(articlesDir, "articles-skeleton.tsx")), "articles-skeleton.tsx must exist in components/articles/");
+    assert.ok(fs.existsSync(path.join(articlesDir, "article-detail-skeleton.tsx")), "article-detail-skeleton.tsx must exist in components/articles/");
+
+    const articlesBarrel = fs.readFileSync(path.join(articlesDir, "index.ts"), "utf-8");
+    assert.ok(articlesBarrel.includes("ArticlesSkeleton"), "articles index.ts must export ArticlesSkeleton");
+    assert.ok(articlesBarrel.includes("ArticleDetailSkeleton"), "articles index.ts must export ArticleDetailSkeleton");
+
+    const articlesLoadingContent = fs.readFileSync(articlesLoading, "utf-8");
+    const articleDocLoadingContent = fs.readFileSync(articleDocLoading, "utf-8");
+
+    assert.ok(
+      articlesLoadingContent.includes('export { ArticlesSkeleton as default } from "@/components/articles"'),
+      "articles/loading.tsx must be a clean 1-line re-export from @/components/articles"
+    );
+    assert.ok(
+      articleDocLoadingContent.includes('export { ArticleDetailSkeleton as default } from "@/components/articles"'),
+      "articles/[documentId]/loading.tsx must be a clean 1-line re-export from @/components/articles"
+    );
+  });
 });
 
 
