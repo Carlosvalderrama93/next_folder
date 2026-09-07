@@ -1,13 +1,15 @@
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
-import { ReadingProgress } from "@/components/ui/reading-progress";
-import { ShareButtons } from "@/components/ui/share-buttons";
+import {
+  ReadingProgress,
+  ShareButtons,
+  ArticleBlocks,
+} from "@/components/articles";
 import { getArticle, listArticles } from "@/lib/articles";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { SITE_URL, siteConfig } from "@/lib/site-config";
-import ArticleBlocks from "@/components/article-blocks";
 
 export async function generateMetadata({
   params,

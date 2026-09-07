@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { ArticleCard, FeaturedArticleCard } from "@/components/article-card";
+import { ArticleCard, FeaturedArticleCard } from "@/components/articles";
 import type { Article } from "@/lib/articles";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
