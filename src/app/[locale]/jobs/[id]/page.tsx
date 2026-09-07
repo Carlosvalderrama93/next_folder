@@ -7,13 +7,16 @@ import {
   MODALITY_KEYS,
   PAYMENT_KEYS,
 } from "@/lib/jobs";
-import { siteConfig } from "@/lib/site-config";
+import { buildJobPostingJsonLd } from "@/lib/site-config";
 import JobStatusBadge from "@/components/job-status-badge";
+
+import { StructuredData } from "@/components/ui/structured-data";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { ApplyToggle } from "./apply-toggle";
+
 
 export async function generateMetadata({
   params,
@@ -91,23 +94,11 @@ export default async function ApplyJobPage({
       }).format(new Date(job.postedAt))
     : null;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "JobPosting",
-    title: job.title,
-    description: job.description,
-    jobLocation: { "@type": "Place", address: job.location },
-    employmentType: job.type.toUpperCase().replace(/\s+/g, "_"),
-    hiringOrganization: { "@type": "Organization", name: siteConfig.name },
-  };
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <StructuredData data={buildJobPostingJsonLd(job)} />
       <main id="main-content" className="max-w-3xl mx-auto px-4 py-10 pb-20">
+
         <Breadcrumb
           items={[
             { label: t("breadcrumbHome"), href: "/" },

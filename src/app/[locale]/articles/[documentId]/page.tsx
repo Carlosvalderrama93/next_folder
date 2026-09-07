@@ -9,7 +9,9 @@ import { getArticle, listArticles } from "@/lib/articles";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { SITE_URL, siteConfig } from "@/lib/site-config";
+import { SITE_URL, buildArticleJsonLd } from "@/lib/site-config";
+import { StructuredData } from "@/components/ui/structured-data";
+
 
 export async function generateMetadata({
   params,
@@ -62,26 +64,15 @@ export default async function ArticleDetail({
     .slice(0, 3);
 
   const articleUrl = `${SITE_URL}${article.href}`;
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: article.title,
-    description: article.description ?? "",
-    datePublished: article.publishedAt,
-    author: { "@type": "Person", name: siteConfig.name },
-  };
-
   const dateLocale = locale === "es" ? "es-ES" : "en-US";
+
 
   return (
     <>
       <ReadingProgress />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <StructuredData data={buildArticleJsonLd(article)} />
       <main id="main-content" className="max-w-3xl mx-auto px-4 py-16">
+
         <Breadcrumb
           items={[
             { label: t("breadcrumbHome"), href: "/" },

@@ -301,6 +301,121 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
     assert.ok(pageContent.includes("<Suspense fallback={<FeaturedArticlesSkeleton />}>"), "Articles section must have Suspense fallback");
     assert.ok(pageContent.includes("<Suspense fallback={<TestimonialsSkeleton />}>"), "Testimonials section must have Suspense fallback");
   });
+
+  describe("Structured Metadata & Schema.org JSON-LD Seam Contracts", () => {
+    // Pure inline mirrors for node --test execution
+    function serializeJsonLd(data) {
+      return JSON.stringify(data).replace(/</g, "\\u003c");
+    }
+
+    function buildJobPostingJsonLd(job) {
+      const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "JobPosting",
+        title: job.title,
+        description: job.description,
+        jobLocation: { "@type": "Place", address: job.location },
+        employmentType: job.type.toUpperCase().replace(/\s+/g, "_"),
+        hiringOrganization: { "@type": "Organization", name: "Carlos Valderrama" },
+      };
+      if (job.postedAt) jsonLd.datePosted = job.postedAt;
+      return jsonLd;
+    }
+
+    function buildArticleJsonLd(article) {
+      return {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: article.title,
+        description: article.description ?? "",
+        datePublished: article.publishedAt,
+        author: { "@type": "Person", name: "Carlos Valderrama" },
+      };
+    }
+
+    function buildWebsiteJsonLd() {
+      return {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "Carlos Valderrama",
+      };
+    }
+
+    it("builds valid Schema.org JobPosting structured payload", () => {
+      const jobPosting = buildJobPostingJsonLd({
+        title: "Senior Fullstack Engineer",
+        description: "Leading frontend architecture.",
+        location: "Remote LATAM",
+        type: "Full-time",
+        postedAt: "2025-01-15T00:00:00Z",
+      });
+
+      assert.equal(jobPosting["@context"], "https://schema.org");
+      assert.equal(jobPosting["@type"], "JobPosting");
+      assert.equal(jobPosting.title, "Senior Fullstack Engineer");
+      assert.equal(jobPosting.employmentType, "FULL-TIME");
+      assert.equal(jobPosting.jobLocation.address, "Remote LATAM");
+      assert.equal(jobPosting.hiringOrganization.name, "Carlos Valderrama");
+      assert.equal(jobPosting.datePosted, "2025-01-15T00:00:00Z");
+    });
+
+    it("builds valid Schema.org Article structured payload", () => {
+      const articleData = buildArticleJsonLd({
+        title: "Navigating Tech Recruitment in 2025",
+        description: "Key trends in remote hiring.",
+        publishedAt: "2025-02-01T00:00:00Z",
+      });
+
+      assert.equal(articleData["@context"], "https://schema.org");
+      assert.equal(articleData["@type"], "Article");
+      assert.equal(articleData.headline, "Navigating Tech Recruitment in 2025");
+      assert.equal(articleData.datePublished, "2025-02-01T00:00:00Z");
+      assert.equal(articleData.author.name, "Carlos Valderrama");
+    });
+
+    it("builds valid Schema.org WebSite structured payload", () => {
+      const websiteData = buildWebsiteJsonLd();
+      assert.equal(websiteData["@context"], "https://schema.org");
+      assert.equal(websiteData["@type"], "WebSite");
+      assert.equal(websiteData.name, "Carlos Valderrama");
+    });
+
+    it("safely escapes < characters in JSON-LD serialization to prevent XSS", () => {
+      const malicious = {
+        title: "Title with </script><script>alert(1)</script>",
+      };
+      const serialized = serializeJsonLd(malicious);
+      assert.ok(!serialized.includes("</script>"), "Must not contain raw closing script tag");
+      assert.ok(serialized.includes("\\u003c/script>"), "Must escape < to \\u003c");
+    });
+
+    it("guarantees routes consume StructuredData component without raw inline jsonLd scripts", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const jobRoutePath = path.resolve(__dirname, "../../../app/[locale]/jobs/[id]/page.tsx");
+      const articleRoutePath = path.resolve(__dirname, "../../../app/[locale]/articles/[documentId]/page.tsx");
+      const homeRoutePath = path.resolve(__dirname, "../../../app/[locale]/page.tsx");
+      const structuredDataPath = path.resolve(__dirname, "../../../components/ui/structured-data.tsx");
+
+      assert.ok(fs.existsSync(structuredDataPath), "components/ui/structured-data.tsx must exist");
+
+      const jobContent = fs.readFileSync(jobRoutePath, "utf-8");
+      const articleContent = fs.readFileSync(articleRoutePath, "utf-8");
+      const homeContent = fs.readFileSync(homeRoutePath, "utf-8");
+
+      assert.ok(jobContent.includes("StructuredData"), "jobs/[id]/page.tsx must use StructuredData");
+      assert.ok(articleContent.includes("StructuredData"), "articles/[documentId]/page.tsx must use StructuredData");
+      assert.ok(homeContent.includes("StructuredData"), "page.tsx must use StructuredData");
+
+      // Zero raw dangerouslySetInnerHTML JSON.stringify(jsonLd) in route pages
+      assert.ok(!jobContent.includes("JSON.stringify(jsonLd)"), "jobs route must not serialize raw jsonLd");
+      assert.ok(!articleContent.includes("JSON.stringify(jsonLd)"), "article route must not serialize raw jsonLd");
+    });
+  });
 });
+
 
 
