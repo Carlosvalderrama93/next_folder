@@ -54,13 +54,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | **Opción 3** | Costura de Estado URL para Consultas y Filtros de Empleo ([`src/lib/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/jobs/)) | ✅ **Completada** | `feat/job-query-url-state-sprint` |
 | **Opción 4** | Metadata Estructurada y Schema.org JSON-LD ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/structured-metadata-seam-sprint` |
 
-### Ciclo 7: Módulos Canónicos de Presentación, Sincronización URL e Higiene UI (En Progreso)
+### Ciclo 7: Módulos Canónicos de Presentación, Sincronización URL e Higiene UI (✅ 100% Completado)
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción 1** | Consolidar Módulo de Presentación de Jobs (`components/jobs/`) y Colapsar `jobs/[id]/page.tsx` ([`src/components/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/jobs/)) | ✅ **Completada** | `feat/jobs-presentation-module-sprint` |
 | **Opción 2** | Costura de Estado URL y Módulo de Presentación para Artículos (`ArticlesView`) ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ✅ **Completada** | `feat/articles-url-state-seam-sprint` |
 | **Opción 3** | Purificación de Primitivas UI e Higiene de Chrome Layout ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ✅ **Completada** | `feat/ui-primitives-hygiene-sprint` |
-| **Opción 4** | Encapsulación de Script de Hidratación de Tema en Root Layout ([`src/components/theme-script.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/theme-script.tsx)) | ⏳ **Pendiente** | `feat/theme-hydration-seam-sprint` |
+| **Opción 4** | Encapsulación de Script de Hidratación de Tema en Root Layout ([`src/components/theme-script.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/theme-script.tsx)) | ✅ **Completada** | `feat/theme-hydration-seam-sprint` |
 
 
 
@@ -298,7 +298,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ---
 
-## 🚀 Ciclo 7 — Módulos Canónicos de Presentación, Sincronización URL e Higiene UI (En Progreso)
+## 🚀 Ciclo 7 — Módulos Canónicos de Presentación, Sincronización URL e Higiene UI (✅ 100% Completado)
 
 ### Opción 1: Consolidar Módulo de Presentación de Jobs (`components/jobs/`) y Colapsar `jobs/[id]/page.tsx` (✅ Completada)
 **Rama:** `feat/jobs-presentation-module-sprint`
@@ -324,12 +324,12 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **3.3 Limpiar `Navigation` y `ThemeToggle`:** Removido `<TooltipProvider>` inerte en `Navigation`, elevado al layout raíz (`LocaleLayout`), e internacionalizados los tooltips y aria-labels de `ThemeToggle` en español e inglés.
 - [x] **3.4 Pruebas y verificación:** Suite de contratos `UI Primitives Purity & Chrome Hygiene Contracts` en `site-config.test.mjs`, 140/140 tests verdes, 0 TS errors, 0 lints.
 
-### Opción 4: Encapsulación de Script de Hidratación de Tema en Root Layout (⏳ Pendiente)
+### Opción 4: Encapsulación de Script de Hidratación de Tema en Root Layout (✅ Completada)
 **Rama:** `feat/theme-hydration-seam-sprint`
 
-- [ ] **4.1 Crear componente adaptador `<ThemeScript />`:** Encapsular la lógica de detección de localStorage y media query.
-- [ ] **4.2 Simplificar `src/app/[locale]/layout.tsx`:** Reemplazar script crudo inline con `<ThemeScript />`.
-- [ ] **4.3 Contratos y pruebas:** Validar que el script genere el JavaScript esperado anti-flash.
+- [x] **4.1 Crear componente adaptador `<ThemeScript />`:** Creado `src/components/theme-script.tsx` exportando `THEME_INIT_SCRIPT` y componente `<ThemeScript />` con sincronización de `localStorage`, `matchMedia` y manejo resiliente con `try/catch`.
+- [x] **4.2 Simplificar `src/app/[locale]/layout.tsx`:** Eliminado `dangerouslySetInnerHTML` crudo en `<head>` e inyectado `<ThemeScript />` de forma declarativa.
+- [x] **4.3 Contratos y pruebas:** Validación en `site-config.test.mjs`, 141/141 pruebas unitarias pasando, 0 errores de tipos, 0 lints.
 
 ---
 

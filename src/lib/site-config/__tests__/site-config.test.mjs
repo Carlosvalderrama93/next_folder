@@ -505,8 +505,60 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
         "ThemeToggle must not contain hardcoded English string"
       );
     });
+
+    it("guarantees theme hydration logic is encapsulated in ThemeScript component", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const themeScriptPath = path.resolve(
+        __dirname,
+        "../../../components/theme-script.tsx"
+      );
+      const layoutPath = path.resolve(
+        __dirname,
+        "../../../app/[locale]/layout.tsx"
+      );
+
+      assert.ok(fs.existsSync(themeScriptPath), "components/theme-script.tsx must exist");
+      const scriptContent = fs.readFileSync(themeScriptPath, "utf-8");
+      const layoutContent = fs.readFileSync(layoutPath, "utf-8");
+
+      assert.ok(
+        scriptContent.includes("export const THEME_INIT_SCRIPT"),
+        "theme-script.tsx must export THEME_INIT_SCRIPT constant"
+      );
+      assert.ok(
+        scriptContent.includes("export function ThemeScript"),
+        "theme-script.tsx must export ThemeScript component"
+      );
+      assert.ok(
+        scriptContent.includes("localStorage.getItem('theme')"),
+        "THEME_INIT_SCRIPT must inspect localStorage"
+      );
+      assert.ok(
+        scriptContent.includes("matchMedia"),
+        "THEME_INIT_SCRIPT must inspect system media preference"
+      );
+      assert.ok(
+        scriptContent.includes("try{") && scriptContent.includes("catch(e)"),
+        "THEME_INIT_SCRIPT must be wrapped in try/catch error boundary"
+      );
+
+      // layout.tsx must consume ThemeScript declaratively and not have raw inline scripts in head
+      assert.ok(
+        layoutContent.includes("<ThemeScript />"),
+        "layout.tsx must render ThemeScript component"
+      );
+      assert.ok(
+        !layoutContent.includes("localStorage.getItem('theme')"),
+        "layout.tsx must not contain raw inline theme script string"
+      );
+    });
   });
 });
+
 
 
 
