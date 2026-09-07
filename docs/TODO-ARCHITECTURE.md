@@ -36,7 +36,16 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | **Opción 1** | Retiro Definitivo de `src/Data/` y Localidad en About ([`src/lib/about/fixtures.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/fixtures.ts)) | ✅ **Completada** | `feat/about-fixtures-locality-sprint` (`f8eea3d`) |
 | **Opción 2** | Higiene UI y Purga de Clutter Muerto ([`src/components/ui/card.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/card.tsx)) | ✅ **Completada** | `feat/ui-hygiene-card-purge-sprint` (`f7a48de`) |
 | **Opción 3** | Desambiguación de Secciones y Colapso de Módulo Superficial ([`src/components/featured-jobs-section.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/featured-jobs-section.tsx)) | ✅ **Completada** | `feat/home-sections-clarity-sprint` (`faadf64`) |
-| **Opción 4** | Consolidación de Configuración CMS ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/cms-config-consolidation-sprint` |
+| **Opción 4** | Consolidación de Configuración CMS ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/cms-config-consolidation-sprint` (`a563649`) |
+
+### Ciclo 5: Profundización de Cliente, Localidad UI y Streaming Progresivo (⏳ Por Iniciar)
+| Opción | Módulo / Área | Estado | Prioridad |
+|---|---|---|---|
+| **Opción 1** | Encapsulación del Ciclo de Vida de Formularios Client (`useIntakeForm`) ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ⏳ Pendiente | Alta (Profundidad Client) |
+| **Opción 2** | Localidad UI de Artículos: Purificar `components/ui/` y Crear `components/articles/` ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ⏳ Pendiente | Media-Alta (Higiene & Deletion Test) |
+| **Opción 3** | Límites de Suspense y Streaming Progresivo en Portada ([`src/app/[locale]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/page.tsx)) | ⏳ Pendiente | Alta (RSC Streaming Leverage) |
+| **Opción 4** | Consolidación del Seam de Renderizado Markdown ([`src/app/[locale]/jobs/[id]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/jobs/%5Bid%5D/page.tsx)) | ⏳ Pendiente | Media (Desacoplamiento de Terceros) |
+
 
 ---
 
@@ -199,7 +208,36 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ---
 
+## 🚀 Ciclo 5 — Opciones de Profundización y Rendimiento (⏳ En Espera de Selección)
+
+### Opción 1: Encapsulación del Ciclo de Vida de Formularios Client (`useIntakeForm`)
+- [ ] **1.1 Crear hook o harness client en `src/lib/intake/useIntakeForm.ts`:** Encapsular estado `submitting`, manejo robusto de `toast` con variants ("success" | "error"), reset de campos y autofoco accesible en el primer error vía `requestAnimationFrame`.
+- [ ] **1.2 Refactorizar `contact-form.tsx`:** Consumir `useIntakeForm`, reduciendo el componente a su definición visual y reglas de validación sin boilerplate repetitivo de timing o DOM refs.
+- [ ] **1.3 Refactorizar `apply-form.tsx`:** Consumir `useIntakeForm`, manteniendo la carga de CV y eliminando la duplicación de lógica de toast y envío.
+- [ ] **1.4 Pruebas y verificación:** Validar comportamiento interactivo y mantener 100% de tests unitarios y E2E.
+
+### Opción 2: Localidad UI de Artículos: Purificar `components/ui/` y Crear `components/articles/`
+- [ ] **2.1 Crear directorio canónico `src/components/articles/`:** Análogo a `src/components/about/`.
+- [ ] **2.2 Reubicar widgets exclusivos de artículos desde `src/components/ui/`:**
+  - Mover `reading-progress.tsx` y `share-buttons.tsx` a `src/components/articles/`.
+- [ ] **2.3 Agrupar componentes de presentación de artículos:**
+  - Reubicar `article-blocks.tsx`, `article-card.tsx` y `featured-articles-section.tsx` a `src/components/articles/`.
+- [ ] **2.4 Actualizar rutas de consumo y contratos de prueba:** Garantizar que `components/ui/` permanezca estrictamente agnóstico de dominio.
+
+### Opción 3: Límites de Suspense y Streaming Progresivo en Portada (`HomePage`)
+- [ ] **3.1 Diseñar skeletons semánticos ligeros para secciones de portada:** `JobsSectionSkeleton`, `ArticlesSectionSkeleton` y `TestimonialsSkeleton`.
+- [ ] **3.2 Envolver secciones asíncronas en `<Suspense>` en `src/app/[locale]/page.tsx`:** Permitir que el servidor Next.js transmita de forma inmediata el shell de layout y el `Hero` banner interactivo mientras las consultas remotas cargan en paralelo.
+- [ ] **3.3 Verificación de rendimiento y streaming:** Comprobar streaming sin hydration mismatches y verificar suite E2E.
+
+### Opción 4: Consolidación del Seam de Renderizado Markdown (`jobs/[id]/page.tsx`)
+- [ ] **4.1 Crear o promover adaptador de texto enriquecido/markdown:** Desacoplar el renderizado de `react-markdown` y `remark-gfm` de páginas de ruta.
+- [ ] **4.2 Refactorizar `jobs/[id]/page.tsx`:** Reemplazar la dependencia directa de `react-markdown` por el adaptador unificado de presentación.
+- [ ] **4.3 Verificación de consistencia tipográfica:** Validar estilos de prose en modo claro y oscuro.
+
+---
+
 ## 📜 Registro Histórico de Ciclos Anteriores
+
 
 <details>
 <summary><strong>Ver detalles de Ciclo 1 (Opciones 1-4) y Ciclo 2 (Opciones A-D) completados</strong></summary>
