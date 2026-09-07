@@ -34,10 +34,21 @@ export interface ValidationResult {
 
 // ── Dispatch result ──────────────────────────────────────────────────────────
 
+export type IntakeFailureReason =
+  | "RATE_LIMITED"
+  | "VALIDATION_FAILED"
+  | "DISPATCH_FAILED"
+  | "MALFORMED_BODY";
+
 export interface IntakeResult {
   ok: boolean;
   /** Field-level validation errors, present when ok=false */
   errors?: FieldErrors;
   /** Free-text error message for unexpected failures */
   message?: string;
+  /** Standard HTTP status code for route mapping */
+  status?: 200 | 400 | 429 | 500;
+  /** Structured machine-readable failure reason */
+  failureReason?: IntakeFailureReason;
 }
+

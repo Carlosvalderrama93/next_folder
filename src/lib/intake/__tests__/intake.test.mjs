@@ -354,3 +354,76 @@ describe("Intake Client Seam · useIntakeForm Contracts", () => {
   });
 });
 
+// ── Intake HTTP Seam & Route Delegation Contracts ───────────────────────────
+describe("Intake HTTP Seam · Protocol & Route Delegation Contracts", () => {
+  it("guarantees route handlers delegate cleanly to intake HTTP adapter", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const applyRoutePath = path.resolve(__dirname, "../../../app/api/apply/route.ts");
+    const contactRoutePath = path.resolve(__dirname, "../../../app/api/contact/route.ts");
+
+    assert.ok(fs.existsSync(applyRoutePath), "api/apply/route.ts must exist");
+    assert.ok(fs.existsSync(contactRoutePath), "api/contact/route.ts must exist");
+
+    const applyRouteContent = fs.readFileSync(applyRoutePath, "utf-8");
+    const contactRouteContent = fs.readFileSync(contactRoutePath, "utf-8");
+
+    // Both routes must delegate cleanly to the intake seam
+    assert.ok(applyRouteContent.includes("handleApplicationRequest"), "apply route must delegate to handleApplicationRequest");
+    assert.ok(contactRouteContent.includes("handleInquiryRequest"), "contact route must delegate to handleInquiryRequest");
+
+    // No route handler may perform manual multipart parsing or error string-sniffing
+    assert.ok(!applyRouteContent.includes("multipart/form-data"), "apply route must not manually check multipart/form-data");
+    assert.ok(!applyRouteContent.includes("result.message?.startsWith"), "apply route must not string-sniff error messages");
+    assert.ok(!contactRouteContent.includes("result.message?.startsWith"), "contact route must not string-sniff error messages");
+  });
+
+  it("verifies http-adapter encapsulates protocol decoding and structured status codes", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const adapterPath = path.resolve(__dirname, "../http-adapter.ts");
+    const submissionPath = path.resolve(__dirname, "../submission.ts");
+
+    assert.ok(fs.existsSync(adapterPath), "http-adapter.ts must exist");
+    assert.ok(fs.existsSync(submissionPath), "submission.ts must exist");
+
+    const adapterContent = fs.readFileSync(adapterPath, "utf-8");
+    const submissionContent = fs.readFileSync(submissionPath, "utf-8");
+
+    // Adapter exports and encapsulates protocol decoding
+    assert.ok(adapterContent.includes("export async function handleApplicationRequest"), "Must export handleApplicationRequest");
+    assert.ok(adapterContent.includes("export async function handleInquiryRequest"), "Must export handleInquiryRequest");
+    assert.ok(adapterContent.includes("multipart/form-data"), "Must encapsulate multipart decoding");
+    assert.ok(adapterContent.includes("req.json()"), "Must encapsulate JSON decoding");
+    assert.ok(adapterContent.includes("status: 429"), "Must return structured 429 status");
+    assert.ok(adapterContent.includes("status: 400"), "Must return structured 400 status");
+
+    // Submission encapsulates structured failure reasons
+    assert.ok(submissionContent.includes('failureReason: "RATE_LIMITED"'), "Must return structured RATE_LIMITED reason");
+    assert.ok(submissionContent.includes('failureReason: "VALIDATION_FAILED"'), "Must return structured VALIDATION_FAILED reason");
+    assert.ok(submissionContent.includes('failureReason: "DISPATCH_FAILED"'), "Must return structured DISPATCH_FAILED reason");
+  });
+
+  it("guarantees index barrel exports all canonical intake seam methods", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const indexPath = path.resolve(__dirname, "../index.ts");
+
+    const indexContent = fs.readFileSync(indexPath, "utf-8");
+    assert.ok(indexContent.includes("submitApplication"), "Must export submitApplication");
+    assert.ok(indexContent.includes("submitInquiry"), "Must export submitInquiry");
+    assert.ok(indexContent.includes("handleApplicationRequest"), "Must export handleApplicationRequest");
+    assert.ok(indexContent.includes("handleInquiryRequest"), "Must export handleInquiryRequest");
+  });
+});
+
+
