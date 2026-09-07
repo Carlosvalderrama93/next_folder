@@ -25,7 +25,7 @@ export default async function AboutPage({
   const profile = await getAboutProfile(locale);
 
   return (
-    <main id="main-content">
+    <main id="main-content" className="scroll-mt-24">
       <AboutView profile={profile} locale={locale} />
     </main>
   );

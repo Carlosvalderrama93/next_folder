@@ -11,7 +11,7 @@ export function JobsSkeleton() {
       </section>
 
       {/* Filter tabs skeleton */}
-      <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20 animate-pulse motion-reduce:animate-none">
+      <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20 animate-pulse motion-reduce:animate-none scroll-mt-24">
         <div className="flex gap-2 mb-8">
           <div className="h-9 w-28 bg-gray-200 dark:bg-surface-raised rounded-full" />
           <div className="h-9 w-20 bg-gray-100 dark:bg-surface rounded-full" />

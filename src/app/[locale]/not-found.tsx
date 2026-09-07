@@ -5,7 +5,7 @@ export default function NotFound() {
   const t = useTranslations("notFound");
 
   return (
-    <main id="main-content" className="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
+    <main id="main-content" className="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center scroll-mt-24">
       <p className="text-[10rem] font-extrabold leading-none text-gray-100 dark:text-gray-800 select-none mb-2">
         404
       </p>

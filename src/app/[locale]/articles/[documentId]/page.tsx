@@ -71,7 +71,7 @@ export default async function ArticleDetail({
     <>
       <ReadingProgress />
       <StructuredData data={buildArticleJsonLd(article)} />
-      <main id="main-content" className="max-w-3xl mx-auto px-4 py-16">
+      <main id="main-content" className="max-w-3xl mx-auto px-4 py-16 scroll-mt-24">
 
         <Breadcrumb
           items={[

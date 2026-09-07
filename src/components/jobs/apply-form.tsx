@@ -155,7 +155,11 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   // ── Success state ──────────────────────────────────────────────────────────
   if (submitted) {
     return (
-      <div className="flex flex-col items-center text-center py-12 px-8 rounded-2xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40">
+      <div
+        role="status"
+        aria-live="polite"
+        className="flex flex-col items-center text-center py-12 px-8 rounded-2xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40"
+      >
         <CheckCircleIcon />
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
           {t("successTitle")}

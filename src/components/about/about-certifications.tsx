@@ -17,7 +17,7 @@ export default function AboutCertifications({
   const regularCerts = certifications.filter((c) => !c.isAward);
 
   return (
-    <section id="certifications" className="max-w-4xl mx-auto px-4 pb-16">
+    <section id="certifications" className="max-w-4xl mx-auto px-4 pb-16 scroll-mt-24">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
         {translations.certificationsHeading}
       </h2>
