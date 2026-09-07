@@ -1,6 +1,6 @@
 export function ArticlesSkeleton() {
   return (
-    <main className="max-w-4xl mx-auto px-4 py-16 animate-pulse">
+    <main className="max-w-4xl mx-auto px-4 py-16 animate-pulse motion-reduce:animate-none">
       <div className="h-10 w-32 bg-gray-200 dark:bg-gray-700 rounded-lg mb-10" />
       <div className="flex flex-col gap-6">
         {Array.from({ length: 4 }).map((_, i) => (

@@ -23,7 +23,7 @@ export default function Card<T extends ElementType = "article">({
   const Component = as || "article";
 
   const baseStyles =
-    "group relative flex h-full flex-col rounded-2xl border border-gray-200/80 dark:border-border bg-white/90 dark:bg-surface/90 shadow-sm transition-all duration-200 hover:shadow-md";
+    "group relative flex h-full flex-col rounded-2xl border border-gray-200/80 dark:border-border bg-white/90 dark:bg-surface/90 shadow-sm transition-shadow duration-200 hover:shadow-md motion-reduce:transition-none";
 
   const sizeStyles =
     size === "compact"

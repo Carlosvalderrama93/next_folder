@@ -631,7 +631,77 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
       );
     });
   });
+
+  describe("Ciclo 9 — Web Interface Guidelines & Accessibility", () => {
+    it("verifies zero transition-all usage and strict prefers-reduced-motion coverage", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const srcDir = path.resolve(__dirname, "../../../");
+
+      // 1. Scan all ts/tsx files in src/ for 'transition-all'
+      function scanDir(dir, fileList = []) {
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            if (entry.name !== "node_modules" && entry.name !== ".next") {
+              scanDir(fullPath, fileList);
+            }
+          } else if (entry.name.endsWith(".tsx") || entry.name.endsWith(".ts")) {
+            fileList.push(fullPath);
+          }
+        }
+        return fileList;
+      }
+
+      const tsFiles = scanDir(srcDir);
+      const violations = [];
+      for (const file of tsFiles) {
+        const content = fs.readFileSync(file, "utf-8");
+        if (content.includes("transition-all")) {
+          violations.push(path.relative(srcDir, file));
+        }
+      }
+
+      assert.strictEqual(
+        violations.length,
+        0,
+        `transition-all must be purged in favor of specific transitions. Found in: ${violations.join(", ")}`
+      );
+
+      // 2. globals.css must define prefers-reduced-motion override for reveal-hidden
+      const globalsCss = fs.readFileSync(path.join(srcDir, "app/globals.css"), "utf-8");
+      assert.ok(
+        globalsCss.includes("prefers-reduced-motion: reduce"),
+        "globals.css must support prefers-reduced-motion"
+      );
+      assert.ok(
+        globalsCss.includes(".reveal-hidden") && globalsCss.includes("transform: none !important"),
+        "globals.css must negate .reveal-hidden transforms under reduced motion"
+      );
+
+      // 3. Skeletons must contain motion-reduce:animate-none
+      const skeletons = [
+        "components/home-skeletons.tsx",
+        "components/jobs/jobs-skeleton.tsx",
+        "components/jobs/job-detail-skeleton.tsx",
+        "components/articles/articles-skeleton.tsx",
+        "components/articles/article-detail-skeleton.tsx",
+      ];
+      for (const skel of skeletons) {
+        const content = fs.readFileSync(path.join(srcDir, skel), "utf-8");
+        assert.ok(
+          content.includes("motion-reduce:animate-none"),
+          `${skel} must include motion-reduce:animate-none alongside pulse animations`
+        );
+      }
+    });
+  });
 });
+
 
 
 

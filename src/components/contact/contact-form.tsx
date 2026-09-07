@@ -179,7 +179,7 @@ export default function ContactForm() {
           >
             {submitting && (
               <svg
-                className="animate-spin h-4 w-4 flex-shrink-0"
+                className="animate-spin motion-reduce:animate-none h-4 w-4 flex-shrink-0"
                 viewBox="0 0 24 24"
                 fill="none"
                 aria-hidden="true"

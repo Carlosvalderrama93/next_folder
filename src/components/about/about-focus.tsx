@@ -16,7 +16,7 @@ export default function AboutFocus({ focusAreas, heading }: AboutFocusProps) {
         {focusAreas.map((area) => (
           <div
             key={area.label}
-            className="group p-5 rounded-xl border border-gray-200 dark:border-border bg-white dark:bg-surface hover:border-brand/40 dark:hover:border-brand/40 hover:shadow-md transition-all"
+            className="group p-5 rounded-xl border border-gray-200 dark:border-border bg-white dark:bg-surface hover:border-brand/40 dark:hover:border-brand/40 hover:shadow-md transition-[border-color,box-shadow] duration-200 motion-reduce:transition-none"
           >
             <div className="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-brand mb-4 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50 transition-colors">
               {focusAreaIcons[area.icon] ?? null}

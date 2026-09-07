@@ -16,7 +16,7 @@ function TestimonialCard({
 }) {
   return (
     <Card
-      className="group cursor-pointer flex flex-col h-[200px] p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+      className="group cursor-pointer flex flex-col h-[200px] p-6 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
       onClick={onClick}
       role="button"
       tabIndex={0}
@@ -93,7 +93,7 @@ export default function TestimonialsCarousel({
           aria-label={selectedTestimonial.name}
         >
           <article
-            className="w-full max-w-3xl rounded-3xl border border-gray-200/80 bg-white/95 p-8 shadow-2xl transition-all duration-200 dark:border-border dark:bg-surface/95"
+            className="w-full max-w-3xl rounded-3xl border border-gray-200/80 bg-white/95 p-8 shadow-2xl transition-[opacity,transform] duration-200 motion-reduce:transition-none dark:border-border dark:bg-surface/95"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4">

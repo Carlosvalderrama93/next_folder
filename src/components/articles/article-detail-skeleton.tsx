@@ -1,6 +1,6 @@
 export function ArticleDetailSkeleton() {
   return (
-    <main className="max-w-3xl mx-auto px-4 py-16 animate-pulse">
+    <main className="max-w-3xl mx-auto px-4 py-16 animate-pulse motion-reduce:animate-none">
       <div className="h-4 w-28 bg-gray-200 dark:bg-gray-700 rounded mb-8" />
       <div className="mt-4">
         <div className="h-3 w-32 bg-gray-200 dark:bg-gray-700 rounded mb-3" />
