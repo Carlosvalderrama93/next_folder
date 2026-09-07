@@ -62,13 +62,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | **Opción 3** | Purificación de Primitivas UI e Higiene de Chrome Layout ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ✅ **Completada** | `feat/ui-primitives-hygiene-sprint` |
 | **Opción 4** | Encapsulación de Script de Hidratación de Tema en Root Layout ([`src/components/theme-script.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/theme-script.tsx)) | ✅ **Completada** | `feat/theme-hydration-seam-sprint` |
 
-### Ciclo 8: Simetría de Presentación, Shell Unificado y Co-ubicación de Skeletons (⏳ En Progreso)
+### Ciclo 8: Simetría de Presentación, Shell Unificado y Co-ubicación de Skeletons (✅ 100% Completado)
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción 1** | Módulo Canónico de Presentación de Contacto ([`src/components/contact/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/contact/)) | ✅ **Completada** | `feat/contact-presentation-module-sprint` |
 | **Opción 2** | Módulo Canónico de Presentación de Testimonios ([`src/components/testimonials/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/testimonials/)) | ✅ **Completada** | `feat/testimonials-presentation-module-sprint` |
 | **Opción 3** | Costura de Presentación Shell & Layout ([`src/components/shell/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/shell/)) | ✅ **Completada** | `feat/shell-presentation-seam-sprint` |
-| **Opción 4** | Estandarización de Skeletons y Estados de Carga en Módulos | ⏳ Pendiente | Localidad de Presentación |
+| **Opción 4** | Estandarización de Skeletons y Estados de Carga en Módulos | ✅ **Completada** | `feat/skeletons-presentation-locality-sprint` |
 
 ### Ciclo 9: Web Interface Guidelines, Accesibilidad (a11y) y Resiliencia UI (⏳ Pendiente de Ejecución)
 | Opción | Módulo / Área | Estado | Prioridad |
@@ -375,13 +375,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **3.3 Simplificar `src/app/[locale]/layout.tsx`:** Reducida la superficie de acoplamiento de `LocaleLayout` delegando en `@/components/shell` y eliminando boilerplate inlined de `SkipLink`.
 - [x] **3.4 Contratos de interfaz y verificación:** Validados contratos en `site-config.test.mjs` que garantizan la purga de componentes de shell sueltos en `components/`. 144 tests pasando, 0 errores TS y 0 lints.
 
-### Opción 4: Estandarización de Skeletons y Estados de Carga en Módulos de Presentación (⏳ Pendiente)
-**Rama propuesta:** `feat/skeletons-presentation-locality-sprint`
+### Opción 4: Estandarización de Skeletons y Estados de Carga en Módulos de Presentación (✅ Completada)
+**Rama:** `feat/skeletons-presentation-locality-sprint`
 
-- [ ] **4.1 Co-ubicar esqueletos de Jobs:** Crear `src/components/jobs/jobs-skeleton.tsx` y `job-detail-skeleton.tsx`, exportándolos canónicamente desde `@/components/jobs`.
-- [ ] **4.2 Co-ubicar esqueletos de Articles:** Crear `src/components/articles/articles-skeleton.tsx` y `article-detail-skeleton.tsx`, exportándolos canónicamente desde `@/components/articles`.
-- [ ] **4.3 Colapsar archivos `loading.tsx` en App Router:** Convertir `jobs/loading.tsx`, `jobs/[id]/loading.tsx`, `articles/loading.tsx` y `articles/[documentId]/loading.tsx` en adaptadores delgados de una línea que exportan los esqueletos de sus módulos.
-- [ ] **4.4 Contratos y verificación:** Probar la co-ubicación y pureza de las rutas de carga sin duplicación de clases ni marcado SVG/Tailwind inline disperso.
+- [x] **4.1 Co-ubicar esqueletos de Jobs:** Creados `src/components/jobs/jobs-skeleton.tsx` y `job-detail-skeleton.tsx`, exportándolos canónicamente desde `@/components/jobs`.
+- [x] **4.2 Co-ubicar esqueletos de Articles:** Creados `src/components/articles/articles-skeleton.tsx` y `article-detail-skeleton.tsx`, exportándolos canónicamente desde `@/components/articles`.
+- [x] **4.3 Colapsar archivos `loading.tsx` en App Router:** Convertidos `jobs/loading.tsx`, `jobs/[id]/loading.tsx`, `articles/loading.tsx` y `articles/[documentId]/loading.tsx` en adaptadores delgados de una sola línea que re-exportan los esqueletos de sus módulos canónicos.
+- [x] **4.4 Contratos y verificación:** Agregados contratos en `presentation.test.mjs` y `articles.test.mjs` garantizando la co-ubicación de esqueletos y la pureza minimalista de los adaptadores de ruta. 146 tests pasando, 0 errores TS y 0 lints.
 
 ---
 
