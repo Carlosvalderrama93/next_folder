@@ -4,7 +4,9 @@ export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://carlosvalderrama.com";
 
 export const STRAPI_URL =
-  process.env.STRAPI_URL ?? "http://localhost:1337";
+  process.env.STRAPI_URL ??
+  process.env.NEXT_PUBLIC_STRAPI_URL ??
+  "http://localhost:1337";
 
 export const NAV_LINKS: readonly NavLink[] = [
   { key: "home", href: "/" },
