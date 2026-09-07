@@ -54,6 +54,15 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | **Opción 3** | Costura de Estado URL para Consultas y Filtros de Empleo ([`src/lib/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/jobs/)) | ✅ **Completada** | `feat/job-query-url-state-sprint` |
 | **Opción 4** | Metadata Estructurada y Schema.org JSON-LD ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/structured-metadata-seam-sprint` |
 
+### Ciclo 7: Módulos Canónicos de Presentación, Sincronización URL e Higiene UI (En Progreso)
+| Opción | Módulo / Área | Estado | Prioridad |
+|---|---|---|---|
+| **Opción 1** | Consolidar Módulo de Presentación de Jobs (`components/jobs/`) y Colapsar `jobs/[id]/page.tsx` ([`src/components/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/jobs/)) | ⏳ **En Progreso** | `feat/jobs-presentation-module-sprint` |
+| **Opción 2** | Costura de Estado URL y Módulo de Presentación para Artículos (`ArticlesView`) ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ⏳ **Pendiente** | `feat/articles-url-state-seam-sprint` |
+| **Opción 3** | Purificación de Primitivas UI e Higiene de Chrome Layout ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ⏳ **Pendiente** | `feat/ui-primitives-hygiene-sprint` |
+| **Opción 4** | Encapsulación de Script de Hidratación de Tema en Root Layout ([`src/components/theme-script.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/theme-script.tsx)) | ⏳ **Pendiente** | `feat/theme-hydration-seam-sprint` |
+
+
 
 ---
 
@@ -286,6 +295,40 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **4.1 Crear constructores tipados de Schema.org en `src/lib/site-config/`:** Generadores fuertemente tipados `buildJobPostingJsonLd(job)`, `buildArticleJsonLd(article)` y `buildWebsiteJsonLd()`. Sanitización anti-XSS con escape de caracteres `<` (`\u003c`) en `serializeJsonLd`.
 - [x] **4.2 Crear componente agnóstico `<StructuredData />`:** Renderizado seguro de scripts JSON-LD en `src/components/ui/structured-data.tsx` eliminando `dangerouslySetInnerHTML` crudo en páginas de jobs, articles y home.
 - [x] **4.3 Pruebas y verificación:** Validación de esquemas requeridos por motores de búsqueda en suites unitarias (`site-config.test.mjs`). 131/131 pruebas unitarias, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
+
+---
+
+## 🚀 Ciclo 7 — Módulos Canónicos de Presentación, Sincronización URL e Higiene UI (En Progreso)
+
+### Opción 1: Consolidar Módulo de Presentación de Jobs (`components/jobs/`) y Colapsar `jobs/[id]/page.tsx` (⏳ En Progreso)
+**Rama:** `feat/jobs-presentation-module-sprint`
+
+- [ ] **1.1 Crear directorio canónico `src/components/jobs/` con barril `index.ts`:** Reubicar `job-card.tsx`, `job-filters.tsx`, `job-status-badge.tsx`, `featured-jobs-section.tsx`, `featured-jobs-carousel.tsx`, `apply-toggle.tsx` y `apply-form.tsx`.
+- [ ] **1.2 Crear módulo profundo `JobDetailView`:** Encapsular metadatos, badges, chips de habilidades, formato de fechas, bloque markdown `RichText`, y alternador de formulario de postulación / callout de posición cerrada.
+- [ ] **1.3 Colapsar `src/app/[locale]/jobs/[id]/page.tsx`:** Reducir la página de 215 líneas a un coordinador Server Component de ~35 líneas.
+- [ ] **1.4 Contratos de prueba y verificación:** Pruebas unitarias de localidad e interfaz en suite de jobs.
+
+### Opción 2: Costura de Estado URL y Módulo de Presentación para Artículos (`ArticlesView`) (⏳ Pendiente)
+**Rama:** `feat/articles-url-state-seam-sprint`
+
+- [ ] **2.1 Crear códec bidireccional de categoría en `src/lib/articles/query.ts`:** Funciones `parseArticleCategoryCriteria` y `serializeArticleCategoryCriteria`.
+- [ ] **2.2 Crear `ArticlesView` en `src/components/articles/`:** Mover `articles-client.tsx` fuera de `src/app/`, sincronizar URL vía `window.history.replaceState` y soportar `initialCategory`.
+- [ ] **2.3 Purificar `src/components/ui/tabs.tsx`:** Eliminar `aria-label="Filter articles by category"` quemado y permitir label configurable.
+- [ ] **2.4 Pruebas y verificación:** Pruebas unitarias de códec y contratos de exportación.
+
+### Opción 3: Purificación de Primitivas UI e Higiene de Chrome Layout (⏳ Pendiente)
+**Rama:** `feat/ui-primitives-hygiene-sprint`
+
+- [ ] **3.1 Reubicar widgets de chrome:** Mover `language-switcher.tsx` y `back-to-top.tsx` fuera de `src/components/ui/` hacia `src/components/`.
+- [ ] **3.2 Generalizar `src/components/ui/accordion.tsx`:** Cambiar interfaz de `{ question, answer }` a `{ title: ReactNode, content: ReactNode }` genérica.
+- [ ] **3.3 Limpiar `Navigation` y `ThemeToggle`:** Remover `<TooltipProvider>` inerte en `Navigation` e internacionalizar tooltips en `ThemeToggle`.
+
+### Opción 4: Encapsulación de Script de Hidratación de Tema en Root Layout (⏳ Pendiente)
+**Rama:** `feat/theme-hydration-seam-sprint`
+
+- [ ] **4.1 Crear componente adaptador `<ThemeScript />`:** Encapsular la lógica de detección de localStorage y media query.
+- [ ] **4.2 Simplificar `src/app/[locale]/layout.tsx`:** Reemplazar script crudo inline con `<ThemeScript />`.
+- [ ] **4.3 Contratos y pruebas:** Validar que el script genere el JavaScript esperado anti-flash.
 
 ---
 

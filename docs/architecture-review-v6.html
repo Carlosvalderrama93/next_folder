@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revisión de Arquitectura — Ciclo 7 | recruiter_Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#0f172a',
+        primaryColor: '#6366f1',
+        primaryTextColor: '#f8fafc',
+        primaryBorderColor: '#818cf8',
+        lineColor: '#94a3b8',
+        secondaryColor: '#1e293b',
+        tertiaryColor: '#0f172a'
+      }
+    });
+  </script>
+</head>
+<body class="min-h-full font-sans antialiased selection:bg-indigo-500 selection:text-white">
+  <!-- Top Header -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl bg-indigo-600 flex items-center justify-center font-black text-white text-lg shadow-lg shadow-indigo-500/30">
+          🏛️
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white tracking-tight">Arquitectura de Software &bull; Ciclo 7</h1>
+          <p class="text-xs text-slate-400">Auditoría Post-Sprints &bull; 131 Pruebas Unitarias &bull; 18 E2E Verificados</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 text-xs font-semibold">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Ciclos 1 al 6 Completados (24/24 Opciones)
+        </span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">
+          Septiembre 2026
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-10 space-y-12">
+    <!-- Executive Health Check -->
+    <section class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 space-y-4">
+        <div class="inline-block px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold uppercase tracking-wider">
+          Diagnóstico del Sistema: "¿Todo bien por ahora?"
+        </div>
+        <h2 class="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
+          El estado de la base de código es <span class="text-emerald-400">extraordinariamente sólido, maduro y robusto</span>.
+        </h2>
+        <p class="text-slate-300 text-base max-w-4xl leading-relaxed">
+          Los 6 ciclos completados han dotado a <code class="text-indigo-300">next_folder</code> de módulos profundos, costuras reales con adaptadores intercambiables, códecs bidireccionales de URL, generadores tipados Schema.org JSON-LD con escape XSS, streaming RSC y cero fugas de protocolo. La totalidad del proyecto cuenta con <strong class="text-white">131 pruebas unitarias</strong> en verde, <strong class="text-white">18 verificaciones E2E</strong>, <strong class="text-white">0 errores</strong> de TypeScript y <strong class="text-white">0 advertencias</strong> de ESLint.
+        </p>
+
+        <!-- KPI Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-emerald-400">131 / 131</div>
+            <div class="text-xs text-slate-400 mt-0.5">Tests Unitarios en Verde</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-indigo-400">18 / 18</div>
+            <div class="text-xs text-slate-400 mt-0.5">Checks E2E en Producción</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-cyan-400">24 / 24</div>
+            <div class="text-xs text-slate-400 mt-0.5">Hitos Ciclos 1-6 en Develop</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4">
+            <div class="text-2xl font-black text-purple-400">0 Lints / TS</div>
+            <div class="text-xs text-slate-400 mt-0.5">Higiene 100% Limpia</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Historical Summary Table -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+      <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <span>🏆</span> Consolidación Histórica de Refactorización (Ciclos 1 al 6)
+      </h3>
+      <div class="overflow-x-auto text-xs">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider">
+              <th class="py-2.5 px-3">Ciclo</th>
+              <th class="py-2.5 px-3">Enfoque Arquitectónico Primario</th>
+              <th class="py-2.5 px-3">Hitos Integrados</th>
+              <th class="py-2.5 px-3">Estado</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60 text-slate-300">
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 1</td>
+              <td class="py-2.5 px-3">Costuras de Dominio &amp; Descomposición de Monolitos Iniciales</td>
+              <td class="py-2.5 px-3">4 opciones: `jobs/`, `intake/`, `articles/`, `about/`</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 2</td>
+              <td class="py-2.5 px-3">Desacoplamiento de Datos, Higiene UI y Fugas de Validación</td>
+              <td class="py-2.5 px-3">4 opciones: `homepage.ts` split, intake validation, dialog purge, `testimonials/`</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 3</td>
+              <td class="py-2.5 px-3">Shell Persistente en App Router &amp; Tokens de Presentación</td>
+              <td class="py-2.5 px-3">4 opciones: Root layout shell, `site-config/`, `JobStatusBadge`, `article-blocks`</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 4</td>
+              <td class="py-2.5 px-3">Localidad Absoluta, Higiene UI y Desambiguación Semántica</td>
+              <td class="py-2.5 px-3">4 opciones: Purga `src/Data/`, Card neutro, secciones home unívocas, config CMS</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 5</td>
+              <td class="py-2.5 px-3">Ciclo de Vida Client, Localidad de Artículos &amp; Streaming RSC</td>
+              <td class="py-2.5 px-3">4 opciones: `useIntakeForm`, `components/articles/`, skeletons streaming, `RichText`</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-semibold text-white">Ciclo 6</td>
+              <td class="py-2.5 px-3">Costura HTTP Intake, AboutView, URL State Codec &amp; JSON-LD</td>
+              <td class="py-2.5 px-3">4 opciones: `http-adapter.ts`, `AboutView`, `parseJobQueryCriteria`, `StructuredData`</td>
+              <td class="py-2.5 px-3"><span class="text-emerald-400 font-medium">✅ 100% Merged</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Cycle 7 Header -->
+    <div class="space-y-2 border-b border-slate-800 pb-4">
+      <div class="text-indigo-400 text-xs font-bold uppercase tracking-wider">Propuestas de Profundización</div>
+      <h2 class="text-2xl font-bold text-white tracking-tight">Opciones Candidatas para el Ciclo 7</h2>
+      <p class="text-slate-400 text-sm">
+        Consolidación simétrica de la capa de presentación de empleos, costura de estado URL para artículos, purificación de primitivas UI genéricas y encapsulación declarativa de scripts de entorno.
+      </p>
+    </div>
+
+    <!-- Candidate Cards -->
+    <div class="grid grid-cols-1 gap-8">
+
+      <!-- Candidate 1 -->
+      <article class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Opción 1 &bull; Módulo de Presentación &bull; Dominio Jobs</span>
+            <h3 class="text-xl font-bold text-white mt-1">Consolidar Módulo de Presentación de Jobs (`src/components/jobs/`) y Colapsar `jobs/[id]/page.tsx`</h3>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Strong &bull; Top Recommendation
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-300">Fricción Actual (Problema):</h4>
+            <p class="text-slate-400 leading-relaxed">
+              A diferencia de <code class="text-indigo-300">about/</code> y <code class="text-indigo-300">articles/</code>, los módulos de presentación de empleos están dispersos en la raíz de <code class="text-indigo-300">src/components/</code> (<code class="text-indigo-300">job-card.tsx</code>, <code class="text-indigo-300">job-filters.tsx</code>, <code class="text-indigo-300">job-status-badge.tsx</code>, <code class="text-indigo-300">featured-jobs-section.tsx</code>) y dentro de subdirectorios de rutas (<code class="text-indigo-300">jobs/[id]/apply-toggle.tsx</code>, <code class="text-indigo-300">apply-form.tsx</code>). Además, la página <code class="text-indigo-300">jobs/[id]/page.tsx</code> es un monolito visual de 215 líneas que ensambla metadatos, iconos SVG crudos, badges de estado, prose y callouts condicionales.
+            </p>
+          </div>
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-300">Solución Arquitectónica:</h4>
+            <p class="text-slate-400 leading-relaxed">
+              Crear el directorio canónico <code class="text-indigo-300">src/components/jobs/</code> con barril canónico <code class="text-indigo-300">index.ts</code>, análogo a <code class="text-indigo-300">components/about/</code> y <code class="text-indigo-300">components/articles/</code>. Implementar el módulo profundo <code class="text-indigo-300">JobDetailView</code> que encapsula el encabezado, badges, metadatos, chips de habilidades, cuerpo markdown y toggle de postulación. Colapsar <code class="text-indigo-300">jobs/[id]/page.tsx</code> a un coordinador Server Component de ~35 líneas.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-xs space-y-2">
+          <div class="font-bold text-indigo-300">Archivos Involucrados:</div>
+          <ul class="list-disc list-inside space-y-1 text-slate-400">
+            <li><code class="text-slate-300">src/components/jobs/job-detail-view.tsx</code> (nuevo módulo de presentación profunda)</li>
+            <li><code class="text-slate-300">src/components/jobs/index.ts</code> (barril canónico exportando <code class="text-indigo-300">JobDetailView</code>, <code class="text-indigo-300">JobCard</code>, <code class="text-indigo-300">JobFilters</code>, <code class="text-indigo-300">JobStatusBadge</code>)</li>
+            <li>Reubicación a <code class="text-slate-300">src/components/jobs/</code>: <code class="text-slate-300">job-card.tsx</code>, <code class="text-slate-300">job-filters.tsx</code>, <code class="text-slate-300">job-status-badge.tsx</code>, <code class="text-slate-300">featured-jobs-section.tsx</code>, <code class="text-slate-300">featured-jobs-carousel.tsx</code>, <code class="text-slate-300">apply-toggle.tsx</code>, <code class="text-slate-300">apply-form.tsx</code></li>
+            <li><code class="text-slate-300">src/app/[locale]/jobs/[id]/page.tsx</code> (colapsado de 215 a ~35 líneas)</li>
+          </ul>
+        </div>
+
+        <!-- Diagram -->
+        <div class="space-y-2">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Estructura Antes / Después</div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="bg-slate-950/80 border border-red-900/30 rounded-xl p-4">
+              <div class="text-xs font-bold text-red-400 mb-2">❌ Antes: Dispersión &amp; Monolito Visual (215 líneas)</div>
+              <div class="mermaid text-xs">
+graph TD
+  Page["jobs/[id]/page.tsx (215 líneas)"] --> Card["components/job-card.tsx"]
+  Page --> Filters["components/job-filters.tsx"]
+  Page --> Badge["components/job-status-badge.tsx"]
+  Page --> Toggle["jobs/[id]/apply-toggle.tsx"]
+  Toggle --> Form["jobs/[id]/apply-form.tsx"]
+  Page --> InlineIcons["Iconos SVG crudos + Formateo de Fechas"]
+  Page --> Prose["RichText + Callouts"]
+              </div>
+            </div>
+            <div class="bg-slate-950/80 border border-emerald-900/30 rounded-xl p-4">
+              <div class="text-xs font-bold text-emerald-400 mb-2">✅ Después: Módulo Profundo `components/jobs/` y Colapso a 35 líneas</div>
+              <div class="mermaid text-xs">
+graph TD
+  PageClean["jobs/[id]/page.tsx (35 líneas)"] --> Seam["components/jobs/index.ts"]
+  Seam --> DetailView["JobDetailView (Módulo Profundo)"]
+  DetailView --> Toggle["apply-toggle.tsx"]
+  DetailView --> Badge["job-status-badge.tsx"]
+  DetailView --> RichText["RichText Adapter"]
+  Seam --> JobFilters["job-filters.tsx"]
+  Seam --> JobCard["job-card.tsx"]
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-xs text-slate-400 border-t border-slate-800/80 pt-4 flex flex-wrap gap-4">
+          <span><strong>Leverage:</strong> Oculta 180 líneas de acoplamiento DOM detrás de una interfaz simple `&lt;JobDetailView job={job} /&gt;`.</span>
+          <span><strong>Locality:</strong> 100% de los componentes de empleo residen en su módulo de presentación.</span>
+          <span><strong>Deletion Test:</strong> Eliminar el subsistema visual de empleos borra un único directorio sin residuos.</span>
+        </div>
+      </article>
+
+      <!-- Candidate 2 -->
+      <article class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Opción 2 &bull; Costura de Estado URL &bull; Dominio Articles</span>
+            <h3 class="text-xl font-bold text-white mt-1">Costura de Estado URL y Módulo de Presentación para Artículos (`ArticlesView`)</h3>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            Strong
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-300">Fricción Actual (Problema):</h4>
+            <p class="text-slate-400 leading-relaxed">
+              <code class="text-indigo-300">ArticlesClient</code> reside de forma anómala en <code class="text-indigo-300">src/app/[locale]/articles/articles-client.tsx</code> aislado de <code class="text-indigo-300">src/components/articles/</code>. Su estado de categoría vive únicamente en memoria volátil (<code class="text-indigo-300">useState("All")</code>): al recargar o compartir la URL, el filtro se destruye. Además, la primitiva <code class="text-indigo-300">src/components/ui/tabs.tsx</code> fuga dominio al tener quemado <code class="text-indigo-300">aria-label="Filter articles by category"</code>.
+            </p>
+          </div>
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-300">Solución Arquitectónica:</h4>
+            <p class="text-slate-400 leading-relaxed">
+              1. Crear códec bidireccional puro en <code class="text-indigo-300">src/lib/articles/query.ts</code> (<code class="text-indigo-300">parseArticleCategoryCriteria</code> y <code class="text-indigo-300">serializeArticleCategoryCriteria</code>).<br>
+              2. Mover <code class="text-indigo-300">articles-client.tsx</code> a <code class="text-indigo-300">src/components/articles/articles-view.tsx</code> con export canónico en <code class="text-indigo-300">components/articles/index.ts</code>.<br>
+              3. Sincronizar URL vía <code class="text-indigo-300">window.history.replaceState</code> y resolver <code class="text-indigo-300">searchParams</code> en el servidor.<br>
+              4. Purificar <code class="text-indigo-300">ui/tabs.tsx</code> eliminando la etiqueta de dominio forzada.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-xs space-y-2">
+          <div class="font-bold text-indigo-300">Archivos Involucrados:</div>
+          <ul class="list-disc list-inside space-y-1 text-slate-400">
+            <li><code class="text-slate-300">src/lib/articles/query.ts</code> (nuevo códec de consulta) y re-export en <code class="text-slate-300">src/lib/articles/index.ts</code></li>
+            <li><code class="text-slate-300">src/components/articles/articles-view.tsx</code> (reubicación y sincronización URL)</li>
+            <li><code class="text-slate-300">src/components/articles/index.ts</code> (export canónico de <code class="text-indigo-300">ArticlesView</code>)</li>
+            <li><code class="text-slate-300">src/app/[locale]/articles/page.tsx</code> (consumo de <code class="text-indigo-300">searchParams</code> y <code class="text-indigo-300">ArticlesView</code>)</li>
+            <li><code class="text-slate-300">src/components/ui/tabs.tsx</code> (purificación de accesibilidad genérica)</li>
+          </ul>
+        </div>
+
+        <!-- Diagram -->
+        <div class="space-y-2">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Estructura Antes / Después</div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="bg-slate-950/80 border border-red-900/30 rounded-xl p-4">
+              <div class="text-xs font-bold text-red-400 mb-2">❌ Antes: Estado Volátil, Fuga en Tabs &amp; Archivo Huérfano en app/</div>
+              <div class="mermaid text-xs">
+graph LR
+  User["Usuario / URL"] -.->|"URL sin categoría (?category ignorado)"| Page["articles/page.tsx"]
+  Page --> Client["articles/articles-client.tsx (app/)"]
+  Client --> TabsLeak["ui/tabs.tsx (aria-label hardcoded)"]
+  Client -.->|"Estado se pierde al recargar"| MemoryState["useState('All')"]
+              </div>
+            </div>
+            <div class="bg-slate-950/80 border border-emerald-900/30 rounded-xl p-4">
+              <div class="text-xs font-bold text-emerald-400 mb-2">✅ Después: Códec Bidireccional, Sincronización URL &amp; Localidad</div>
+              <div class="mermaid text-xs">
+graph LR
+  User["Usuario / URL (?category=Career)"] --> Server["articles/page.tsx"]
+  Server --> Codec["lib/articles/query.ts"]
+  Codec --> InitialCriteria["initialCategory"]
+  Server --> Seam["components/articles/index.ts"]
+  Seam --> View["ArticlesView (Sincroniza URL)"]
+  View --> CleanTabs["ui/tabs.tsx (Genérico Puro)"]
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-xs text-slate-400 border-t border-slate-800/80 pt-4 flex flex-wrap gap-4">
+          <span><strong>Leverage:</strong> Categorías persistentes y compartibles sin desoptimizar Server Components.</span>
+          <span><strong>Locality:</strong> 100% de la presentación de artículos consolidada en `components/articles/`.</span>
+          <span><strong>Seam Purity:</strong> Las primitivas UI quedan 100% libres de cadenas de dominio.</span>
+        </div>
+      </article>
+
+      <!-- Candidate 3 -->
+      <article class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Opción 3 &bull; Higiene UI &bull; Primitivas y Chrome</span>
+            <h3 class="text-xl font-bold text-white mt-1">Purificación de Primitivas UI e Higiene de Chrome Layout</h3>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            Worth exploring
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-300">Fricción Actual (Problema):</h4>
+            <p class="text-slate-400 leading-relaxed">
+              <code class="text-indigo-300">src/components/ui/</code> contiene elementos de navegación/chrome del sitio (<code class="text-indigo-300">language-switcher.tsx</code>, <code class="text-indigo-300">back-to-top.tsx</code>). Además, <code class="text-indigo-300">ui/accordion.tsx</code> fuga nombres semánticos de FAQ (<code class="text-indigo-300">{ question, answer }</code>) en lugar de una interfaz genérica (<code class="text-indigo-300">{ title, content }</code>), <code class="text-indigo-300">Navigation</code> envuelve su árbol en un <code class="text-indigo-300">&lt;TooltipProvider&gt;</code> inerte, y <code class="text-indigo-300">ThemeToggle</code> quema strings en inglés sin i18n.
+            </p>
+          </div>
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-300">Solución Arquitectónica:</h4>
+            <p class="text-slate-400 leading-relaxed">
+              1. Reubicar <code class="text-indigo-300">language-switcher.tsx</code> y <code class="text-indigo-300">back-to-top.tsx</code> fuera de <code class="text-indigo-300">components/ui/</code> directamente a <code class="text-indigo-300">components/</code>.<br>
+              2. Generalizar <code class="text-indigo-300">ui/accordion.tsx</code> para aceptar <code class="text-indigo-300">title</code> y <code class="text-indigo-300">content</code> agnósticos.<br>
+              3. Adaptar <code class="text-indigo-300">faq.tsx</code> para proyectar sus preguntas a la interfaz del acordeón.<br>
+              4. Eliminar <code class="text-indigo-300">&lt;TooltipProvider&gt;</code> inerte en <code class="text-indigo-300">Navigation</code> e internacionalizar etiquetas de <code class="text-indigo-300">ThemeToggle</code>.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-xs space-y-2">
+          <div class="font-bold text-indigo-300">Archivos Involucrados:</div>
+          <ul class="list-disc list-inside space-y-1 text-slate-400">
+            <li><code class="text-slate-300">src/components/language-switcher.tsx</code> (movido desde <code class="text-slate-300">ui/</code>)</li>
+            <li><code class="text-slate-300">src/components/back-to-top.tsx</code> (movido desde <code class="text-slate-300">ui/</code>)</li>
+            <li><code class="text-slate-300">src/components/ui/accordion.tsx</code> (interfaz genérica pura)</li>
+            <li><code class="text-slate-300">src/components/faq.tsx</code> (adaptador semántico de items)</li>
+            <li><code class="text-slate-300">src/components/navigation.tsx</code> &amp; <code class="text-slate-300">theme-toggle.tsx</code> (limpieza y traducción)</li>
+          </ul>
+        </div>
+
+        <div class="text-xs text-slate-400 border-t border-slate-800/80 pt-4 flex flex-wrap gap-4">
+          <span><strong>Deletion Test:</strong> El directorio `components/ui/` queda 100% libre de lógica de layout o dominio.</span>
+          <span><strong>Leverage:</strong> `Accordion` puede reutilizarse en cualquier sección sin forzar la metáfora pregunta/respuesta.</span>
+        </div>
+      </article>
+
+      <!-- Candidate 4 -->
+      <article class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Opción 4 &bull; Costura de Entorno &bull; Chrome &amp; Shell</span>
+            <h3 class="text-xl font-bold text-white mt-1">Encapsulación de Script de Hidratación de Tema en Root Layout</h3>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-500/10 text-slate-400 border border-slate-500/20">
+            Speculative
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-300">Fricción Actual (Problema):</h4>
+            <p class="text-slate-400 leading-relaxed">
+              <code class="text-indigo-300">src/app/[locale]/layout.tsx</code> inyecta un script crudo inline mediante <code class="text-indigo-300">dangerouslySetInnerHTML</code> directamente en <code class="text-indigo-300">&lt;head&gt;</code> para prevenir el parpadeo de tema en la hidratación. Es una fuga de protocolo de navegador sin tipado ni superficie de prueba.
+            </p>
+          </div>
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-300">Solución Arquitectónica:</h4>
+            <p class="text-slate-400 leading-relaxed">
+              Encapsular la lógica en un módulo adaptador o componente dedicado <code class="text-indigo-300">ThemeScript</code> que encapsula la generación del script de sincronización anti-flash, con pruebas de contrato en suite unitaria y export canónico limpio para el layout.
+            </p>
+          </div>
+        </div>
+
+        <div class="text-xs text-slate-400 border-t border-slate-800/80 pt-4 flex flex-wrap gap-4">
+          <span><strong>Seam Clarity:</strong> Root Layout queda completamente declarativo sin cadenas JavaScript crudas.</span>
+          <span><strong>Testability:</strong> La lógica del script anti-flash queda protegida por contratos unitarios.</span>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Top Recommendation -->
+    <section class="bg-gradient-to-r from-indigo-950/60 via-slate-900 to-slate-900 border border-indigo-500/30 rounded-3xl p-8 space-y-4 shadow-xl">
+      <div class="flex items-center gap-2 text-indigo-400 text-xs font-bold uppercase tracking-wider">
+        <span>⭐</span> Recomendación Principal de Ejecución
+      </div>
+      <h3 class="text-2xl font-bold text-white">Iniciar con la Opción 1: Consolidar el Módulo de Presentación de Jobs (`components/jobs/`)</h3>
+      <p class="text-slate-300 text-sm max-w-4xl leading-relaxed">
+        Completar el módulo <code class="text-indigo-300">src/components/jobs/</code> cierra el círculo de simetría arquitectónica junto a <code class="text-indigo-300">components/about/</code> y <code class="text-indigo-300">components/articles/</code>. Reduce el archivo <code class="text-indigo-300">jobs/[id]/page.tsx</code> en más de un 80% (de 215 a ~35 líneas), extrae el monolito visual en un módulo profundo (<code class="text-indigo-300">JobDetailView</code>) y colapsa la dispersión de componentes en la raíz de <code class="text-indigo-300">src/components/</code>.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
