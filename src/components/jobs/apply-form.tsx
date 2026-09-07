@@ -48,6 +48,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   const emailRef = useRef<HTMLInputElement>(null);
   const linkedinRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
 
   const {
     submitting,
@@ -59,7 +60,10 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
     setToastOpen,
     showToast,
     focusFirstError,
-  } = useIntakeForm<FieldErrors>();
+    setIsDirty,
+    resetDirty,
+    focusElement,
+  } = useIntakeForm<FieldErrors>({ warnOnUnload: true });
 
   const [submitted, setSubmitted] = useState(false);
   const [name, setName] = useState("");
@@ -100,6 +104,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
     setCvFile(file);
     setCvName(file.name);
     clearFieldError("cv");
+    setIsDirty(true);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -133,6 +138,8 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
       const res = await fetch("/api/apply", { method: "POST", body: formData });
       if (res.ok) {
         setSubmitted(true);
+        resetDirty();
+        focusElement(successRef);
       } else {
         const body = await res.json().catch(() => ({}));
         if (body?.errors) setFieldErrors(body.errors);
@@ -156,9 +163,11 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
   if (submitted) {
     return (
       <div
+        ref={successRef}
+        tabIndex={-1}
         role="status"
         aria-live="polite"
-        className="flex flex-col items-center text-center py-12 px-8 rounded-2xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40"
+        className="flex flex-col items-center text-center py-12 px-8 rounded-2xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40 focus:outline-none"
       >
         <CheckCircleIcon />
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
@@ -198,7 +207,11 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               autoComplete="name"
               placeholder="Jane Doe"
               value={name}
-              onChange={(e) => { setName(e.target.value); clearFieldError("name"); }}
+              onChange={(e) => {
+                setName(e.target.value);
+                clearFieldError("name");
+                setIsDirty(true);
+              }}
               aria-invalid={!!fieldErrors.name}
               aria-describedby={fieldErrors.name ? "name-error" : undefined}
               className={`${INPUT_CLASS} ${fieldErrors.name ? "border-red-400 dark:border-red-500" : ""}`}
@@ -215,7 +228,11 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               spellCheck={false}
               placeholder="jane@example.com"
               value={email}
-              onChange={(e) => { setEmail(e.target.value); clearFieldError("email"); }}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                clearFieldError("email");
+                setIsDirty(true);
+              }}
               aria-invalid={!!fieldErrors.email}
               aria-describedby={fieldErrors.email ? "email-error" : undefined}
               className={`${INPUT_CLASS} ${fieldErrors.email ? "border-red-400 dark:border-red-500" : ""}`}
@@ -230,7 +247,10 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               autoComplete="tel"
               placeholder="+1 (555) 000-0000"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                setPhone(e.target.value);
+                setIsDirty(true);
+              }}
               className={INPUT_CLASS}
             />
           </FormField>
@@ -244,7 +264,11 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               autoComplete="url"
               placeholder="https://linkedin.com/in/yourname"
               value={linkedin}
-              onChange={(e) => { setLinkedin(e.target.value); clearFieldError("linkedin"); }}
+              onChange={(e) => {
+                setLinkedin(e.target.value);
+                clearFieldError("linkedin");
+                setIsDirty(true);
+              }}
               aria-invalid={!!fieldErrors.linkedin}
               aria-describedby={fieldErrors.linkedin ? "linkedin-error" : undefined}
               className={`${INPUT_CLASS} ${fieldErrors.linkedin ? "border-red-400 dark:border-red-500" : ""}`}
@@ -292,7 +316,7 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) processFile(file, () => { e.target.value = ""; });
-                  else { setCvFile(null); setCvName(""); }
+                  else { setCvFile(null); setCvName(""); setIsDirty(true); }
                 }}
               />
             </label>
@@ -311,7 +335,11 @@ export default function ApplyForm({ jobTitle, jobId }: Props) {
               maxLength={MAX_COVER_LETTER}
               placeholder={t("coverLetterPlaceholder")}
               value={message}
-              onChange={(e) => { setMessage(e.target.value); clearFieldError("message"); }}
+              onChange={(e) => {
+                setMessage(e.target.value);
+                clearFieldError("message");
+                setIsDirty(true);
+              }}
               aria-invalid={!!fieldErrors.message}
               aria-describedby={[fieldErrors.message ? "message-error" : null, "message-count"].filter(Boolean).join(" ")}
               className={`${INPUT_CLASS} resize-none ${fieldErrors.message ? "border-red-400 dark:border-red-500" : ""}`}

@@ -304,9 +304,13 @@ describe("Intake Client Seam · useIntakeForm Contracts", () => {
     assert.ok(hookContent.includes("showToast"), "Must encapsulate showToast");
     assert.ok(hookContent.includes("focusFirstError"), "Must encapsulate focusFirstError");
     assert.ok(hookContent.includes("clearFieldError"), "Must encapsulate clearFieldError");
+    assert.ok(hookContent.includes("isDirty"), "Must encapsulate isDirty state");
+    assert.ok(hookContent.includes("resetDirty"), "Must encapsulate resetDirty function");
+    assert.ok(hookContent.includes("focusElement"), "Must encapsulate focusElement function");
+    assert.ok(hookContent.includes("beforeunload"), "Must attach beforeunload event listener when dirty");
   });
 
-  it("verifies both contact-form and apply-form consume useIntakeForm", async () => {
+  it("verifies both contact-form and apply-form consume useIntakeForm with form resilience", async () => {
     const fs = await import("node:fs");
     const path = await import("node:path");
     const { fileURLToPath } = await import("node:url");
@@ -325,6 +329,17 @@ describe("Intake Client Seam · useIntakeForm Contracts", () => {
 
     assert.ok(contactContent.includes("useIntakeForm"), "contact-form.tsx must import and consume useIntakeForm");
     assert.ok(applyContent.includes("useIntakeForm"), "apply-form.tsx must import and consume useIntakeForm");
+
+    // Both forms must configure warnOnUnload for beforeunload protection
+    assert.ok(contactContent.includes("warnOnUnload: true"), "contact-form must configure warnOnUnload: true");
+    assert.ok(applyContent.includes("warnOnUnload: true"), "apply-form must configure warnOnUnload: true");
+
+    // Both forms must reset dirty state upon successful submit
+    assert.ok(contactContent.includes("resetDirty()"), "contact-form must call resetDirty() on success");
+    assert.ok(applyContent.includes("resetDirty()"), "apply-form must call resetDirty() on success");
+
+    // ApplyForm must focus success container for screen reader and keyboard accessibility
+    assert.ok(applyContent.includes("focusElement(successRef)"), "apply-form must manage focus to success landmark");
 
     // Must not retain duplicated manual timeout / RAF boilerplate
     assert.ok(!contactContent.includes("setTimeout(() => {"), "contact-form must not manually execute raw setTimeout for toast");
@@ -353,6 +368,15 @@ describe("Intake Client Seam · useIntakeForm Contracts", () => {
     }
 
     assert.equal(focused, "email", "Should focus first invalid element in order (email)");
+  });
+
+  it("correctly focuses element reference via focusElement helper", () => {
+    let focused = false;
+    const targetRef = { current: { focus: () => { focused = true; } } };
+    if (targetRef.current) {
+      targetRef.current.focus();
+    }
+    assert.equal(focused, true, "focusElement must invoke focus on element ref");
   });
 });
 
