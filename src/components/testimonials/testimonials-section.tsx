@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { listTestimonials } from "@/lib/testimonials";
 import TestimonialsCarousel from "./testimonials-carousel";
 
-export default async function Testimonials() {
+export default async function TestimonialsSection() {
   const t = await getTranslations("testimonials");
   const testimonials = await listTestimonials();
 
@@ -19,3 +19,5 @@ export default async function Testimonials() {
     </section>
   );
 }
+
+export { TestimonialsSection as Testimonials };
