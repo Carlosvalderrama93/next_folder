@@ -19,7 +19,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tailwindcss/typography": "^0.5.19",
     "embla-carousel-react": "^8.6.0",
-    "next": "15.5.0",
+    "next": "15.5.9",
     "next-intl": "^4.8.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
