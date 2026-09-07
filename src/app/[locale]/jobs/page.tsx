@@ -41,11 +41,11 @@ export default async function JobsPage({
           <div className="absolute top-12 -left-16 w-64 h-64 rounded-full bg-violet-200/20 dark:bg-violet-900/10 blur-3xl" />
         </div>
         <div className="relative max-w-4xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white text-balance">
             {t("heading")}
           </h1>
           <div className="mt-3 mb-4 w-10 h-1 bg-brand rounded-full" />
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-gray-500 dark:text-gray-400 tabular-nums">
             {t(countKey, { count: jobs.length })}
           </p>
         </div>

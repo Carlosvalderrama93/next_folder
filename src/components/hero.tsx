@@ -39,7 +39,7 @@ async function Hero() {
           {heroTranslations("badge")}
         </span>
 
-        <h1 className="text-5xl md:text-6xl font-extrabold text-gray-950 dark:text-foreground mb-4 leading-tight">
+        <h1 className="text-5xl md:text-6xl font-extrabold text-gray-950 dark:text-foreground mb-4 leading-tight text-balance">
           {siteConfig.name}
         </h1>
         <p className="text-xl text-gray-500 dark:text-muted-fg max-w-xl leading-relaxed mb-10">

@@ -11,7 +11,7 @@ export default async function FeaturedArticlesSection() {
   return (
     <section className="py-16 max-w-7xl mx-auto px-4 border-t border-gray-100 dark:border-border">
       <div className="flex justify-between items-center mb-10">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground text-balance">
           {t("heading")}
         </h2>
         <Link

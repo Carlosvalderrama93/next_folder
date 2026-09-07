@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { type ReactNode } from "react";
-import { Avatar } from "@/components/ui/avatar";
 import type { Article } from "@/lib/articles";
 
 export type CardArticle = Article;
@@ -60,37 +59,28 @@ export function ArticleCard({
             {article.category}
           </span>
           <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
-          <time dateTime={article.date} className="text-xs text-gray-400 dark:text-muted-fg">
+          <time dateTime={article.date} className="text-xs text-gray-400 dark:text-muted-fg tabular-nums">
             {formatDate(article.date, locale)}
           </time>
           <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
-          <span className="text-xs text-gray-400 dark:text-muted-fg">
+          <span className="text-xs text-gray-400 dark:text-muted-fg tabular-nums">
             {readingTime(article.excerpt, locale)}
           </span>
         </div>
-        <h2 className="font-bold text-gray-900 dark:text-foreground text-base mb-2 line-clamp-2 group-hover:text-brand transition-colors">
+        <h2 className="font-bold text-gray-900 dark:text-foreground text-base mb-2 line-clamp-2 group-hover:text-brand transition-colors text-balance">
           {article.title}
         </h2>
         <p className="text-sm text-gray-600 dark:text-muted-fg leading-relaxed line-clamp-3 flex-1">
           {article.excerpt}
         </p>
-        <span className="font-semibold text-black dark:text-foreground text-sm mt-4 inline-flex items-center gap-1 group-hover:text-brand transition-colors">
-          {readMore}
-          <span className="inline-block translate-x-0 group-hover:translate-x-1 transition-transform">
-            →
+        <div className="mt-4 pt-4 border-t border-gray-100 dark:border-border flex items-center justify-between text-xs text-gray-400 dark:text-muted-fg">
+          <span>
+            {article.author ? `${by} ${article.author.name}` : ""}
           </span>
-        </span>
-        {article.author && (
-          <div className="text-sm text-gray-500 dark:text-muted-fg flex items-center gap-2 mt-4">
-            <Avatar src={article.author.avatar} alt={article.author.name} size={28} />
-            <span>
-              {by}{" "}
-              <span className="font-semibold text-gray-700 dark:text-foreground">
-                {article.author.name}
-              </span>
-            </span>
-          </div>
-        )}
+          <span className="font-semibold text-brand group-hover:underline">
+            {readMore} →
+          </span>
+        </div>
       </div>
     </Link>
   );
@@ -100,7 +90,7 @@ export function FeaturedArticleCard({
   article,
   locale = "en",
   byText,
-  imageWidth = 460,
+  imageWidth = 600,
   children,
 }: {
   article: Article;
@@ -112,16 +102,13 @@ export function FeaturedArticleCard({
   const by = byText ?? (locale === "es" ? "Por" : "By");
 
   return (
-    <div className="flex flex-col md:flex-row gap-8 mb-8">
+    <div className="flex flex-col md:flex-row gap-8 mb-12 items-center">
       {article.coverImage && (
         <Link
           href={article.href}
-          aria-hidden="true"
-          tabIndex={-1}
-          className="group flex-shrink-0 w-full overflow-hidden rounded-2xl"
-          style={{ maxWidth: imageWidth }}
+          className="w-full md:w-1/2 group"
         >
-          <div className="relative w-full h-64 md:h-[340px]">
+          <div className="relative w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-sm group-hover:shadow-md transition-shadow">
             <Image
               src={article.coverImage}
               alt={article.title}
@@ -140,16 +127,16 @@ export function FeaturedArticleCard({
             {article.category}
           </span>
           <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
-          <time dateTime={article.date} className="text-xs text-gray-400 dark:text-muted-fg">
+          <time dateTime={article.date} className="text-xs text-gray-400 dark:text-muted-fg tabular-nums">
             {formatDate(article.date, locale)}
           </time>
           <span className="text-xs text-gray-400 dark:text-muted-fg" aria-hidden="true">·</span>
-          <span className="text-xs text-gray-400 dark:text-muted-fg">
+          <span className="text-xs text-gray-400 dark:text-muted-fg tabular-nums">
             {readingTime(article.excerpt, locale)}
           </span>
         </div>
         <Link href={article.href}>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground mb-4 hover:text-brand transition-colors leading-tight">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground mb-4 hover:text-brand transition-colors leading-tight text-balance">
             {article.title}
           </h2>
         </Link>

@@ -11,7 +11,7 @@ interface AboutCtaProps {
 export default function AboutCta({ translations }: AboutCtaProps) {
   return (
     <section className="max-w-4xl mx-auto px-4 pb-20 text-center">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-balance">
         {translations.ctaHeading}
       </h2>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">

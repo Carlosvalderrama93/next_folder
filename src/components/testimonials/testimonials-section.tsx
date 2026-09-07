@@ -11,7 +11,7 @@ export default async function TestimonialsSection() {
   return (
     <section className="py-16 px-4 border-t border-gray-100 dark:border-border">
       <div className="w-full mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-foreground mb-10 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-foreground mb-10 text-center text-balance">
           {t("heading")}
         </h2>
         <TestimonialsCarousel testimonials={testimonials} />

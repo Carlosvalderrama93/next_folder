@@ -16,7 +16,7 @@ export default function AboutStats({ stats }: AboutStatsProps) {
             key={stat.label}
             className="flex flex-col items-center justify-center py-8 px-6 text-center"
           >
-            <span className="text-5xl font-extrabold text-brand mb-2">{stat.value}</span>
+            <span className="text-5xl font-extrabold text-brand mb-2 tabular-nums">{stat.value}</span>
             <span className="text-sm font-medium text-muted-fg">{stat.label}</span>
           </div>
         ))}

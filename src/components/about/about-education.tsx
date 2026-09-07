@@ -16,7 +16,7 @@ export default function AboutEducation({
 }: AboutEducationProps) {
   return (
     <section id="education" className="max-w-4xl mx-auto px-4 pb-16 scroll-mt-24">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-10">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-10 text-balance">
         {translations.educationHeading}
       </h2>
       <div className="flex flex-col gap-10">

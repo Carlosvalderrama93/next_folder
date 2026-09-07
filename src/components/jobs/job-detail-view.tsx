@@ -133,7 +133,7 @@ export async function JobDetailView({ job, locale }: JobDetailViewProps) {
               )}
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white leading-tight mb-4">
+            <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white leading-tight mb-4 text-balance">
               {job.title}
             </h1>
 
@@ -143,7 +143,7 @@ export async function JobDetailView({ job, locale }: JobDetailViewProps) {
                 {job.location}
               </span>
               {formattedDate && (
-                <span className="flex items-center gap-1.5">
+                <span className="flex items-center gap-1.5 tabular-nums">
                   <CalendarIcon />
                   {t("postedOn", { date: formattedDate })}
                 </span>

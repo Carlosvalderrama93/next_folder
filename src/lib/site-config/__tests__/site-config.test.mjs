@@ -771,6 +771,67 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
         "ApplyForm must declare role=status and aria-live=polite on success state"
       );
     });
+
+    it("verifies typographic polish with text-balance and numeric alignment with tabular-nums", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const srcDir = path.resolve(__dirname, "../../../");
+
+      // 1. Headings configured with text-balance to avoid orphaned words
+      const balancedHeadingFiles = [
+        "components/hero.tsx",
+        "components/featured-jobs-section.tsx",
+        "components/featured-articles-section.tsx",
+        "components/testimonials/testimonials-section.tsx",
+        "components/faq.tsx",
+        "components/about/about-hero.tsx",
+        "components/about/about-focus.tsx",
+        "components/about/about-skills.tsx",
+        "components/about/about-experience.tsx",
+        "components/about/about-education.tsx",
+        "components/about/about-certifications.tsx",
+        "components/about/about-learning.tsx",
+        "components/about/about-cta.tsx",
+        "app/[locale]/jobs/page.tsx",
+        "components/jobs/job-detail-view.tsx",
+        "app/[locale]/articles/page.tsx",
+        "app/[locale]/articles/[documentId]/page.tsx",
+        "components/contact/contact-view.tsx",
+        "app/[locale]/not-found.tsx",
+      ];
+
+      for (const relPath of balancedHeadingFiles) {
+        const filePath = path.join(srcDir, relPath);
+        const content = fs.readFileSync(filePath, "utf-8");
+        assert.ok(
+          content.includes("text-balance"),
+          `${relPath} must include text-balance on headings`
+        );
+      }
+
+      // 2. Numeric elements configured with tabular-nums
+      const tabularNumFiles = [
+        "components/about/about-stats.tsx",
+        "components/jobs/job-card.tsx",
+        "components/jobs/job-detail-view.tsx",
+        "components/articles/article-card.tsx",
+        "app/[locale]/articles/[documentId]/page.tsx",
+        "app/[locale]/jobs/page.tsx",
+        "components/jobs/apply-form.tsx",
+      ];
+
+      for (const relPath of tabularNumFiles) {
+        const filePath = path.join(srcDir, relPath);
+        const content = fs.readFileSync(filePath, "utf-8");
+        assert.ok(
+          content.includes("tabular-nums"),
+          `${relPath} must include tabular-nums on numeric displays`
+        );
+      }
+    });
   });
 });
 

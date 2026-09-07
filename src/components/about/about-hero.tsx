@@ -31,7 +31,7 @@ export default function AboutHero({ profile, translations }: AboutHeroProps) {
         </div>
         <div className="flex flex-col gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white leading-tight mb-3">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white leading-tight mb-3 text-balance">
               {profile.name}
             </h1>
             <HeadlinePills pills={profile.headline} />
