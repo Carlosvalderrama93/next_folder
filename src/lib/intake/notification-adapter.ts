@@ -19,14 +19,18 @@ export async function sendNotification(options: SendOptions): Promise<void> {
 
   if (apiKey && to) {
     const { Resend } = await import("resend");
-    const resend = new Resend(apiKey);
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from,
       to,
       subject: options.subject,
       html: options.html,
       attachments: options.attachments,
     });
+    if (result.error) {
+      console.error("[intake] Resend delivery error:", result.error);
+    } else {
+      console.log("[intake] Resend email dispatched successfully:", result.data?.id);
+    }
   } else {
     console.log("[intake] Notification (set RESEND_API_KEY + CONTACT_EMAIL to send real emails):", {
       subject: options.subject,
