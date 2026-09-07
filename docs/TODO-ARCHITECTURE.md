@@ -46,13 +46,13 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | **Opción 3** | Límites de Suspense y Streaming Progresivo en Portada ([`src/app/[locale]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/page.tsx)) | ✅ **Completada** | `feat/streaming-suspense-home-sprint` |
 | **Opción 4** | Consolidación del Seam de Renderizado Markdown ([`src/components/ui/rich-text.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/rich-text.tsx)) | ✅ **Completada** | `feat/markdown-adapter-consolidation-sprint` |
 
-### Ciclo 6: Profundización de Costuras de Protocolo, Presentación y Estado (En Progreso)
+### Ciclo 6: Profundización de Costuras de Protocolo, Presentación y Estado (✅ 100% Completado)
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción 1** | Profundizar Costura HTTP de Intake y Colapsar Route Handlers ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ✅ **Completada** | `feat/intake-http-seam-sprint` |
 | **Opción 2** | Consolidar Módulo de Presentación de About Profile ([`src/components/about/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/about/)) | ✅ **Completada** | `feat/about-presentation-consolidation-sprint` |
 | **Opción 3** | Costura de Estado URL para Consultas y Filtros de Empleo ([`src/lib/jobs/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/jobs/)) | ✅ **Completada** | `feat/job-query-url-state-sprint` |
-| **Opción 4** | Metadata Estructurada y Schema.org JSON-LD ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ⏳ Pendiente | `feat/structured-metadata-seam-sprint` |
+| **Opción 4** | Metadata Estructurada y Schema.org JSON-LD ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/structured-metadata-seam-sprint` |
 
 
 ---
@@ -252,7 +252,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ---
 
-## ⚡ Ciclo 6 — Profundización de Costuras de Protocolo, Presentación y Estado (En Progreso)
+## ⚡ Ciclo 6 — Profundización de Costuras de Protocolo, Presentación y Estado (✅ 100% Completado)
 
 ### Opción 1: Profundizar Costura HTTP de Intake y Colapsar Route Handlers (✅ Completada)
 **Rama:** `feat/intake-http-seam-sprint`
@@ -280,12 +280,12 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **3.3 Pruebas y verificación:** 4 pruebas de contrato y códec añadidas en `query.test.mjs`. 126/126 unit tests verdes, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
 
 
-### Opción 4: Metadata Estructurada y Schema.org JSON-LD (⏳ Pendiente)
+### Opción 4: Metadata Estructurada y Schema.org JSON-LD (✅ Completada)
 **Rama:** `feat/structured-metadata-seam-sprint`
 
-- [ ] **4.1 Crear constructores tipados de Schema.org en `src/lib/site-config/`:** Generadores fuertemente tipados `buildJobPostingJsonLd(job)` y `buildArticleJsonLd(article)`.
-- [ ] **4.2 Crear componente agnóstico `<StructuredData />`:** Renderizado seguro de scripts JSON-LD eliminando `dangerouslySetInnerHTML` crudo en páginas.
-- [ ] **4.3 Pruebas y verificación:** Validación de esquemas requeridos por motores de búsqueda en suites unitarias.
+- [x] **4.1 Crear constructores tipados de Schema.org en `src/lib/site-config/`:** Generadores fuertemente tipados `buildJobPostingJsonLd(job)`, `buildArticleJsonLd(article)` y `buildWebsiteJsonLd()`. Sanitización anti-XSS con escape de caracteres `<` (`\u003c`) en `serializeJsonLd`.
+- [x] **4.2 Crear componente agnóstico `<StructuredData />`:** Renderizado seguro de scripts JSON-LD en `src/components/ui/structured-data.tsx` eliminando `dangerouslySetInnerHTML` crudo en páginas de jobs, articles y home.
+- [x] **4.3 Pruebas y verificación:** Validación de esquemas requeridos por motores de búsqueda en suites unitarias (`site-config.test.mjs`). 131/131 pruebas unitarias, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
 
 ---
 

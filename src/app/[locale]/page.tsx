@@ -9,21 +9,27 @@ import {
   FeaturedArticlesSkeleton,
   TestimonialsSkeleton,
 } from "@/components/home-skeletons";
+import { buildWebsiteJsonLd } from "@/lib/site-config";
+import { StructuredData } from "@/components/ui/structured-data";
 
 export default function HomePage() {
   return (
-    <main id="main-content">
-      <Hero />
-      <Suspense fallback={<FeaturedJobsSkeleton />}>
-        <FeaturedJobsSection />
-      </Suspense>
-      <Suspense fallback={<FeaturedArticlesSkeleton />}>
-        <FeaturedArticlesSection />
-      </Suspense>
-      <Suspense fallback={<TestimonialsSkeleton />}>
-        <Testimonials />
-      </Suspense>
-      <FAQ />
-    </main>
+    <>
+      <StructuredData data={buildWebsiteJsonLd()} />
+      <main id="main-content">
+        <Hero />
+        <Suspense fallback={<FeaturedJobsSkeleton />}>
+          <FeaturedJobsSection />
+        </Suspense>
+        <Suspense fallback={<FeaturedArticlesSkeleton />}>
+          <FeaturedArticlesSection />
+        </Suspense>
+        <Suspense fallback={<TestimonialsSkeleton />}>
+          <Testimonials />
+        </Suspense>
+        <FAQ />
+      </main>
+    </>
   );
 }
+
