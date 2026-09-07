@@ -153,7 +153,58 @@ En la sección **Environment Variables**, añade las siguientes claves:
 
 ---
 
-## 🔍 5. Paso 4: Verificación y Pruebas de Humo (Smoke Testing)
+---
+
+## 📥 5. Ciclo de Vida de una Postulación: ¿Qué ocurre exactamente al postularse?
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor C as Candidato
+    participant V as Next.js (Vercel)
+    participant R as Resend API
+    participant S as Strapi (Render)
+    actor Recruiter as Tu Buzón (CONTACT_EMAIL)
+
+    C->>V: Completa formulario y sube CV (PDF) en /jobs/:id
+    Note over V: Valida campos, tamaño (<5MB) y Rate Limit (anti-spam)
+    par 1. Entrega Inmediata de Correo
+        V->>R: Envía email HTML transaccional + CV adjunto
+        R->>Recruiter: Correo en tu buzón con datos y archivo PDF
+    and 2. Persistencia en Base de Datos
+        V->>S: Guarda registro permanente en /api/applications
+        S-->>V: Confirmación de guardado HTTP 200/201
+    end
+    V-->>C: Muestra pantalla de éxito "¡Postulación enviada con éxito!"
+```
+
+### A. La regla de los correos en Resend (Sandbox vs Producción)
+- **El campo `Email` en el formulario web**: El candidato que visita tu web puede ingresar **cualquier correo del mundo** (ej. `candidato@gmail.com`, `ana@empresa.com`).
+- **La variable `CONTACT_EMAIL` en Vercel**: Es **tu correo personal** (a donde quieres que te lleguen las notificaciones y los CVs adjuntos).
+  > [!IMPORTANT]
+  > Mientras utilices el remitente de pruebas de Resend (`RESEND_FROM=onboarding@resend.dev`), por políticas anti-spam globales, Resend **únicamente entregará correos a la dirección con la que creaste tu cuenta en Resend**. Por tanto, asegúrate de que `CONTACT_EMAIL` en Vercel coincida con tu email registrado en Resend. Una vez verifiques un dominio propio en Resend, podrás enviar y recibir a cualquier dirección.
+
+### B. ¿Qué ve el Candidato en su pantalla?
+1. Al pulsar **"Enviar postulación"**, el botón cambia a estado de carga con indicador accesible (*"Enviando postulación..."*).
+2. En menos de 1 segundo, el modal muestra la **Pantalla de Confirmación**:
+   - Icono verde de verificación.
+   - Mensaje: *"¡Postulación enviada con éxito! Hemos recibido tu postulación. El equipo de reclutamiento revisará tu perfil y se pondrá en contacto contigo a la brevedad."*
+   - El formulario se resetea automáticamente y se desbloquea la protección de salida de página (`beforeunload`).
+
+### C. ¿Qué recibes tú como Reclutador? (Doble Vía de Respaldo)
+1. **En tu correo personal (`CONTACT_EMAIL`)**:
+   - **Asunto**: `Nueva postulación: [Nombre del Puesto] — [Nombre del Candidato]`
+   - **Remitente**: `onboarding@resend.dev` (o tu dominio verificado).
+   - **Cuerpo del correo**: Plantilla HTML profesional con el nombre, email (enlace directo para responderle), teléfono, enlace de LinkedIn y carta de presentación.
+   - **Archivo adjunto**: El documento original del CV (PDF o Word) listo para descargar o previsualizar con un clic.
+2. **En tu Panel de Administración de Strapi**:
+   - Abre `https://strapi-back-awqc.onrender.com/admin`.
+   - En el menú izquierdo ve a **Content Manager** ➔ **Application**.
+   - Encontrarás una nueva fila registrada con todos los datos del postulante guardados permanentemente en PostgreSQL, sirviendo como tu base de datos centralizada de candidatos (ATS propio).
+
+---
+
+## 🔍 6. Paso 4: Verificación y Pruebas de Humo (Smoke Testing)
 
 Una vez completado el despliegue en Vercel:
 
@@ -163,14 +214,14 @@ Una vez completado el despliegue en Vercel:
 | **Bolsa de Empleos** | `https://tu-app.vercel.app/es/jobs` | Visualización de las 20 vacantes servidas desde Strapi. |
 | **Filtros de Búsqueda** | `https://tu-app.vercel.app/es/jobs?search=react` | Filtrado instantáneo por texto, modalidad y tags. |
 | **Detalle de Vacante** | `https://tu-app.vercel.app/es/jobs/:id` | Descripción completa, requisitos y botón de postulación. |
-| **Formulario de Postulación** | Modal en `/jobs/:id` | Envío exitoso guardado en `/api/applications` de Strapi. |
+| **Formulario de Postulación** | Modal en `/jobs/:id` | Envío exitoso guardado en `/api/applications` de Strapi y email vía Resend. |
 | **Artículos de Blog** | `https://tu-app.vercel.app/es/articles` | Listado de 20 publicaciones técnicas con SSG. |
 | **Formulario de Contacto** | `https://tu-app.vercel.app/es/contact` | Mensaje registrado en `/api/inquiries` de Strapi. |
 | **SEO y Sitemaps** | `https://tu-app.vercel.app/sitemap.xml` | XML generado con todas las rutas y locales `/es` y `/en`. |
 
 ---
 
-## 🌐 6. Paso 5: Conexión de Dominio Propio (Opcional)
+## 🌐 7. Paso 5: Conexión de Dominio Propio (Opcional)
 
 Si dispones de un dominio (ejemplo: `midominio.com`):
 
