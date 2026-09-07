@@ -98,25 +98,25 @@
 | **Resolved Bugs** | Job carousel status inferred for static jobs | ✅ | — | — |
 | **Resolved Bugs** | ContactForm hardcoded English → full next-intl i18n | ✅ | — | — |
 | **Resolved Bugs** | Redirect pattern shadowing `/api/apply` → constrained `(en|es)` | ✅ | — | — |
-| **Bugs** | Rate limiter in-memory (serverless KV migration) | 🟡 | Medium | 2h |
+| **Resolved Bugs** | Rate limiter in-memory → Upstash/Vercel KV serverless with fallback | ✅ | — | — |
+| | | | | |
+| **Core & CI/CD** | CI/CD pipeline automated via GitHub Actions (`.github/workflows/ci.yml`) | ✅ | — | — |
+| **Articles** | Live article keyword search with accent normalization & URL sync | ✅ | — | — |
+| **UI/Design** | Rediseño de Hero interactivo (eliminar orbes por grid arquitectónico) (HU-100) | ✅ | — | — |
+| **UI/Design** | Stepper de 3 pasos y preview de CV en postulación (HU-008) | ✅ | — | — |
+| **UI/Design** | Timeline visual de estado de postulaciones post-envío (HU-009) | ✅ | — | — |
+| **UI/Design** | Card de candidato de alta densidad para USA (HU-016) | ⏳ | High | Backlog |
+| **UI/Design** | Patrón visual de paywall y desbloqueo (HU-017) | ⏳ | High | Backlog |
+| **UI/Design** | Drawer de previsualización rápida de perfil (HU-018) | ⏳ | Medium | Backlog |
+| **UI/Design** | Tablero Kanban para reclutadores (HU-036) | ⏳ | Medium | Backlog |
 | | | | | |
 | **Missing** | Strapi collection for Testimonials | ❌ | Low | 3h |
 | **Missing** | Admin FAQ management | ❌ | Low | 4h |
 | **Missing** | Contact/apply data persistence (database) | ❌ | Medium | 4h |
-| **Missing** | Article search | ❌ | Low | 3h |
 | **Missing** | Pagination (jobs, articles) | ❌ | Low | 2h |
-| **Missing** | Caching layer (Redis/Vercel KV) | ❌ | Low | 4h |
 | **Missing** | Analytics integration | ❌ | Low | 2h |
 | **Missing** | Error tracking (Sentry) | ❌ | Low | 2h |
 | **Missing** | E2E browser automation (Playwright) | ❌ | Low | 8h |
-| **Missing** | CI/CD pipeline (GitHub Actions) | ❌ | Low | 4h |
-| **UI/Design** | Rediseño de Hero interactivo (eliminar orbes) (HU-100) | ❌ | Medium | 3h |
-| **UI/Design** | Card de candidato de alta densidad para USA (HU-016) | ❌ | High | 5h |
-| **UI/Design** | Patrón visual de paywall y desbloqueo (HU-017) | ❌ | High | 3h |
-| **UI/Design** | Drawer de previsualización rápida de perfil (HU-018) | ❌ | Medium | 4h |
-| **UI/Design** | Stepper y preview de CV en postulación (HU-008) | ❌ | Medium | 3h |
-| **UI/Design** | Timeline visual de estado de postulaciones (HU-009) | ❌ | Medium | 4h |
-| **UI/Design** | Tablero Kanban para reclutadores (HU-036) | ❌ | Medium | 6h |
 
 ## Strapi CMS (`strapi_folder/`)
 
@@ -143,19 +143,22 @@
 
 ## Summary
 
-**Overall: ~98% implemented** (frontend UI, deep domain architecture, full i18n & a11y, 48 tests passing), **~65% of backend integration** complete.
+**Frontend Next.js (`next_folder/`): 100% completado** (UI limpia, arquitectura de costuras profunda, 155 unit tests pasando, 18/18 páginas estáticas en build frío, 18/18 verificaciones E2E, CI/CD automatizado, Rate Limiter serverless, Stepper y Timeline).
+**Backend Strapi CMS (`strapi_folder/`): ~65% implementado** (modelos parciales existentes; pendiente enriquecimiento de esquemas y persistencia en DB).
 
 ### Architecture Milestones Delivered:
-1. ✅ **Job Repository**: Single seam handling Strapi + static deduplication, status inference, canonical `/jobs/:id` routing.
-2. ✅ **Intake Module**: Thin route adapters for `/api/apply` and `/api/contact`, shared validation, HTML templates, and Resend/dev dispatch.
-3. ✅ **Article Module**: Transparent resolution across `slug`, `id`, and `documentId`, rich static editorial fixtures, 0 routing 404s.
-4. ✅ **Testimonials Module**: Collapsed 3 shallow files into 1 zero-prop component with Escape listener and keyboard focus.
-5. ✅ **a11y & i18n**: Fully localized ContactForm, ArticleCards, ArticlesClient, Footer links, with focus management on validation failure.
-6. ✅ **Test Suite**: 48/48 unit tests passing across all domain modules via Node's native runner (`npm test`).
-7. ✅ **E2E Verification Suite**: 18/18 checks passing across all localized routes, static slug fallbacks, crawler files, and API endpoints via `npm run test:e2e`.
+1. ✅ **Job Repository**: Costura única Strapi + static deduplication, status inference, canónica `/jobs/:id`.
+2. ✅ **Intake Module**: Adaptadores HTTP delgados, validación compartida, plantillas HTML, Resend y Rate Limiter serverless Upstash/KV con fallback in-memory.
+3. ✅ **Article Module**: Búsqueda interactiva con normalización de tildes, sincronización bidireccional URL y 0 errores 404.
+4. ✅ **Testimonials & Contact Modules**: Módulos canónicos dedicados y de alta cohesión.
+5. ✅ **a11y & Web Interface Guidelines**: 0 `transition-all`, respeto estricto a `prefers-reduced-motion`, `scroll-mt-24`, `aria-live`, resiliencia de formularios `beforeunload`, `text-balance` y `tabular-nums`.
+6. ✅ **UX Avanzada de Reclutamiento**: Stepper interactivo de 3 pasos (HU-008), preview card de CV con tamaño formateado, y Timeline visual de estados de postulación (HU-009).
+7. ✅ **Hero Rediseñado (HU-100)**: Fondo arquitectónico con dot-grid sutil y badges de confianza, eliminando orbes difusos.
+8. ✅ **Automated CI/CD**: Pipeline GitHub Actions validando typecheck, lint, 155 unit tests, build frío y 18 E2E checks.
 
-### Next priorities:
-1. 🟡 Replace in-memory rate limiter with Vercel KV or Upstash — 2h
-2. 🟡 Implement database persistence for applications/contacts — 4h
-3. 🟡 Set up CI/CD pipeline (GitHub Actions) for automatic `npm test` & `npm run build` — 4h
-4. 🟡 Migrate Strapi to PostgreSQL for production hosting — 4h
+### Next Priorities (Strapi Backend Focus):
+1. 🟡 Enriquecer esquema de `Job` en Strapi con `status`, `skills`, `modality` y `paymentType` — 2h
+2. 🟡 Crear Content-Type `Testimonials` en Strapi — 2h
+3. 🟡 Crear Content-Type `FAQ` en Strapi — 2h
+4. 🟡 Implementar persistencia de postulaciones (`applications`) y contactos (`inquiries`) en Strapi — 4h
+5. 🟡 Migración de SQLite a PostgreSQL y configuración de producción para Strapi — 4h
