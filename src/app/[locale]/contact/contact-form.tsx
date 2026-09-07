@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { ToastProvider, Toast } from "@/components/ui/toast";
 import { FormField } from "@/components/ui/form-field";
 import { isValidEmail } from "@/lib/intake/validation";
+import { useIntakeForm } from "@/lib/intake/use-intake-form";
 
 type FieldErrors = { name?: string; email?: string; message?: string };
 
@@ -18,14 +19,23 @@ export default function ContactForm() {
   const emailRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
-  const [submitting, setSubmitting] = useState(false);
+  const {
+    submitting,
+    setSubmitting,
+    fieldErrors,
+    setFieldErrors,
+    clearFieldError,
+    toastOpen,
+    setToastOpen,
+    toastVariant,
+    showToast,
+    focusFirstError,
+  } = useIntakeForm<FieldErrors>();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
-  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-  const [toastOpen, setToastOpen] = useState(false);
-  const [toastVariant, setToastVariant] = useState<"success" | "error">("success");
 
   function validate(): FieldErrors {
     const errors: FieldErrors = {};
@@ -39,25 +49,17 @@ export default function ContactForm() {
     return errors;
   }
 
-  function showToast(variant: "success" | "error") {
-    setToastOpen(false);
-    setTimeout(() => {
-      setToastVariant(variant);
-      setToastOpen(true);
-    }, 50);
-  }
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const errors = validate();
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
-      requestAnimationFrame(() => {
-        if (errors.name) nameRef.current?.focus();
-        else if (errors.email) emailRef.current?.focus();
-        else if (errors.message) messageRef.current?.focus();
-      });
+      focusFirstError(errors, [
+        ["name", nameRef],
+        ["email", emailRef],
+        ["message", messageRef],
+      ]);
       return;
     }
     setFieldErrors({});
@@ -105,7 +107,7 @@ export default function ContactForm() {
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
-                setFieldErrors((fe) => ({ ...fe, name: undefined }));
+                clearFieldError("name");
               }}
               aria-invalid={!!fieldErrors.name}
               aria-describedby={fieldErrors.name ? "name-error" : undefined}
@@ -127,7 +129,7 @@ export default function ContactForm() {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                setFieldErrors((fe) => ({ ...fe, email: undefined }));
+                clearFieldError("email");
               }}
               aria-invalid={!!fieldErrors.email}
               aria-describedby={fieldErrors.email ? "email-error" : undefined}
@@ -160,7 +162,7 @@ export default function ContactForm() {
               value={message}
               onChange={(e) => {
                 setMessage(e.target.value);
-                setFieldErrors((fe) => ({ ...fe, message: undefined }));
+                clearFieldError("message");
               }}
               aria-invalid={!!fieldErrors.message}
               aria-describedby={fieldErrors.message ? "message-error" : undefined}

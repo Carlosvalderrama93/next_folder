@@ -38,10 +38,10 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | **Opción 3** | Desambiguación de Secciones y Colapso de Módulo Superficial ([`src/components/featured-jobs-section.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/featured-jobs-section.tsx)) | ✅ **Completada** | `feat/home-sections-clarity-sprint` (`faadf64`) |
 | **Opción 4** | Consolidación de Configuración CMS ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/cms-config-consolidation-sprint` (`a563649`) |
 
-### Ciclo 5: Profundización de Cliente, Localidad UI y Streaming Progresivo (⏳ Por Iniciar)
+### Ciclo 5: Profundización de Cliente, Localidad UI y Streaming Progresivo (En Progreso)
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
-| **Opción 1** | Encapsulación del Ciclo de Vida de Formularios Client (`useIntakeForm`) ([`src/lib/intake/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/)) | ⏳ Pendiente | Alta (Profundidad Client) |
+| **Opción 1** | Encapsulación del Ciclo de Vida de Formularios Client (`useIntakeForm`) ([`src/lib/intake/use-intake-form.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/use-intake-form.ts)) | ✅ **Completada** | `feat/intake-form-lifecycle-sprint` |
 | **Opción 2** | Localidad UI de Artículos: Purificar `components/ui/` y Crear `components/articles/` ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ⏳ Pendiente | Media-Alta (Higiene & Deletion Test) |
 | **Opción 3** | Límites de Suspense y Streaming Progresivo en Portada ([`src/app/[locale]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/page.tsx)) | ⏳ Pendiente | Alta (RSC Streaming Leverage) |
 | **Opción 4** | Consolidación del Seam de Renderizado Markdown ([`src/app/[locale]/jobs/[id]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/jobs/%5Bid%5D/page.tsx)) | ⏳ Pendiente | Media (Desacoplamiento de Terceros) |
@@ -208,13 +208,15 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 
 ---
 
-## 🚀 Ciclo 5 — Opciones de Profundización y Rendimiento (⏳ En Espera de Selección)
+## 🚀 Ciclo 5 — Opciones de Profundización y Rendimiento (En Progreso)
 
-### Opción 1: Encapsulación del Ciclo de Vida de Formularios Client (`useIntakeForm`)
-- [ ] **1.1 Crear hook o harness client en `src/lib/intake/useIntakeForm.ts`:** Encapsular estado `submitting`, manejo robusto de `toast` con variants ("success" | "error"), reset de campos y autofoco accesible en el primer error vía `requestAnimationFrame`.
-- [ ] **1.2 Refactorizar `contact-form.tsx`:** Consumir `useIntakeForm`, reduciendo el componente a su definición visual y reglas de validación sin boilerplate repetitivo de timing o DOM refs.
-- [ ] **1.3 Refactorizar `apply-form.tsx`:** Consumir `useIntakeForm`, manteniendo la carga de CV y eliminando la duplicación de lógica de toast y envío.
-- [ ] **1.4 Pruebas y verificación:** Validar comportamiento interactivo y mantener 100% de tests unitarios y E2E.
+### Opción 1: Encapsulación del Ciclo de Vida de Formularios Client (`useIntakeForm`) (✅ Completada)
+**Rama:** `feat/intake-form-lifecycle-sprint`
+
+- [x] **1.1 Crear hook en `src/lib/intake/use-intake-form.ts`:** Encapsula estado `submitting`, manejo de `toast` con variants ("success" | "error"), limpieza de campos (`clearFieldError`) y autofoco accesible en el primer error vía `requestAnimationFrame` (`focusFirstError`).
+- [x] **1.2 Refactorizar `contact-form.tsx`:** Consume `useIntakeForm`, reduciendo el componente a su definición de campos y validación, eliminando timeouts crudos y lógica manual de RAF/refs.
+- [x] **1.3 Refactorizar `apply-form.tsx`:** Consume `useIntakeForm`, manteniendo la carga de CV y eliminando timeouts crudos y lógica duplicada de toast y foco en error.
+- [x] **1.4 Pruebas y verificación:** Agregadas 3 pruebas de contrato en `src/lib/intake/__tests__/intake.test.mjs`. 112 unit tests, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
 
 ### Opción 2: Localidad UI de Artículos: Purificar `components/ui/` y Crear `components/articles/`
 - [ ] **2.1 Crear directorio canónico `src/components/articles/`:** Análogo a `src/components/about/`.
