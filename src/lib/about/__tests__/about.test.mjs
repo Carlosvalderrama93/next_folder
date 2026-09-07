@@ -388,4 +388,51 @@ describe("About Profile Module Seam", () => {
       );
     });
   });
+
+  describe("About Presentation Seam & View Consolidation Contracts", () => {
+    it("guarantees components/about/index.ts acts as the canonical presentation entry point", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const barrelPath = path.resolve(__dirname, "../../../components/about/index.ts");
+      const viewPath = path.resolve(__dirname, "../../../components/about/about-view.tsx");
+
+      assert.ok(fs.existsSync(barrelPath), "components/about/index.ts must exist");
+      assert.ok(fs.existsSync(viewPath), "components/about/about-view.tsx must exist");
+
+      const barrelContent = fs.readFileSync(barrelPath, "utf-8");
+      assert.ok(barrelContent.includes("AboutView"), "index.ts must export AboutView");
+    });
+
+    it("verifies about/page.tsx delegates exclusively to AboutView without prop-drilling", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const pagePath = path.resolve(__dirname, "../../../app/[locale]/about/page.tsx");
+
+      assert.ok(fs.existsSync(pagePath), "about/page.tsx must exist");
+      const pageContent = fs.readFileSync(pagePath, "utf-8");
+
+      assert.ok(pageContent.includes("AboutView"), "about/page.tsx must consume AboutView");
+      assert.ok(
+        pageContent.includes('from "@/components/about"'),
+        "about/page.tsx must import from @/components/about seam"
+      );
+
+      // Must not manually import and drill props to individual sections
+      assert.ok(!pageContent.includes("AboutHero"), "about/page.tsx must not directly import AboutHero");
+      assert.ok(!pageContent.includes("AboutBio"), "about/page.tsx must not directly import AboutBio");
+      assert.ok(!pageContent.includes("AboutExperience"), "about/page.tsx must not directly import AboutExperience");
+      assert.ok(!pageContent.includes("AboutSkills"), "about/page.tsx must not directly import AboutSkills");
+      assert.ok(!pageContent.includes("AboutEducation"), "about/page.tsx must not directly import AboutEducation");
+      assert.ok(!pageContent.includes("AboutCertifications"), "about/page.tsx must not directly import AboutCertifications");
+      assert.ok(!pageContent.includes("AboutLearning"), "about/page.tsx must not directly import AboutLearning");
+      assert.ok(!pageContent.includes("AboutCta"), "about/page.tsx must not directly import AboutCta");
+    });
+  });
 });
+
