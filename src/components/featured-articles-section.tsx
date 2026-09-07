@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import { ArticleCard, FeaturedArticleCard } from "./article-card";
+import { ArticleCard, FeaturedArticleCard } from "./articles";
 import { listArticles } from "@/lib/articles";
 
 export default async function FeaturedArticlesSection() {

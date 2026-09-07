@@ -42,7 +42,7 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | Opción | Módulo / Área | Estado | Prioridad |
 |---|---|---|---|
 | **Opción 1** | Encapsulación del Ciclo de Vida de Formularios Client (`useIntakeForm`) ([`src/lib/intake/use-intake-form.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/intake/use-intake-form.ts)) | ✅ **Completada** | `feat/intake-form-lifecycle-sprint` |
-| **Opción 2** | Localidad UI de Artículos: Purificar `components/ui/` y Crear `components/articles/` ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ⏳ Pendiente | Media-Alta (Higiene & Deletion Test) |
+| **Opción 2** | Localidad UI de Artículos: Purificar `components/ui/` y Crear `components/articles/` ([`src/components/articles/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/articles/)) | ✅ **Completada** | `feat/articles-ui-locality-sprint` |
 | **Opción 3** | Límites de Suspense y Streaming Progresivo en Portada ([`src/app/[locale]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/page.tsx)) | ⏳ Pendiente | Alta (RSC Streaming Leverage) |
 | **Opción 4** | Consolidación del Seam de Renderizado Markdown ([`src/app/[locale]/jobs/[id]/page.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/jobs/%5Bid%5D/page.tsx)) | ⏳ Pendiente | Media (Desacoplamiento de Terceros) |
 
@@ -218,13 +218,15 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **1.3 Refactorizar `apply-form.tsx`:** Consume `useIntakeForm`, manteniendo la carga de CV y eliminando timeouts crudos y lógica duplicada de toast y foco en error.
 - [x] **1.4 Pruebas y verificación:** Agregadas 3 pruebas de contrato en `src/lib/intake/__tests__/intake.test.mjs`. 112 unit tests, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
 
-### Opción 2: Localidad UI de Artículos: Purificar `components/ui/` y Crear `components/articles/`
-- [ ] **2.1 Crear directorio canónico `src/components/articles/`:** Análogo a `src/components/about/`.
-- [ ] **2.2 Reubicar widgets exclusivos de artículos desde `src/components/ui/`:**
-  - Mover `reading-progress.tsx` y `share-buttons.tsx` a `src/components/articles/`.
-- [ ] **2.3 Agrupar componentes de presentación de artículos:**
-  - Reubicar `article-blocks.tsx`, `article-card.tsx` y `featured-articles-section.tsx` a `src/components/articles/`.
-- [ ] **2.4 Actualizar rutas de consumo y contratos de prueba:** Garantizar que `components/ui/` permanezca estrictamente agnóstico de dominio.
+### Opción 2: Localidad UI de Artículos: Purificar `components/ui/` y Crear `components/articles/` (✅ Completada)
+**Rama:** `feat/articles-ui-locality-sprint`
+
+- [x] **2.1 Crear directorio canónico `src/components/articles/`:** Análogo a `src/components/about/`.
+- [x] **2.2 Reubicar widgets exclusivos de artículos desde `src/components/ui/`:**
+  - Movidos `reading-progress.tsx` y `share-buttons.tsx` a `src/components/articles/`.
+- [x] **2.3 Agrupar componentes de presentación de artículos:**
+  - Reubicados `article-blocks.tsx` y `article-card.tsx` a `src/components/articles/` con barril canónico `index.ts`.
+- [x] **2.4 Actualizar rutas de consumo y contratos de prueba:** Actualizados `articles/[documentId]/page.tsx`, `articles-client.tsx` y `featured-articles-section.tsx`. Agregadas 3 pruebas de contrato en `articles.test.mjs`. 115 unit tests, 0 TS errors, 0 lints, build 18/18 y 18/18 E2E superados.
 
 ### Opción 3: Límites de Suspense y Streaming Progresivo en Portada (`HomePage`)
 - [ ] **3.1 Diseñar skeletons semánticos ligeros para secciones de portada:** `JobsSectionSkeleton`, `ArticlesSectionSkeleton` y `TestimonialsSkeleton`.

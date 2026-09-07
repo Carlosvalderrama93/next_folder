@@ -417,3 +417,83 @@ describe("Article Block Dispatch Contract", () => {
     assert.equal(resolveBlockRenderer(null), null);
   });
 });
+
+// ── Articles UI Locality & Primitives Pureness Contracts ───────────────────────
+
+describe("Articles UI Locality & Primitives Pureness Contracts", () => {
+  it("guarantees ui/ directory is free of article domain widgets", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const uiDir = path.resolve(__dirname, "../../../components/ui");
+
+    assert.ok(
+      !fs.existsSync(path.join(uiDir, "reading-progress.tsx")),
+      "components/ui/reading-progress.tsx must not exist (must be in components/articles)"
+    );
+    assert.ok(
+      !fs.existsSync(path.join(uiDir, "share-buttons.tsx")),
+      "components/ui/share-buttons.tsx must not exist (must be in components/articles)"
+    );
+  });
+
+  it("guarantees components/articles/ acts as the canonical presentation seam", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const articlesDir = path.resolve(__dirname, "../../../components/articles");
+
+    assert.ok(fs.existsSync(articlesDir), "components/articles/ directory must exist");
+    assert.ok(
+      fs.existsSync(path.join(articlesDir, "reading-progress.tsx")),
+      "reading-progress.tsx must exist in components/articles/"
+    );
+    assert.ok(
+      fs.existsSync(path.join(articlesDir, "share-buttons.tsx")),
+      "share-buttons.tsx must exist in components/articles/"
+    );
+    assert.ok(
+      fs.existsSync(path.join(articlesDir, "article-blocks.tsx")),
+      "article-blocks.tsx must exist in components/articles/"
+    );
+    assert.ok(
+      fs.existsSync(path.join(articlesDir, "article-card.tsx")),
+      "article-card.tsx must exist in components/articles/"
+    );
+    assert.ok(
+      fs.existsSync(path.join(articlesDir, "index.ts")),
+      "index.ts must exist in components/articles/"
+    );
+  });
+
+  it("verifies articles/[documentId]/page.tsx imports exclusively from @/components/articles", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const pagePath = path.resolve(
+      __dirname,
+      "../../../app/[locale]/articles/[documentId]/page.tsx"
+    );
+
+    const pageContent = fs.readFileSync(pagePath, "utf-8");
+    assert.ok(
+      pageContent.includes('from "@/components/articles"'),
+      "page.tsx must import article UI components from @/components/articles"
+    );
+    assert.ok(
+      !pageContent.includes("@/components/ui/reading-progress"),
+      "page.tsx must not import reading-progress from ui/"
+    );
+    assert.ok(
+      !pageContent.includes("@/components/ui/share-buttons"),
+      "page.tsx must not import share-buttons from ui/"
+    );
+  });
+});
+
