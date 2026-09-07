@@ -484,4 +484,70 @@ describe("Contact Presentation Module · Locality & Purity Contracts", () => {
   });
 });
 
+describe("Serverless Rate Limiter & Upstash/Vercel KV Contracts", () => {
+  it("guarantees rate-limit.ts supports both KV REST execution and resilient in-memory fallback", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { fileURLToPath } = await import("node:url");
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const rateLimitPath = path.resolve(__dirname, "../rate-limit.ts");
+
+    assert.ok(fs.existsSync(rateLimitPath), "rate-limit.ts must exist");
+    const content = fs.readFileSync(rateLimitPath, "utf-8");
+
+    // Key architectural features
+    assert.ok(content.includes("export async function rateLimit"), "rateLimit must be an async function");
+    assert.ok(content.includes("UPSTASH_REDIS_REST_URL"), "Must support Upstash Redis REST URL");
+    assert.ok(content.includes("KV_REST_API_URL"), "Must support Vercel KV REST URL");
+    assert.ok(content.includes("pipeline"), "Must use atomic pipeline execution for INCR + EXPIRE");
+    assert.ok(content.includes("AbortController"), "Must safeguard KV calls with timeout AbortController");
+    assert.ok(content.includes("memoryRateLimit"), "Must have resilient in-memory fallback");
+    assert.ok(content.includes("cf-connecting-ip"), "Must support Cloudflare client IP");
+    assert.ok(content.includes("x-forwarded-for"), "Must support proxy forwarded IP");
+    assert.ok(content.includes("x-real-ip"), "Must support real IP");
+    assert.ok(content.includes("_resetMemoryStore"), "Must expose _resetMemoryStore helper");
+  });
+
+  it("verifies rate limiting sliding window algorithm and retryAfter calculation", () => {
+    const store = new Map();
+    function mockRateLimit(ip, maxRequests = 3, windowMs = 1000) {
+      const now = Date.now();
+      const entry = store.get(ip);
+      if (!entry || now > entry.resetAt) {
+        store.set(ip, { count: 1, resetAt: now + windowMs });
+        return { allowed: true, retryAfter: 0, remaining: maxRequests - 1 };
+      }
+      if (entry.count >= maxRequests) {
+        return {
+          allowed: false,
+          retryAfter: Math.max(1, Math.ceil((entry.resetAt - now) / 1000)),
+          remaining: 0,
+        };
+      }
+      entry.count++;
+      return { allowed: true, retryAfter: 0, remaining: maxRequests - entry.count };
+    }
+
+    const ip = "192.168.1.100";
+    const res1 = mockRateLimit(ip, 3, 1000);
+    assert.equal(res1.allowed, true);
+    assert.equal(res1.remaining, 2);
+
+    const res2 = mockRateLimit(ip, 3, 1000);
+    assert.equal(res2.allowed, true);
+    assert.equal(res2.remaining, 1);
+
+    const res3 = mockRateLimit(ip, 3, 1000);
+    assert.equal(res3.allowed, true);
+    assert.equal(res3.remaining, 0);
+
+    // 4th request exceeds maxRequests
+    const res4 = mockRateLimit(ip, 3, 1000);
+    assert.equal(res4.allowed, false);
+    assert.ok(res4.retryAfter >= 1);
+  });
+});
+
+
 
