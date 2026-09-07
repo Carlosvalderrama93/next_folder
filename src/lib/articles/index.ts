@@ -15,6 +15,7 @@ export { getStrapiImageSrc } from "./normalizer";
 export {
   parseArticleQueryCriteria,
   serializeArticleQueryCriteria,
+  filterArticles,
   type ArticleQueryCriteria,
 } from "./query";
 

@@ -78,6 +78,9 @@
     "moreArticles": "More Articles",
     "allCategories": "All",
     "noArticles": "No articles in this category yet.",
+    "searchPlaceholder": "Search articles…",
+    "clearSearch": "Clear search",
+    "noSearchResults": "No articles match your search.",
     "readMore": "Read more",
     "minRead": "{count} min read",
     "by": "By"
