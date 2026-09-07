@@ -63,7 +63,26 @@ function getStaticTestimonials(options) {
   return list;
 }
 
-async function listTestimonials(options) {
+function normalizeStrapiTestimonial(raw) {
+  const roleDisplay =
+    raw.company && !raw.role.includes(raw.company)
+      ? `${raw.role} · ${raw.company}`
+      : raw.role;
+
+  return {
+    id: String(raw.documentId ?? raw.id),
+    name: raw.name,
+    role: roleDisplay,
+    message: raw.message,
+    avatar: raw.avatar,
+  };
+}
+
+async function listTestimonials(options, fetchStrapi = async () => []) {
+  const strapiData = await fetchStrapi(options);
+  if (strapiData.length > 0) {
+    return strapiData;
+  }
   return getStaticTestimonials(options);
 }
 
@@ -123,6 +142,61 @@ describe("Testimonials Domain Seam", () => {
       const asyncResults = await listTestimonials({ limit: 3 });
       assert.equal(asyncResults.length, 3);
       assert.equal(asyncResults[2].name, "Sophia Wilson");
+    });
+
+    it("prefers Strapi data when available", async () => {
+      const mockStrapi = async () => [
+        {
+          id: "strapi-1",
+          name: "Carlos V.",
+          role: "Senior Staff Engineer",
+          message: "Great recruitment experience",
+          avatar: "/images/carlos.jpg",
+        },
+      ];
+      const results = await listTestimonials(undefined, mockStrapi);
+      assert.equal(results.length, 1);
+      assert.equal(results[0].name, "Carlos V.");
+    });
+
+    it("falls back cleanly to static fixtures when Strapi returns empty array", async () => {
+      const mockEmptyStrapi = async () => [];
+      const results = await listTestimonials(undefined, mockEmptyStrapi);
+      assert.equal(results.length, 6);
+      assert.equal(results[0].name, "Emily Carter");
+    });
+  });
+
+  describe("normalizeStrapiTestimonial", () => {
+    it("normalizes Strapi testimonial with company appended to role", () => {
+      const normalized = normalizeStrapiTestimonial({
+        id: 42,
+        documentId: "doc-42",
+        name: "Alice Smith",
+        role: "Lead Engineer",
+        company: "Vercel Partner",
+        message: "Found my dream remote job.",
+        avatar: "/uploads/alice.png",
+      });
+
+      assert.equal(normalized.id, "doc-42");
+      assert.equal(normalized.name, "Alice Smith");
+      assert.equal(normalized.role, "Lead Engineer · Vercel Partner");
+      assert.equal(normalized.message, "Found my dream remote job.");
+      assert.equal(normalized.avatar, "/uploads/alice.png");
+    });
+
+    it("avoids duplicating company name if already present in role", () => {
+      const normalized = normalizeStrapiTestimonial({
+        id: 43,
+        documentId: "doc-43",
+        name: "Bob Jones",
+        role: "CTO at TechCorp",
+        company: "TechCorp",
+        message: "Great candidates.",
+      });
+
+      assert.equal(normalized.role, "CTO at TechCorp");
     });
   });
 });
