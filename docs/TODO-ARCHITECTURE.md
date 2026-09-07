@@ -62,6 +62,22 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 | **Opción 3** | Purificación de Primitivas UI e Higiene de Chrome Layout ([`src/components/ui/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/)) | ✅ **Completada** | `feat/ui-primitives-hygiene-sprint` |
 | **Opción 4** | Encapsulación de Script de Hidratación de Tema en Root Layout ([`src/components/theme-script.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/theme-script.tsx)) | ✅ **Completada** | `feat/theme-hydration-seam-sprint` |
 
+### Ciclo 8: Simetría de Presentación, Shell Unificado y Co-ubicación de Skeletons (⏳ Pendiente de Aprobación)
+| Opción | Módulo / Área | Estado | Prioridad |
+|---|---|---|---|
+| **Opción 1** | Módulo Canónico de Presentación de Contacto ([`src/components/contact/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/contact/)) | ⏳ Pendiente | Recomendada (Alta Locality) |
+| **Opción 2** | Módulo Canónico de Presentación de Testimonios ([`src/components/testimonials/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/testimonials/)) | ⏳ Pendiente | Simetría Estructural |
+| **Opción 3** | Costura de Presentación Shell & Layout ([`src/components/shell/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/shell/)) | ⏳ Pendiente | Alto Leverage / Deletion Test |
+| **Opción 4** | Estandarización de Skeletons y Estados de Carga en Módulos | ⏳ Pendiente | Localidad de Presentación |
+
+### Ciclo 9: Web Interface Guidelines, Accesibilidad (a11y) y Resiliencia UI (⏳ Pendiente de Ejecución)
+| Opción | Módulo / Área | Estado | Prioridad |
+|---|---|---|---|
+| **Opción 1** | Respeto a `prefers-reduced-motion` y Purga de `transition-all` | ⏳ Pendiente | Crítica (A11y & Animación) |
+| **Opción 2** | Anclaje Accesible (`scroll-margin-top`) y Anuncios Asíncronos (`aria-live`) | ⏳ Pendiente | Alta (A11y & Navegación) |
+| **Opción 3** | Resiliencia de Formularios: Alerta de Pérdida de Datos (`beforeunload`) e Higiene de Foco | ⏳ Pendiente | Media (UX de Entrada) |
+| **Opción 4** | Pulido Tipográfico y Numérico (`text-balance`, `tabular-nums` y ellipsis) | ⏳ Pendiente | Media (Higiene Visual) |
+
 
 
 ---
@@ -330,6 +346,42 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 - [x] **4.1 Crear componente adaptador `<ThemeScript />`:** Creado `src/components/theme-script.tsx` exportando `THEME_INIT_SCRIPT` y componente `<ThemeScript />` con sincronización de `localStorage`, `matchMedia` y manejo resiliente con `try/catch`.
 - [x] **4.2 Simplificar `src/app/[locale]/layout.tsx`:** Eliminado `dangerouslySetInnerHTML` crudo en `<head>` e inyectado `<ThemeScript />` de forma declarativa.
 - [x] **4.3 Contratos y pruebas:** Validación en `site-config.test.mjs`, 141/141 pruebas unitarias pasando, 0 errores de tipos, 0 lints.
+
+---
+
+## 🚀 Ciclo 8 — Simetría de Presentación, Shell Unificado y Co-ubicación de Skeletons (⏳ Pendiente de Ejecución)
+
+### Opción 1: Módulo Canónico de Presentación de Contacto (`components/contact/`) y Purificación de `contact/page.tsx` (⏳ Pendiente)
+**Rama propuesta:** `feat/contact-presentation-module-sprint`
+
+- [ ] **1.1 Crear directorio canónico `src/components/contact/` y reubicar `contact-form.tsx`:** Trasladar el formulario de cliente fuera de `src/app/[locale]/contact/` hacia `src/components/contact/`, consolidando la localidad del intake de contacto.
+- [ ] **1.2 Crear barril canónico `src/components/contact/index.ts`:** Exponer la interfaz mínima `<ContactForm />` (o `<ContactView />`), encapsulando estados, validaciones en cliente, hooks y manejo de toasts.
+- [ ] **1.3 Colapsar `src/app/[locale]/contact/page.tsx`:** Reducir la página a un Server Component declarativo y minimalista (<35 líneas) que delega limpiamente en el módulo de presentación.
+- [ ] **1.4 Contratos de interfaz y suite de pruebas:** Implementar contratos que verifiquen la superficie de exportación y la pureza de la ruta de contacto. Asegurar 141+ tests pasando, 0 errores TS y 0 lints.
+
+### Opción 2: Módulo Canónico de Presentación de Testimonios (`components/testimonials/`) (⏳ Pendiente)
+**Rama propuesta:** `feat/testimonials-presentation-module-sprint`
+
+- [ ] **2.1 Crear directorio canónico `src/components/testimonials/`:** Agrupar `testimonials.tsx` (renombrándolo semánticamente a `testimonials-section.tsx`) y `testimonials-carousel.tsx` en `src/components/testimonials/`.
+- [ ] **2.2 Crear barril canónico `src/components/testimonials/index.ts`:** Exponer `TestimonialsSection` y `TestimonialsCarousel` como interfaz pública del módulo.
+- [ ] **2.3 Actualizar importaciones consumidoras:** Conectar `src/app/[locale]/page.tsx` al barril canónico `@/components/testimonials`.
+- [ ] **2.4 Contratos de interfaz y suite de pruebas:** Validar en `testimonials.test.mjs` que la presentación está completamente modularizada y desacoplada de la raíz de `components/`.
+
+### Opción 3: Costura de Presentación Shell & Layout (`components/shell/`) (⏳ Pendiente)
+**Rama propuesta:** `feat/shell-presentation-seam-sprint`
+
+- [ ] **3.1 Crear directorio canónico `src/components/shell/`:** Reubicar los elementos de navegación y chrome (`navigation.tsx`, `footer.tsx`, `language-switcher.tsx`, `theme-toggle.tsx`, `theme-script.tsx`, `back-to-top.tsx`).
+- [ ] **3.2 Crear barril canónico `src/components/shell/index.ts`:** Proveer un punto de entrada unificado y cohesivo para el layout de la aplicación.
+- [ ] **3.3 Simplificar `src/app/[locale]/layout.tsx`:** Reducir la superficie de acoplamiento de `LocaleLayout` importando los elementos del chrome desde `@/components/shell`.
+- [ ] **3.4 Contratos de interfaz y verificación:** Asegurar en `site-config.test.mjs` la integridad de las rutas activas, la internacionalización y los controles de tema.
+
+### Opción 4: Estandarización de Skeletons y Estados de Carga en Módulos de Presentación (⏳ Pendiente)
+**Rama propuesta:** `feat/skeletons-presentation-locality-sprint`
+
+- [ ] **4.1 Co-ubicar esqueletos de Jobs:** Crear `src/components/jobs/jobs-skeleton.tsx` y `job-detail-skeleton.tsx`, exportándolos canónicamente desde `@/components/jobs`.
+- [ ] **4.2 Co-ubicar esqueletos de Articles:** Crear `src/components/articles/articles-skeleton.tsx` y `article-detail-skeleton.tsx`, exportándolos canónicamente desde `@/components/articles`.
+- [ ] **4.3 Colapsar archivos `loading.tsx` en App Router:** Convertir `jobs/loading.tsx`, `jobs/[id]/loading.tsx`, `articles/loading.tsx` y `articles/[documentId]/loading.tsx` en adaptadores delgados de una línea que exportan los esqueletos de sus módulos.
+- [ ] **4.4 Contratos y verificación:** Probar la co-ubicación y pureza de las rutas de carga sin duplicación de clases ni marcado SVG/Tailwind inline disperso.
 
 ---
 

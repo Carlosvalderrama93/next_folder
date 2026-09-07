@@ -110,6 +110,13 @@
 | **Missing** | Error tracking (Sentry) | ❌ | Low | 2h |
 | **Missing** | E2E browser automation (Playwright) | ❌ | Low | 8h |
 | **Missing** | CI/CD pipeline (GitHub Actions) | ❌ | Low | 4h |
+| **UI/Design** | Rediseño de Hero interactivo (eliminar orbes) (HU-100) | ❌ | Medium | 3h |
+| **UI/Design** | Card de candidato de alta densidad para USA (HU-016) | ❌ | High | 5h |
+| **UI/Design** | Patrón visual de paywall y desbloqueo (HU-017) | ❌ | High | 3h |
+| **UI/Design** | Drawer de previsualización rápida de perfil (HU-018) | ❌ | Medium | 4h |
+| **UI/Design** | Stepper y preview de CV en postulación (HU-008) | ❌ | Medium | 3h |
+| **UI/Design** | Timeline visual de estado de postulaciones (HU-009) | ❌ | Medium | 4h |
+| **UI/Design** | Tablero Kanban para reclutadores (HU-036) | ❌ | Medium | 6h |
 
 ## Strapi CMS (`strapi_folder/`)
 
