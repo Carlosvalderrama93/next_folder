@@ -1,9 +1,9 @@
-import { aboutData } from "@/Data/about";
+import { aboutData } from "./fixtures";
 import type { AboutProfile } from "./types";
 import { normalizeRawAboutData } from "./normalizer";
 
 /**
- * Fetch profile data from static source (@/Data/about).
+ * Fetch profile data from static source (./fixtures).
  */
 export function fetchAboutProfileFromStatic(): AboutProfile {
   return normalizeRawAboutData(aboutData);

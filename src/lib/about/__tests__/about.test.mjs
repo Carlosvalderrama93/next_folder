@@ -349,4 +349,43 @@ describe("About Profile Module Seam", () => {
       assert.equal(pos.highlights[1].isAward, true);
     });
   });
+
+  describe("About Fixtures Locality Contract", () => {
+    it("ensures fixtures reside locally in src/lib/about/fixtures.ts and src/Data is deleted", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const aboutDir = path.resolve(__dirname, "..");
+      const fixturesPath = path.join(aboutDir, "fixtures.ts");
+      const staticAdapterPath = path.join(aboutDir, "static-adapter.ts");
+      const srcDataDir = path.resolve(aboutDir, "../../Data");
+
+      // 1. Local fixtures must exist
+      assert.ok(fs.existsSync(fixturesPath), "src/lib/about/fixtures.ts must exist");
+      const fixturesContent = fs.readFileSync(fixturesPath, "utf-8");
+      assert.ok(
+        fixturesContent.includes("export const aboutData"),
+        "fixtures.ts must export aboutData"
+      );
+
+      // 2. static-adapter must import from local fixtures
+      const adapterContent = fs.readFileSync(staticAdapterPath, "utf-8");
+      assert.ok(
+        adapterContent.includes('from "./fixtures"'),
+        'static-adapter.ts must import from local "./fixtures"'
+      );
+      assert.ok(
+        !adapterContent.includes("@/Data/about"),
+        "static-adapter.ts must not leak imports to legacy @/Data/about"
+      );
+
+      // 3. Legacy src/Data directory must be completely removed
+      assert.ok(
+        !fs.existsSync(srcDataDir),
+        "Legacy src/Data directory must be completely deleted from the codebase"
+      );
+    });
+  });
 });

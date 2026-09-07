@@ -27,8 +27,16 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
 |---|---|---|---|
 | **Opción 1** | Shell Persistente en Root Layout ([`src/app/[locale]/layout.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/app/%5Blocale%5D/layout.tsx)) | ✅ **Completada** | `feat/persistent-shell-layout-sprint` (`81e91d3`) |
 | **Opción 2** | Costura de Configuración del Sitio ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ✅ **Completada** | `feat/site-config-seam-sprint` (`4da4742`) |
-| **Opción 3** | Componente Canónico `JobStatusBadge` & Presentación ([`src/components/job-status-badge.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job-status-badge.tsx)) | ✅ **Completada** | `feat/job-status-badge-sprint` |
-| **Opción 4** | Descomposición de Bloques de Artículos ([`src/components/article-blocks.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/article-blocks.tsx)) | ✅ **Completada** | `feat/article-blocks-sprint` |
+| **Opción 3** | Componente Canónico `JobStatusBadge` & Presentación ([`src/components/job-status-badge.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job-status-badge.tsx)) | ✅ **Completada** | `feat/job-status-badge-sprint` (`0afeb24`) |
+| **Opción 4** | Descomposición de Bloques de Artículos ([`src/components/article-blocks.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/article-blocks.tsx)) | ✅ **Completada** | `feat/article-blocks-sprint` (`bb2806e`) |
+
+### Ciclo 4: Pulido Fino, Localidad Absoluta e Higiene UI (🚀 En Curso)
+| Opción | Módulo / Área | Estado | Prioridad |
+|---|---|---|---|
+| **Opción 1** | Retiro Definitivo de `src/Data/` y Localidad en About ([`src/lib/about/fixtures.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/fixtures.ts)) | ✅ **Completada** | `feat/about-fixtures-locality-sprint` |
+| **Opción 2** | Higiene UI y Purga de Clutter Muerto ([`src/components/ui/card.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/ui/card.tsx)) | ⚪ Pendiente | Alta |
+| **Opción 3** | Desambiguación de Secciones y Colapso de Módulo Superficial ([`src/components/job.tsx`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/components/job.tsx)) | ⚪ Pendiente | Media |
+| **Opción 4** | Consolidación de Configuración CMS ([`src/lib/site-config/`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/site-config/)) | ⚪ Pendiente | Media |
 
 ---
 
@@ -88,6 +96,27 @@ Este documento registra el seguimiento detallado de las mejoras arquitectónicas
   - Agregada suite de pruebas para el contrato de renderizado y discriminación de bloques en [`src/lib/articles/__tests__/articles.test.mjs`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/articles/__tests__/articles.test.mjs).
 - [x] **4.4 Verificación completa:**
   - 104 pruebas unitarias (`npm test`) pasadas.
+  - 0 errores TypeScript (`npm run typecheck`).
+  - 0 advertencias ESLint (`npm run lint`).
+  - Build de producción Next.js 15.5.0 completado sin errores.
+  - 18/18 pruebas End-to-End (`npm run test:e2e`) pasadas exitosamente.
+
+---
+
+## 📁 Ciclo 4 — Opción 1: Retiro Definitivo de `src/Data/` y Localidad en About Profile Fixtures (✅ Completada)
+**Rama:** `feat/about-fixtures-locality-sprint`
+
+### Objetivos
+- [x] **1.1 Mover `src/Data/about.ts` a `src/lib/about/fixtures.ts`:**
+  - Ubicados los fixtures de perfil dentro de su propia costura de dominio en [`src/lib/about/fixtures.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/fixtures.ts).
+- [x] **1.2 Desacoplar `static-adapter.ts`:**
+  - Actualizado [`src/lib/about/static-adapter.ts`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/static-adapter.ts) para importar localmente desde `./fixtures` en lugar de fugarse hacia `@/Data/about`.
+- [x] **1.3 Purgar directorio residual `src/Data/`:**
+  - Eliminado por completo el directorio `src/Data/` del proyecto, satisfaciendo el *deletion test*.
+- [x] **1.4 Contrato de localidad en tests:**
+  - Agregada suite de pruebas `About Fixtures Locality Contract` en [`src/lib/about/__tests__/about.test.mjs`](file:///home/charlie/Documents/Development/RecruiterProjects/recruiter_Page/next_folder/src/lib/about/__tests__/about.test.mjs) que verifica que `fixtures.ts` reside localmente y que `src/Data` no existe.
+- [x] **1.5 Verificación completa:**
+  - 105 pruebas unitarias (`npm test`) pasadas al 100%.
   - 0 errores TypeScript (`npm run typecheck`).
   - 0 advertencias ESLint (`npm run lint`).
   - Build de producción Next.js 15.5.0 completado sin errores.
