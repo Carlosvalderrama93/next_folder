@@ -22,7 +22,7 @@ export default function AboutExperience({
   const flattened = flattenExperience(experience);
 
   return (
-    <section id="experience" className="max-w-4xl mx-auto px-4 pb-16">
+    <section id="experience" className="max-w-4xl mx-auto px-4 pb-16 scroll-mt-24">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-10">
         {translations.experienceHeading}
       </h2>

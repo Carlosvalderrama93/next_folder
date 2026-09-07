@@ -10,7 +10,7 @@ export default function AboutLearning({
   heading,
 }: AboutLearningProps) {
   return (
-    <section id="learning" className="max-w-4xl mx-auto px-4 pb-16">
+    <section id="learning" className="max-w-4xl mx-auto px-4 pb-16 scroll-mt-24">
       <div className="relative rounded-2xl border border-indigo-200/60 dark:border-indigo-800/40 bg-indigo-50/50 dark:bg-indigo-950/30 p-8 overflow-hidden">
         <div
           aria-hidden="true"

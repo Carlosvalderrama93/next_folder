@@ -97,7 +97,7 @@ export async function JobDetailView({ job, locale }: JobDetailViewProps) {
     : null;
 
   return (
-    <main id="main-content" className="max-w-3xl mx-auto px-4 py-10 pb-20">
+    <main id="main-content" className="max-w-3xl mx-auto px-4 py-10 pb-20 scroll-mt-24">
       <Breadcrumb
         items={[
           { label: t("breadcrumbHome"), href: "/" },

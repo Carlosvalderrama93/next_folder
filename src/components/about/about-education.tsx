@@ -15,7 +15,7 @@ export default function AboutEducation({
   translations,
 }: AboutEducationProps) {
   return (
-    <section id="education" className="max-w-4xl mx-auto px-4 pb-16">
+    <section id="education" className="max-w-4xl mx-auto px-4 pb-16 scroll-mt-24">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-10">
         {translations.educationHeading}
       </h2>

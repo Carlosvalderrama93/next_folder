@@ -8,7 +8,7 @@ interface AboutFocusProps {
 
 export default function AboutFocus({ focusAreas, heading }: AboutFocusProps) {
   return (
-    <section id="focus" className="max-w-4xl mx-auto px-4 pb-16">
+    <section id="focus" className="max-w-4xl mx-auto px-4 pb-16 scroll-mt-24">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
         {heading}
       </h2>

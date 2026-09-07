@@ -52,7 +52,7 @@ export default async function JobsPage({
       </section>
 
       {/* ── Job list ──────────────────────────────────────────── */}
-      <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20">
+      <main id="main-content" className="max-w-4xl mx-auto px-4 py-10 pb-20 scroll-mt-24">
         <JobFilters jobs={jobs} initialCriteria={initialCriteria} />
       </main>
 

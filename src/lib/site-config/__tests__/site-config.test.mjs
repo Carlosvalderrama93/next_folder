@@ -699,6 +699,78 @@ describe("UI Hygiene & Dead Code Purge Contracts", () => {
         );
       }
     });
+
+    it("verifies accessible anchor scroll margins and asynchronous live announcements", async () => {
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const { fileURLToPath } = await import("node:url");
+
+      const __dirname = path.dirname(fileURLToPath(import.meta.url));
+      const srcDir = path.resolve(__dirname, "../../../");
+
+      // 1. All main landmarks targeted by SkipLink must have scroll-margin-top
+      const mainPages = [
+        "app/[locale]/page.tsx",
+        "app/[locale]/about/page.tsx",
+        "app/[locale]/jobs/page.tsx",
+        "app/[locale]/articles/page.tsx",
+        "app/[locale]/articles/[documentId]/page.tsx",
+        "app/[locale]/contact/page.tsx",
+        "app/[locale]/not-found.tsx",
+        "components/jobs/job-detail-view.tsx",
+        "components/jobs/jobs-skeleton.tsx",
+        "components/jobs/job-detail-skeleton.tsx",
+      ];
+
+      for (const pageRel of mainPages) {
+        const filePath = path.join(srcDir, pageRel);
+        const content = fs.readFileSync(filePath, "utf-8");
+        assert.ok(
+          content.includes('id="main-content"') && content.includes("scroll-mt-24"),
+          `${pageRel} must have scroll-mt-24 on main-content landmark`
+        );
+      }
+
+      // 2. All section anchors targeted by AboutToc must have scroll-margin-top
+      const aboutSections = [
+        { file: "components/about/about-focus.tsx", id: "focus" },
+        { file: "components/about/about-skills.tsx", id: "skills" },
+        { file: "components/about/about-experience.tsx", id: "experience" },
+        { file: "components/about/about-education.tsx", id: "education" },
+        { file: "components/about/about-certifications.tsx", id: "certifications" },
+        { file: "components/about/about-learning.tsx", id: "learning" },
+      ];
+
+      for (const sec of aboutSections) {
+        const filePath = path.join(srcDir, sec.file);
+        const content = fs.readFileSync(filePath, "utf-8");
+        assert.ok(
+          content.includes(`id="${sec.id}"`) && content.includes("scroll-mt-24"),
+          `${sec.file} section #${sec.id} must have scroll-mt-24`
+        );
+      }
+
+      // 3. Toast must configure type for accessible live announcements
+      const toastContent = fs.readFileSync(path.join(srcDir, "components/ui/toast.tsx"), "utf-8");
+      assert.ok(
+        toastContent.includes('type={isSuccess ? "background" : "foreground"}'),
+        "ToastPrimitive.Root must configure accessible type property"
+      );
+
+      // 4. FormField must declare aria-live=polite on error
+      const formFieldContent = fs.readFileSync(path.join(srcDir, "components/ui/form-field.tsx"), "utf-8");
+      assert.ok(
+        formFieldContent.includes('aria-live="polite"'),
+        "FormField must declare aria-live=polite on error alert"
+      );
+
+      // 5. ApplyForm must declare role=status and aria-live=polite on success state
+      const applyFormContent = fs.readFileSync(path.join(srcDir, "components/jobs/apply-form.tsx"), "utf-8");
+      assert.ok(
+        applyFormContent.includes('role="status"') && applyFormContent.includes('aria-live="polite"'),
+        "ApplyForm must declare role=status and aria-live=polite on success state"
+      );
+    });
   });
 });
 

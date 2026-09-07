@@ -24,7 +24,7 @@ export default async function ContactPage({
   const t = await getTranslations({ locale, namespace: "contactPage" });
 
   return (
-    <main id="main-content">
+    <main id="main-content" className="scroll-mt-24">
       <ContactView heading={t("heading")} description={t("description")} />
     </main>
   );

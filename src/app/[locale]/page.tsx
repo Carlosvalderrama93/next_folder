@@ -16,7 +16,7 @@ export default function HomePage() {
   return (
     <>
       <StructuredData data={buildWebsiteJsonLd()} />
-      <main id="main-content">
+      <main id="main-content" className="scroll-mt-24">
         <Hero />
         <Suspense fallback={<FeaturedJobsSkeleton />}>
           <FeaturedJobsSection />
