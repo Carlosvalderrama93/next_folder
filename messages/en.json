@@ -27,7 +27,10 @@
       "Offer me roles",
       "Source my next role",
       "Recommend me jobs"
-    ]
+    ],
+    "trustRemote": "100% Remote LATAM",
+    "trustVetted": "Pre-screened Talent",
+    "trustDirect": "Direct Tech Hiring"
   },
   "jobs": {
     "heading": "Open Positions",
